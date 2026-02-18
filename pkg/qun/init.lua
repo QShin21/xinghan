@@ -318,3 +318,30 @@ Fk:loadTranslationTable {
   ["illustrator:liangxing"] = "KayaK",
   ["~liangxing"] = "西凉……",
 }
+
+-- 黄祖，男，群，4勾玉
+General:new(extension, "huangzu", "qun", 4):addSkills { "xishe" }
+Fk:loadTranslationTable {
+  ["huangzu"] = "黄祖",
+  ["#huangzu"] = "江夏太守",
+  ["illustrator:huangzu"] = "KayaK",
+  ["~huangzu"] = "江夏……",
+}
+
+-- 沮授，男，群，3勾玉
+General:new(extension, "jushou", "qun", 3):addSkills { "jianying", "shibei" }
+Fk:loadTranslationTable {
+  ["jushou"] = "沮授",
+  ["#jushou"] = "河北谋士",
+  ["illustrator:jushou"] = "KayaK",
+  ["~jushou"] = "河北……",
+}
+
+-- 张绣，男，群，4勾玉
+General:new(extension, "zhangxiu", "qun", 4):addSkills { "fudi", "congjian" }
+Fk:loadTranslationTable {
+  ["zhangxiu"] = "张绣",
+  ["#zhangxiu"] = "宛城侯",
+  ["illustrator:zhangxiu"] = "KayaK",
+  ["~zhangxiu"] = "宛城……",
+}
