@@ -282,3 +282,39 @@ Fk:loadTranslationTable {
   ["illustrator:liubei_qun"] = "KayaK",
   ["~liubei_qun"] = "乱世……",
 }
+
+-- 武安国，男，群，4勾玉
+General:new(extension, "wuananguo", "qun", 4):addSkills { "liyong" }
+Fk:loadTranslationTable {
+  ["wuananguo"] = "武安国",
+  ["#wuananguo"] = "断腕猛将",
+  ["illustrator:wuananguo"] = "KayaK",
+  ["~wuananguo"] = "北海……",
+}
+
+-- 杨奉，男，群，4勾玉
+General:new(extension, "yangfeng", "qun", 4):addSkills { "xuetu" }
+Fk:loadTranslationTable {
+  ["yangfeng"] = "杨奉",
+  ["#yangfeng"] = "白波军帅",
+  ["illustrator:yangfeng"] = "KayaK",
+  ["~yangfeng"] = "白波……",
+}
+
+-- 张燕，男，群，4勾玉
+General:new(extension, "zhangyan", "qun", 4):addSkills { "suji", "langdao" }
+Fk:loadTranslationTable {
+  ["zhangyan"] = "张燕",
+  ["#zhangyan"] = "黑山军帅",
+  ["illustrator:zhangyan"] = "KayaK",
+  ["~zhangyan"] = "黑山……",
+}
+
+-- 梁兴，男，群，4勾玉
+General:new(extension, "liangxing", "qun", 4):addSkills { "lulve" }
+Fk:loadTranslationTable {
+  ["liangxing"] = "梁兴",
+  ["#liangxing"] = "西凉悍将",
+  ["illustrator:liangxing"] = "KayaK",
+  ["~liangxing"] = "西凉……",
+}
