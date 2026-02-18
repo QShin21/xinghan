@@ -471,3 +471,21 @@ Fk:loadTranslationTable {
   ["illustrator:duanwei"] = "KayaK",
   ["~duanwei"] = "忠义……",
 }
+
+-- 张郃，男，群，4勾玉
+General:new(extension, "zhanghe_qun", "qun", 4):addSkills { "zhouxuan" }
+Fk:loadTranslationTable {
+  ["zhanghe_qun"] = "张郃",
+  ["#zhanghe_qun"] = "巧变之士",
+  ["illustrator:zhanghe_qun"] = "KayaK",
+  ["~zhanghe_qun"] = "巧变……",
+}
+
+-- 樊稠，男，群，4勾玉
+General:new(extension, "fanchou", "qun", 4):addSkills { "xingluan" }
+Fk:loadTranslationTable {
+  ["fanchou"] = "樊稠",
+  ["#fanchou"] = "西凉悍将",
+  ["illustrator:fanchou"] = "KayaK",
+  ["~fanchou"] = "西凉……",
+}
