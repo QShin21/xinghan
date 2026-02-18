@@ -12,10 +12,10 @@ Fk:loadTranslationTable {
   [":zhaxiang"] = "锁定技，当你失去1点体力后，你摸三张牌，然后若此时为你的出牌阶段，"..
     "则此阶段你使用【杀】的次数上限+1、此阶段你使用红色【杀】无距离限制且不能被【闪】响应。",
 
-  ["@@zhaxiang_phase"] = "诈降",
+  ["@@zhaxiang_slash"] = "诈降",
 
-  ["$zhaxiang1"] = "铁索连环，火烧赤壁！",
-  ["$zhaxiang2"] = "诈降之计，已成功矣！",
+  ["$zhaxiang1"] = "诈降之计，苦肉为名！",
+  ["$zhaxiang2"] = "苦肉计成，诈降破敌！",
 }
 
 zhaxiang:addEffect(fk.HpLost, {
@@ -26,13 +26,13 @@ zhaxiang:addEffect(fk.HpLost, {
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
-
+    
     -- 摸三张牌
     player:drawCards(3, zhaxiang.name)
-
-    -- 若为出牌阶段，设置标记
+    
+    -- 如果是出牌阶段
     if player.phase == Player.Play then
-      room:addPlayerMark(player, "@@zhaxiang_phase", 1)
+      room:addPlayerMark(player, "@@zhaxiang_slash", 1)
     end
   end,
 })
@@ -40,70 +40,33 @@ zhaxiang:addEffect(fk.HpLost, {
 -- 杀次数+1
 zhaxiang:addEffect("targetmod", {
   residue_func = function(self, player, skill, scope, card)
-    if player:getMark("@@zhaxiang_phase") > 0 and skill.trueName == "slash_skill" then
-      return player:getMark("@@zhaxiang_phase")
+    if skill.trueName == "slash_skill" and player:getMark("@@zhaxiang_slash") > 0 then
+      return player:getMark("@@zhaxiang_slash")
     end
+    return 0
   end,
 })
 
--- 红色杀无距离限制且不能被闪响应
-zhaxiang:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    if target ~= player then return false end
-    local card = data.card
-    if not card or card.trueName ~= "slash" then return false end
-    if player:getMark("@@zhaxiang_phase") == 0 then return false end
-    return card.color == Card.Red
-  end,
-  on_cost = Util.TrueFunc,
-  on_use = function(self, event, target, player, data)
-    data.extra_data = data.extra_data or {}
-    data.extra_data.zhaxiang_no_distance = true
-    data.extra_data.zhaxiang_unrespondable = true
-  end,
-})
-
--- 无距离限制
-zhaxiang:addEffect(fk.TargetSpecifying, {
-  is_delay_effect = true,
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    if target ~= player then return false end
-    local extra_data = data.extra_data or {}
-    return extra_data.zhaxiang_no_distance
-  end,
-  on_cost = Util.TrueFunc,
-  on_use = function(self, event, target, player, data)
-    data.extra_data = data.extra_data or {}
-    data.extra_data.bypass_distances = true
-  end,
-})
-
--- 不能被闪响应
-zhaxiang:addEffect(fk.CardEffectCancelledOut, {
-  is_delay_effect = true,
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    local extra_data = data.extra_data or {}
-    return extra_data.zhaxiang_unrespondable
-  end,
-  on_cost = Util.TrueFunc,
-  on_use = function(self, event, target, player, data)
-    data.extra_data = data.extra_data or {}
-    data.extra_data.unresponseable = true
+-- 红色杀无距离限制
+zhaxiang:addEffect("targetmod", {
+  distance_limit_func = function(self, player, skill, card, to)
+    if player:hasSkill(zhaxiang.name) and player.phase == Player.Play and
+      card and card.trueName == "slash" and card.color == Card.Red then
+      return true
+    end
+    return false
   end,
 })
 
 -- 回合结束清除标记
 zhaxiang:addEffect(fk.TurnEnd, {
   is_delay_effect = true,
+  mute = true,
   can_refresh = function(self, event, target, player, data)
-    return player:getMark("@@zhaxiang_phase") > 0
+    return player:getMark("@@zhaxiang_slash") > 0
   end,
   on_refresh = function(self, event, target, player, data)
-    player.room:setPlayerMark(player, "@@zhaxiang_phase", 0)
+    player.room:setPlayerMark(player, "@@zhaxiang_slash", 0)
   end,
 })
 

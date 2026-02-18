@@ -12,7 +12,7 @@ Fk:loadTranslationTable {
 
 -- 孙坚，男，吴，4/5勾玉
 local sunjian = General:new(extension, "sunjian", "wu", 4, 5)
-sunjian:addSkills { "hulie" }
+sunjian:addSkills { "hulie", "yinghun" }
 Fk:loadTranslationTable {
   ["sunjian"] = "孙坚",
   ["#sunjian"] = "江东猛虎",
@@ -57,7 +57,7 @@ Fk:loadTranslationTable {
 }
 
 -- 黄盖，男，吴，4勾玉
-General:new(extension, "huanggai", "wu", 4):addSkills { "kurou" }
+General:new(extension, "huanggai", "wu", 4):addSkills { "kurou", "zhaxiang" }
 Fk:loadTranslationTable {
   ["huanggai"] = "黄盖",
   ["#huanggai"] = "轻身为国",
@@ -108,6 +108,15 @@ Fk:loadTranslationTable {
   ["#pangtong"] = "凤雏",
   ["illustrator:pangtong"] = "KayaK",
   ["~pangtong"] = "落凤坡……",
+}
+
+-- 韩当，男，吴，4勾玉
+General:new(extension, "handang", "wu", 4):addSkills { "gongqi", "jiefan" }
+Fk:loadTranslationTable {
+  ["handang"] = "韩当",
+  ["#handang"] = "石城侯",
+  ["illustrator:handang"] = "KayaK",
+  ["~handang"] = "江东……",
 }
 
 return extension

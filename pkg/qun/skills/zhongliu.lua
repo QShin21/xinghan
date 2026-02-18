@@ -13,41 +13,36 @@ Fk:loadTranslationTable {
   ["@@zhongliu_extra"] = "中流",
 
   ["$zhongliu1"] = "中流砥柱，力挽狂澜！",
-  ["$zhongliu2"] = "逆流而上，不惧艰险！",
+  ["$zhongliu2"] = "中流击水，浪遏飞舟！",
 }
 
 zhongliu:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(zhongliu.name) and
-      data.card and not data.card:isVirtual()
+      data.card and not table.contains(player:getCardIds("h"), data.card.id)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
-    local card = data.card
-
-    -- 检查是否为手牌
-    local handcards = player:getCardIds("h")
-    if not table.contains(handcards, card.id) then
-      -- 不是手牌，增加解悬使用次数
-      room:addPlayerMark(player, "@@zhongliu_extra", 1)
-    end
+    room:addPlayerMark(player, "@@zhongliu_extra", 1)
   end,
 })
 
--- 修改解悬使用次数
+-- 增加解悬使用次数
 zhongliu:addEffect("targetmod", {
   residue_func = function(self, player, skill, scope, card)
-    if skill.name == "jiexuan" then
+    if skill.name == "jiexuan" and player:getMark("@@zhongliu_extra") > 0 then
       return player:getMark("@@zhongliu_extra")
     end
+    return 0
   end,
 })
 
 -- 回合结束清除标记
 zhongliu:addEffect(fk.TurnEnd, {
   is_delay_effect = true,
+  mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@zhongliu_extra") > 0
   end,

@@ -10,8 +10,8 @@ Fk:loadTranslationTable {
   ["xiaoxi"] = "骁袭",
   [":xiaoxi"] = "你可以将一张黑色牌当【杀】使用或打出。",
 
-  ["$xiaoxi1"] = "骁勇善战，袭敌不备！",
-  ["$xiaoxi2"] = "突袭敌阵，一击必中！",
+  ["$xiaoxi1"] = "骁袭敌阵，势不可挡！",
+  ["$xiaoxi2"] = "西凉骁骑，袭敌千里！",
 }
 
 xiaoxi:addEffect("viewas", {
@@ -19,8 +19,7 @@ xiaoxi:addEffect("viewas", {
   pattern = "slash",
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
-    local card = Fk:getCardById(to_select)
-    return card.color == Card.Black
+    return Fk:getCardById(to_select).color == Card.Black
   end,
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
@@ -32,8 +31,8 @@ xiaoxi:addEffect("viewas", {
   enabled_at_play = function(self, player)
     return player:canUse(Fk:cloneCard("slash"))
   end,
-  enabled_at_response = function(self, player)
-    return true
+  enabled_at_response = function(self, player, response)
+    return not response
   end,
 })
 

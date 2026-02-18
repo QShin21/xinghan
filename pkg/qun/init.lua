@@ -136,4 +136,85 @@ Fk:loadTranslationTable {
   ["~yuji"] = "蛊惑……",
 }
 
+-- 李傕，男，群，4勾玉
+General:new(extension, "lijue", "qun", 4):addSkills { "langxi", "yisuan" }
+Fk:loadTranslationTable {
+  ["lijue"] = "李傕",
+  ["#lijue"] = "狼子野心",
+  ["illustrator:lijue"] = "KayaK",
+  ["~lijue"] = "西凉……",
+}
+
+-- 郭汜，男，群，4勾玉
+General:new(extension, "guosi", "qun", 4):addSkills { "tanbei", "sidao" }
+Fk:loadTranslationTable {
+  ["guosi"] = "郭汜",
+  ["#guosi"] = "贪婪之徒",
+  ["illustrator:guosi"] = "KayaK",
+  ["~guosi"] = "西凉……",
+}
+
+-- 王允，男，群，3勾玉
+General:new(extension, "wangyun", "qun", 3):addSkills { "jiexuan", "zhongliu" }
+Fk:loadTranslationTable {
+  ["wangyun"] = "王允",
+  ["#wangyun"] = "连环计主",
+  ["illustrator:wangyun"] = "KayaK",
+  ["~wangyun"] = "汉室……",
+}
+
+-- 张济，男，群，4勾玉
+General:new(extension, "zhangji_qun", "qun", 4):addSkills { "lueling", "tunjun" }
+Fk:loadTranslationTable {
+  ["zhangji_qun"] = "张济",
+  ["#zhangji_qun"] = "西凉军阀",
+  ["illustrator:zhangji_qun"] = "KayaK",
+  ["~zhangji_qun"] = "西凉……",
+}
+
+-- 徐荣，男，群，4勾玉
+General:new(extension, "xurong", "qun", 4):addSkills { "xionghuo" }
+Fk:loadTranslationTable {
+  ["xurong"] = "徐荣",
+  ["#xurong"] = "凶镬之将",
+  ["illustrator:xurong"] = "KayaK",
+  ["~xurong"] = "西凉……",
+}
+
+-- 公孙瓒，男，群，4勾玉
+General:new(extension, "gongsunzan", "qun", 4):addSkills { "qiaomeng", "yicong" }
+Fk:loadTranslationTable {
+  ["gongsunzan"] = "公孙瓒",
+  ["#gongsunzan"] = "白马将军",
+  ["illustrator:gongsunzan"] = "KayaK",
+  ["~gongsunzan"] = "白马……",
+}
+
+-- 韩遂，男，群，4勾玉
+General:new(extension, "hansui", "qun", 4):addSkills { "niluan", "xiaoxi" }
+Fk:loadTranslationTable {
+  ["hansui"] = "韩遂",
+  ["#hansui"] = "西凉军阀",
+  ["illustrator:hansui"] = "KayaK",
+  ["~hansui"] = "西凉……",
+}
+
+-- 鲍信，男，群，4勾玉
+General:new(extension, "baoxin", "qun", 4):addSkills { "mutao", "yimou" }
+Fk:loadTranslationTable {
+  ["baoxin"] = "鲍信",
+  ["#baoxin"] = "义兵首领",
+  ["illustrator:baoxin"] = "KayaK",
+  ["~baoxin"] = "义兵……",
+}
+
+-- 孔融，男，群，3勾玉
+General:new(extension, "kongrong", "qun", 3):addSkills { "mingshi", "lirang" }
+Fk:loadTranslationTable {
+  ["kongrong"] = "孔融",
+  ["#kongrong"] = "名士",
+  ["illustrator:kongrong"] = "KayaK",
+  ["~kongrong"] = "名士……",
+}
+
 return extension

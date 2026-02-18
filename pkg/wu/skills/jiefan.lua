@@ -1,8 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 -- 韩当 - 解烦技能
 -- 限定技，出牌阶段，你可以选择一名角色，然后攻击范围内含有其的所有角色依次选择一项：
--- 1. 弃置一张武器牌；2. 令其摸一张牌。
--- 若当前轮数为1，此回合结束时，本技能视为未发动过。
+-- 1.弃置一张武器牌；2.令其摸一张牌。若当前轮数为1，此回合结束时，本技能视为未发动过。
 
 local jiefan = fk.CreateSkill {
   name = "jiefan",
@@ -12,28 +11,28 @@ local jiefan = fk.CreateSkill {
 Fk:loadTranslationTable {
   ["jiefan"] = "解烦",
   [":jiefan"] = "限定技，出牌阶段，你可以选择一名角色，然后攻击范围内含有其的所有角色依次选择一项："..
-    "1. 弃置一张武器牌；2. 令其摸一张牌。若当前轮数为1，此回合结束时，本技能视为未发动过。",
+    "1.弃置一张武器牌；2.令其摸一张牌。若当前轮数为1，此回合结束时，本技能视为未发动过。",
 
-  ["#jiefan-choose"] = "解烦：选择一名角色",
-  ["#jiefan-choice"] = "解烦：请选择一项",
-  ["jiefan_choice1"] = "弃置一张武器牌",
-  ["jiefan_choice2"] = "令其摸一张牌",
+  ["#jiefan-target"] = "解烦：选择一名角色",
+  ["jiefan_discard"] = "弃置一张武器牌",
+  ["jiefan_draw"] = "令其摸一张牌",
 
-  ["$jiefan1"] = "休想伤我主公！",
-  ["$jiefan2"] = "解烦之计，速速行事！",
+  ["$jiefan1"] = "解烦救急，义不容辞！",
+  ["$jiefan2"] = "江东猛将，解烦救困！",
 }
 
 jiefan:addEffect("active", {
   mute = true,
-  prompt = "#jiefan-choose",
+  prompt = "#jiefan-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(jiefan.name) == 0
+    return player:usedSkillTimes(jiefan.name, Player.HistoryGame) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
-    return #selected == 0
+    if #selected > 0 then return false end
+    return true
   end,
   on_use = function(self, room, effect)
     local player = effect.from
@@ -42,72 +41,71 @@ jiefan:addEffect("active", {
     room:notifySkillInvoked(player, jiefan.name, "support", {target})
     player:broadcastSkillInvoke(jiefan.name)
 
-    -- 获取攻击范围内含有目标的所有角色
+    -- 找出攻击范围内含有目标的所有角色
     local attackers = table.filter(room.alive_players, function(p)
-      return p:inMyAttackRange(target)
+      return p:distanceTo(target) <= p:getAttackRange()
     end)
 
-    -- 每个角色依次选择
-    for _, p in ipairs(attackers) do
-      if not p.dead then
-        local has_weapon = table.find(p:getCardIds("he"), function(id)
-          local card = Fk:getCardById(id)
-          return card.type == Card.TypeEquip and card.sub_type == Card.SubtypeWeapon
-        end)
-
-        local choices = {"jiefan_choice2"}  -- 默认可以令其摸牌
-        if has_weapon then
-          table.insert(choices, 1, "jiefan_choice1")
-        end
-
-        local choice = room:askToChoice(p, {
-          choices = choices,
+    for _, attacker in ipairs(attackers) do
+      if attacker.dead then goto continue end
+      
+      -- 检查是否有武器牌
+      local has_weapon = table.find(attacker:getCardIds("he"), function(id)
+        return Fk:getCardById(id).sub_type == Card.SubtypeWeapon
+      end)
+      
+      local choice
+      if has_weapon then
+        choice = room:askToChoice(attacker, {
+          choices = {"jiefan_discard", "jiefan_draw"},
           skill_name = jiefan.name,
-          prompt = "#jiefan-choice",
+          prompt = "选择一项",
           detailed = false,
         })
-
-        if choice == "jiefan_choice1" then
-          -- 弃置一张武器牌
-          local weapon_cards = table.filter(p:getCardIds("he"), function(id)
-            local card = Fk:getCardById(id)
-            return card.type == Card.TypeEquip and card.sub_type == Card.SubtypeWeapon
-          end)
-
-          if #weapon_cards > 0 then
-            local id = room:askToChooseCard(p, {
-              target = p,
-              flag = "he",
-              skill_name = jiefan.name,
-            })
-            room:throwCard(id, jiefan.name, p, p)
-          end
-        else
-          -- 令其摸一张牌
-          if not target.dead then
-            target:drawCards(1, jiefan.name)
-          end
-        end
+      else
+        choice = "jiefan_draw"
       end
+      
+      if choice == "jiefan_discard" then
+        local weapon_cards = table.filter(attacker:getCardIds("he"), function(id)
+          return Fk:getCardById(id).sub_type == Card.SubtypeWeapon
+        end)
+        local id = room:askToCards(attacker, {
+          min_num = 1,
+          max_num = 1,
+          include_equip = true,
+          skill_name = jiefan.name,
+          pattern = tostring(Exppattern{ id = weapon_cards }),
+          prompt = "选择一张武器牌弃置",
+          cancelable = false,
+        })
+        room:throwCard(id, jiefan.name, attacker, player)
+      else
+        target:drawCards(1, jiefan.name)
+      end
+      
+      ::continue::
     end
 
-    -- 若当前轮数为1，标记回合结束时重置
-    if room.logic:getRoundNum() == 1 then
+    -- 如果当前轮数为1，标记回合结束时重置
+    local round = room:getBanner("round_count") or 1
+    if round == 1 then
       room:setPlayerMark(player, "@@jiefan_reset", 1)
     end
   end,
 })
 
--- 回合结束时重置
+-- 回合结束重置
 jiefan:addEffect(fk.TurnEnd, {
   is_delay_effect = true,
-  can_refresh = function(self, event, target, player, data)
-    return player:getMark("@@jiefan_reset") > 0
+  mute = true,
+  can_trigger = function(self, event, target, player, data)
+    return target == player and player:getMark("@@jiefan_reset") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_cost = Util.TrueFunc,
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@jiefan_reset", 0)
-    -- 重置技能使用次数
     player:setSkillUseHistory(jiefan.name, 0, Player.HistoryGame)
   end,
 })
