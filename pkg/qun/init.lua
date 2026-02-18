@@ -435,3 +435,39 @@ Fk:loadTranslationTable {
   ["illustrator:gaogan"] = "KayaK",
   ["~gaogan"] = "并州……",
 }
+
+-- 许贡，男，群，3勾玉
+General:new(extension, "xugong", "qun", 3):addSkills { "biaozhao" }
+Fk:loadTranslationTable {
+  ["xugong"] = "许贡",
+  ["#xugong"] = "吴郡太守",
+  ["illustrator:xugong"] = "KayaK",
+  ["~xugong"] = "吴郡……",
+}
+
+-- 袁谭袁尚袁熙，男，群，4勾玉
+General:new(extension, "yuantanyuanshangyuanxi", "qun", 4):addSkills { "neifa" }
+Fk:loadTranslationTable {
+  ["yuantanyuanshangyuanxi"] = "袁谭袁尚袁熙",
+  ["#yuantanyuanshangyuanxi"] = "袁氏兄弟",
+  ["illustrator:yuantanyuanshangyuanxi"] = "KayaK",
+  ["~yuantanyuanshangyuanxi"] = "袁氏……",
+}
+
+-- 刘辟，男，群，4勾玉
+General:new(extension, "liupi", "qun", 4):addSkills { "yicheng" }
+Fk:loadTranslationTable {
+  ["liupi"] = "刘辟",
+  ["#liupi"] = "黄巾渠帅",
+  ["illustrator:liupi"] = "KayaK",
+  ["~liupi"] = "黄巾……",
+}
+
+-- 段煨，男，群，4勾玉
+General:new(extension, "duanwei", "qun", 4):addSkills { "langmie" }
+Fk:loadTranslationTable {
+  ["duanwei"] = "段煨",
+  ["#duanwei"] = "忠义之士",
+  ["illustrator:duanwei"] = "KayaK",
+  ["~duanwei"] = "忠义……",
+}
