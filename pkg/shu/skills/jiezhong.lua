@@ -1,0 +1,41 @@
+-- SPDX-License-Identifier: GPL-3.0-or-later
+-- 关平 - 竭忠技能
+-- 限定技，出牌阶段开始时，你可以将手牌摸至体力上限。
+
+local jiezhong = fk.CreateSkill {
+  name = "jiezhong",
+  frequency = Skill.Limited,
+}
+
+Fk:loadTranslationTable {
+  ["jiezhong"] = "竭忠",
+  [":jiezhong"] = "限定技，出牌阶段开始时，你可以将手牌摸至体力上限。",
+
+  ["#jiezhong-invoke"] = "竭忠：将手牌摸至体力上限",
+
+  ["$jiezhong1"] = "竭忠尽智，死而后已！",
+  ["$jiezhong2"] = "忠心耿耿，义薄云天！",
+}
+
+jiezhong:addEffect(fk.EventPhaseStart, {
+  anim_type = "draw",
+  can_trigger = function(self, event, target, player, data)
+    return target == player and player:hasSkill(jiezhong.name) and
+      player.phase == Player.Play and
+      player:usedSkillTimes(jiezhong.name) == 0 and
+      player:getHandcardNum() < player.maxHp
+  end,
+  on_cost = function(self, event, target, player, data)
+    return player.room:askToSkillInvoke(player, {
+      skill_name = jiezhong.name,
+      prompt = "#jiezhong-invoke",
+    })
+  end,
+  on_use = function(self, event, target, player, data)
+    local room = player.room
+    local draw_num = player.maxHp - player:getHandcardNum()
+    player:drawCards(draw_num, jiezhong.name)
+  end,
+})
+
+return jiezhong

@@ -1,0 +1,62 @@
+-- SPDX-License-Identifier: GPL-3.0-or-later
+-- 董卓 - 横征技能
+-- 准备阶段，若你的体力值为1或你没有手牌，你可以获得一名其他角色区域里的一张牌。
+
+local hengzheng = fk.CreateSkill {
+  name = "hengzheng",
+}
+
+Fk:loadTranslationTable {
+  ["hengzheng"] = "横征",
+  [":hengzheng"] = "准备阶段，若你的体力值为1或你没有手牌，你可以获得一名其他角色区域里的一张牌。",
+
+  ["#hengzheng-invoke"] = "横征：获得一名其他角色区域里的一张牌",
+
+  ["$hengzheng1"] = "天下之大，何人敢不从！",
+  ["$hengzheng2"] = "顺我者昌，逆我者亡！",
+}
+
+hengzheng:addEffect(fk.EventPhaseStart, {
+  anim_type = "offensive",
+  can_trigger = function(self, event, target, player, data)
+    return target == player and player:hasSkill(hengzheng.name) and
+      player.phase == Player.Start and
+      (player.hp == 1 or player:isKongcheng())
+  end,
+  on_cost = function(self, event, target, player, data)
+    local room = player.room
+    local targets = table.filter(room:getOtherPlayers(player), function(p)
+      return not p:isAllNude()
+    end)
+
+    if #targets == 0 then return false end
+
+    local to = room:askToChoosePlayers(player, {
+      min_num = 1,
+      max_num = 1,
+      targets = targets,
+      skill_name = hengzheng.name,
+      prompt = "#hengzheng-invoke",
+      cancelable = true,
+    })
+
+    if #to > 0 then
+      event:setCostData(self, {tos = to})
+      return true
+    end
+  end,
+  on_use = function(self, event, target, player, data)
+    local room = player.room
+    local to = event:getCostData(self).tos[1]
+
+    local id = room:askToChooseCard(player, {
+      target = to,
+      flag = "hej",
+      skill_name = hengzheng.name,
+    })
+
+    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, hengzheng.name, nil, false, to.id)
+  end,
+})
+
+return hengzheng
