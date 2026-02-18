@@ -263,3 +263,22 @@ Fk:loadTranslationTable {
   ["illustrator:yanliangwenchou"] = "KayaK",
   ["~yanliangwenchou"] = "河北……",
 }
+
+-- 牛辅，男，群，4/5勾玉
+local niufu = General:new(extension, "niufu", "qun", 4, 5)
+niufu:addSkills { "xiaoxiong", "xiongrao" }
+Fk:loadTranslationTable {
+  ["niufu"] = "牛辅",
+  ["#niufu"] = "西凉女婿",
+  ["illustrator:niufu"] = "KayaK",
+  ["~niufu"] = "西凉……",
+}
+
+-- 刘备(群)，男，群，4勾玉
+General:new(extension, "liubei_qun", "qun", 4):addSkills { "jishan", "zhenqia" }
+Fk:loadTranslationTable {
+  ["liubei_qun"] = "刘备",
+  ["#liubei_qun"] = "乱世枭雄",
+  ["illustrator:liubei_qun"] = "KayaK",
+  ["~liubei_qun"] = "乱世……",
+}
