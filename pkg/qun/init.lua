@@ -372,3 +372,39 @@ Fk:loadTranslationTable {
   ["illustrator:xuyou"] = "KayaK",
   ["~xuyou"] = "恃才……",
 }
+
+-- 刘协，男，群，3勾玉
+General:new(extension, "liuxie", "qun", 3):addSkills { "tianming", "mizhao" }
+Fk:loadTranslationTable {
+  ["liuxie"] = "刘协",
+  ["#liuxie"] = "汉献帝",
+  ["illustrator:liuxie"] = "KayaK",
+  ["~liuxie"] = "汉室……",
+}
+
+-- 士燮，男，群，3勾玉
+General:new(extension, "shixie", "qun", 3):addSkills { "biluan", "lixia" }
+Fk:loadTranslationTable {
+  ["shixie"] = "士燮",
+  ["#shixie"] = "交州牧",
+  ["illustrator:shixie"] = "KayaK",
+  ["~shixie"] = "交州……",
+}
+
+-- 陶谦，男，群，3勾玉
+General:new(extension, "taoqian", "qun", 3):addSkills { "yixiang" }
+Fk:loadTranslationTable {
+  ["taoqian"] = "陶谦",
+  ["#taoqian"] = "徐州牧",
+  ["illustrator:taoqian"] = "KayaK",
+  ["~taoqian"] = "徐州……",
+}
+
+-- 张鲁，男，群，3勾玉
+General:new(extension, "zhanglu", "qun", 3):addSkills { "yishe", "bushi" }
+Fk:loadTranslationTable {
+  ["zhanglu"] = "张鲁",
+  ["#zhanglu"] = "汉中太守",
+  ["illustrator:zhanglu"] = "KayaK",
+  ["~zhanglu"] = "汉中……",
+}
