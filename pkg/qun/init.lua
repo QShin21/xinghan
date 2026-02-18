@@ -345,3 +345,30 @@ Fk:loadTranslationTable {
   ["illustrator:zhangxiu"] = "KayaK",
   ["~zhangxiu"] = "宛城……",
 }
+
+-- 刘繇，男，群，4勾玉
+General:new(extension, "liuyao", "qun", 4):addSkills { "kannan" }
+Fk:loadTranslationTable {
+  ["liuyao"] = "刘繇",
+  ["#liuyao"] = "扬州刺史",
+  ["illustrator:liuyao"] = "KayaK",
+  ["~liuyao"] = "扬州……",
+}
+
+-- 邹氏，女，群，3勾玉
+General:new(extension, "zoushi", "qun", 3, 3, General.Female):addSkills { "huoshui", "qingcheng" }
+Fk:loadTranslationTable {
+  ["zoushi"] = "邹氏",
+  ["#zoushi"] = "祸水红颜",
+  ["illustrator:zoushi"] = "KayaK",
+  ["~zoushi"] = "祸水……",
+}
+
+-- 许攸，男，群，3勾玉
+General:new(extension, "xuyou", "qun", 3):addSkills { "chenglue", "shicai" }
+Fk:loadTranslationTable {
+  ["xuyou"] = "许攸",
+  ["#xuyou"] = "恃才傲物",
+  ["illustrator:xuyou"] = "KayaK",
+  ["~xuyou"] = "恃才……",
+}
