@@ -408,3 +408,30 @@ Fk:loadTranslationTable {
   ["illustrator:zhanglu"] = "KayaK",
   ["~zhanglu"] = "汉中……",
 }
+
+-- 陈宫，男，群，3勾玉
+General:new(extension, "chengong", "qun", 3):addSkills { "mingce", "yinpan" }
+Fk:loadTranslationTable {
+  ["chengong"] = "陈宫",
+  ["#chengong"] = "智计之士",
+  ["illustrator:chengong"] = "KayaK",
+  ["~chengong"] = "智计……",
+}
+
+-- 公孙度，男，群，4勾玉
+General:new(extension, "gongsundu", "qun", 4):addSkills { "zhenze", "anliao" }
+Fk:loadTranslationTable {
+  ["gongsundu"] = "公孙度",
+  ["#gongsundu"] = "辽东太守",
+  ["illustrator:gongsundu"] = "KayaK",
+  ["~gongsundu"] = "辽东……",
+}
+
+-- 高干，男，群，4勾玉
+General:new(extension, "gaogan", "qun", 4):addSkills { "juguan" }
+Fk:loadTranslationTable {
+  ["gaogan"] = "高干",
+  ["#gaogan"] = "并州刺史",
+  ["illustrator:gaogan"] = "KayaK",
+  ["~gaogan"] = "并州……",
+}
