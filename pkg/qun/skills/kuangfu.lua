@@ -14,15 +14,17 @@ Fk:loadTranslationTable {
     "当此【杀】结算结束后：若你以此法弃置的为你的牌且此【杀】造成过伤害，你摸两张牌；"..
     "若你以此法弃置的不为你的牌且此【杀】未造成过伤害，你弃置两张手牌。",
 
-  ["#kuangfu-choose"] = "狂斧：弃置一名角色装备区的一张牌，然后视为使用【杀】",
+  ["#kuangfu-target"] = "狂斧：选择一名有装备牌的角色",
+  ["@@kuangfu_self"] = "狂斧自己的牌",
+  ["@@kuangfu_damage"] = "狂斧造成伤害",
 
-  ["$kuangfu1"] = "狂斧一出，谁敢争锋！",
-  ["$kuangfu2"] = "吾乃上将潘凤，可斩华雄！",
+  ["$kuangfu1"] = "狂斧之威，势不可挡！",
+  ["$kuangfu2"] = "潘凤在此，谁敢争锋！",
 }
 
 kuangfu:addEffect("active", {
   mute = true,
-  prompt = "#kuangfu-choose",
+  prompt = "#kuangfu-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
@@ -40,70 +42,69 @@ kuangfu:addEffect("active", {
     room:notifySkillInvoked(player, kuangfu.name, "offensive", {target})
     player:broadcastSkillInvoke(kuangfu.name)
 
-    -- 选择装备区的牌
+    -- 选择弃置装备区的一张牌
     local id = room:askToChooseCard(player, {
       target = target,
       flag = "e",
       skill_name = kuangfu.name,
     })
-
-    local is_own_card = (target == player)
-    local card = Fk:getCardById(id)
-
-    -- 弃置牌
+    
+    local is_self = target == player
     room:throwCard(id, kuangfu.name, target, player)
-
+    
+    -- 标记
+    room:setPlayerMark(player, "@@kuangfu_self", is_self and 1 or 0)
+    room:setPlayerMark(player, "@@kuangfu_damage", 0)
+    
     -- 视为使用杀
     local slash = Fk:cloneCard("slash")
     slash.skillName = kuangfu.name
-
-    -- 选择杀的目标
-    local targets = table.filter(room:getOtherPlayers(player), function(p)
-      return player:canUseTo(slash, p)
-    end)
-
-    if #targets > 0 then
-      local to = room:askToChoosePlayers(player, {
-        min_num = 1,
-        max_num = 1,
-        targets = targets,
-        skill_name = kuangfu.name,
-        prompt = "选择【杀】的目标",
-        cancelable = false,
-      })[1]
-
-      local hp_before = to.hp
-
-      room:useCard{
-        from = player.id,
-        tos = {to.id},
-        card = slash,
-        extra_data = {bypass_distances = true, bypass_times = true},
-      }
-
-      -- 检查是否造成伤害
-      local damaged = (to.hp < hp_before)
-
-      if is_own_card and damaged then
-        -- 弃置自己的牌且造成伤害：摸两张牌
-        if not player.dead then
-          player:drawCards(2, kuangfu.name)
-        end
-      elseif not is_own_card and not damaged then
-        -- 弃置别人的牌且未造成伤害：弃置两张手牌
-        if not player.dead and player:getHandcardNum() >= 2 then
-          local cards = room:askToCards(player, {
-            min_num = 2,
-            max_num = 2,
-            include_equip = false,
-            skill_name = kuangfu.name,
-            pattern = ".",
-            cancelable = false,
-          })
-          room:throwCard(cards, kuangfu.name, player, player)
-        end
+    
+    room:useCard{
+      from = player.id,
+      tos = {target.id},
+      card = slash,
+      extra_data = { kuangfu = true },
+    }
+    
+    -- 结算后效果
+    local caused_damage = player:getMark("@@kuangfu_damage") > 0
+    
+    if is_self and caused_damage then
+      -- 摸两张牌
+      player:drawCards(2, kuangfu.name)
+    elseif not is_self and not caused_damage then
+      -- 弃置两张手牌
+      if player:getHandcardNum() >= 2 then
+        local cards = room:askToCards(player, {
+          min_num = 2,
+          max_num = 2,
+          include_equip = false,
+          skill_name = kuangfu.name,
+          pattern = ".",
+          prompt = "选择两张手牌弃置",
+          cancelable = false,
+        })
+        room:throwCard(cards, kuangfu.name, player, player)
       end
     end
+    
+    -- 清除标记
+    room:setPlayerMark(player, "@@kuangfu_self", 0)
+    room:setPlayerMark(player, "@@kuangfu_damage", 0)
+  end,
+})
+
+-- 记录是否造成伤害
+kuangfu:addEffect(fk.Damage, {
+  is_delay_effect = true,
+  mute = true,
+  can_trigger = function(self, event, target, player, data)
+    return target == player and data.card and data.card.extra_data and data.card.extra_data.kuangfu
+  end,
+  on_cost = Util.TrueFunc,
+  on_use = function(self, event, target, player, data)
+    player.room:addPlayerMark(player, "@@kuangfu_damage", 1)
   end,
 })
 

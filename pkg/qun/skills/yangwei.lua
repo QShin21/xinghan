@@ -1,7 +1,6 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 -- 华雄 - 扬威技能
--- 出牌阶段限一次，你可以摸两张牌并令你本阶段：
--- 使用【杀】的次数上限+1、使用【杀】无距离限制且无视防具。
+-- 出牌阶段限一次，你可以摸两张牌并令你本阶段：使用【杀】的次数上限+1、使用【杀】无距离限制且无视防具。
 -- 若如此做，此技能失效，直到你下个回合的结束阶段。
 
 local yangwei = fk.CreateSkill {
@@ -10,15 +9,14 @@ local yangwei = fk.CreateSkill {
 
 Fk:loadTranslationTable {
   ["yangwei"] = "扬威",
-  [":yangwei"] = "出牌阶段限一次，你可以摸两张牌并令你本阶段："..
-    "使用【杀】的次数上限+1、使用【杀】无距离限制且无视防具。"..
+  [":yangwei"] = "出牌阶段限一次，你可以摸两张牌并令你本阶段：使用【杀】的次数上限+1、使用【杀】无距离限制且无视防具。"..
     "若如此做，此技能失效，直到你下个回合的结束阶段。",
 
-  ["#yangwei-invoke"] = "扬威：摸两张牌，本阶段杀次数+1、无距离限制、无视防具，技能暂时失效",
-  ["@@yangwei_phase"] = "扬威",
+  ["#yangwei-invoke"] = "扬威：是否摸两张牌并强化杀？",
+  ["@@yangwei_active"] = "扬威",
 
-  ["$yangwei1"] = "扬威沙场，谁敢来战！",
-  ["$yangwei2"] = "威震天下，无人能敌！",
+  ["$yangwei1"] = "扬威天下，谁敢争锋！",
+  ["$yangwei2"] = "西凉华雄，威震天下！",
 }
 
 yangwei:addEffect("active", {
@@ -28,7 +26,7 @@ yangwei:addEffect("active", {
   target_num = 0,
   can_use = function(self, player)
     return player:usedSkillTimes(yangwei.name, Player.HistoryPhase) == 0 and
-      not player:hasSkill(yangwei.name, true)
+      player:getMark("@@yangwei_disabled") == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
@@ -39,55 +37,60 @@ yangwei:addEffect("active", {
 
     -- 摸两张牌
     player:drawCards(2, yangwei.name)
-
+    
     -- 设置标记
-    room:setPlayerMark(player, "@@yangwei_phase", 1)
-
-    -- 技能暂时失效
-    room:handleAddLoseSkills(player, "-" .. yangwei.name, nil, false, true)
+    room:setPlayerMark(player, "@@yangwei_active", 1)
+    
+    -- 技能失效
+    room:setPlayerMark(player, "@@yangwei_disabled", 1)
   end,
 })
 
 -- 杀次数+1
 yangwei:addEffect("targetmod", {
   residue_func = function(self, player, skill, scope, card)
-    if player:getMark("@@yangwei_phase") > 0 and skill.trueName == "slash_skill" then
+    if skill.trueName == "slash_skill" and player:getMark("@@yangwei_active") > 0 then
       return 1
     end
+    return 0
   end,
-  distance_limit_func = function(self, player, skill, scope, card)
-    if player:getMark("@@yangwei_phase") > 0 and skill.trueName == "slash_skill" then
+})
+
+-- 杀无距离限制
+yangwei:addEffect("targetmod", {
+  distance_limit_func = function(self, player, skill, card, to)
+    if player:getMark("@@yangwei_active") > 0 and skill.trueName == "slash_skill" then
       return true
     end
+    return false
   end,
 })
 
 -- 无视防具
-yangwei:addEffect(fk.TargetSpecifying, {
-  is_delay_effect = true,
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    if target ~= player then return false end
-    if not data.card or data.card.trueName ~= "slash" then return false end
-    return player:getMark("@@yangwei_phase") > 0
-  end,
-  on_cost = Util.TrueFunc,
-  on_use = function(self, event, target, player, data)
-    data.extra_data = data.extra_data or {}
-    data.extra_data.yangwei_unequip = true
+yangwei:addEffect("filter", {
+  card_filter = function(self, card, player)
+    if player:getMark("@@yangwei_active") > 0 then
+      return card.sub_type == Card.SubtypeArmor
+    end
+    return false
   end,
 })
 
--- 回合结束恢复技能
+-- 回合结束清除标记
 yangwei:addEffect(fk.TurnEnd, {
   is_delay_effect = true,
+  mute = true,
   can_refresh = function(self, event, target, player, data)
-    return player:getMark("@@yangwei_phase") > 0
+    return player:getMark("@@yangwei_active") > 0 or player:getMark("@@yangwei_disabled") > 0
   end,
   on_refresh = function(self, event, target, player, data)
     local room = player.room
-    room:setPlayerMark(player, "@@yangwei_phase", 0)
-    room:handleAddLoseSkills(player, yangwei.name, nil, false, true)
+    room:setPlayerMark(player, "@@yangwei_active", 0)
+    
+    -- 如果是自己的回合结束，清除失效标记
+    if player:getMark("@@yangwei_disabled") > 0 then
+      room:setPlayerMark(player, "@@yangwei_disabled", 0)
+    end
   end,
 })
 

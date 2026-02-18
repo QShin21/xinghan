@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 }
 
 -- 张飞，男，蜀，4勾玉
-General:new(extension, "zhangfei", "shu", 4):addSkills { "paoxiao" }
+General:new(extension, "zhangfei", "shu", 4):addSkills { "paoxiao", "tishen" }
 Fk:loadTranslationTable {
   ["zhangfei"] = "张飞",
   ["#zhangfei"] = "万夫不当",

@@ -218,3 +218,48 @@ Fk:loadTranslationTable {
 }
 
 return extension
+
+-- 华雄，男，群，4勾玉
+General:new(extension, "huaxiong", "qun", 4):addSkills { "yaowu", "yangwei" }
+Fk:loadTranslationTable {
+  ["huaxiong"] = "华雄",
+  ["#huaxiong"] = "西凉猛将",
+  ["illustrator:huaxiong"] = "KayaK",
+  ["~huaxiong"] = "西凉……",
+}
+
+-- 袁术，男，群，4勾玉
+General:new(extension, "yuanshu", "qun", 4):addSkills { "yongsi" }
+Fk:loadTranslationTable {
+  ["yuanshu"] = "袁术",
+  ["#yuanshu"] = "仲家",
+  ["illustrator:yuanshu"] = "KayaK",
+  ["~yuanshu"] = "仲家……",
+}
+
+-- 潘凤，男，群，4勾玉
+General:new(extension, "panfeng", "qun", 4):addSkills { "kuangfu" }
+Fk:loadTranslationTable {
+  ["panfeng"] = "潘凤",
+  ["#panfeng"] = "无双上将",
+  ["illustrator:panfeng"] = "KayaK",
+  ["~panfeng"] = "上将……",
+}
+
+-- 纪灵，男，群，4勾玉
+General:new(extension, "jiling", "qun", 4):addSkills { "shuangren" }
+Fk:loadTranslationTable {
+  ["jiling"] = "纪灵",
+  ["#jiling"] = "山东名将",
+  ["illustrator:jiling"] = "KayaK",
+  ["~jiling"] = "山东……",
+}
+
+-- 颜良文丑，男，群，4勾玉
+General:new(extension, "yanliangwenchou", "qun", 4):addSkills { "shuangxiong" }
+Fk:loadTranslationTable {
+  ["yanliangwenchou"] = "颜良文丑",
+  ["#yanliangwenchou"] = "虎狼兄弟",
+  ["illustrator:yanliangwenchou"] = "KayaK",
+  ["~yanliangwenchou"] = "河北……",
+}

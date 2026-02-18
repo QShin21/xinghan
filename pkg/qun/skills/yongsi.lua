@@ -10,10 +10,8 @@ Fk:loadTranslationTable {
   ["yongsi"] = "庸肆",
   [":yongsi"] = "锁定技，摸牌阶段，你多摸X张牌；弃牌阶段开始时，你弃置一张牌（X为场上势力数）。",
 
-  ["#yongsi-discard"] = "庸肆：弃置一张牌",
-
-  ["$yongsi1"] = "庸肆之志，天下归心！",
-  ["$yongsi2"] = "四世三公，何人能比！",
+  ["$yongsi1"] = "庸肆之志，称霸天下！",
+  ["$yongsi2"] = "袁术称帝，天下归心！",
 }
 
 -- 多摸牌
@@ -25,14 +23,14 @@ yongsi:addEffect(fk.DrawNCards, {
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
-
-    -- 计算场上势力数
+    
+    -- 计算势力数
     local kingdoms = {}
     for _, p in ipairs(room.alive_players) do
-      table.insertIfNeed(kingdoms, p.kingdom)
+      kingdoms[p.kingdom] = true
     end
-
-    local x = #kingdoms
+    local x = table.size(kingdoms)
+    
     data.num = data.num + x
   end,
 })
@@ -47,12 +45,17 @@ yongsi:addEffect(fk.EventPhaseStart, {
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
-
-    local id = room:askToChooseCard(player, {
-      target = player,
-      flag = "he",
+    
+    local id = room:askToCards(player, {
+      min_num = 1,
+      max_num = 1,
+      include_equip = true,
       skill_name = yongsi.name,
+      pattern = ".",
+      prompt = "选择一张牌弃置",
+      cancelable = false,
     })
+    
     room:throwCard(id, yongsi.name, player, player)
   end,
 })

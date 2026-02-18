@@ -11,18 +11,19 @@ Fk:loadTranslationTable {
   ["tishen"] = "替身",
   [":tishen"] = "限定技，准备阶段，你可以回复体力至上限，然后摸X张牌（X为你以此法回复的体力值）。",
 
-  ["#tishen-invoke"] = "替身：回复体力至上限，然后摸X张牌",
+  ["#tishen-invoke"] = "替身：是否回复体力至上限并摸牌？",
 
   ["$tishen1"] = "替身之术，起死回生！",
-  ["$tishen2"] = "我还没死呢！",
+  ["$tishen2"] = "燕人张飞，在此！",
 }
 
 tishen:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(tishen.name) and
-      player.phase == Player.Start and player:usedSkillTimes(tishen.name) == 0 and
-      player:isWounded()
+      player.phase == Player.Start and
+      player:usedSkillTimes(tishen.name, Player.HistoryGame) == 0 and
+      player.hp < player.maxHp
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
@@ -32,21 +33,16 @@ tishen:addEffect(fk.EventPhaseStart, {
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
-
-    -- 计算需要回复的体力值
-    local recover_num = player.maxHp - player.hp
-
-    -- 回复体力至上限
+    local recover = player.maxHp - player.hp
+    
     room:recover{
       who = player,
-      num = recover_num,
+      num = recover,
+      recoverBy = player,
       skillName = tishen.name,
     }
-
-    -- 摸X张牌
-    if not player.dead and recover_num > 0 then
-      player:drawCards(recover_num, tishen.name)
-    end
+    
+    player:drawCards(recover, tishen.name)
   end,
 })
 
