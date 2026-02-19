@@ -27,7 +27,7 @@ wusheng:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("slash")
-    card.skillName = xh__wusheng.name
+    card.skillName = wusheng.name
     card:addSubcard(cards[1])
     return card
   end,

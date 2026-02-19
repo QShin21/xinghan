@@ -20,21 +20,21 @@ Fk:loadTranslationTable {
 jiezhong:addEffect(fk.EventPhaseStart, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__jiezhong.name) and
+    return target == player and player:hasSkill(jiezhong.name) and
       player.phase == Player.Play and
-      player:usedSkillTimes(xh__jiezhong.name) == 0 and
+      player:usedSkillTimes(jiezhong.name) == 0 and
       player:getHandcardNum() < player.maxHp
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jiezhong.name,
-      prompt = "#jiezhong-invoke",
+      skill_name = jiezhong.name,
+      prompt = "#xh__jiezhong-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
     local draw_num = player.maxHp - player:getHandcardNum()
-    player:drawCards(draw_num, xh__jiezhong.name)
+    player:drawCards(draw_num, jiezhong.name)
   end,
 })
 

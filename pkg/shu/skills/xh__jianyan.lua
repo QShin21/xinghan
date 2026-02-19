@@ -25,7 +25,7 @@ Fk:loadTranslationTable {
 
 jianyan:addEffect("active", {
   mute = true,
-  prompt = "#jianyan-use",
+  prompt = "#xh__jianyan-use",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
@@ -37,8 +37,8 @@ jianyan:addEffect("active", {
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__jianyan.name, "support")
-    player:broadcastSkillInvoke(xh__jianyan.name)
+    room:notifySkillInvoked(player, jianyan.name, "support")
+    player:broadcastSkillInvoke(jianyan.name)
 
     local used = player:getMark("@@jianyan_used") or {}
     local choices = {}
@@ -53,8 +53,8 @@ jianyan:addEffect("active", {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__jianyan.name,
-      prompt = "#jianyan-use",
+      skill_name = jianyan.name,
+      prompt = "#xh__jianyan-use",
       detailed = false,
     })
     
@@ -72,7 +72,7 @@ jianyan:addEffect("active", {
       local card = Fk:getCardById(top_card)
       
       table.insert(revealed, top_card)
-      room:showCards(player, {top_card}, xh__jianyan.name)
+      room:showCards(player, {top_card}, jianyan.name)
       
       local match = false
       if choice == "jianyan_basic" and card.type == Card.TypeBasic then match = true end
@@ -86,7 +86,7 @@ jianyan:addEffect("active", {
         break
       else
         -- 不符合的牌放入弃牌堆
-        room:moveCardTo(top_card, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__jianyan.name)
+        room:moveCardTo(top_card, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, jianyan.name)
       end
     end
     
@@ -101,12 +101,12 @@ jianyan:addEffect("active", {
           min_num = 1,
           max_num = 1,
           targets = males,
-          skill_name = xh__jianyan.name,
+          skill_name = jianyan.name,
           prompt = "选择一名男性角色获得此牌",
           cancelable = false,
         })[1]
         
-        room:moveCardTo(found_card, Player.Hand, to, fk.ReasonGive, xh__jianyan.name, nil, false, player.id)
+        room:moveCardTo(found_card, Player.Hand, to, fk.ReasonGive, jianyan.name, nil, false, player.id)
       end
     end
   end,

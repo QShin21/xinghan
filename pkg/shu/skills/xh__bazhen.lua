@@ -18,12 +18,12 @@ Fk:loadTranslationTable {
 bazhen:addEffect("filter", {
   mute = true,
   card_filter = function(self, card, player)
-    if not player:hasSkill(xh__bazhen.name) then return false end
+    if not player:hasSkill(bazhen.name) then return false end
     if card.trueName ~= "jink" then return false end
     return true
   end,
   handly_cards = function(self, player)
-    if not player:hasSkill(xh__bazhen.name) then return nil end
+    if not player:hasSkill(bazhen.name) then return nil end
     -- 检查是否有防具
     if #player:getCardIds("e", Card.SubtypeArmor) > 0 then return nil end
     -- 返回八卦阵的虚拟牌

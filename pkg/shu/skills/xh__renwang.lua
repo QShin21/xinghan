@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 renwang:addEffect(fk.TargetConfirmed, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__renwang.name) then return false end
+    if not player:hasSkill(renwang.name) then return false end
     if target == player then return false end  -- 对手使用
     if target.phase ~= Player.Play then return false end
     
@@ -40,8 +40,8 @@ renwang:addEffect(fk.TargetConfirmed, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__renwang.name,
-      prompt = "#renwang-invoke::" .. target.id,
+      skill_name = renwang.name,
+      prompt = "#xh__renwang-invoke::" .. target.id,
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -51,9 +51,9 @@ renwang:addEffect(fk.TargetConfirmed, {
       local id = room:askToChooseCard(player, {
         target = target,
         flag = "he",
-        skill_name = xh__renwang.name,
+        skill_name = renwang.name,
       })
-      room:throwCard(id, xh__renwang.name, target, player)
+      room:throwCard(id, renwang.name, target, player)
     end
   end,
 })

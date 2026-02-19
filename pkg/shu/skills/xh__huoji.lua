@@ -24,7 +24,7 @@ huoji:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("fire_attack")
-    card.skillName = xh__huoji.name
+    card.skillName = huoji.name
     card:addSubcard(cards[1])
     return card
   end,

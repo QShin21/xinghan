@@ -24,7 +24,7 @@ Fk:loadTranslationTable {
 hongji:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__hongji.name) then return false end
+    if not player:hasSkill(hongji.name) then return false end
     if target.phase ~= Player.Start then return false end
     
     -- 检查是否已使用过
@@ -75,7 +75,7 @@ hongji:addEffect(fk.EventPhaseStart, {
     else
       choice = room:askToChoice(player, {
         choices = {"most", "least"},
-        skill_name = xh__hongji.name,
+        skill_name = hongji.name,
         prompt = "选择一项效果",
         detailed = false,
       })
@@ -111,7 +111,7 @@ hongji:addEffect(fk.EventPhaseEnd, {
     room:setPlayerMark(player, "@@hongji_extra_draw", 0)
     
     -- 执行额外的摸牌阶段
-    player:drawCards(2, xh__hongji.name)
+    player:drawCards(2, hongji.name)
   end,
 })
 
@@ -128,7 +128,7 @@ hongji:addEffect(fk.EventPhaseEnd, {
     room:setPlayerMark(player, "@@hongji_extra_play", 0)
     
     -- 执行额外的出牌阶段（简化处理：摸一张牌）
-    player:drawCards(1, xh__hongji.name)
+    player:drawCards(1, hongji.name)
   end,
 })
 

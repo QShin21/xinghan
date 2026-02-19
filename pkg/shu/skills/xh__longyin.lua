@@ -23,7 +23,7 @@ Fk:loadTranslationTable {
 longyin:addEffect(fk.CardUsing, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__longyin.name) then return false end
+    if not player:hasSkill(longyin.name) then return false end
     if target.phase ~= Player.Play then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     if player:isNude() then return false end
@@ -36,9 +36,9 @@ longyin:addEffect(fk.CardUsing, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__longyin.name,
+      skill_name = longyin.name,
       pattern = ".",
-      prompt = "#longyin-invoke",
+      prompt = "#xh__longyin-invoke",
       cancelable = true,
     })
     
@@ -51,7 +51,7 @@ longyin:addEffect(fk.CardUsing, {
     local room = player.room
     local card = event:getCostData(self).cards[1]
     
-    room:throwCard(card, xh__longyin.name, player, player)
+    room:throwCard(card, longyin.name, player, player)
     
     -- 不计入次数
     data.extra_data = data.extra_data or {}
@@ -59,7 +59,7 @@ longyin:addEffect(fk.CardUsing, {
     
     -- 红色杀摸牌
     if data.card.color == Card.Red then
-      player:drawCards(1, xh__longyin.name)
+      player:drawCards(1, longyin.name)
     end
     
     -- 点数相同，竭忠视为未发动

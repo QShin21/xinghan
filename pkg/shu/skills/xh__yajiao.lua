@@ -25,15 +25,15 @@ Fk:loadTranslationTable {
 yajiao:addEffect(fk.CardUsing, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yajiao.name) and
+    return target == player and player:hasSkill(yajiao.name) and
       player.phase == Player.NotActive and
       data.card and not data.card:isVirtual() and
       player.room:getDrawPileNum() > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__yajiao.name,
-      prompt = "#yajiao-invoke",
+      skill_name = yajiao.name,
+      prompt = "#xh__yajiao-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -43,7 +43,7 @@ yajiao:addEffect(fk.CardUsing, {
     -- 展示牌堆顶的一张牌
     local top_card = room:getNCards(1)[1]
     local shown = Fk:getCardById(top_card)
-    room:showCards(player, {top_card}, xh__yajiao.name)
+    room:showCards(player, {top_card}, yajiao.name)
 
     -- 比较类别
     if shown.type == used_card.type then
@@ -54,13 +54,13 @@ yajiao:addEffect(fk.CardUsing, {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = xh__yajiao.name,
-          prompt = "#yajiao-give",
+          skill_name = yajiao.name,
+          prompt = "#xh__yajiao-give",
           cancelable = true,
         })
 
         if #to > 0 then
-          room:moveCardTo(top_card, Player.Hand, to[1], fk.ReasonGive, xh__yajiao.name, nil, false, player.id)
+          room:moveCardTo(top_card, Player.Hand, to[1], fk.ReasonGive, yajiao.name, nil, false, player.id)
         else
           -- 不交给任何人，牌置入弃牌堆
           room:moveCardTo(top_card, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile)
@@ -77,8 +77,8 @@ yajiao:addEffect(fk.CardUsing, {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = xh__yajiao.name,
-          prompt = "#yajiao-discard",
+          skill_name = yajiao.name,
+          prompt = "#xh__yajiao-discard",
           cancelable = true,
         })
 
@@ -86,9 +86,9 @@ yajiao:addEffect(fk.CardUsing, {
           local id = room:askToChooseCard(player, {
             target = to[1],
             flag = "hej",
-            skill_name = xh__yajiao.name,
+            skill_name = yajiao.name,
           })
-          room:throwCard(id, xh__yajiao.name, to[1], player)
+          room:throwCard(id, yajiao.name, to[1], player)
         end
       end
 
@@ -102,15 +102,15 @@ yajiao:addEffect(fk.CardUsing, {
 yajiao:addEffect(fk.CardResponding, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yajiao.name) and
+    return target == player and player:hasSkill(yajiao.name) and
       player.phase == Player.NotActive and
       data.card and not data.card:isVirtual() and
       player.room:getDrawPileNum() > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__yajiao.name,
-      prompt = "#yajiao-invoke",
+      skill_name = yajiao.name,
+      prompt = "#xh__yajiao-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -120,7 +120,7 @@ yajiao:addEffect(fk.CardResponding, {
     -- 展示牌堆顶的一张牌
     local top_card = room:getNCards(1)[1]
     local shown = Fk:getCardById(top_card)
-    room:showCards(player, {top_card}, xh__yajiao.name)
+    room:showCards(player, {top_card}, yajiao.name)
 
     -- 比较类别
     if shown.type == used_card.type then
@@ -131,13 +131,13 @@ yajiao:addEffect(fk.CardResponding, {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = xh__yajiao.name,
-          prompt = "#yajiao-give",
+          skill_name = yajiao.name,
+          prompt = "#xh__yajiao-give",
           cancelable = true,
         })
 
         if #to > 0 then
-          room:moveCardTo(top_card, Player.Hand, to[1], fk.ReasonGive, xh__yajiao.name, nil, false, player.id)
+          room:moveCardTo(top_card, Player.Hand, to[1], fk.ReasonGive, yajiao.name, nil, false, player.id)
         else
           room:moveCardTo(top_card, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile)
         end
@@ -153,8 +153,8 @@ yajiao:addEffect(fk.CardResponding, {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = xh__yajiao.name,
-          prompt = "#yajiao-discard",
+          skill_name = yajiao.name,
+          prompt = "#xh__yajiao-discard",
           cancelable = true,
         })
 
@@ -162,9 +162,9 @@ yajiao:addEffect(fk.CardResponding, {
           local id = room:askToChooseCard(player, {
             target = to[1],
             flag = "hej",
-            skill_name = xh__yajiao.name,
+            skill_name = yajiao.name,
           })
-          room:throwCard(id, xh__yajiao.name, to[1], player)
+          room:throwCard(id, yajiao.name, to[1], player)
         end
       end
 

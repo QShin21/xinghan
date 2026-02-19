@@ -27,7 +27,7 @@ Fk:loadTranslationTable {
 -- 扩大杀的目标范围
 liegong:addEffect("targetmod", {
   distance_limit_func = function(self, player, skill, card, to)
-    if player:hasSkill(xh__liegong.name) and card and card.trueName == "slash" then
+    if player:hasSkill(liegong.name) and card and card.trueName == "slash" then
       return card.number
     end
     return 0
@@ -37,7 +37,7 @@ liegong:addEffect("targetmod", {
 liegong:addEffect(fk.TargetSpecified, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__liegong.name) then return false end
+    if target ~= player or not player:hasSkill(liegong.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     return true
   end,
@@ -61,8 +61,8 @@ liegong:addEffect(fk.TargetSpecified, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__liegong.name,
-      prompt = "#liegong-effect",
+      skill_name = liegong.name,
+      prompt = "#xh__liegong-effect",
       detailed = false,
     })
     

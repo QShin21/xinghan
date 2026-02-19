@@ -22,13 +22,13 @@ Fk:loadTranslationTable {
 tieji:addEffect(fk.TargetSpecified, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__tieji.name) and
+    return target == player and player:hasSkill(tieji.name) and
       data.card and data.card.trueName == "slash"
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__tieji.name,
-      prompt = "#tieji-invoke",
+      skill_name = tieji.name,
+      prompt = "#xh__tieji-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -41,7 +41,7 @@ tieji:addEffect(fk.TargetSpecified, {
     -- 判定
     local judge = room:judge{
       who = player,
-      reason = xh__tieji.name,
+      reason = tieji.name,
     }
     
     -- 记录判定花色
@@ -76,14 +76,14 @@ tieji:addEffect(fk.CardEffecting, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__tieji.name,
+      skill_name = tieji.name,
       pattern = tostring(Exppattern{ id = suit_cards }),
-      prompt = "#tieji-discard:::" .. suit,
+      prompt = "#xh__tieji-discard:::" .. suit,
       cancelable = true,
     })
     
     if #id > 0 then
-      room:throwCard(id, xh__tieji.name, player, player)
+      room:throwCard(id, tieji.name, player, player)
       room:setPlayerMark(player, "@@tieji_suit", 0)
       return false
     end

@@ -20,19 +20,19 @@ Fk:loadTranslationTable {
 jizhi:addEffect(fk.CardUsing, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__jizhi.name) then return false end
+    if target ~= player or not player:hasSkill(jizhi.name) then return false end
     if not data.card then return false end
     
     return data.card.type == Card.TypeTrick and not data.card.sub_type == Card.SubtypeDelayedTrick
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jizhi.name,
-      prompt = "#jizhi-invoke",
+      skill_name = jizhi.name,
+      prompt = "#xh__jizhi-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__jizhi.name)
+    player:drawCards(1, jizhi.name)
   end,
 })
 

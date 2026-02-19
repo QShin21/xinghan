@@ -20,15 +20,15 @@ Fk:loadTranslationTable {
 tishen:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__tishen.name) and
+    return target == player and player:hasSkill(tishen.name) and
       player.phase == Player.Start and
-      player:usedSkillTimes(xh__tishen.name, Player.HistoryGame) == 0 and
+      player:usedSkillTimes(tishen.name, Player.HistoryGame) == 0 and
       player.hp < player.maxHp
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__tishen.name,
-      prompt = "#tishen-invoke",
+      skill_name = tishen.name,
+      prompt = "#xh__tishen-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -39,10 +39,10 @@ tishen:addEffect(fk.EventPhaseStart, {
       who = player,
       num = recover,
       recoverBy = player,
-      skillName = xh__tishen.name,
+      skillName = tishen.name,
     }
     
-    player:drawCards(recover, xh__tishen.name)
+    player:drawCards(recover, tishen.name)
   end,
 })
 

@@ -23,7 +23,7 @@ Fk:loadTranslationTable {
 kuanggu:addEffect(fk.Damage, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__kuanggu.name) then return false end
+    if target ~= player or not player:hasSkill(kuanggu.name) then return false end
     if not data.to or data.damage ~= 1 then return false end
     
     -- 检查距离
@@ -41,8 +41,8 @@ kuanggu:addEffect(fk.Damage, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__kuanggu.name,
-      prompt = "#kuanggu-invoke",
+      skill_name = kuanggu.name,
+      prompt = "#xh__kuanggu-invoke",
       detailed = false,
     })
     
@@ -58,10 +58,10 @@ kuanggu:addEffect(fk.Damage, {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = xh__kuanggu.name,
+        skillName = kuanggu.name,
       }
     else
-      player:drawCards(1, xh__kuanggu.name)
+      player:drawCards(1, kuanggu.name)
     end
   end,
 })

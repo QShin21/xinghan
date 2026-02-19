@@ -51,7 +51,7 @@ longdan:addEffect("viewas", {
       return nil
     end
 
-    new_card.skillName = xh__longdan.name
+    new_card.skillName = longdan.name
     new_card:addSubcard(cards[1])
     return new_card
   end,

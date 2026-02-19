@@ -19,14 +19,14 @@ Fk:loadTranslationTable {
 
 qianxin:addEffect(fk.Damage, {
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__qianxin.name) and
+    return target == player and player:hasSkill(qianxin.name) and
       player:isWounded()
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
 
-    room:notifySkillInvoked(player, xh__qianxin.name, "support")
+    room:notifySkillInvoked(player, qianxin.name, "support")
 
     -- 减少1点体力上限
     room:changeMaxHp(player, -1)

@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 shuomeng:addEffect(fk.EventPhaseEnd, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__shuomeng.name) and
+    return target == player and player:hasSkill(shuomeng.name) and
       player.phase == Player.Play and not player:isKongcheng()
   end,
   on_cost = function(self, event, target, player, data)
@@ -32,8 +32,8 @@ shuomeng:addEffect(fk.EventPhaseEnd, {
     if #targets_with_cards == 0 then return false end
     
     return room:askToSkillInvoke(player, {
-      skill_name = xh__shuomeng.name,
-      prompt = "#shuomeng-invoke",
+      skill_name = shuomeng.name,
+      prompt = "#xh__shuomeng-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -48,17 +48,17 @@ shuomeng:addEffect(fk.EventPhaseEnd, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__shuomeng.name,
+      skill_name = shuomeng.name,
       prompt = "选择拼点对象",
       cancelable = false,
     })[1]
     
-    local pindian = room:pindian({player, to}, xh__shuomeng.name)
+    local pindian = room:pindian({player, to}, shuomeng.name)
     
     if pindian.results[player].winner then
       -- 赢了：视为使用无中生有
       local card = Fk:cloneCard("ex_nihilo")
-      card.skillName = xh__shuomeng.name
+      card.skillName = shuomeng.name
       room:useCard{
         from = player.id,
         card = card,
@@ -66,7 +66,7 @@ shuomeng:addEffect(fk.EventPhaseEnd, {
     else
       -- 输了：对手视为对你使用过河拆桥
       local card = Fk:cloneCard("dismantlement")
-      card.skillName = xh__shuomeng.name
+      card.skillName = shuomeng.name
       room:useCard{
         from = to.id,
         tos = {player.id},

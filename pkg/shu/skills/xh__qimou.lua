@@ -22,18 +22,18 @@ Fk:loadTranslationTable {
 
 qimou:addEffect("active", {
   mute = true,
-  prompt = "#qimou-use",
+  prompt = "#xh__qimou-use",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__qimou.name) == 0 and player.hp > 1
+    return player:usedSkillTimes(qimou.name) == 0 and player.hp > 1
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__qimou.name, "offensive")
-    player:broadcastSkillInvoke(xh__qimou.name)
+    room:notifySkillInvoked(player, qimou.name, "offensive")
+    player:broadcastSkillInvoke(qimou.name)
 
     -- 选择失去的体力值
     local max_lose = player.hp - 1
@@ -44,15 +44,15 @@ qimou:addEffect("active", {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__qimou.name,
-      prompt = "#qimou-use",
+      skill_name = qimou.name,
+      prompt = "#xh__qimou-use",
       detailed = false,
     })
     
     local x = tonumber(choice)
     
     -- 失去体力
-    room:loseHp(player, x, xh__qimou.name)
+    room:loseHp(player, x, qimou.name)
     
     -- 设置标记
     room:setPlayerMark(player, "@@qimou_x", x)

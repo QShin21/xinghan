@@ -21,7 +21,7 @@ Fk:loadTranslationTable {
 -- 无次数限制
 paoxiao:addEffect("targetmod", {
   residue_func = function(self, player, skill, scope, card)
-    if player:hasSkill(xh__paoxiao.name) and skill.trueName == "slash_skill" then
+    if player:hasSkill(paoxiao.name) and skill.trueName == "slash_skill" then
       return 999
     end
   end,
@@ -31,7 +31,7 @@ paoxiao:addEffect("targetmod", {
 paoxiao:addEffect(fk.CardEffectCancelledOut, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__paoxiao.name) and
+    return target == player and player:hasSkill(paoxiao.name) and
       data.card and data.card.trueName == "slash"
   end,
   on_cost = Util.TrueFunc,
@@ -44,7 +44,7 @@ paoxiao:addEffect(fk.CardEffectCancelledOut, {
 paoxiao:addEffect(fk.DamageCaused, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__paoxiao.name) and
+    return target == player and player:hasSkill(paoxiao.name) and
       data.card and data.card.trueName == "slash" and
       player:getMark("@@paoxiao_damage") > 0
   end,

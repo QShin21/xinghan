@@ -21,7 +21,7 @@ Fk:loadTranslationTable {
 zhuhai:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(xh__zhuhai.name) then return false end
+    if target == player or not player:hasSkill(zhuhai.name) then return false end
     if target.phase ~= Player.Finish then return false end
     if player:isKongcheng() then return false end
     
@@ -35,9 +35,9 @@ zhuhai:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__zhuhai.name,
+      skill_name = zhuhai.name,
       pattern = ".",
-      prompt = "#zhuhai-use",
+      prompt = "#xh__zhuhai-use",
       cancelable = true,
     })
     
@@ -52,14 +52,14 @@ zhuhai:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(player, {
       choices = {"zhuhai_slash", "zhuhai_dismantlement"},
-      skill_name = xh__zhuhai.name,
+      skill_name = zhuhai.name,
       prompt = "选择当什么牌使用",
       detailed = false,
     })
     
     local card_name = choice == "zhuhai_slash" and "slash" or "dismantlement"
     local card = Fk:cloneCard(card_name)
-    card.skillName = xh__zhuhai.name
+    card.skillName = zhuhai.name
     card:addSubcard(card_id)
     
     room:useCard{

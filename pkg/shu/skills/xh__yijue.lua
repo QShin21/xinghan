@@ -25,11 +25,11 @@ Fk:loadTranslationTable {
 
 yijue:addEffect("active", {
   mute = true,
-  prompt = "#yijue-choose",
+  prompt = "#xh__yijue-choose",
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__yijue.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(yijue.name, Player.HistoryPhase) == 0
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -45,10 +45,10 @@ yijue:addEffect("active", {
     local target = effect.tos[1]
     local card = effect.cards[1]
 
-    room:notifySkillInvoked(player, xh__yijue.name, "offensive", {target})
+    room:notifySkillInvoked(player, yijue.name, "offensive", {target})
 
     -- 弃置牌
-    room:throwCard(card, xh__yijue.name, player, player)
+    room:throwCard(card, yijue.name, player, player)
 
     if target.dead or target:isKongcheng() then return end
 
@@ -57,14 +57,14 @@ yijue:addEffect("active", {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__yijue.name,
+      skill_name = yijue.name,
       pattern = ".",
-      prompt = "#yijue-show",
+      prompt = "#xh__yijue-show",
       cancelable = false,
     })[1]
 
     local shown = Fk:getCardById(shown_card)
-    room:showCards(target, {shown_card}, xh__yijue.name)
+    room:showCards(target, {shown_card}, yijue.name)
 
     if shown.color == Card.Black then
       -- 黑色：不能使用或打出手牌，非锁定技失效，杀伤害+1
@@ -75,12 +75,12 @@ yijue:addEffect("active", {
       room:handleAddLoseSkills(target, "-yijue_disable", nil, false, true)
     else
       -- 红色：获得此牌，可选择回复体力
-      room:moveCardTo(shown_card, Player.Hand, player, fk.ReasonPrey, xh__yijue.name)
+      room:moveCardTo(shown_card, Player.Hand, player, fk.ReasonPrey, yijue.name)
 
       if target:isWounded() then
         local choice = room:askToSkillInvoke(player, {
-          skill_name = xh__yijue.name,
-          prompt = "#yijue-recover::" .. target.id,
+          skill_name = yijue.name,
+          prompt = "#xh__yijue-recover::" .. target.id,
         })
 
         if choice then
@@ -88,7 +88,7 @@ yijue:addEffect("active", {
             who = target,
             num = 1,
             recoverBy = player,
-            skillName = xh__yijue.name,
+            skillName = yijue.name,
           }
         end
       end
