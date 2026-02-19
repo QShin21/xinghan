@@ -101,7 +101,7 @@ Fk:loadTranslationTable {
 }
 
 -- 李典，男，魏，3勾玉
-General:new(extension, "xh__lidian", "wei", 3):addSkills { "xh__xunxun", "xh__wangxi" }
+General:new(extension, "xh__lidian", "wei", 3):addSkills { "xunxun", "wangxi" }
 Fk:loadTranslationTable {
   ["xh__lidian"] = "李典",
   ["#xh__lidian"] = "深明大义",
