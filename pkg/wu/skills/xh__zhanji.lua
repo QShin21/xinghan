@@ -17,12 +17,12 @@ Fk:loadTranslationTable {
 zhanji:addEffect(fk.AfterDrawNCards, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zhanji.name) and
+    return target == player and player:hasSkill(zhanji.name) and
       player.phase == Player.Play
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__zhanji.name)
+    player:drawCards(1, zhanji.name)
   end,
 })
 

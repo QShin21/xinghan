@@ -24,7 +24,7 @@ Fk:loadTranslationTable {
 yinghun:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yinghun.name) and
+    return target == player and player:hasSkill(yinghun.name) and
       player.phase == Player.Start and player:isWounded()
   end,
   on_cost = function(self, event, target, player, data)
@@ -35,8 +35,8 @@ yinghun:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__yinghun.name,
-      prompt = "#yinghun-choose",
+      skill_name = yinghun.name,
+      prompt = "#xh__yinghun-choose",
       cancelable = true,
     })
     
@@ -57,34 +57,34 @@ yinghun:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__yinghun.name,
-      prompt = "#yinghun-choice",
+      skill_name = yinghun.name,
+      prompt = "#xh__yinghun-choice",
       detailed = true,
     })
     
     if choice:startsWith("yinghun_draw") then
-      to:drawCards(x, xh__yinghun.name)
+      to:drawCards(x, yinghun.name)
       if not to.dead and not to:isNude() then
         local id = room:askToChooseCard(player, {
           target = to,
           flag = "he",
-          skill_name = xh__yinghun.name,
+          skill_name = yinghun.name,
         })
-        room:throwCard(id, xh__yinghun.name, to, player)
+        room:throwCard(id, yinghun.name, to, player)
       end
     else
-      to:drawCards(1, xh__yinghun.name)
+      to:drawCards(1, yinghun.name)
       if not to.dead and to:getCardIds("he"):length() >= x then
         local cards = room:askToCards(player, {
           min_num = x,
           max_num = x,
           include_equip = true,
-          skill_name = xh__yinghun.name,
+          skill_name = yinghun.name,
           pattern = ".",
           prompt = "弃置" .. x .. "张牌",
           cancelable = false,
         })
-        room:throwCard(cards, xh__yinghun.name, to, player)
+        room:throwCard(cards, yinghun.name, to, player)
       end
     end
   end,

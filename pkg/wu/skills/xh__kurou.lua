@@ -18,11 +18,11 @@ Fk:loadTranslationTable {
 
 kurou:addEffect("active", {
   mute = true,
-  prompt = "#kurou-use",
+  prompt = "#xh__kurou-use",
   card_num = 1,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__kurou.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(kurou.name, Player.HistoryPhase) == 0 and
       not player:isNude()
   end,
   card_filter = function(self, player, to_select, selected)
@@ -33,14 +33,14 @@ kurou:addEffect("active", {
     local player = effect.from
     local card = effect.cards[1]
 
-    room:notifySkillInvoked(player, xh__kurou.name, "offensive")
-    player:broadcastSkillInvoke(xh__kurou.name)
+    room:notifySkillInvoked(player, kurou.name, "offensive")
+    player:broadcastSkillInvoke(kurou.name)
 
     -- 弃置牌
-    room:throwCard(card, xh__kurou.name, player, player)
+    room:throwCard(card, kurou.name, player, player)
 
     -- 失去1点体力
-    room:loseHp(player, 1, xh__kurou.name)
+    room:loseHp(player, 1, kurou.name)
   end,
 })
 

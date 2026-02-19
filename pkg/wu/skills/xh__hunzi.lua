@@ -18,9 +18,9 @@ Fk:loadTranslationTable {
 hunzi:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__hunzi.name) then return false end
+    if target ~= player or not player:hasSkill(hunzi.name) then return false end
     if player.phase ~= Player.Start then return false end
-    if player:usedSkillTimes(xh__hunzi.name, Player.HistoryGame) > 0 then return false end
+    if player:usedSkillTimes(hunzi.name, Player.HistoryGame) > 0 then return false end
     
     return player.hp <= 2
   end,

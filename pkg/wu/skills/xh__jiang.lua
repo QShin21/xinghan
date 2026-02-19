@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 jiang:addEffect(fk.TargetSpecified, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__jiang.name) then return false end
+    if target ~= player or not player:hasSkill(jiang.name) then return false end
     if not data.card then return false end
     
     local card = data.card
@@ -27,19 +27,19 @@ jiang:addEffect(fk.TargetSpecified, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jiang.name,
-      prompt = "#jiang-invoke",
+      skill_name = jiang.name,
+      prompt = "#xh__jiang-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__jiang.name)
+    player:drawCards(1, jiang.name)
   end,
 })
 
 jiang:addEffect(fk.TargetConfirmed, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__jiang.name) then return false end
+    if target ~= player or not player:hasSkill(jiang.name) then return false end
     if not data.card then return false end
     
     local card = data.card
@@ -47,12 +47,12 @@ jiang:addEffect(fk.TargetConfirmed, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jiang.name,
-      prompt = "#jiang-invoke",
+      skill_name = jiang.name,
+      prompt = "#xh__jiang-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__jiang.name)
+    player:drawCards(1, jiang.name)
   end,
 })
 

@@ -21,14 +21,14 @@ Fk:loadTranslationTable {
 zhaxiang:addEffect(fk.HpLost, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zhaxiang.name) and data.num > 0
+    return target == player and player:hasSkill(zhaxiang.name) and data.num > 0
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
     
     -- 摸三张牌
-    player:drawCards(3, xh__zhaxiang.name)
+    player:drawCards(3, zhaxiang.name)
     
     -- 如果是出牌阶段
     if player.phase == Player.Play then
@@ -50,7 +50,7 @@ zhaxiang:addEffect("targetmod", {
 -- 红色杀无距离限制
 zhaxiang:addEffect("targetmod", {
   distance_limit_func = function(self, player, skill, card, to)
-    if player:hasSkill(xh__zhaxiang.name) and player.phase == Player.Play and
+    if player:hasSkill(zhaxiang.name) and player.phase == Player.Play and
       card and card.trueName == "slash" and card.color == Card.Red then
       return true
     end

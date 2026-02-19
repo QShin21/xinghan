@@ -24,11 +24,11 @@ Fk:loadTranslationTable {
 
 gongqi:addEffect("active", {
   mute = true,
-  prompt = "#gongqi-use",
+  prompt = "#xh__gongqi-use",
   card_num = 1,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__gongqi.name, Player.HistoryPhase) == 0 and not player:isNude()
+    return player:usedSkillTimes(gongqi.name, Player.HistoryPhase) == 0 and not player:isNude()
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -39,13 +39,13 @@ gongqi:addEffect("active", {
     local card_id = effect.cards[1]
     local card = Fk:getCardById(card_id)
 
-    room:notifySkillInvoked(player, xh__gongqi.name, "offensive")
-    player:broadcastSkillInvoke(xh__gongqi.name)
+    room:notifySkillInvoked(player, gongqi.name, "offensive")
+    player:broadcastSkillInvoke(gongqi.name)
 
     local is_equip = card.type == Card.TypeEquip
     local suit = card.suit
 
-    room:throwCard(card_id, xh__gongqi.name, player, player)
+    room:throwCard(card_id, gongqi.name, player, player)
 
     -- 设置标记
     room:setPlayerMark(player, "@@gongqi_suit", suit)
@@ -59,14 +59,14 @@ gongqi:addEffect("active", {
       
       if #targets > 0 then
         if room:askToSkillInvoke(player, {
-          skill_name = xh__gongqi.name,
-          prompt = "#gongqi-discard",
+          skill_name = gongqi.name,
+          prompt = "#xh__gongqi-discard",
         }) then
           local to = room:askToChoosePlayers(player, {
             min_num = 1,
             max_num = 1,
             targets = targets,
-            skill_name = xh__gongqi.name,
+            skill_name = gongqi.name,
             prompt = "选择一名角色弃置其一张牌",
             cancelable = false,
           })[1]
@@ -74,9 +74,9 @@ gongqi:addEffect("active", {
           local id = room:askToChooseCard(player, {
             target = to,
             flag = "he",
-            skill_name = xh__gongqi.name,
+            skill_name = gongqi.name,
           })
-          room:throwCard(id, xh__gongqi.name, to, player)
+          room:throwCard(id, gongqi.name, to, player)
         end
       end
     end

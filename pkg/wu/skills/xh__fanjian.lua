@@ -24,11 +24,11 @@ Fk:loadTranslationTable {
 
 fanjian:addEffect("active", {
   mute = true,
-  prompt = "#fanjian-use",
+  prompt = "#xh__fanjian-use",
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__fanjian.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(fanjian.name, Player.HistoryPhase) == 0 and
       not player:isKongcheng()
   end,
   card_filter = function(self, player, to_select, selected)
@@ -44,13 +44,13 @@ fanjian:addEffect("active", {
     local target = effect.tos[1]
     local card_id = effect.cards[1]
 
-    room:notifySkillInvoked(player, xh__fanjian.name, "control", {target})
-    player:broadcastSkillInvoke(xh__fanjian.name)
+    room:notifySkillInvoked(player, fanjian.name, "control", {target})
+    player:broadcastSkillInvoke(fanjian.name)
 
     -- 展示并交给对手
     local card = Fk:getCardById(card_id)
-    room:showCards(player, {card_id}, xh__fanjian.name)
-    room:moveCardTo(card_id, Player.Hand, target, fk.ReasonGive, xh__fanjian.name, nil, false, player.id)
+    room:showCards(player, {card_id}, fanjian.name)
+    room:moveCardTo(card_id, Player.Hand, target, fk.ReasonGive, fanjian.name, nil, false, player.id)
 
     -- 令其非锁定技失效
     room:addPlayerMark(target, "@@fanjian_disable", 1)
@@ -68,8 +68,8 @@ fanjian:addEffect("active", {
       if has_suit then
         choice = room:askToChoice(target, {
           choices = {"fanjian_discard", "fanjian_damage"},
-          skill_name = xh__fanjian.name,
-          prompt = "#fanjian-choice",
+          skill_name = fanjian.name,
+          prompt = "#xh__fanjian-choice",
           detailed = false,
         })
       else
@@ -80,7 +80,7 @@ fanjian:addEffect("active", {
     if choice == "fanjian_discard" then
       -- 展示所有手牌
       local handcards = target:getCardIds("h")
-      room:showCards(target, handcards, xh__fanjian.name)
+      room:showCards(target, handcards, fanjian.name)
       
       -- 弃置同花色牌
       local suit = card.suit
@@ -89,10 +89,10 @@ fanjian:addEffect("active", {
       end)
       
       if #to_discard >= 2 then
-        room:throwCard(to_discard, xh__fanjian.name, target, player)
+        room:throwCard(to_discard, fanjian.name, target, player)
       end
     else
-      room:loseHp(target, 1, xh__fanjian.name)
+      room:loseHp(target, 1, fanjian.name)
     end
   end,
 })

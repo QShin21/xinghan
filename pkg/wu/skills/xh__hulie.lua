@@ -23,22 +23,22 @@ Fk:loadTranslationTable {
 hulie:addEffect(fk.TargetSpecified, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__hulie.name) then return false end
+    if target ~= player or not player:hasSkill(hulie.name) then return false end
     if not data.card then return false end
     if #data.use.tos ~= 1 then return false end
     
     local card_name = data.card.trueName
     if card_name == "slash" then
-      return player:usedSkillTimes(xh__hulie.name .. "_slash", Player.HistoryTurn) == 0
+      return player:usedSkillTimes(hulie.name .. "_slash", Player.HistoryTurn) == 0
     elseif card_name == "duel" then
-      return player:usedSkillTimes(xh__hulie.name .. "_duel", Player.HistoryTurn) == 0
+      return player:usedSkillTimes(hulie.name .. "_duel", Player.HistoryTurn) == 0
     end
     return false
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__hulie.name,
-      prompt = "#hulie-invoke",
+      skill_name = hulie.name,
+      prompt = "#xh__hulie-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -72,7 +72,7 @@ hulie:addEffect(fk.DamageCaused, {
 hulie:addEffect(fk.CardUseFinished, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__hulie.name) then return false end
+    if target ~= player or not player:hasSkill(hulie.name) then return false end
     if not data.card then return false end
     
     local card_name = data.card.trueName
@@ -92,7 +92,7 @@ hulie:addEffect(fk.CardUseFinished, {
     
     -- 视为对你使用一张杀
     local slash = Fk:cloneCard("slash")
-    slash.skillName = xh__hulie.name
+    slash.skillName = hulie.name
     
     room:useCard{
       from = to.id,

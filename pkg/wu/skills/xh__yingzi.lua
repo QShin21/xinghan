@@ -18,7 +18,7 @@ Fk:loadTranslationTable {
 yingzi:addEffect(fk.DrawNCards, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yingzi.name)
+    return target == player and player:hasSkill(yingzi.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

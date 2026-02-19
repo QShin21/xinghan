@@ -20,19 +20,19 @@ Fk:loadTranslationTable {
 
 zhiheng:addEffect("active", {
   mute = true,
-  prompt = "#zhiheng-use",
+  prompt = "#xh__zhiheng-use",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__zhiheng.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(zhiheng.name, Player.HistoryPhase) == 0 and
       not player:isNude()
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__zhiheng.name, "draw")
-    player:broadcastSkillInvoke(xh__zhiheng.name)
+    room:notifySkillInvoked(player, zhiheng.name, "draw")
+    player:broadcastSkillInvoke(zhiheng.name)
 
     local handcards = player:getCardIds("h")
     local equipcards = player:getCardIds("e")
@@ -43,16 +43,16 @@ zhiheng:addEffect("active", {
       min_num = 1,
       max_num = #allcards,
       include_equip = true,
-      skill_name = xh__zhiheng.name,
+      skill_name = zhiheng.name,
       pattern = ".",
-      prompt = "#zhiheng-use",
+      prompt = "#xh__zhiheng-use",
       cancelable = false,
     })
 
     local discard_num = #cards
     local all_hand = #cards == #handcards + #equipcards
 
-    room:throwCard(cards, xh__zhiheng.name, player, player)
+    room:throwCard(cards, zhiheng.name, player, player)
 
     -- 计算摸牌数
     local draw_num = discard_num
@@ -60,7 +60,7 @@ zhiheng:addEffect("active", {
       draw_num = draw_num + 1
     end
 
-    player:drawCards(draw_num, xh__zhiheng.name)
+    player:drawCards(draw_num, zhiheng.name)
   end,
 })
 
