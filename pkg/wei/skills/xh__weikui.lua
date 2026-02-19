@@ -1,108 +1,64 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
--- 曹仁 - 伪溃技能
--- 出牌阶段限一次，你可以失去1点体力并观看一名有手牌的其他角色的手牌，
--- 若其中没有【闪】，你弃置其中一张牌，否则你视为对其使用一张【杀】，且你本回合计算与其的距离视为1。
+-- 曹仁(新) - 伪溃技能
+-- 出牌阶段限一次，你可以失去1点体力并选择一名有手牌的其他角色观看其手牌：
+-- 若其手牌中有【闪】，则视为你对其使用一张不计入次数限制的【杀】，且本回合你计算与其的距离视为1；
+-- 若其手牌中没有【闪】，你弃置其中一张牌。
 
-local weikui = fk.CreateSkill {
+local weikui = fk.CreateSkill{
   name = "xh__weikui",
 }
 
-Fk:loadTranslationTable {
+Fk:loadTranslationTable{
   ["xh__weikui"] = "伪溃",
-  [":xh__weikui"] = "出牌阶段限一次，你可以失去1点体力并观看一名有手牌的其他角色的手牌，"..
-    "若其中没有【闪】，你弃置其中一张牌，否则你视为对其使用一张【杀】，且你本回合计算与其的距离视为1。",
+  [":xh__weikui"] = "出牌阶段限一次，你可以失去1点体力并选择一名有手牌的其他角色观看其手牌：若其手牌中有【闪】，则视为你对其使用一张"..
+  "不计入次数限制的【杀】，且本回合你计算与其的距离视为1；若其手牌中没有【闪】，你弃置其中一张牌。",
 
-  ["#xh__weikui-choose"] = "伪溃：选择一名有手牌的角色",
-  ["#xh__weikui-discard"] = "伪溃：弃置其一张牌",
-  ["@@xh__weikui_distance"] = "伪溃",
+  ["#xh__weikui"] = "伪溃：失去1点体力观看一名角色手牌，根据有无【闪】视为对其使用【杀】或弃置其牌",
+  ["#xh__weikui-discard"] = "伪溃：弃置 %dest 一张手牌",
 
-  ["$xh__weikui1"] = "伪溃诱敌，出奇制胜！",
-  ["$xh__weikui2"] = "示敌以弱，攻其不备！",
+  ["$xh__weikui1"] = "骑兵列队，准备突围。",
+  ["$xh__weikui2"] = "休整片刻，且随我杀出一条血路。",
 }
 
 weikui:addEffect("active", {
-  mute = true,
-  prompt = "#xh__weikui-choose",
+  anim_type = "offensive",
+  prompt = "#xh__weikui",
   card_num = 0,
+  card_filter = Util.FalseFunc,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(weikui.name, Player.HistoryPhase) == 0 and
-      player.hp > 0
+    return player:usedSkillTimes(weikui.name, Player.HistoryPhase) == 0 and player.hp > 0
   end,
-  card_filter = Util.FalseFunc,
-  target_filter = function(self, player, to_select, selected, selected_cards)
-    if #selected > 0 then return false end
-    return to_select ~= player and not to_select:isKongcheng()
+  target_filter = function(self, player, to_select, selected)
+    return #selected == 0 and to_select ~= player and not to_select:isKongcheng()
   end,
   on_use = function(self, room, effect)
     local player = effect.from
     local target = effect.tos[1]
-
-    room:notifySkillInvoked(player, weikui.name, "offensive", {target})
-    player:broadcastSkillInvoke(weikui.name)
-
-    -- 失去1点体力
     room:loseHp(player, 1, weikui.name)
-
-    if player.dead or target.dead then return end
-
-    -- 观看其手牌
-    local handcards = target:getCardIds("h")
-    room:showCards(player, handcards, weikui.name)
-
-    -- 检查是否有闪
-    local has_jink = table.find(handcards, function(id)
+    if player.dead or target.dead or target:isKongcheng() then return end
+    if table.find(target:getCardIds("h"), function(id)
       return Fk:getCardById(id).trueName == "jink"
-    end)
-
-    if not has_jink then
-      -- 没有闪：弃置其中一张牌
-      if #handcards > 0 then
-        local id = room:askToChooseCard(player, {
-          target = target,
-          flag = "h",
-          skill_name = weikui.name,
-        })
-        room:throwCard(id, weikui.name, target, player)
-      end
+    end) then
+      room:viewCards(player, { cards = target:getCardIds("h"), skill_name = weikui.name, prompt = "$ViewCardsFrom:"..target.id })
+      room:addTableMark(player, "weikui-turn", target.id)
+      room:useVirtualCard("slash", nil, player, target, weikui.name, true)
     else
-      -- 有闪：视为对其使用杀
-      local slash = Fk:cloneCard("slash")
-      slash.skillName = weikui.name
-      room:useCard{
-        from = player.id,
-        tos = {target.id},
-        card = slash,
-      }
-
-      -- 本回合计算与其的距离视为1
-      room:setPlayerMark(player, "@@weikui_distance", target.id)
+      local card = room:askToChooseCard(player, {
+        target = target,
+        flag = { card_data = { { "$Hand", target:getCardIds("h") } } },
+        skill_name = weikui.name,
+        prompt = "#xh__weikui-discard::"..target.id,
+      })
+      room:throwCard(card, weikui.name, target, player)
     end
   end,
 })
-
--- 距离视为1
 weikui:addEffect("distance", {
-  correct_func = function(self, from, to)
-    local mark = from:getMark("@@weikui_distance")
-    if mark == to.id then
-      -- 计算实际距离，如果大于1则修正为1
-      local actual_distance = from:distanceTo(to, false)
-      if actual_distance > 1 then
-        return 1 - actual_distance
-      end
+  fixed_func = function(self, from, to)
+    if table.contains(from:getTableMark("weikui-turn"), to.id) then
+      return 1
     end
-    return 0
-  end,
-})
-
--- 回合结束清除标记
-weikui:addEffect(fk.TurnEnd, {
-  can_trigger = function(self, event, target, player, data)
-    return player:getMark("@@weikui_distance") ~= 0
-  end,
-  on_use = function(self, event, target, player, data)
-    player.room:setPlayerMark(player, "@@weikui_distance", 0)
   end,
 })
 
