@@ -1,12 +1,3 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 许褚 - 裸衣技能
--- 摸牌阶段开始时，你亮出牌堆顶的三张牌，然后你可以获得其中的基本牌、武器牌和【决斗】。
--- 若如此做，你放弃摸牌，且直到你下回合开始，你使用【杀】或【决斗】造成伤害+1。
-
-local luoyi = fk.CreateSkill{
-  name = "xh__luoyi",
-}
-
 Fk:loadTranslationTable{
   ["xh__luoyi"] = "裸衣",
   [":xh__luoyi"] = "摸牌阶段开始时，你亮出牌堆顶的三张牌，然后你可以获得其中的基本牌、武器牌和【决斗】。若如此做，你放弃摸牌，且直到你"..
@@ -17,6 +8,10 @@ Fk:loadTranslationTable{
 
   ["$xh__luoyi1"] = "过来打一架，对，就是你！",
   ["$xh__luoyi2"] = "废话少说，放马过来吧！",
+}
+
+local luoyi = fk.CreateSkill{
+  name = "xh__luoyi",
 }
 
 luoyi:addEffect(fk.EventPhaseStart, {
@@ -69,5 +64,41 @@ luoyi:addEffect(fk.DamageCaused, {
     data:changeDamage(1)
   end,
 })
+
+luoyi:addTest(function(room, me)
+  local comp2 = room.players[2] ---@type ServerPlayer, ServerPlayer
+  FkTest.runInRoom(function()
+    room:handleAddLoseSkills(me, luoyi.name)
+  end)
+  local slash = Fk:getCardById(1)
+  FkTest.setNextReplies(me, { json.encode {
+    cards = {},
+    choice = "xh__luoyi_get"
+  }, json.encode {
+    card = 1,
+    targets = { comp2.id }
+  } })
+  FkTest.setNextReplies(comp2, { "__cancel" })
+
+  local origin_hp = comp2.hp
+  FkTest.runInRoom(function()
+    room:obtainCard(me, 1)
+    GameEvent.Turn:create(TurnData:new(me, "game_rule")):exec()
+  end)
+  -- p(me:getCardIds("h"))
+  -- lu.assertEquals(#me:getCardIds("h"), 1)
+  lu.assertEquals(comp2.hp, origin_hp - 2)
+
+  -- 测标记持续时间
+  origin_hp = comp2.hp
+  FkTest.runInRoom(function()
+    room:useCard{
+      from = me,
+      tos = { comp2 },
+      card = slash,
+    }
+  end)
+  lu.assertEquals(comp2.hp, origin_hp - 1)
+end)
 
 return luoyi
