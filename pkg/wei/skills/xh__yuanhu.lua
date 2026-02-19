@@ -13,7 +13,8 @@ Fk:loadTranslationTable {
   ["xh__yuanhu"] = "援护",
   [":xh__yuanhu"] = "出牌阶段限一次，你可以将一张装备牌置入一名角色的装备区里，然后若此牌为：武器牌，你弃置其距离为1的另一名角色区域里的至多两张牌；防具牌，其摸两张牌；坐骑牌，其回复1点体力。",
 
-  ["#xh__yuanhu-choose"] = "援护：选择一张装备牌和一名角色",
+  ["xh__yuanhu_active"] = "援护",
+  ["#xh__yuanhu-put"] = "援护：选择一张装备牌和一名角色，将装备置入其装备区",
   ["#xh__yuanhu-discard"] = "援护：弃置 %dest 距离1的角色区域里的至多两张牌",
   ["#xh__yuanhu-discard2"] = "援护：选择要弃置的牌（至多2张）",
 
@@ -24,7 +25,7 @@ Fk:loadTranslationTable {
 
 yuanhu:addEffect("active", {
   mute = true,
-  prompt = "#xh__yuanhu-choose",
+  prompt = "#xh__yuanhu-put",
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
@@ -33,8 +34,7 @@ yuanhu:addEffect("active", {
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
     local card = Fk:getCardById(to_select)
-    -- 检查是否是装备牌，且玩家拥有这张牌（在手牌或装备区）
-    return card.type == Card.TypeEquip and player:prohibitDiscard(to_select) == false
+    return card.type == Card.TypeEquip
   end,
   target_filter = function(self, player, to_select, selected, selected_cards)
     if #selected > 0 then return false end
@@ -49,7 +49,8 @@ yuanhu:addEffect("active", {
     local card = Fk:getCardById(effect.cards[1])
 
     room:notifySkillInvoked(player, yuanhu.name, "support", {target})
-    room:moveCardIntoEquip(target, effect.cards[1], yuanhu.name, false, player)
+    room:moveCardTo(effect.cards, Card.PlayerEquip, target, fk.ReasonPut, yuanhu.name, nil, true, player)
+    room:delay(600)
 
     if target.dead then return end
 
