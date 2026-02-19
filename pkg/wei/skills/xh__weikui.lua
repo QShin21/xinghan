@@ -41,7 +41,7 @@ weikui:addEffect("active", {
       return Fk:getCardById(id).trueName == "jink"
     end) then
       room:viewCards(player, { cards = target:getCardIds("h"), skill_name = weikui.name, prompt = "$ViewCardsFrom:"..target.id })
-      room:addTableMark(player, "weikui-turn", target.id)
+      room:addTableMark(player, "xh__weikui-turn", target.id)
       room:useVirtualCard("slash", nil, player, target, weikui.name, true)
     else
       local card = room:askToChooseCard(player, {
@@ -56,7 +56,7 @@ weikui:addEffect("active", {
 })
 weikui:addEffect("distance", {
   fixed_func = function(self, from, to)
-    if table.contains(from:getTableMark("weikui-turn"), to.id) then
+    if table.contains(from:getTableMark("xh__weikui-turn"), to.id) then
       return 1
     end
   end,
