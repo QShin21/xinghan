@@ -155,7 +155,7 @@ Fk:loadTranslationTable {
 }
 
 -- 荀攸，男，魏，3勾玉
-General:new(extension, "xh__xunyou", "wei", 3):addSkills { "xh__qice", "xh__zhiyu" }
+General:new(extension, "xh__xunyou", "wei", 3):addSkills { "qice", "zhiyu" }
 Fk:loadTranslationTable {
   ["xh__xunyou"] = "荀攸",
   ["#xh__xunyou"] = "谋主",
@@ -164,7 +164,7 @@ Fk:loadTranslationTable {
 }
 
 -- 典韦，男，魏，4勾玉
-General:new(extension, "xh__dianwei", "wei", 4):addSkills { "xh__qiangxi", "xh__ninge" }
+General:new(extension, "xh__dianwei", "wei", 4):addSkills { "qiangxi", "ninge" }
 Fk:loadTranslationTable {
   ["xh__dianwei"] = "典韦",
   ["#xh__dianwei"] = "古之恶来",
