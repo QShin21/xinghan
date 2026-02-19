@@ -128,7 +128,7 @@ Fk:loadTranslationTable {
 }
 
 -- 王朗，男，魏，3勾玉
-General:new(extension, "xh__wanglang", "wei", 3):addSkills { "xh__gushe", "xh__jici" }
+General:new(extension, "xh__wanglang", "wei", 3):addSkills { "gushe", "jici" }
 Fk:loadTranslationTable {
   ["xh__wanglang"] = "王朗",
   ["#xh__wanglang"] = "凤鸣",
@@ -137,7 +137,7 @@ Fk:loadTranslationTable {
 }
 
 -- 华歆，男，魏，3勾玉
-General:new(extension, "xh__huaxin", "wei", 3):addSkills { "xh__wanggui", "xh__xibing" }
+General:new(extension, "xh__huaxin", "wei", 3):addSkills { "wanggui", "xibing" }
 Fk:loadTranslationTable {
   ["xh__huaxin"] = "华歆",
   ["#xh__huaxin"] = "一龙",
