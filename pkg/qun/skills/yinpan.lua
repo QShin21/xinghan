@@ -38,7 +38,7 @@ yinpan:addEffect(fk.EventPhaseStart, {
     local room = player.room
     local count = player:getMark("@@yinpan_count") or 0
     
-    -- 找出对手（假设是对手）
+    -- 找出对手
     local opponents = room:getOtherPlayers(player)
     if #opponents == 0 then return end
     
@@ -50,22 +50,6 @@ yinpan:addEffect(fk.EventPhaseStart, {
       damage = count,
       skillName = yinpan.name,
     }
-  end,
-})
-
--- 记录明策摸牌次数
-yinpan:addEffect(fk.DrawCards, {
-  is_delay_effect = true,
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    if not target then return false end
-    return data.skillName == "mingce"
-  end,
-  on_cost = Util.TrueFunc,
-  on_use = function(self, event, target, player, data)
-    local room = player.room
-    local count = player:getMark("@@yinpan_count") or 0
-    room:setPlayerMark(player, "@@yinpan_count", count + 1)
   end,
 })
 

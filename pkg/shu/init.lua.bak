@@ -11,7 +11,7 @@ Fk:loadTranslationTable {
 }
 
 -- 赵云，男，蜀，4勾玉
-General:new(extension, "xh__zhaoyun", "shu", 4):addSkills { "longdan", "yajiao" }
+General:new(extension, "zhaoyun", "shu", 4):addSkills { "longdan", "yajiao" }
 Fk:loadTranslationTable {
   ["zhaoyun"] = "赵云",
   ["#zhaoyun"] = "常山赵子龙",
@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 }
 
 -- 张飞，男，蜀，4勾玉
-General:new(extension, "xh__zhangfei", "shu", 4):addSkills { "paoxiao", "tishen" }
+General:new(extension, "zhangfei", "shu", 4):addSkills { "paoxiao", "tishen" }
 Fk:loadTranslationTable {
   ["zhangfei"] = "张飞",
   ["#zhangfei"] = "万夫不当",
@@ -29,7 +29,7 @@ Fk:loadTranslationTable {
 }
 
 -- 关羽，男，蜀，4勾玉
-General:new(extension, "xh__guanyu", "shu", 4):addSkills { "wusheng", "yijue" }
+General:new(extension, "guanyu", "shu", 4):addSkills { "wusheng", "yijue" }
 Fk:loadTranslationTable {
   ["guanyu"] = "关羽",
   ["#guanyu"] = "武圣",
@@ -38,7 +38,7 @@ Fk:loadTranslationTable {
 }
 
 -- 刘备，男，蜀，4勾玉
-General:new(extension, "xh__liubei", "shu", 4):addSkills { "renwang" }
+General:new(extension, "liubei", "shu", 4):addSkills { "renwang" }
 Fk:loadTranslationTable {
   ["liubei"] = "刘备",
   ["#liubei"] = "乱世的枭雄",
@@ -47,7 +47,7 @@ Fk:loadTranslationTable {
 }
 
 -- 诸葛亮，男，蜀，3勾玉
-General:new(extension, "xh__zhugeliang", "shu", 3):addSkills { "bazhen", "huoji", "kanpo" }
+General:new(extension, "zhugeliang", "shu", 3):addSkills { "bazhen", "huoji", "kanpo" }
 Fk:loadTranslationTable {
   ["zhugeliang"] = "诸葛亮",
   ["#zhugeliang"] = "卧龙",
@@ -56,7 +56,7 @@ Fk:loadTranslationTable {
 }
 
 -- 黄月英，女，蜀，3勾玉
-General:new(extension, "xh__huangyueying", "shu", 3, 3, General.Female):addSkills { "jizhi", "qicai" }
+General:new(extension, "huangyueying", "shu", 3, 3, General.Female):addSkills { "jizhi", "qicai" }
 Fk:loadTranslationTable {
   ["huangyueying"] = "黄月英",
   ["#huangyueying"] = "归隐的杰女",
@@ -65,7 +65,7 @@ Fk:loadTranslationTable {
 }
 
 -- 孙乾，男，蜀，3勾玉
-General:new(extension, "xh__sunqian", "shu", 3):addSkills { "shuomeng" }
+General:new(extension, "sunqian", "shu", 3):addSkills { "shuomeng" }
 Fk:loadTranslationTable {
   ["sunqian"] = "孙乾",
   ["#sunqian"] = "说客",
@@ -74,7 +74,7 @@ Fk:loadTranslationTable {
 }
 
 -- 张世平，男，蜀，3勾玉
-General:new(extension, "xh__zhangshiping", "shu", 3):addSkills { "hongji" }
+General:new(extension, "zhangshiping", "shu", 3):addSkills { "hongji" }
 Fk:loadTranslationTable {
   ["zhangshiping"] = "张世平",
   ["#zhangshiping"] = "商贾",
@@ -83,7 +83,7 @@ Fk:loadTranslationTable {
 }
 
 -- 马超，男，蜀，4勾玉
-General:new(extension, "xh__machao", "shu", 4):addSkills { "mashu", "tieji" }
+General:new(extension, "machao", "shu", 4):addSkills { "mashu", "tieji" }
 Fk:loadTranslationTable {
   ["machao"] = "马超",
   ["#machao"] = "一骑当千",
@@ -92,7 +92,7 @@ Fk:loadTranslationTable {
 }
 
 -- 关平，男，蜀，4勾玉
-General:new(extension, "xh__guanping", "shu", 4):addSkills { "longyin", "jiezhong" }
+General:new(extension, "guanping", "shu", 4):addSkills { "longyin", "jiezhong" }
 Fk:loadTranslationTable {
   ["guanping"] = "关平",
   ["#guanping"] = "忠义",
@@ -101,7 +101,7 @@ Fk:loadTranslationTable {
 }
 
 -- 魏延，男，蜀，4勾玉
-General:new(extension, "xh__weiyan", "shu", 4):addSkills { "kuanggu", "qimou" }
+General:new(extension, "weiyan", "shu", 4):addSkills { "kuanggu", "qimou" }
 Fk:loadTranslationTable {
   ["weiyan"] = "魏延",
   ["#weiyan"] = "狂骨",
@@ -110,7 +110,7 @@ Fk:loadTranslationTable {
 }
 
 -- 黄忠，男，蜀，4勾玉
-General:new(extension, "xh__huangzhong", "shu", 4):addSkills { "liegong" }
+General:new(extension, "huangzhong", "shu", 4):addSkills { "liegong" }
 Fk:loadTranslationTable {
   ["huangzhong"] = "黄忠",
   ["#huangzhong"] = "老当益壮",
@@ -119,7 +119,7 @@ Fk:loadTranslationTable {
 }
 
 -- 徐庶，男，蜀，4勾玉
-General:new(extension, "xh__xushu", "shu", 4):addSkills { "zhuhai", "qianxin" }
+General:new(extension, "xushu", "shu", 4):addSkills { "zhuhai", "qianxin" }
 Fk:loadTranslationTable {
   ["xushu"] = "徐庶",
   ["#xushu"] = "忠孝",

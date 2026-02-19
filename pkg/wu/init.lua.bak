@@ -11,7 +11,7 @@ Fk:loadTranslationTable {
 }
 
 -- 孙坚，男，吴，4/5勾玉
-local sunjian = General:new(extension, "xh__sunjian", "wu", 4, 5)
+local sunjian = General:new(extension, "sunjian", "wu", 4, 5)
 sunjian:addSkills { "yinghun" }
 Fk:loadTranslationTable {
   ["sunjian"] = "孙坚",
@@ -21,7 +21,7 @@ Fk:loadTranslationTable {
 }
 
 -- 黄盖，男，吴，4勾玉
-General:new(extension, "xh__huanggai", "wu", 4):addSkills { "kurou", "zhaxiang" }
+General:new(extension, "huanggai", "wu", 4):addSkills { "kurou", "zhaxiang" }
 Fk:loadTranslationTable {
   ["huanggai"] = "黄盖",
   ["#huanggai"] = "轻身为国",
@@ -30,7 +30,7 @@ Fk:loadTranslationTable {
 }
 
 -- 韩当，男，吴，4勾玉
-General:new(extension, "xh__handang", "wu", 4):addSkills { "gongqi", "jiefan" }
+General:new(extension, "handang", "wu", 4):addSkills { "gongqi", "jiefan" }
 Fk:loadTranslationTable {
   ["handang"] = "韩当",
   ["#handang"] = "石城侯",
@@ -39,7 +39,7 @@ Fk:loadTranslationTable {
 }
 
 -- 孙权，男，吴，4勾玉
-General:new(extension, "xh__sunquan", "wu", 4):addSkills { "zhiheng" }
+General:new(extension, "sunquan", "wu", 4):addSkills { "zhiheng" }
 Fk:loadTranslationTable {
   ["sunquan"] = "孙权",
   ["#sunquan"] = "年轻的贤君",
@@ -48,7 +48,7 @@ Fk:loadTranslationTable {
 }
 
 -- 孙坚(新)，男，吴，4/5勾玉
-local sunjian_new = General:new(extension, "xh__sunjian_new", "wu", 4, 5)
+local sunjian_new = General:new(extension, "sunjian_new", "wu", 4, 5)
 sunjian_new:addSkills { "hulie" }
 Fk:loadTranslationTable {
   ["sunjian_new"] = "孙坚",
@@ -58,7 +58,7 @@ Fk:loadTranslationTable {
 }
 
 -- 孙策(吴)，男，吴，4勾玉
-General:new(extension, "xh__sunce", "wu", 4):addSkills { "jiang", "hunzi" }
+General:new(extension, "sunce", "wu", 4):addSkills { "jiang", "hunzi" }
 Fk:loadTranslationTable {
   ["sunce"] = "孙策",
   ["#sunce"] = "江东小霸王",
@@ -67,7 +67,7 @@ Fk:loadTranslationTable {
 }
 
 -- 周瑜，男，吴，3勾玉
-General:new(extension, "xh__zhouyu", "wu", 3):addSkills { "yingzi", "fanjian" }
+General:new(extension, "zhouyu", "wu", 3):addSkills { "yingzi", "fanjian" }
 Fk:loadTranslationTable {
   ["zhouyu"] = "周瑜",
   ["#zhouyu"] = "大都督",
@@ -76,7 +76,7 @@ Fk:loadTranslationTable {
 }
 
 -- 庞统，男，吴，3勾玉
-General:new(extension, "xh__pangtong", "wu", 3):addSkills { "guolun", "zhanji" }
+General:new(extension, "pangtong", "wu", 3):addSkills { "guolun", "zhanji" }
 Fk:loadTranslationTable {
   ["pangtong"] = "庞统",
   ["#pangtong"] = "凤雏",
