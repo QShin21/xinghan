@@ -19,13 +19,13 @@ Fk:loadTranslationTable {
 jianxiong:addEffect(fk.Damaged, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__jianxiong.name) and
+    return target == player and player:hasSkill(jianxiong.name) and
       data.card and not data.card:isVirtual()
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jianxiong.name,
-      prompt = "#jianxiong-invoke",
+      skill_name = jianxiong.name,
+      prompt = "#xh__jianxiong-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -34,11 +34,11 @@ jianxiong:addEffect(fk.Damaged, {
 
     -- 获得造成伤害的牌
     if table.contains(room.discard_pile, card.id) then
-      room:moveCardTo(card.id, Player.Hand, player, fk.ReasonPrey, xh__jianxiong.name)
+      room:moveCardTo(card.id, Player.Hand, player, fk.ReasonPrey, jianxiong.name)
     end
 
     -- 摸一张牌
-    player:drawCards(1, xh__jianxiong.name)
+    player:drawCards(1, jianxiong.name)
   end,
 })
 

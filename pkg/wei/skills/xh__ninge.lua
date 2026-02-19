@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 ninge:addEffect(fk.Damaged, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__ninge.name) then return false end
+    if not player:hasSkill(ninge.name) then return false end
     
     -- 检查是否为该角色本回合第二次受到伤害
     local count = target:getMark("@@ninge_damage_count") or 0
@@ -35,16 +35,16 @@ ninge:addEffect(fk.Damaged, {
     local room = player.room
     
     -- 摸一张牌
-    player:drawCards(1, xh__ninge.name)
+    player:drawCards(1, ninge.name)
     
     -- 弃置其场上一张牌
     if not target.dead and not target:isNude() then
       local id = room:askToChooseCard(player, {
         target = target,
         flag = "he",
-        skill_name = xh__ninge.name,
+        skill_name = ninge.name,
       })
-      room:throwCard(id, xh__ninge.name, target, player)
+      room:throwCard(id, ninge.name, target, player)
     end
   end,
 })

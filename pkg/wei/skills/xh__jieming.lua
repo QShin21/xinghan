@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 jieming:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__jieming.name) and data.damage > 0
+    return target == player and player:hasSkill(jieming.name) and data.damage > 0
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -29,8 +29,8 @@ jieming:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__jieming.name,
-      prompt = "#jieming-choose",
+      skill_name = jieming.name,
+      prompt = "#xh__jieming-choose",
       cancelable = true,
     })
 
@@ -44,12 +44,12 @@ jieming:addEffect(fk.Damaged, {
     local to = event:getCostData(self).tos[1]
 
     -- 目标摸两张牌
-    to:drawCards(2, xh__jieming.name)
+    to:drawCards(2, jieming.name)
 
     -- 若其手牌数小于其体力上限，你摸一张牌
     if not player.dead and not to.dead then
       if to:getHandcardNum() < to.maxHp then
-        player:drawCards(1, xh__jieming.name)
+        player:drawCards(1, jieming.name)
       end
     end
   end,

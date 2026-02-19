@@ -22,11 +22,11 @@ Fk:loadTranslationTable {
 
 quhu:addEffect("active", {
   mute = true,
-  prompt = "#quhu-choose",
+  prompt = "#xh__quhu-choose",
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__quhu.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(quhu.name, Player.HistoryPhase) == 0
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -42,14 +42,14 @@ quhu:addEffect("active", {
     local target = effect.tos[1]
     local card = effect.cards[1]
 
-    room:notifySkillInvoked(player, xh__quhu.name, "offensive", {target})
+    room:notifySkillInvoked(player, quhu.name, "offensive", {target})
 
     -- 拼点
-    local pindian = room:pindian({player, target}, xh__quhu.name)
+    local pindian = room:pindian({player, target}, quhu.name)
 
     if pindian.results[player].winner then
       -- 玩家赢
-      player:broadcastSkillInvoke(xh__quhu.name, 1)
+      player:broadcastSkillInvoke(quhu.name, 1)
 
       -- 选择目标攻击范围内的一名角色
       local targets = table.filter(room:getOtherPlayers(target), function(p)
@@ -61,8 +61,8 @@ quhu:addEffect("active", {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = xh__quhu.name,
-          prompt = "#quhu-target::" .. target.id,
+          skill_name = quhu.name,
+          prompt = "#xh__quhu-target::" .. target.id,
           cancelable = false,
         })[1]
 
@@ -70,17 +70,17 @@ quhu:addEffect("active", {
           from = target,
           to = victim,
           damage = 1,
-          skillName = xh__quhu.name,
+          skillName = quhu.name,
         }
       end
     else
       -- 玩家输
-      player:broadcastSkillInvoke(xh__quhu.name, 2)
+      player:broadcastSkillInvoke(quhu.name, 2)
       room:damage{
         from = target,
         to = player,
         damage = 1,
-        skillName = xh__quhu.name,
+        skillName = quhu.name,
       }
     end
   end,

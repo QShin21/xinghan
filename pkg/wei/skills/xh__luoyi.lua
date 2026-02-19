@@ -22,13 +22,13 @@ Fk:loadTranslationTable {
 luoyi:addEffect(fk.DrawNCards, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__luoyi.name) and
+    return target == player and player:hasSkill(luoyi.name) and
       player.room:getDrawPileNum() >= 3
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__luoyi.name,
-      prompt = "#luoyi-invoke",
+      skill_name = luoyi.name,
+      prompt = "#xh__luoyi-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -36,7 +36,7 @@ luoyi:addEffect(fk.DrawNCards, {
 
     -- 亮出牌堆顶的三张牌
     local cards = room:getNCards(3)
-    room:showCards(player, cards, xh__luoyi.name)
+    room:showCards(player, cards, luoyi.name)
 
     -- 筛选可获得的牌
     local get_cards = {}
@@ -55,9 +55,9 @@ luoyi:addEffect(fk.DrawNCards, {
         min_num = 0,
         max_num = #get_cards,
         include_equip = false,
-        skill_name = xh__luoyi.name,
+        skill_name = luoyi.name,
         pattern = tostring(Exppattern{ id = get_cards }),
-        prompt = "#luoyi-choose",
+        prompt = "#xh__luoyi-choose",
         cancelable = true,
       })
 
@@ -66,7 +66,7 @@ luoyi:addEffect(fk.DrawNCards, {
         data.num = 0
 
         -- 获得牌
-        room:moveCardTo(chosen, Player.Hand, player, fk.ReasonPrey, xh__luoyi.name)
+        room:moveCardTo(chosen, Player.Hand, player, fk.ReasonPrey, luoyi.name)
 
         -- 设置标记，伤害+1
         room:setPlayerMark(player, "@@luoyi_damage", 1)

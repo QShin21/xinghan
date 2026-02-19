@@ -23,13 +23,13 @@ Fk:loadTranslationTable {
 xunxun:addEffect(fk.DrawNCards, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__xunxun.name) and
+    return target == player and player:hasSkill(xunxun.name) and
       player.room:getDrawPileNum() >= 4
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__xunxun.name,
-      prompt = "#xunxun-invoke",
+      skill_name = xunxun.name,
+      prompt = "#xh__xunxun-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -39,16 +39,16 @@ xunxun:addEffect(fk.DrawNCards, {
     local cards = room:getNCards(4)
 
     -- 展示牌
-    room:showCards(player, cards, xh__xunxun.name)
+    room:showCards(player, cards, xunxun.name)
 
     -- 选择两张牌置于牌堆顶
     local top_cards = room:askToCards(player, {
       min_num = 2,
       max_num = 2,
       include_equip = false,
-      skill_name = xh__xunxun.name,
+      skill_name = xunxun.name,
       pattern = tostring(Exppattern{ id = cards }),
-      prompt = "#xunxun-top",
+      prompt = "#xh__xunxun-top",
       cancelable = false,
     })
 
@@ -60,12 +60,12 @@ xunxun:addEffect(fk.DrawNCards, {
     -- 将牌放回牌堆
     -- 先放底部的牌
     for _, id in ipairs(bottom_cards) do
-      room:moveCardTo(id, Card.DrawPile, nil, fk.ReasonPut, xh__xunxun.name, nil, true)
+      room:moveCardTo(id, Card.DrawPile, nil, fk.ReasonPut, xunxun.name, nil, true)
     end
 
     -- 再放顶部的牌（逆序，这样最后选的在最上面）
     for i = #top_cards, 1, -1 do
-      room:moveCardTo(top_cards[i], Card.DrawPile, nil, fk.ReasonPut, xh__xunxun.name, nil, true)
+      room:moveCardTo(top_cards[i], Card.DrawPile, nil, fk.ReasonPut, xunxun.name, nil, true)
     end
   end,
 })

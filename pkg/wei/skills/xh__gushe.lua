@@ -23,11 +23,11 @@ Fk:loadTranslationTable {
 
 gushe:addEffect("active", {
   mute = true,
-  prompt = "#gushe-choose",
+  prompt = "#xh__gushe-choose",
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__gushe.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(gushe.name, Player.HistoryPhase) == 0 and
       not player:isKongcheng()
   end,
   card_filter = function(self, player, to_select, selected)
@@ -43,11 +43,11 @@ gushe:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__gushe.name, "control", {target})
-    player:broadcastSkillInvoke(xh__gushe.name)
+    room:notifySkillInvoked(player, gushe.name, "control", {target})
+    player:broadcastSkillInvoke(gushe.name)
 
     -- 拼点
-    local pindian = room:pindian({player, target}, xh__gushe.name)
+    local pindian = room:pindian({player, target}, gushe.name)
 
     local loser
     if pindian.results[player].winner then
@@ -66,8 +66,8 @@ gushe:addEffect("active", {
 
     local choice = room:askToChoice(loser, {
       choices = choices,
-      skill_name = xh__gushe.name,
-      prompt = "#gushe-choice",
+      skill_name = gushe.name,
+      prompt = "#xh__gushe-choice",
       detailed = false,
     })
 
@@ -75,14 +75,14 @@ gushe:addEffect("active", {
       local id = room:askToChooseCard(loser, {
         target = loser,
         flag = "he",
-        skill_name = xh__gushe.name,
+        skill_name = gushe.name,
       })
-      room:throwCard(id, xh__gushe.name, loser, loser)
+      room:throwCard(id, gushe.name, loser, loser)
     else
       -- 令对方摸一张牌
       local drawer = (loser == player) and target or player
       if not drawer.dead then
-        drawer:drawCards(1, xh__gushe.name)
+        drawer:drawCards(1, gushe.name)
       end
     end
   end,

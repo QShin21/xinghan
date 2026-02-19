@@ -22,10 +22,10 @@ Fk:loadTranslationTable {
 xibing:addEffect(fk.TargetConfirmed, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__xibing.name) then return false end
+    if not player:hasSkill(xibing.name) then return false end
     if target == player then return false end
     if target.phase ~= Player.Play then return false end
-    if player:usedEffectTimes(xh__xibing.name, Player.HistoryTurn) > 0 then return false end
+    if player:usedEffectTimes(xibing.name, Player.HistoryTurn) > 0 then return false end
 
     local card = data.card
     if not card then return false end
@@ -41,8 +41,8 @@ xibing:addEffect(fk.TargetConfirmed, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__xibing.name,
-      prompt = "#xibing-invoke::" .. target.id,
+      skill_name = xibing.name,
+      prompt = "#xh__xibing-invoke::" .. target.id,
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -54,7 +54,7 @@ xibing:addEffect(fk.TargetConfirmed, {
     local max_draw = math.min(5, hp) - handcard_num
 
     if max_draw > 0 then
-      target:drawCards(max_draw, xh__xibing.name)
+      target:drawCards(max_draw, xibing.name)
 
       -- 设置不能使用牌标记
       room:setPlayerMark(target, "@@xibing_no_use", 1)

@@ -22,11 +22,11 @@ Fk:loadTranslationTable {
 
 weikui:addEffect("active", {
   mute = true,
-  prompt = "#weikui-choose",
+  prompt = "#xh__weikui-choose",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__weikui.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(weikui.name, Player.HistoryPhase) == 0 and
       player.hp > 0
   end,
   card_filter = Util.FalseFunc,
@@ -38,17 +38,17 @@ weikui:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__weikui.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__weikui.name)
+    room:notifySkillInvoked(player, weikui.name, "offensive", {target})
+    player:broadcastSkillInvoke(weikui.name)
 
     -- 失去1点体力
-    room:loseHp(player, 1, xh__weikui.name)
+    room:loseHp(player, 1, weikui.name)
 
     if player.dead or target.dead then return end
 
     -- 观看其手牌
     local handcards = target:getCardIds("h")
-    room:showCards(player, handcards, xh__weikui.name)
+    room:showCards(player, handcards, weikui.name)
 
     -- 检查是否有闪
     local has_jink = table.find(handcards, function(id)
@@ -61,14 +61,14 @@ weikui:addEffect("active", {
         local id = room:askToChooseCard(player, {
           target = target,
           flag = "h",
-          skill_name = xh__weikui.name,
+          skill_name = weikui.name,
         })
-        room:throwCard(id, xh__weikui.name, target, player)
+        room:throwCard(id, weikui.name, target, player)
       end
     else
       -- 有闪：视为对其使用杀
       local slash = Fk:cloneCard("slash")
-      slash.skillName = xh__weikui.name
+      slash.skillName = weikui.name
       room:useCard{
         from = player.id,
         tos = {target.id},

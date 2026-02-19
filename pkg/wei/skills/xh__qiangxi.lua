@@ -21,11 +21,11 @@ Fk:loadTranslationTable {
 
 qiangxi:addEffect("active", {
   mute = true,
-  prompt = "#qiangxi-use",
+  prompt = "#xh__qiangxi-use",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__qiangxi.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(qiangxi.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -36,8 +36,8 @@ qiangxi:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__qiangxi.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__qiangxi.name)
+    room:notifySkillInvoked(player, qiangxi.name, "offensive", {target})
+    player:broadcastSkillInvoke(qiangxi.name)
 
     local choices = {"qiangxi_damage"}
     
@@ -52,13 +52,13 @@ qiangxi:addEffect("active", {
 
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__qiangxi.name,
-      prompt = "#qiangxi-use",
+      skill_name = qiangxi.name,
+      prompt = "#xh__qiangxi-use",
       detailed = false,
     })
 
     if choice == "qiangxi_damage" then
-      room:loseHp(player, 1, xh__qiangxi.name)
+      room:loseHp(player, 1, qiangxi.name)
     else
       -- 弃置一张武器牌
       local weapon_cards = table.filter(player:getCardIds("he"), function(id)
@@ -69,13 +69,13 @@ qiangxi:addEffect("active", {
         min_num = 1,
         max_num = 1,
         include_equip = true,
-        skill_name = xh__qiangxi.name,
+        skill_name = qiangxi.name,
         pattern = tostring(Exppattern{ id = weapon_cards }),
         prompt = "选择一张武器牌弃置",
         cancelable = false,
       })
       
-      room:throwCard(id, xh__qiangxi.name, player, player)
+      room:throwCard(id, qiangxi.name, player, player)
     end
 
     if not target.dead then
@@ -83,7 +83,7 @@ qiangxi:addEffect("active", {
         from = player,
         to = target,
         damage = 1,
-        skillName = xh__qiangxi.name,
+        skillName = qiangxi.name,
       }
     end
   end,

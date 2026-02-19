@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 lizhan:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__lizhan.name) and
+    return target == player and player:hasSkill(lizhan.name) and
       player.phase == Player.Finish
   end,
   on_cost = function(self, event, target, player, data)
@@ -35,8 +35,8 @@ lizhan:addEffect(fk.EventPhaseStart, {
       min_num = 0,
       max_num = #targets,
       targets = targets,
-      skill_name = xh__lizhan.name,
-      prompt = "#lizhan-choose",
+      skill_name = lizhan.name,
+      prompt = "#xh__lizhan-choose",
       cancelable = true,
     })
 
@@ -51,7 +51,7 @@ lizhan:addEffect(fk.EventPhaseStart, {
 
     for _, p in ipairs(tos) do
       if not p.dead then
-        p:drawCards(1, xh__lizhan.name)
+        p:drawCards(1, lizhan.name)
       end
     end
   end,

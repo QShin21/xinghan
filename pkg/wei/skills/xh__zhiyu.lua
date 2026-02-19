@@ -22,13 +22,13 @@ Fk:loadTranslationTable {
 zhiyu:addEffect(fk.Damaged, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zhiyu.name) and
+    return target == player and player:hasSkill(zhiyu.name) and
       data.from and not data.from.dead
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__zhiyu.name,
-      prompt = "#zhiyu-invoke",
+      skill_name = zhiyu.name,
+      prompt = "#xh__zhiyu-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -36,13 +36,13 @@ zhiyu:addEffect(fk.Damaged, {
     local from = data.from
 
     -- 摸一张牌
-    player:drawCards(1, xh__zhiyu.name)
+    player:drawCards(1, zhiyu.name)
 
     if player:isKongcheng() then return end
 
     -- 展示所有手牌
     local handcards = player:getCardIds("h")
-    room:showCards(player, handcards, xh__zhiyu.name)
+    room:showCards(player, handcards, zhiyu.name)
 
     -- 伤害来源弃置一张手牌
     if from.dead or from:isKongcheng() then return end
@@ -50,7 +50,7 @@ zhiyu:addEffect(fk.Damaged, {
     local id = room:askToChooseCard(player, {
       target = from,
       flag = "h",
-      skill_name = xh__zhiyu.name,
+      skill_name = zhiyu.name,
     })
 
     -- 检查手牌颜色是否均相同
@@ -68,12 +68,12 @@ zhiyu:addEffect(fk.Damaged, {
 
     if same_color then
       -- 获得弃置的牌
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__zhiyu.name, nil, false, from.id)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, zhiyu.name, nil, false, from.id)
 
       -- 下回合奇策发动次数+1
       room:addPlayerMark(player, "@@zhiyu_extra", 1)
     else
-      room:throwCard(id, xh__zhiyu.name, from, player)
+      room:throwCard(id, zhiyu.name, from, player)
     end
   end,
 })

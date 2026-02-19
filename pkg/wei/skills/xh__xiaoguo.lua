@@ -25,7 +25,7 @@ Fk:loadTranslationTable {
 xiaoguo:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target ~= player and player:hasSkill(xh__xiaoguo.name) and
+    return target ~= player and player:hasSkill(xiaoguo.name) and
       target.phase == Player.Finish and not player:isKongcheng()
   end,
   on_cost = function(self, event, target, player, data)
@@ -35,9 +35,9 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__xiaoguo.name,
+      skill_name = xiaoguo.name,
       pattern = ".",
-      prompt = "#xiaoguo-invoke",
+      prompt = "#xh__xiaoguo-invoke",
       cancelable = true,
     })
 
@@ -51,7 +51,7 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
     local card = event:getCostData(self).cards[1]
 
     -- 弃置手牌
-    room:throwCard(card, xh__xiaoguo.name, player, player)
+    room:throwCard(card, xiaoguo.name, player, player)
 
     if target.dead then return end
 
@@ -67,8 +67,8 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
 
     local choice = room:askToChoice(target, {
       choices = choices,
-      skill_name = xh__xiaoguo.name,
-      prompt = "#xiaoguo-choice",
+      skill_name = xiaoguo.name,
+      prompt = "#xh__xiaoguo-choice",
       detailed = false,
     })
 
@@ -82,10 +82,10 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
         local id = room:askToChooseCard(player, {
           target = target,
           flag = "e",
-          skill_name = xh__xiaoguo.name,
+          skill_name = xiaoguo.name,
         })
-        room:throwCard(id, xh__xiaoguo.name, target, player)
-        player:drawCards(1, xh__xiaoguo.name)
+        room:throwCard(id, xiaoguo.name, target, player)
+        player:drawCards(1, xiaoguo.name)
       end
     else
       -- 受到1点伤害
@@ -93,7 +93,7 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
         from = player,
         to = target,
         damage = 1,
-        skillName = xh__xiaoguo.name,
+        skillName = xiaoguo.name,
       }
     end
   end,

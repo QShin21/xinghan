@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 
 danqi:addEffect(fk.EventPhaseStart, {
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__danqi.name) and
+    return target == player and player:hasSkill(danqi.name) and
       player.phase == Player.Start and
       player:getHandcardNum() > player.hp
   end,
@@ -27,7 +27,7 @@ danqi:addEffect(fk.EventPhaseStart, {
   on_use = function(self, event, target, player, data)
     local room = player.room
 
-    room:notifySkillInvoked(player, xh__danqi.name, "support")
+    room:notifySkillInvoked(player, danqi.name, "support")
 
     -- 减少1点体力上限
     room:changeMaxHp(player, -1)

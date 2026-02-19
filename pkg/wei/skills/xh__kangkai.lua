@@ -21,21 +21,21 @@ Fk:loadTranslationTable {
 kangkai:addEffect(fk.TargetConfirmed, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__kangkai.name) then return false end
+    if not player:hasSkill(kangkai.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     return target ~= player and player:distanceTo(target) <= 1
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__kangkai.name,
-      prompt = "#kangkai-invoke::" .. target.id,
+      skill_name = kangkai.name,
+      prompt = "#xh__kangkai-invoke::" .. target.id,
     })
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
 
     -- 摸一张牌
-    player:drawCards(1, xh__kangkai.name)
+    player:drawCards(1, kangkai.name)
 
     if player:isKongcheng() then return end
 
@@ -44,22 +44,22 @@ kangkai:addEffect(fk.TargetConfirmed, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__kangkai.name,
+      skill_name = kangkai.name,
       pattern = ".",
       prompt = "选择一张牌交给" .. target.name,
       cancelable = false,
     })
 
     local shown_card = Fk:getCardById(card[1])
-    room:showCards(player, card, xh__kangkai.name)
+    room:showCards(player, card, kangkai.name)
 
-    room:moveCardTo(card, Player.Hand, target, fk.ReasonGive, xh__kangkai.name, nil, false, player.id)
+    room:moveCardTo(card, Player.Hand, target, fk.ReasonGive, kangkai.name, nil, false, player.id)
 
     -- 若为装备牌且其不是你，其可以使用之
     if shown_card.type == Card.TypeEquip and not target.dead then
       if target:canUse(shown_card) then
         room:askToUseCard(target, {
-          skill_name = xh__kangkai.name,
+          skill_name = kangkai.name,
           pattern = shown_card,
           prompt = "是否使用" .. shown_card.name .. "？",
           cancelable = true,

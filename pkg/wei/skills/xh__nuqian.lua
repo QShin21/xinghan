@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 -- 锦囊牌转化的杀无次数限制
 nuqian:addEffect("targetmod", {
   residue_func = function(self, player, skill, scope, card)
-    if not player:hasSkill(xh__nuqian.name) then return 0 end
+    if not player:hasSkill(nuqian.name) then return 0 end
     if skill.trueName ~= "slash_skill" then return 0 end
 
     -- 检查是否为锦囊牌转化
@@ -39,7 +39,7 @@ nuqian:addEffect("targetmod", {
 nuqian:addEffect(fk.DamageCaused, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__nuqian.name) then return false end
+    if target ~= player or not player:hasSkill(nuqian.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
 
     -- 检查是否为装备牌转化

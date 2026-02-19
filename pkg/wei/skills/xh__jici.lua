@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 jici:addEffect(fk.PindianCardsDisplayed, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__jici.name) then return false end
+    if not player:hasSkill(jici.name) then return false end
     if not data.pindianData or data.pindianData.reason ~= "gushe" then return false end
 
     -- 检查是否是玩家的拼点牌
@@ -39,8 +39,8 @@ jici:addEffect(fk.PindianCardsDisplayed, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jici.name,
-      prompt = "#jici-invoke",
+      skill_name = jici.name,
+      prompt = "#xh__jici-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)

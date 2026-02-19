@@ -25,7 +25,7 @@ Fk:loadTranslationTable {
 zhenjun:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__zhenjun.name) then return false end
+    if target ~= player or not player:hasSkill(zhenjun.name) then return false end
     if player.phase ~= Player.Start and player.phase ~= Player.Finish then return false end
 
     local room = player.room
@@ -47,8 +47,8 @@ zhenjun:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__zhenjun.name,
-      prompt = "#zhenjun-choose",
+      skill_name = zhenjun.name,
+      prompt = "#xh__zhenjun-choose",
       cancelable = true,
     })
 
@@ -70,9 +70,9 @@ zhenjun:addEffect(fk.EventPhaseStart, {
       min_num = x,
       max_num = x,
       include_equip = true,
-      skill_name = xh__zhenjun.name,
+      skill_name = zhenjun.name,
       pattern = tostring(Exppattern{ id = to:getCardIds("he") }),
-      prompt = "#zhenjun-discard",
+      prompt = "#xh__zhenjun-discard",
       cancelable = false,
       expand_pile = to:getCardIds("j"),
     })
@@ -83,7 +83,7 @@ zhenjun:addEffect(fk.EventPhaseStart, {
     end)
 
     -- 弃置牌
-    room:throwCard(cards, xh__zhenjun.name, to, player)
+    room:throwCard(cards, zhenjun.name, to, player)
 
     -- 若没有装备牌，选择一项
     if not has_equip and not player.dead then
@@ -95,8 +95,8 @@ zhenjun:addEffect(fk.EventPhaseStart, {
 
       local choice = room:askToChoice(player, {
         choices = choices,
-        skill_name = xh__zhenjun.name,
-        prompt = "#zhenjun-choice",
+        skill_name = zhenjun.name,
+        prompt = "#xh__zhenjun-choice",
         detailed = false,
       })
 
@@ -106,15 +106,15 @@ zhenjun:addEffect(fk.EventPhaseStart, {
           min_num = 1,
           max_num = 1,
           include_equip = true,
-          skill_name = xh__zhenjun.name,
+          skill_name = zhenjun.name,
           pattern = ".",
           cancelable = false,
         })
-        room:throwCard(card, xh__zhenjun.name, player, player)
+        room:throwCard(card, zhenjun.name, player, player)
       else
         -- 令其摸等量的牌
         if not to.dead then
-          to:drawCards(#cards, xh__zhenjun.name)
+          to:drawCards(#cards, zhenjun.name)
         end
       end
     end

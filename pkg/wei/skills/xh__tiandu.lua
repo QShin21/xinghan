@@ -25,7 +25,7 @@ Fk:loadTranslationTable {
 -- 转换技状态
 tiandu:addEffect(fk.GameStart, {
   can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(xh__tiandu.name)
+    return player:hasSkill(tiandu.name)
   end,
   on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@tiandu-state", "yang")
@@ -35,7 +35,7 @@ tiandu:addEffect(fk.GameStart, {
 tiandu:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__tiandu.name) and player.phase == Player.Play
+    return target == player and player:hasSkill(tiandu.name) and player.phase == Player.Play
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -45,14 +45,14 @@ tiandu:addEffect(fk.EventPhaseStart, {
       -- 阳：需要两张手牌
       if player:getHandcardNum() < 2 then return false end
       return room:askToSkillInvoke(player, {
-        skill_name = xh__tiandu.name,
-        prompt = "#tiandu-yang",
+        skill_name = tiandu.name,
+        prompt = "#xh__tiandu-yang",
       })
     else
       -- 阴
       return room:askToSkillInvoke(player, {
-        skill_name = xh__tiandu.name,
-        prompt = "#tiandu-yin",
+        skill_name = tiandu.name,
+        prompt = "#xh__tiandu-yin",
       })
     end
   end,
@@ -66,7 +66,7 @@ tiandu:addEffect(fk.EventPhaseStart, {
         min_num = 2,
         max_num = 2,
         include_equip = false,
-        skill_name = xh__tiandu.name,
+        skill_name = tiandu.name,
         pattern = ".",
         cancelable = false,
       })
@@ -79,7 +79,7 @@ tiandu:addEffect(fk.EventPhaseStart, {
       end
       room:setPlayerMark(player, "@@tiandu_suits", suits)
 
-      room:throwCard(cards, xh__tiandu.name, player, player)
+      room:throwCard(cards, tiandu.name, player, player)
 
       -- 选择要使用的普通锦囊牌
       local trick_names = {}
@@ -93,14 +93,14 @@ tiandu:addEffect(fk.EventPhaseStart, {
       if #trick_names > 0 then
         local choice = room:askToChoice(player, {
           choices = trick_names,
-          skill_name = xh__tiandu.name,
+          skill_name = tiandu.name,
           prompt = "选择要使用的普通锦囊牌",
           detailed = true,
         })
 
         if choice then
           local card = Fk:cloneCard(choice)
-          card.skillName = xh__tiandu.name
+          card.skillName = tiandu.name
           room:useCard({
             from = player.id,
             cards = {},
@@ -115,14 +115,14 @@ tiandu:addEffect(fk.EventPhaseStart, {
       -- 阴：进行判定并获得此判定牌
       local judge = {
         who = player,
-        reason = xh__tiandu.name,
+        reason = tiandu.name,
         pattern = ".",
       }
       room:judge(judge)
 
       -- 获得判定牌
       if judge.card then
-        room:moveCardTo(judge.card.id, Player.Hand, player, fk.ReasonPrey, xh__tiandu.name)
+        room:moveCardTo(judge.card.id, Player.Hand, player, fk.ReasonPrey, tiandu.name)
 
         -- 检查是否弃置过相同花色的牌
         local suits = player:getMark("@@tiandu_suits")
@@ -132,7 +132,7 @@ tiandu:addEffect(fk.EventPhaseStart, {
             room:damage{
               to = player,
               damage = 1,
-              skillName = xh__tiandu.name,
+              skillName = tiandu.name,
             }
           end
         end

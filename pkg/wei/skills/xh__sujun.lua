@@ -21,14 +21,14 @@ Fk:loadTranslationTable {
 sujun:addEffect(fk.CardUsing, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__sujun.name) and
+    return target == player and player:hasSkill(sujun.name) and
       player.phase == Player.Play and
-      player:usedSkillTimes(xh__sujun.name, Player.HistoryPhase) == 0
+      player:usedSkillTimes(sujun.name, Player.HistoryPhase) == 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__sujun.name,
-      prompt = "#sujun-invoke",
+      skill_name = sujun.name,
+      prompt = "#xh__sujun-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -39,7 +39,7 @@ sujun:addEffect(fk.CardUsing, {
 
     -- 展示所有手牌
     local handcards = player:getCardIds("h")
-    room:showCards(player, handcards, xh__sujun.name)
+    room:showCards(player, handcards, sujun.name)
 
     -- 计算基本牌和非基本牌数量
     local basic_count = 0
@@ -56,7 +56,7 @@ sujun:addEffect(fk.CardUsing, {
 
     -- 若数量相等，摸两张牌
     if basic_count == non_basic_count then
-      player:drawCards(2, xh__sujun.name)
+      player:drawCards(2, sujun.name)
     end
   end,
 })

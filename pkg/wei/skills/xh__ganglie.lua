@@ -22,14 +22,14 @@ Fk:loadTranslationTable {
 ganglie:addEffect(fk.Damaged, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__ganglie.name) and data.damage > 0 and
+    return target == player and player:hasSkill(ganglie.name) and data.damage > 0 and
       data.from and not data.from.dead and data.from ~= player
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
-    local prompt = "#ganglie-invoke"
+    local prompt = "#xh__ganglie-invoke"
     return room:askToSkillInvoke(player, {
-      skill_name = xh__ganglie.name,
+      skill_name = ganglie.name,
       prompt = prompt,
     })
   end,
@@ -40,7 +40,7 @@ ganglie:addEffect(fk.Damaged, {
     -- 进行判定
     local judge = {
       who = player,
-      reason = xh__ganglie.name,
+      reason = ganglie.name,
       pattern = ".",
     }
     room:judge(judge)
@@ -55,7 +55,7 @@ ganglie:addEffect(fk.Damaged, {
         from = player,
         to = from,
         damage = 1,
-        skillName = xh__ganglie.name,
+        skillName = ganglie.name,
       }
     else
       -- 黑色：弃置伤害来源的一张牌
@@ -63,9 +63,9 @@ ganglie:addEffect(fk.Damaged, {
         local id = room:askToChooseCard(player, {
           target = from,
           flag = "he",
-          skill_name = xh__ganglie.name,
+          skill_name = ganglie.name,
         })
-        room:throwCard(id, xh__ganglie.name, from, player)
+        room:throwCard(id, ganglie.name, from, player)
       end
     end
   end,

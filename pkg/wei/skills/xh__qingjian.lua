@@ -20,8 +20,8 @@ Fk:loadTranslationTable {
 qingjian:addEffect(fk.AfterCardsMove, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__qingjian.name) then return false end
-    if player:usedSkillTimes(xh__qingjian.name, Player.HistoryTurn) > 0 then return false end
+    if not player:hasSkill(qingjian.name) then return false end
+    if player:usedSkillTimes(qingjian.name, Player.HistoryTurn) > 0 then return false end
     
     -- 检查是否获得了其他角色的牌
     for _, move in ipairs(data) do
@@ -37,8 +37,8 @@ qingjian:addEffect(fk.AfterCardsMove, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__qingjian.name,
-      prompt = "#qingjian-invoke",
+      skill_name = qingjian.name,
+      prompt = "#xh__qingjian-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -49,7 +49,7 @@ qingjian:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = player:getHandcardNum(),
       include_equip = false,
-      skill_name = xh__qingjian.name,
+      skill_name = qingjian.name,
       pattern = ".",
       prompt = "选择要给出的牌",
       cancelable = true,
@@ -62,7 +62,7 @@ qingjian:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = #cards,
       targets = room:getOtherPlayers(player),
-      skill_name = xh__qingjian.name,
+      skill_name = qingjian.name,
       prompt = "选择目标角色",
       cancelable = false,
     })
@@ -70,7 +70,7 @@ qingjian:addEffect(fk.AfterCardsMove, {
     -- 给牌
     for i, to in ipairs(targets) do
       if i <= #cards then
-        room:moveCardTo(cards[i], Player.Hand, to, fk.ReasonGive, xh__qingjian.name, nil, false, player.id)
+        room:moveCardTo(cards[i], Player.Hand, to, fk.ReasonGive, qingjian.name, nil, false, player.id)
       end
     end
   end,

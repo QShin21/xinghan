@@ -23,13 +23,13 @@ Fk:loadTranslationTable {
 wangxi:addEffect(fk.Damage, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__wangxi.name) and
+    return target == player and player:hasSkill(wangxi.name) and
       data.to and data.to ~= player and not data.to.dead and data.damage > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__wangxi.name,
-      prompt = "#wangxi-invoke::" .. data.to.id,
+      skill_name = wangxi.name,
+      prompt = "#xh__wangxi-invoke::" .. data.to.id,
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -37,7 +37,7 @@ wangxi:addEffect(fk.Damage, {
     local to = data.to
 
     -- 摸两张牌
-    player:drawCards(2, xh__wangxi.name)
+    player:drawCards(2, wangxi.name)
 
     if player.dead or to.dead or player:isKongcheng() then return end
 
@@ -46,13 +46,13 @@ wangxi:addEffect(fk.Damage, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__wangxi.name,
+      skill_name = wangxi.name,
       pattern = ".",
-      prompt = "#wangxi-give::" .. to.id,
+      prompt = "#xh__wangxi-give::" .. to.id,
       cancelable = false,
     })
 
-    room:moveCardTo(card, Player.Hand, to, fk.ReasonGive, xh__wangxi.name, nil, false, player.id)
+    room:moveCardTo(card, Player.Hand, to, fk.ReasonGive, wangxi.name, nil, false, player.id)
   end,
 })
 
@@ -60,13 +60,13 @@ wangxi:addEffect(fk.Damage, {
 wangxi:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__wangxi.name) and
+    return target == player and player:hasSkill(wangxi.name) and
       data.from and data.from ~= player and not data.from.dead and data.damage > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__wangxi.name,
-      prompt = "#wangxi-invoke::" .. data.from.id,
+      skill_name = wangxi.name,
+      prompt = "#xh__wangxi-invoke::" .. data.from.id,
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -74,7 +74,7 @@ wangxi:addEffect(fk.Damaged, {
     local to = data.from
 
     -- 摸两张牌
-    player:drawCards(2, xh__wangxi.name)
+    player:drawCards(2, wangxi.name)
 
     if player.dead or to.dead or player:isKongcheng() then return end
 
@@ -83,13 +83,13 @@ wangxi:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__wangxi.name,
+      skill_name = wangxi.name,
       pattern = ".",
-      prompt = "#wangxi-give::" .. to.id,
+      prompt = "#xh__wangxi-give::" .. to.id,
       cancelable = false,
     })
 
-    room:moveCardTo(card, Player.Hand, to, fk.ReasonGive, xh__wangxi.name, nil, false, player.id)
+    room:moveCardTo(card, Player.Hand, to, fk.ReasonGive, wangxi.name, nil, false, player.id)
   end,
 })
 

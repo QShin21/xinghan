@@ -25,13 +25,13 @@ Fk:loadTranslationTable {
 qingzheng:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__qingzheng.name) and
+    return target == player and player:hasSkill(qingzheng.name) and
       player.phase == Player.Play and not player:isKongcheng()
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__qingzheng.name,
-      prompt = "#qingzheng-invoke",
+      skill_name = qingzheng.name,
+      prompt = "#xh__qingzheng-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -39,7 +39,7 @@ qingzheng:addEffect(fk.EventPhaseStart, {
 
     -- 展示所有手牌
     local handcards = player:getCardIds("h")
-    room:showCards(player, handcards, xh__qingzheng.name)
+    room:showCards(player, handcards, qingzheng.name)
 
     -- 统计各花色数量
     local suit_counts = {}
@@ -66,8 +66,8 @@ qingzheng:addEffect(fk.EventPhaseStart, {
 
     local choice = room:askToChoice(player, {
       choices = suit_choices,
-      skill_name = xh__qingzheng.name,
-      prompt = "#qingzheng-suit",
+      skill_name = qingzheng.name,
+      prompt = "#xh__qingzheng-suit",
       detailed = false,
     })
 
@@ -85,7 +85,7 @@ qingzheng:addEffect(fk.EventPhaseStart, {
       return Fk:getCardById(id).suit == chosen_suit
     end)
 
-    room:throwCard(my_discard, xh__qingzheng.name, player, player)
+    room:throwCard(my_discard, qingzheng.name, player, player)
 
     -- 选择一名其他角色
     local targets = room:getOtherPlayers(player, false)
@@ -95,8 +95,8 @@ qingzheng:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__qingzheng.name,
-      prompt = "#qingzheng-target",
+      skill_name = qingzheng.name,
+      prompt = "#xh__qingzheng-target",
       cancelable = false,
     })[1]
 
@@ -104,7 +104,7 @@ qingzheng:addEffect(fk.EventPhaseStart, {
 
     -- 展示其所有手牌
     local to_handcards = to:getCardIds("h")
-    room:showCards(to, to_handcards, xh__qingzheng.name)
+    room:showCards(to, to_handcards, qingzheng.name)
 
     -- 弃置其中一种花色的所有牌
     local to_suit_counts = {}
@@ -128,8 +128,8 @@ qingzheng:addEffect(fk.EventPhaseStart, {
 
       local to_choice = room:askToChoice(player, {
         choices = to_suit_choices,
-        skill_name = xh__qingzheng.name,
-        prompt = "#qingzheng-suit",
+        skill_name = qingzheng.name,
+        prompt = "#xh__qingzheng-suit",
         detailed = false,
       })
 
@@ -146,7 +146,7 @@ qingzheng:addEffect(fk.EventPhaseStart, {
         return Fk:getCardById(id).suit == to_chosen_suit
       end)
 
-      room:throwCard(to_discard, xh__qingzheng.name, to, player)
+      room:throwCard(to_discard, qingzheng.name, to, player)
 
       -- 比较弃置数量
       if #my_discard > #to_discard and not to.dead then
@@ -154,7 +154,7 @@ qingzheng:addEffect(fk.EventPhaseStart, {
           from = player,
           to = to,
           damage = 1,
-          skillName = xh__qingzheng.name,
+          skillName = qingzheng.name,
         }
       end
     end

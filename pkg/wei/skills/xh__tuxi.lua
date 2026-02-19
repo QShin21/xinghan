@@ -21,7 +21,7 @@ Fk:loadTranslationTable {
 tuxi:addEffect(fk.DrawNCards, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player and player:hasSkill(xh__tuxi.name) and data.num > 0 then
+    if target == player and player:hasSkill(tuxi.name) and data.num > 0 then
       local room = player.room
       return table.find(room:getOtherPlayers(player), function(p)
         return not p:isKongcheng()
@@ -47,8 +47,8 @@ tuxi:addEffect(fk.DrawNCards, {
 
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__tuxi.name,
-      prompt = "#tuxi-choose",
+      skill_name = tuxi.name,
+      prompt = "#xh__tuxi-choose",
       detailed = false,
     })
 
@@ -74,8 +74,8 @@ tuxi:addEffect(fk.DrawNCards, {
       min_num = num,
       max_num = num,
       targets = targets,
-      skill_name = xh__tuxi.name,
-      prompt = "#tuxi-target::" .. num,
+      skill_name = tuxi.name,
+      prompt = "#xh__tuxi-target::" .. num,
       cancelable = false,
     })
 
@@ -85,9 +85,9 @@ tuxi:addEffect(fk.DrawNCards, {
         local id = room:askToChooseCard(player, {
           target = p,
           flag = "h",
-          skill_name = xh__tuxi.name,
+          skill_name = tuxi.name,
         })
-        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__tuxi.name, nil, false, p.id)
+        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, tuxi.name, nil, false, p.id)
       end
     end
   end,

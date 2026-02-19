@@ -70,7 +70,7 @@ lifeng:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("nullification")
-    card.skillName = xh__lifeng.name
+    card.skillName = lifeng.name
     card:addSubcard(cards[1])
     return card
   end,

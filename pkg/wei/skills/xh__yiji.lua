@@ -24,19 +24,19 @@ Fk:loadTranslationTable {
 yiji:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yiji.name) and data.damage > 0
+    return target == player and player:hasSkill(yiji.name) and data.damage > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__yiji.name,
-      prompt = "#yiji-invoke",
+      skill_name = yiji.name,
+      prompt = "#xh__yiji-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
 
     -- 摸两张牌
-    player:drawCards(2, xh__yiji.name)
+    player:drawCards(2, yiji.name)
 
     -- 将至多两张手牌交给其他角色
     if player:isKongcheng() then return end
@@ -45,7 +45,7 @@ yiji:addEffect(fk.Damaged, {
       min_num = 0,
       max_num = 2,
       include_equip = false,
-      skill_name = xh__yiji.name,
+      skill_name = yiji.name,
       pattern = ".",
       prompt = "选择至多两张手牌交给其他角色",
       cancelable = true,
@@ -57,12 +57,12 @@ yiji:addEffect(fk.Damaged, {
         min_num = 1,
         max_num = 1,
         targets = targets,
-        skill_name = xh__yiji.name,
-        prompt = "#yiji-give",
+        skill_name = yiji.name,
+        prompt = "#xh__yiji-give",
         cancelable = false,
       })[1]
 
-      room:moveCardTo(cards, Player.Hand, to, fk.ReasonGive, xh__yiji.name, nil, false, player.id)
+      room:moveCardTo(cards, Player.Hand, to, fk.ReasonGive, yiji.name, nil, false, player.id)
     end
   end,
 })
@@ -71,20 +71,20 @@ yiji:addEffect(fk.Damaged, {
 yiji:addEffect(fk.EnterDying, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yiji.name) and
-      player:usedEffectTimes(xh__yiji.name .. "_dying", Player.HistoryRound) == 0
+    return target == player and player:hasSkill(yiji.name) and
+      player:usedEffectTimes(yiji.name .. "_dying", Player.HistoryRound) == 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__yiji.name,
-      prompt = "#yiji-dying",
+      skill_name = yiji.name,
+      prompt = "#xh__yiji-dying",
     })
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
 
     -- 摸一张牌
-    player:drawCards(1, xh__yiji.name)
+    player:drawCards(1, yiji.name)
 
     -- 将一张手牌交给其他角色
     if player:isKongcheng() then return end
@@ -93,7 +93,7 @@ yiji:addEffect(fk.EnterDying, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__yiji.name,
+      skill_name = yiji.name,
       pattern = ".",
       prompt = "选择一张手牌交给其他角色",
       cancelable = true,
@@ -105,12 +105,12 @@ yiji:addEffect(fk.EnterDying, {
         min_num = 1,
         max_num = 1,
         targets = targets,
-        skill_name = xh__yiji.name,
-        prompt = "#yiji-give",
+        skill_name = yiji.name,
+        prompt = "#xh__yiji-give",
         cancelable = false,
       })[1]
 
-      room:moveCardTo(card, Player.Hand, to, fk.ReasonGive, xh__yiji.name, nil, false, player.id)
+      room:moveCardTo(card, Player.Hand, to, fk.ReasonGive, yiji.name, nil, false, player.id)
     end
   end,
 })

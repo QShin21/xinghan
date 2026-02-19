@@ -23,8 +23,8 @@ Fk:loadTranslationTable {
 wanggui:addEffect(fk.Damage, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__wanggui.name) and
-      player:usedEffectTimes(xh__wanggui.name .. "_damage", Player.HistoryTurn) == 0
+    return target == player and player:hasSkill(wanggui.name) and
+      player:usedEffectTimes(wanggui.name .. "_damage", Player.HistoryTurn) == 0
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -39,8 +39,8 @@ wanggui:addEffect(fk.Damage, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__wanggui.name,
-      prompt = "#wanggui-damage",
+      skill_name = wanggui.name,
+      prompt = "#xh__wanggui-damage",
       cancelable = true,
     })
 
@@ -57,7 +57,7 @@ wanggui:addEffect(fk.Damage, {
       from = player,
       to = to,
       damage = 1,
-      skillName = xh__wanggui.name,
+      skillName = wanggui.name,
     }
   end,
 })
@@ -66,7 +66,7 @@ wanggui:addEffect(fk.Damage, {
 wanggui:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__wanggui.name)
+    return target == player and player:hasSkill(wanggui.name)
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -81,8 +81,8 @@ wanggui:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__wanggui.name,
-      prompt = "#wanggui-draw",
+      skill_name = wanggui.name,
+      prompt = "#xh__wanggui-draw",
       cancelable = true,
     })
 
@@ -95,11 +95,11 @@ wanggui:addEffect(fk.Damaged, {
     local room = player.room
     local to = event:getCostData(self).tos[1]
 
-    to:drawCards(1, xh__wanggui.name)
+    to:drawCards(1, wanggui.name)
 
     -- 若该角色不是你，你也摸一张牌
     if to ~= player and not player.dead then
-      player:drawCards(1, xh__wanggui.name)
+      player:drawCards(1, wanggui.name)
     end
   end,
 })

@@ -18,19 +18,19 @@ Fk:loadTranslationTable {
 
 qice:addEffect("active", {
   mute = true,
-  prompt = "#qice-use",
+  prompt = "#xh__qice-use",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__qice.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(qice.name, Player.HistoryPhase) == 0 and
       not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__qice.name, "offensive")
-    player:broadcastSkillInvoke(xh__qice.name)
+    room:notifySkillInvoked(player, qice.name, "offensive")
+    player:broadcastSkillInvoke(qice.name)
 
     local handcards = player:getCardIds("h")
 
@@ -47,7 +47,7 @@ qice:addEffect("active", {
     -- 让玩家选择要使用的锦囊牌
     local choice = room:askToChoice(player, {
       choices = trick_names,
-      skill_name = xh__qice.name,
+      skill_name = qice.name,
       prompt = "选择要使用的普通锦囊牌",
       detailed = true,
     })
@@ -55,7 +55,7 @@ qice:addEffect("active", {
     if not choice then return end
 
     local card = Fk:cloneCard(choice)
-    card.skillName = xh__qice.name
+    card.skillName = qice.name
     for _, id in ipairs(handcards) do
       card:addSubcard(id)
     end

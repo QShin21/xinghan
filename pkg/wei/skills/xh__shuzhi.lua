@@ -21,7 +21,7 @@ Fk:loadTranslationTable {
 shuzhi:addEffect(fk.GameStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(xh__shuzhi.name)
+    return player:hasSkill(shuzhi.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -29,8 +29,8 @@ shuzhi:addEffect(fk.GameStart, {
 
     local choice = room:askToChoice(player, {
       choices = {"shuzhi_jianxiong", "shuzhi_qingzheng"},
-      skill_name = xh__shuzhi.name,
-      prompt = "#shuzhi-choice",
+      skill_name = shuzhi.name,
+      prompt = "#xh__shuzhi-choice",
       detailed = true,
     })
 
@@ -41,7 +41,7 @@ shuzhi:addEffect(fk.GameStart, {
     end
 
     -- 移除述志
-    room:handleAddLoseSkills(player, "-" .. xh__shuzhi.name, nil, false, true)
+    room:handleAddLoseSkills(player, "-" .. shuzhi.name, nil, false, true)
   end,
 })
 
