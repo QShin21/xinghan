@@ -6,7 +6,7 @@ Fk:loadTranslationTable{
   ["xh__wangxi"] = "忘隙",
   [":xh__wangxi"] = "当你对其他角色造成1点伤害后，或当你受到其他角色造成的1点伤害后，你可以摸两张牌，然后将其中一张牌交给该角色。",
 
-  ["#xh__wangxi-invoke"] = "忘隙：是否对 %dest 发动"忘隙"，摸两张牌并将其中一张牌交给其",
+  ["#xh__wangxi-invoke"] = "忘隙：是否对 %dest 发动“忘隙”，摸两张牌并将其中一张牌交给其",
   ["#xh__wangxi-give"] = "忘隙：将其中一张牌交给 %dest",
 
   ["$xh__wangxi1"] = "以德报怨，怨消恨解。",
