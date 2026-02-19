@@ -1,16 +1,16 @@
 local wangxi = fk.CreateSkill {
-  name = "xh__wangxi",
+  name = "ol_ex__wangxi",
 }
 
 Fk:loadTranslationTable{
-  ["xh__wangxi"] = "忘隙",
-  [":xh__wangxi"] = "当你对其他角色造成1点伤害后，或当你受到其他角色造成的1点伤害后，你可以摸两张牌，然后将其中一张牌交给该角色。",
+  ["ol_ex__wangxi"] = "忘隙",
+  [":ol_ex__wangxi"] = "当你对其他角色造成1点伤害后，或当你受到其他角色造成的1点伤害后，你可以摸两张牌，然后将其中一张牌交给该角色。",
 
-  ["#xh__wangxi-invoke"] = "忘隙：是否对 %dest 发动“忘隙”，摸两张牌并将其中一张牌交给其",
-  ["#xh__wangxi-give"] = "忘隙：将其中一张牌交给 %dest",
+  ["#ol_ex__wangxi-invoke"] = "忘隙：是否对 %dest 发动“忘隙”，摸两张牌并将其中一张牌交给其",
+  ["#ol_ex__wangxi-give"] = "忘隙：将其中一张牌交给 %dest",
 
-  ["$xh__wangxi1"] = "以德报怨，怨消恨解。",
-  ["$xh__wangxi2"] = "冤冤相报，何时能了。",
+  ["$ol_ex__wangxi1"] = "以德报怨，怨消恨解。",
+  ["$ol_ex__wangxi2"] = "冤冤相报，何时能了。",
 }
 
 wangxi:addEffect(fk.Damage, {
@@ -26,7 +26,7 @@ wangxi:addEffect(fk.Damage, {
     local room = player.room
     if room:askToSkillInvoke(player, {
       skill_name = wangxi.name,
-      prompt = "#xh__wangxi-invoke::"..data.to.id,
+      prompt = "#ol_ex__wangxi-invoke::"..data.to.id,
     }) then
       event:setCostData(self, {tos = {data.to}})
       return true
@@ -45,7 +45,7 @@ wangxi:addEffect(fk.Damage, {
       include_equip = true,
       skill_name = wangxi.name,
       pattern = tostring(Exppattern{ id = cards }),
-      prompt = "#xh__wangxi-give::"..data.to.id,
+      prompt = "#ol_ex__wangxi-give::"..data.to.id,
       cancelable = false,
     })
     if #card > 0 then
@@ -67,7 +67,7 @@ wangxi:addEffect(fk.Damaged, {
     local room = player.room
     if room:askToSkillInvoke(player, {
       skill_name = wangxi.name,
-      prompt = "#xh__wangxi-invoke::"..data.from.id,
+      prompt = "#ol_ex__wangxi-invoke::"..data.from.id,
     }) then
       event:setCostData(self, {tos = {data.from}})
       return true
@@ -86,7 +86,7 @@ wangxi:addEffect(fk.Damaged, {
       include_equip = true,
       skill_name = wangxi.name,
       pattern = tostring(Exppattern{ id = cards }),
-      prompt = "#xh__wangxi-give::"..data.from.id,
+      prompt = "#ol_ex__wangxi-give::"..data.from.id,
       cancelable = false,
     })
     if #card > 0 then
