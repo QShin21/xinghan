@@ -35,7 +35,6 @@ tiandu:addEffect(fk.EventPhaseStart, {
       (player:getSwitchSkillState(tiandu.name, false) == fk.SwitchYin or player:getHandcardNum() > 1)
   end,
   on_cost = function(self, event, target, player, data)
-    ---@type string
     local skillName = tiandu.name
     if player:getSwitchSkillState(skillName, false) == fk.SwitchYang then
       local cards = player.room:askToDiscard(
@@ -61,7 +60,6 @@ tiandu:addEffect(fk.EventPhaseStart, {
     end
   end,
   on_use = function(self, event, target, player, data)
-    ---@type string
     local skillName = tiandu.name
     local room = player.room
     local cards = event:getCostData(self)
