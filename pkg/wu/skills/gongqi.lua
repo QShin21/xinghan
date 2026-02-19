@@ -106,10 +106,10 @@ gongqi:addEffect("targetmod", {
 -- 回合结束清除标记
 gongqi:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@gongqi_suit") ~= 0 or player:getMark("@@gongqi_infinite") ~= 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@gongqi_suit", 0)
     room:setPlayerMark(player, "@@gongqi_infinite", 0)

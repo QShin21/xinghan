@@ -115,10 +115,10 @@ yijue:addEffect(fk.DamageCaused, {
 
 -- 回合结束清除标记
 yijue:addEffect(fk.TurnEnd, {
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@yijue_black") ~= 0 or player:getMark("@@yijue_damage") ~= 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@yijue_black", 0)
     room:setPlayerMark(player, "@@yijue_damage", 0)

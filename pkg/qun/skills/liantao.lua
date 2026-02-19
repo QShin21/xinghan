@@ -18,7 +18,7 @@ Fk:loadTranslationTable {
   ["liantao_choice1"] = "交给对方一张牌，对方本回合对你使用杀无次数限制",
   ["liantao_choice2"] = "令对方本回合对你使用杀无距离和次数限制",
   ["@@liantao_no_slash"] = "连讨禁止杀",
-  ["@@liantao_hand_limit"] = "连讨手牌上限",
+  ["@@liantao_target"] = "连讨目标",
 
   ["$liantao1"] = "连讨之威，势不可挡！",
   ["$liantao2"] = "孙策连讨，天下无双！",
@@ -73,22 +73,27 @@ liantao:addEffect(fk.EventPhaseStart, {
         })
         room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, liantao.name, nil, false, to.id)
       end
-      room:addPlayerMark(player, "@@liantao_hand_limit", 1)
-    else
-      room:addPlayerMark(player, "@@liantao_no_slash", 1)
     end
+    
+    room:setPlayerMark(player, "@@liantao_target", to.id)
   end,
 })
 
--- 手牌上限+1
-liantao:addEffect(fk.MaxCards, {
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    return target == player and player:getMark("@@liantao_hand_limit") > 0
+-- 无距离限制
+liantao:addEffect("targetmod", {
+  distance_limit_func = function(self, player, skill, card, to)
+    local target_id = player:getMark("@@liantao_target")
+    if target_id and target_id ~= 0 and skill.trueName == "slash_skill" then
+      return true
+    end
+    return false
   end,
-  on_cost = Util.TrueFunc,
-  on_use = function(self, event, target, player, data)
-    data.value = data.value + 1
+  residue_func = function(self, player, skill, scope, card)
+    local target_id = player:getMark("@@liantao_target")
+    if target_id and target_id ~= 0 and skill.trueName == "slash_skill" then
+      return 999
+    end
+    return 0
   end,
 })
 
@@ -96,13 +101,11 @@ liantao:addEffect(fk.MaxCards, {
 liantao:addEffect(fk.TurnEnd, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return player:getMark("@@liantao_no_slash") > 0 or player:getMark("@@liantao_hand_limit") > 0
+    return player:getMark("@@liantao_target") ~= 0
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    local room = player.room
-    room:setPlayerMark(player, "@@liantao_no_slash", 0)
-    room:setPlayerMark(player, "@@liantao_hand_limit", 0)
+    player.room:setPlayerMark(player, "@@liantao_target", 0)
   end,
 })
 

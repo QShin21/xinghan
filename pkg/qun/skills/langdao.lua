@@ -104,10 +104,10 @@ langdao:addEffect(fk.CardEffecting, {
 -- 回合结束清除标记
 langdao:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@langdao_damage_used") > 0 or player:getMark("@@langdao_unrespondable_used") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@langdao_damage_used", 0)
     room:setPlayerMark(player, "@@langdao_unrespondable_used", 0)

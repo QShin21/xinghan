@@ -99,10 +99,10 @@ tieji:addEffect(fk.CardEffecting, {
 -- 回合结束清除标记
 tieji:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@tieji_disable") > 0 or player:getMark("@@tieji_suit") ~= 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@tieji_disable", 0)
     room:setPlayerMark(player, "@@tieji_suit", 0)

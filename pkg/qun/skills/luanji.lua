@@ -77,10 +77,10 @@ luanji:addEffect(fk.CardResponded, {
 
 -- 回合结束清除标记
 luanji:addEffect(fk.TurnEnd, {
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@luanji_card") ~= 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@luanji_card", 0)
   end,
 })

@@ -18,24 +18,6 @@ Fk:loadTranslationTable {
   ["$zongshi2"] = "汉室宗亲，名正言顺！",
 }
 
--- 手牌上限+X
-zongshi:addEffect(fk.MaxCards, {
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(zongshi.name)
-  end,
-  on_cost = Util.TrueFunc,
-  on_use = function(self, event, target, player, data)
-    local room = player.room
-    local kingdoms = {}
-    for _, p in ipairs(room.alive_players) do
-      kingdoms[p.kingdom] = true
-    end
-    local x = table.size(kingdoms)
-    data.value = data.value + x
-  end,
-})
-
 -- 准备阶段检查
 zongshi:addEffect(fk.EventPhaseStart, {
   mute = true,

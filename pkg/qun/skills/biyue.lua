@@ -32,7 +32,7 @@ biyue:addEffect(fk.EventPhaseStart, {
     local room = player.room
 
     -- 检查本回合是否造成过伤害
-    local has_damage = player:hasFlag("biyue_damage")
+    local has_damage = player:getMark("@@biyue_damage") > 0
 
     if has_damage then
       -- 造成过伤害：摸一张牌
@@ -41,6 +41,9 @@ biyue:addEffect(fk.EventPhaseStart, {
       -- 未造成伤害：摸两张牌
       player:drawCards(2, biyue.name)
     end
+    
+    -- 清除标记
+    room:setPlayerMark(player, "@@biyue_damage", 0)
   end,
 })
 
@@ -52,17 +55,7 @@ biyue:addEffect(fk.Damage, {
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    player.room:setPlayerFlag(player, "biyue_damage")
-  end,
-})
-
--- 回合开始清除标记
-biyue:addEffect(fk.TurnStart, {
-  can_refresh = function(self, event, target, player, data)
-    return player:hasFlag("biyue_damage")
-  end,
-  on_refresh = function(self, event, target, player, data)
-    player.room:setPlayerFlag(player, "-biyue_damage")
+    player.room:addPlayerMark(player, "@@biyue_damage", 1)
   end,
 })
 

@@ -92,10 +92,10 @@ liyong:addEffect(fk.CardUsing, {
 -- 回合结束清除标记
 liyong:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@liyong_state") ~= 0 or player:getMark("@@liyong_used_suits") ~= 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@liyong_state", 0)
     room:setPlayerMark(player, "@@liyong_used_suits", 0)

@@ -115,10 +115,10 @@ liegong:addEffect(fk.DamageCaused, {
 -- 回合结束清除标记
 liegong:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@liegong_no_jink") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@liegong_no_jink", 0)
   end,
 })

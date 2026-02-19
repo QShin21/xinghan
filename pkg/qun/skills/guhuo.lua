@@ -97,10 +97,10 @@ guhuo:addEffect("active", {
 -- 回合结束清除标记
 guhuo:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@guhuo_used") ~= 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@guhuo_used", 0)
   end,
 })

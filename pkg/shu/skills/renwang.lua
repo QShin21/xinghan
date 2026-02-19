@@ -80,11 +80,11 @@ renwang:addEffect(fk.TargetConfirmed, {
 
 -- 阶段结束清除标记
 renwang:addEffect(fk.EventPhaseEnd, {
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@renwang_target_count") ~= 0 and
       player.phase == Player.Play
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@renwang_target_count", 0)
   end,
 })

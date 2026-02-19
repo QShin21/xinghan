@@ -20,10 +20,10 @@ Fk:loadTranslationTable {
 
 -- 记录本回合使用过的牌的颜色
 lifeng:addEffect(fk.CardUsing, {
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return true
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     local card = data.card
     if not card then return end
@@ -39,10 +39,10 @@ lifeng:addEffect(fk.CardUsing, {
 
 -- 回合开始时清除标记
 lifeng:addEffect(fk.TurnStart, {
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return true
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@lifeng_used_red", 0)
     room:setPlayerMark(player, "@@lifeng_used_black", 0)

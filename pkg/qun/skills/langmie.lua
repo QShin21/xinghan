@@ -147,10 +147,10 @@ langmie:addEffect(fk.Damage, {
 -- 回合结束清除标记
 langmie:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@langmie_card_types") ~= 0 or player:getMark("@@langmie_damage_count") ~= 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@langmie_card_types", 0)
     room:setPlayerMark(player, "@@langmie_damage_count", 0)

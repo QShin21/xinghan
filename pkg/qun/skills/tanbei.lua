@@ -111,7 +111,7 @@ tanbei:addEffect("targetmod", {
 -- 回合结束清除标记
 tanbei:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     for _, p in ipairs(player.room.alive_players) do
       if player:getMark("@@tanbei_forbid_" .. p.id) > 0 or
         player:getMark("@@tanbei_unlimit_" .. p.id) > 0 then
@@ -120,7 +120,7 @@ tanbei:addEffect(fk.TurnEnd, {
     end
     return false
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     for _, p in ipairs(room.alive_players) do
       room:setPlayerMark(player, "@@tanbei_forbid_" .. p.id, 0)

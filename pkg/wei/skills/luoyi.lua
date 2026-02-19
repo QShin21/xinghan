@@ -103,10 +103,10 @@ luoyi:addEffect(fk.DamageCaused, {
 
 -- 下回合开始时清除标记
 luoyi:addEffect(fk.TurnStart, {
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return target == player and player:getMark("@@luoyi_damage") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@luoyi_damage", 0)
   end,
 })

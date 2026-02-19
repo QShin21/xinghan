@@ -86,10 +86,10 @@ zhuhai:addEffect(fk.Damage, {
 -- 回合结束清除标记
 zhuhai:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@zhuhai_damage") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@zhuhai_damage", 0)
   end,
 })

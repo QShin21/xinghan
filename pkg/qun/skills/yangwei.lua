@@ -79,10 +79,10 @@ yangwei:addEffect("filter", {
 -- 回合结束清除标记
 yangwei:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@yangwei_active") > 0 or player:getMark("@@yangwei_disabled") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@yangwei_active", 0)
     

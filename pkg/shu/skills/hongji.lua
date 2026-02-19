@@ -135,10 +135,10 @@ hongji:addEffect(fk.EventPhaseEnd, {
 -- 轮次结束清除标记
 hongji:addEffect(fk.RoundEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@hongji_most_used") > 0 or player:getMark("@@hongji_least_used") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@hongji_most_used", 0)
     room:setPlayerMark(player, "@@hongji_least_used", 0)
