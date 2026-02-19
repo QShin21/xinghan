@@ -33,13 +33,15 @@ yuanhu:addEffect("active", {
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
     local card = Fk:getCardById(to_select)
-    return card.type == Card.TypeEquip and player:prohibitUse(card) == false
+    -- 检查是否是装备牌，且玩家拥有这张牌（在手牌或装备区）
+    return card.type == Card.TypeEquip and player:prohibitDiscard(to_select) == false
   end,
   target_filter = function(self, player, to_select, selected, selected_cards)
     if #selected > 0 then return false end
     if #selected_cards == 0 then return false end
     local card = Fk:getCardById(selected_cards[1])
-    return to_select ~= player and not to_select:hasEquip(card)
+    -- 检查目标不是自己，且目标的对应装备槽位为空
+    return to_select ~= player and not to_select:getEquipment(card.sub_type)
   end,
   on_use = function(self, room, effect)
     local player = effect.from
