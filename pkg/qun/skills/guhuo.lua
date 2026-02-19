@@ -18,28 +18,6 @@ Fk:loadTranslationTable {
   ["$guhuo2"] = "信我者生，疑我者死！",
 }
 
-guhuo:addEffect("viewas", {
-  mute = true,
-  pattern = "basic,trick",
-  card_filter = function(self, player, to_select, selected)
-    if #selected > 0 then return false end
-    return table.contains(player:getCardIds("h"), to_select)
-  end,
-  view_as = function(self, player, cards)
-    if #cards ~= 1 then return nil end
-    
-    -- 需要玩家选择要使用的牌
-    return nil
-  end,
-  enabled_at_play = function(self, player)
-    return player:getMark("@@guhuo_used") == 0 and not player:isKongcheng()
-  end,
-  enabled_at_response = function(self, player, response)
-    return player:getMark("@@guhuo_used") == 0 and not player:isKongcheng()
-  end,
-})
-
--- 使用active技能来处理
 guhuo:addEffect("active", {
   mute = true,
   prompt = "#guhuo-use",
@@ -67,10 +45,9 @@ guhuo:addEffect("active", {
     
     -- 让玩家选择要使用的牌名
     local card_names = {}
-    for name, _ in pairs(Fk.packages["standard_cards"].cards) do
-      local card = Fk.cards[name]
+    for _, card in pairs(Fk.cards) do
       if card and (card.type == Card.TypeBasic or card.type == Card.TypeTrick) then
-        table.insert(card_names, name)
+        table.insert(card_names, card.name)
       end
     end
     
@@ -100,6 +77,7 @@ guhuo:addEffect(fk.TurnEnd, {
   can_trigger = function(self, event, target, player, data)
     return player:getMark("@@guhuo_used") ~= 0
   end,
+  on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@guhuo_used", 0)
   end,

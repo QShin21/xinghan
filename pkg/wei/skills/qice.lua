@@ -16,32 +16,6 @@ Fk:loadTranslationTable {
   ["$qice2"] = "运筹帷幄，决胜千里！",
 }
 
-qice:addEffect("viewas", {
-  mute = true,
-  pattern = "trick",
-  card_filter = function(self, player, to_select, selected)
-    -- 必须选择所有手牌
-    local handcards = player:getCardIds("h")
-    if #handcards == 0 then return false end
-
-    if #selected >= #handcards then return false end
-
-    return table.contains(handcards, to_select)
-  end,
-  view_as = function(self, player, cards)
-    local handcards = player:getCardIds("h")
-    if #cards ~= #handcards or #cards == 0 then return nil end
-
-    -- 需要玩家选择要使用的锦囊牌
-    return nil  -- 这个技能需要特殊处理
-  end,
-  enabled_at_play = function(self, player)
-    return player:usedSkillTimes(qice.name, Player.HistoryPhase) == 0 and
-      not player:isKongcheng()
-  end,
-})
-
--- 使用active技能来处理
 qice:addEffect("active", {
   mute = true,
   prompt = "#qice-use",
@@ -62,10 +36,9 @@ qice:addEffect("active", {
 
     -- 获取所有普通锦囊牌名称
     local trick_names = {}
-    for name, _ in pairs(Fk.packages["standard_cards"].cards) do
-      local card = Fk.cards[name]
+    for _, card in pairs(Fk.cards) do
       if card and card.type == Card.TypeTrick and not card.is_derived then
-        table.insert(trick_names, name)
+        table.insert(trick_names, card.name)
       end
     end
 
