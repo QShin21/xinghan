@@ -12,48 +12,12 @@ Fk:loadTranslationTable {
 
 -- 孙坚，男，吴，4/5勾玉
 local sunjian = General:new(extension, "sunjian", "wu", 4, 5)
-sunjian:addSkills { "hulie", "yinghun" }
+sunjian:addSkills { "yinghun" }
 Fk:loadTranslationTable {
   ["sunjian"] = "孙坚",
   ["#sunjian"] = "江东猛虎",
   ["illustrator:sunjian"] = "KayaK",
   ["~sunjian"] = "有埋伏……呃……",
-}
-
--- 孙权，男，吴，4勾玉
-General:new(extension, "sunquan", "wu", 4):addSkills { "zhiheng" }
-Fk:loadTranslationTable {
-  ["sunquan"] = "孙权",
-  ["#sunquan"] = "年轻的贤君",
-  ["illustrator:sunquan"] = "KayaK",
-  ["~sunquan"] = "父亲，大哥，仲谋愧矣……",
-}
-
--- 孙尚香，女，吴，3勾玉
-General:new(extension, "sunshangxiang", "wu", 3, 3, General.Female):addSkills { "jieyin" }
-Fk:loadTranslationTable {
-  ["sunshangxiang"] = "孙尚香",
-  ["#sunshangxiang"] = "弓腰姬",
-  ["illustrator:sunshangxiang"] = "KayaK",
-  ["~sunshangxiang"] = "不，还不可以……",
-}
-
--- 甘宁，男，吴，4勾玉
-General:new(extension, "ganning", "wu", 4):addSkills { "qixi" }
-Fk:loadTranslationTable {
-  ["ganning"] = "甘宁",
-  ["#ganning"] = "锦帆游侠",
-  ["illustrator:ganning"] = "KayaK",
-  ["~ganning"] = "别想……跑……",
-}
-
--- 吕蒙，男，吴，4勾玉
-General:new(extension, "lvmeng", "wu", 4):addSkills { "keji" }
-Fk:loadTranslationTable {
-  ["lvmeng"] = "吕蒙",
-  ["#lvmeng"] = "白衣渡江",
-  ["illustrator:lvmeng"] = "KayaK",
-  ["~lvmeng"] = "被看穿了吗……",
 }
 
 -- 黄盖，男，吴，4勾玉
@@ -65,6 +29,43 @@ Fk:loadTranslationTable {
   ["~huanggai"] = "再无……苦肉计了……",
 }
 
+-- 韩当，男，吴，4勾玉
+General:new(extension, "handang", "wu", 4):addSkills { "gongqi", "jiefan" }
+Fk:loadTranslationTable {
+  ["handang"] = "韩当",
+  ["#handang"] = "石城侯",
+  ["illustrator:handang"] = "KayaK",
+  ["~handang"] = "江东……",
+}
+
+-- 孙权，男，吴，4勾玉
+General:new(extension, "sunquan", "wu", 4):addSkills { "zhiheng" }
+Fk:loadTranslationTable {
+  ["sunquan"] = "孙权",
+  ["#sunquan"] = "年轻的贤君",
+  ["illustrator:sunquan"] = "KayaK",
+  ["~sunquan"] = "父亲，大哥，仲谋愧矣……",
+}
+
+-- 孙坚(新)，男，吴，4/5勾玉
+local sunjian_new = General:new(extension, "sunjian_new", "wu", 4, 5)
+sunjian_new:addSkills { "hulie" }
+Fk:loadTranslationTable {
+  ["sunjian_new"] = "孙坚",
+  ["#sunjian_new"] = "江东猛虎",
+  ["illustrator:sunjian_new"] = "KayaK",
+  ["~sunjian_new"] = "有埋伏……呃……",
+}
+
+-- 孙策(吴)，男，吴，4勾玉
+General:new(extension, "sunce", "wu", 4):addSkills { "jiang", "hunzi" }
+Fk:loadTranslationTable {
+  ["sunce"] = "孙策",
+  ["#sunce"] = "江东小霸王",
+  ["illustrator:sunce"] = "KayaK",
+  ["~sunce"] = "内事不决问张昭，外事不决问周瑜……",
+}
+
 -- 周瑜，男，吴，3勾玉
 General:new(extension, "zhouyu", "wu", 3):addSkills { "yingzi", "fanjian" }
 Fk:loadTranslationTable {
@@ -74,33 +75,6 @@ Fk:loadTranslationTable {
   ["~zhouyu"] = "既生瑜，何生亮……",
 }
 
--- 大乔，女，吴，3勾玉
-General:new(extension, "daqiao", "wu", 3, 3, General.Female):addSkills { "guose", "liuli" }
-Fk:loadTranslationTable {
-  ["daqiao"] = "大乔",
-  ["#daqiao"] = "矜持之花",
-  ["illustrator:daqiao"] = "KayaK",
-  ["~daqiao"] = "伯符……",
-}
-
--- 陆逊，男，吴，3勾玉
-General:new(extension, "luxun", "wu", 3):addSkills { "qianxun", "lianying" }
-Fk:loadTranslationTable {
-  ["luxun"] = "陆逊",
-  ["#luxun"] = "儒生雄才",
-  ["illustrator:luxun"] = "KayaK",
-  ["~luxun"] = "还是……太年轻了……",
-}
-
--- 孙策，男，吴，4勾玉
-General:new(extension, "sunce", "wu", 4):addSkills { "jiang", "hunzi" }
-Fk:loadTranslationTable {
-  ["sunce"] = "孙策",
-  ["#sunce"] = "江东小霸王",
-  ["illustrator:sunce"] = "KayaK",
-  ["~sunce"] = "内事不决问张昭，外事不决问周瑜……",
-}
-
 -- 庞统，男，吴，3勾玉
 General:new(extension, "pangtong", "wu", 3):addSkills { "guolun", "zhanji" }
 Fk:loadTranslationTable {
@@ -108,15 +82,6 @@ Fk:loadTranslationTable {
   ["#pangtong"] = "凤雏",
   ["illustrator:pangtong"] = "KayaK",
   ["~pangtong"] = "落凤坡……",
-}
-
--- 韩当，男，吴，4勾玉
-General:new(extension, "handang", "wu", 4):addSkills { "gongqi", "jiefan" }
-Fk:loadTranslationTable {
-  ["handang"] = "韩当",
-  ["#handang"] = "石城侯",
-  ["illustrator:handang"] = "KayaK",
-  ["~handang"] = "江东……",
 }
 
 return extension
