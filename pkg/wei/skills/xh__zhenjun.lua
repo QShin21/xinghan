@@ -1,122 +1,104 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 于禁 - 镇军技能
--- 准备阶段或结束阶段，你可以弃置一名角色的X张牌（X为其手牌数减体力值且至少为1），
--- 若其以此法被弃置的牌中没有装备牌，你选择一项：1. 弃置一张牌；2. 令其摸等量的牌。
-
 local zhenjun = fk.CreateSkill {
   name = "xh__zhenjun",
 }
 
-Fk:loadTranslationTable {
+Fk:loadTranslationTable{
   ["xh__zhenjun"] = "镇军",
-  [":xh__zhenjun"] = "准备阶段或结束阶段，你可以弃置一名角色的X张牌（X为其手牌数减体力值且至少为1），"..
-    "若其以此法被弃置的牌中没有装备牌，你选择一项：1. 弃置一张牌；2. 令其摸等量的牌。",
+  [":xh__zhenjun"] = "准备阶段或结束阶段，你可以弃置一名角色X张牌（X为其手牌数减体力值且至少为1），若其中没有装备牌，你选择一项："..
+  "1.弃置一张牌；2.该角色摸等量的牌。",
 
-  ["#xh__zhenjun-choose"] = "镇军：选择一名角色弃置其X张牌",
-  ["#xh__zhenjun-discard"] = "镇军：选择要弃置的牌",
-  ["#xh__zhenjun-choice"] = "镇军：被弃置的牌中没有装备牌，请选择一项",
-  ["zhenjun_choice1"] = "弃置一张牌",
-  ["zhenjun_choice2"] = "令其摸等量的牌",
+  ["#xh__zhenjun-choose"] = "镇军：选择一名角色，弃置其手牌数减体力值张牌（至少一张）",
+  ["#xh__zhenjun-card"] = "镇军：弃置 %dest %arg张牌，若没有装备牌，你须弃牌或令其摸牌",
+  ["#xh__zhenjun-discard"] = "镇军：弃置一张牌，或点“取消” %dest 摸%arg张牌",
 
-  ["$xh__zhenjun1"] = "镇守边疆，保境安民！",
-  ["$xh__zhenjun2"] = "军令如山，违者必究！",
+  ["$xh__zhenjun1"] = "奉令无犯，当敌制决！",
+  ["$xh__zhenjun2"] = "质中性一，守执节义，自当无坚不陷。",
 }
 
 zhenjun:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(zhenjun.name) then return false end
-    if player.phase ~= Player.Start and player.phase ~= Player.Finish then return false end
-
-    local room = player.room
-    return table.find(room:getOtherPlayers(player), function(p)
-      local x = p:getHandcardNum() - p.hp
-      return x >= 1 and not p:isNude()
-    end)
+    return target == player and player:hasSkill(zhenjun.name) and
+      (player.phase == Player.Start or player.phase == Player.Finish) and
+      table.find(player.room.alive_players, function(p)
+        return not p:isNude()
+      end)
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
-
-    -- 筛选可用的目标
-    local targets = table.filter(room:getOtherPlayers(player), function(p)
-      local x = p:getHandcardNum() - p.hp
-      return x >= 1 and not p:isNude()
+    local targets = table.filter(room.alive_players, function(p)
+      return not p:isNude()
     end)
-
-    local to = room:askToChoosePlayers(player, {
-      min_num = 1,
-      max_num = 1,
-      targets = targets,
-      skill_name = zhenjun.name,
-      prompt = "#xh__zhenjun-choose",
-      cancelable = true,
-    })
-
-    if #to > 0 then
-      event:setCostData(self, {tos = to})
-      return true
+    if table.contains(targets, player) and
+      not table.find(player:getCardIds("he"), function (id)
+        return not player:prohibitDiscard(id)
+      end) then
+      table.removeOne(targets, player)
+    end
+    if #targets == 0 then
+      room:askToCards(player, {
+        min_num = 1,
+        max_num = 1,
+        include_equip = false,
+        skill_name = zhenjun.name,
+        pattern = "false",
+        prompt = "#xh__zhenjun-choose",
+        cancelable = true,
+      })
+    else
+      local to = room:askToChoosePlayers(player, {
+        min_num = 1,
+        max_num = 1,
+        targets = targets,
+        skill_name = zhenjun.name,
+        prompt = "#xh__zhenjun-choose",
+        cancelable = true,
+      })
+      if #to > 0 then
+        event:setCostData(self, {tos = to})
+        return true
+      end
     end
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
     local to = event:getCostData(self).tos[1]
-
-    -- 计算X
-    local x = to:getHandcardNum() - to.hp
-    if x < 1 then x = 1 end
-
-    -- 选择要弃置的牌
-    local cards = room:askToCards(player, {
-      min_num = x,
-      max_num = x,
-      include_equip = true,
-      skill_name = zhenjun.name,
-      pattern = tostring(Exppattern{ id = to:getCardIds("he") }),
-      prompt = "#xh__zhenjun-discard",
-      cancelable = false,
-      expand_pile = to:getCardIds("j"),
-    })
-
-    -- 检查是否有装备牌
-    local has_equip = table.find(cards, function(id)
-      return Fk:getCardById(id).type == Card.TypeEquip
-    end)
-
-    -- 弃置牌
-    room:throwCard(cards, zhenjun.name, to, player)
-
-    -- 若没有装备牌，选择一项
-    if not has_equip and not player.dead then
-      local choices = {"zhenjun_choice1", "zhenjun_choice2"}
-
-      if player:isNude() then
-        table.removeOne(choices, "zhenjun_choice1")
-      end
-
-      local choice = room:askToChoice(player, {
-        choices = choices,
+    local num = math.min(math.max(1, to:getHandcardNum() - to.hp), #to:getCardIds("he"))
+    local cards
+    if to == player then
+      cards = room:askToDiscard(player, {
+        min_num = 1,
+        max_num = 1,
+        include_equip = true,
         skill_name = zhenjun.name,
-        prompt = "#xh__zhenjun-choice",
-        detailed = false,
+        cancelable = false,
+        prompt = "#xh__zhenjun-card::"..to.id..":"..num,
+        skip = true,
       })
-
-      if choice == "zhenjun_choice1" then
-        -- 弃置一张牌
-        local card = room:askToCards(player, {
-          min_num = 1,
-          max_num = 1,
-          include_equip = true,
-          skill_name = zhenjun.name,
-          pattern = ".",
-          cancelable = false,
-        })
-        room:throwCard(card, zhenjun.name, player, player)
-      else
-        -- 令其摸等量的牌
-        if not to.dead then
-          to:drawCards(#cards, zhenjun.name)
-        end
-      end
+    else
+      cards = room:askToChooseCards(player, {
+        target = to,
+        min = num,
+        max = num,
+        flag = "he",
+        skill_name = zhenjun.name,
+        prompt = "#xh__zhenjun-card::"..to.id..":"..num
+      })
+    end
+    num = #cards
+    room:throwCard(cards, zhenjun.name, to, player)
+    if player.dead or to.dead or table.find(cards, function(id)
+      return Fk:getCardById(id).type == Card.TypeEquip
+    end) then return end
+    if player:isNude() or
+      #room:askToDiscard(player, {
+        min_num = 1,
+        max_num = 1,
+        include_equip = true,
+        skill_name = zhenjun.name,
+        prompt = "#xh__zhenjun-discard::"..to.id..":"..num,
+      }) == 0 then
+      to:drawCards(num, zhenjun.name)
     end
   end,
 })
