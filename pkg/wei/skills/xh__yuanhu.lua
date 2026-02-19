@@ -15,8 +15,7 @@ Fk:loadTranslationTable{
 
   ['xh__yuanhu_active'] = '援护',
   ['#xh__yuanhu-put'] = '援护：将一张装备牌置入一名角色的装备区',
-  ['#xh__yuanhu-throw'] = '援护：弃置 %dest 距离1的角色区域里的至多两张牌',
-  ['#xh__yuanhu-throw2'] = '援护：选择要弃置的牌（至多2张）',
+  ['#xh__yuanhu-throw'] = '援护：弃置 %dest 距离1的角色区域里的一张牌',
 
   ['$xh__yuanhu1'] = '若无趁手兵器，不妨试试我这把！',
   ['$xh__yuanhu2'] = '此乃良驹，愿助将军日行千里！',
@@ -72,16 +71,25 @@ yuanhu:addEffect("active", {
       })
       local to = tos[1]
       
-      local cards = room:askToCards(player, {
-        min_num = 1,
-        max_num = 2,
-        include_equip = true,
-        skill_name = yuanhu.name,
-        pattern = tostring(Exppattern{ id = to:getCardIds("hej") }),
-        prompt = "#xh__yuanhu-throw2",
-        cancelable = false,
-      })
-      room:throwCard(cards, yuanhu.name, to, player)
+      -- 弃置第一张牌
+      if not to:isAllNude() then
+        local card1 = room:askToChooseCard(player, {
+          target = to,
+          flag = "hej",
+          skill_name = yuanhu.name
+        })
+        room:throwCard(card1, yuanhu.name, to, player)
+      end
+      
+      -- 弃置第二张牌
+      if not to:isAllNude() then
+        local card2 = room:askToChooseCard(player, {
+          target = to,
+          flag = "hej",
+          skill_name = yuanhu.name
+        })
+        room:throwCard(card2, yuanhu.name, to, player)
+      end
 
     elseif card.sub_type == Card.SubtypeArmor then
       player:broadcastSkillInvoke(yuanhu.name, 3)
