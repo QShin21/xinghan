@@ -54,7 +54,7 @@ luanji:addEffect(fk.CardUsing, {
 })
 
 -- 其他角色打出闪响应时摸牌
-luanji:addEffect(fk.CardResponded, {
+luanji:addEffect(fk.CardResponding, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target == player then return false end
@@ -63,11 +63,8 @@ luanji:addEffect(fk.CardResponded, {
     local card = data.card
     if not card or card.trueName ~= "jink" then return false end
 
-    local response_to = data.responseTo
-    if not response_to then return false end
-
     local luanji_card = player:getMark("@@luanji_card")
-    return luanji_card ~= 0 and response_to.id == luanji_card
+    return luanji_card ~= 0
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -77,9 +74,11 @@ luanji:addEffect(fk.CardResponded, {
 
 -- 回合结束清除标记
 luanji:addEffect(fk.TurnEnd, {
+  mute = true,
   can_trigger = function(self, event, target, player, data)
     return player:getMark("@@luanji_card") ~= 0
   end,
+  on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@luanji_card", 0)
   end,
