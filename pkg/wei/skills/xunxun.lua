@@ -1,15 +1,15 @@
 Fk:loadTranslationTable{
-  ["xh__xunxun"] = "恂恂",
-  [":xh__xunxun"] = "摸牌阶段开始时，你可以观看牌堆顶的四张牌，将其中两张牌以任意顺序置于牌堆顶，其余以任意顺序置于牌堆底。",
+  ["xunxun"] = "恂恂",
+  [":xunxun"] = "摸牌阶段开始时，你可以观看牌堆顶的四张牌，将其中两张牌以任意顺序置于牌堆顶，其余以任意顺序置于牌堆底。",
 
-  ["#xh__xunxun"] = "恂恂：选择两张卡牌置于牌堆顶",
+  ["#xunxun"] = "恂恂：选择两张卡牌置于牌堆顶",
 
-  ["$xh__xunxun1"] = "众将死战，非我之功。",
-  ["$xh__xunxun2"] = "爱兵如子，胜乃可全。",
+  ["$xunxun1"] = "众将死战，非我之功。",
+  ["$xunxun2"] = "爱兵如子，胜乃可全。",
 }
 
 local xunxun = fk.CreateSkill{
-  name = "xh__xunxun",
+  name = "xunxun",
 }
 
 xunxun:addEffect(fk.EventPhaseStart, {
@@ -22,7 +22,7 @@ xunxun:addEffect(fk.EventPhaseStart, {
     local ret = room:askToArrangeCards(player, {
       skill_name = xunxun.name,
       card_map = {room:getNCards(4), "Bottom", "Top"},
-      prompt = "#xh__xunxun",
+      prompt = "#xunxun",
       free_arrange = true,
       max_limit = {4, 2},
       min_limit = {0, 2},
