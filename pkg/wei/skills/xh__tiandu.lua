@@ -1,5 +1,5 @@
 local mouTiandu = fk.CreateSkill({
-  name = "mou__tiandu",
+  name = "xh__tiandu",
   tags = { Skill.Switch },
 })
 
