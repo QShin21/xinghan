@@ -217,7 +217,6 @@ Fk:loadTranslationTable {
   ["~kongrong"] = "名士……",
 }
 
-return extension
 
 -- 华雄，男，群，4勾玉
 General:new(extension, "huaxiong", "qun", 4):addSkills { "yaowu", "yangwei" }
@@ -525,3 +524,4 @@ Fk:loadTranslationTable {
   ["illustrator:liuzhang"] = "KayaK",
   ["~liuzhang"] = "益州……",
 }
+return extension
