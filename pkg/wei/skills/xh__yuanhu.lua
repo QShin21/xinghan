@@ -40,8 +40,8 @@ yuanhu:addEffect("active", {
     if #selected > 0 then return false end
     if #selected_cards == 0 then return false end
     local card = Fk:getCardById(selected_cards[1])
-    -- 检查目标不是自己，且目标的对应装备槽位为空
-    return to_select ~= player and not to_select:getEquipment(card.sub_type)
+    -- 检查目标的对应装备槽位为空
+    return not to_select:getEquipment(card.sub_type)
   end,
   on_use = function(self, room, effect)
     local player = effect.from
