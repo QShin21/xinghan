@@ -1,4 +1,4 @@
-local tiandu = fk.CreateSkill({
+local xhTiandu = fk.CreateSkill({
   name = "xh__tiandu",
   tags = { Skill.Switch },
 })
@@ -24,18 +24,19 @@ Fk:loadTranslationTable{
 
 local U = require "packages.utility.utility"
 
-tiandu:addEffect(fk.EventPhaseStart, {
+xhTiandu:addEffect(fk.EventPhaseStart, {
   anim_type = "switch",
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return
-      player:hasSkill(tiandu.name) and
+      player:hasSkill(xhTiandu.name) and
       player == target and
       player.phase == Player.Play and
-      (player:getSwitchSkillState(tiandu.name, false) == fk.SwitchYin or player:getHandcardNum() > 1)
+      (player:getSwitchSkillState(xhTiandu.name, false) == fk.SwitchYin or player:getHandcardNum() > 1)
   end,
   on_cost = function(self, event, target, player, data)
-    local skillName = tiandu.name
+    ---@type string
+    local skillName = xhTiandu.name
     if player:getSwitchSkillState(skillName, false) == fk.SwitchYang then
       local cards = player.room:askToDiscard(
         player,
@@ -60,7 +61,8 @@ tiandu:addEffect(fk.EventPhaseStart, {
     end
   end,
   on_use = function(self, event, target, player, data)
-    local skillName = tiandu.name
+    ---@type string
+    local skillName = xhTiandu.name
     local room = player.room
     local cards = event:getCostData(self)
     if #cards > 0 then
@@ -131,11 +133,11 @@ tiandu:addEffect(fk.EventPhaseStart, {
   end,
 })
 
-tiandu:addEffect(fk.FinishJudge, {
+xhTiandu:addEffect(fk.FinishJudge, {
   mute = true,
   is_delay_effect = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and data.reason == tiandu.name and player.room:getCardArea(data.card.id) == Card.Processing
+    return target == player and data.reason == xhTiandu.name and player.room:getCardArea(data.card.id) == Card.Processing
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -143,8 +145,8 @@ tiandu:addEffect(fk.FinishJudge, {
   end,
 })
 
-tiandu:addLoseEffect(function (self, player)
+xhTiandu:addLoseEffect(function (self, player)
   player.room:setPlayerMark(player, "@[suits]xh__tiandu", 0)
 end)
 
-return tiandu
+return xhTiandu
