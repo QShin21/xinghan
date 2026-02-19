@@ -119,7 +119,7 @@ Fk:loadTranslationTable {
 }
 
 -- 曹昂，男，魏，4勾玉
-General:new(extension, "xh__caoang", "wei", 4):addSkills { "xh__kangkai" }
+General:new(extension, "xh__caoang", "wei", 4):addSkills { "kangkai" }
 Fk:loadTranslationTable {
   ["xh__caoang"] = "曹昂",
   ["#xh__caoang"] = "丰愍王",
