@@ -1,150 +1,152 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 郭嘉 - 天妒技能
--- 转换技，出牌阶段开始时，你可以：
--- 阳：弃置两张手牌，然后视为使用任意一张普通锦囊牌；
--- 阴：进行判定并获得此判定牌，然后若你因发动此技能而弃置过与结果花色相同的牌，你受到1点无来源伤害。
-
-local tiandu = fk.CreateSkill {
+local tiandu = fk.CreateSkill({
   name = "xh__tiandu",
-}
-
-Fk:loadTranslationTable {
-  ["xh__tiandu"] = "天妒",
-  [":xh__tiandu"] = "转换技，出牌阶段开始时，你可以："..
-    "阳：弃置两张手牌，然后视为使用任意一张普通锦囊牌；"..
-    "阴：进行判定并获得此判定牌，然后若你因发动此技能而弃置过与结果花色相同的牌，你受到1点无来源伤害。",
-
-  ["#xh__tiandu-yang"] = "天妒（阳）：弃置两张手牌，视为使用一张普通锦囊牌",
-  ["#xh__tiandu-yin"] = "天妒（阴）：进行判定并获得此判定牌",
-  ["@@xh__tiandu-state"] = "天妒状态",
-
-  ["$xh__tiandu1"] = "天意如此，奈何？",
-  ["$xh__tiandu2"] = "得之我幸，失之我命。",
-}
-
--- 转换技状态
-tiandu:addEffect(fk.GameStart, {
-  can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(tiandu.name)
-  end,
-  on_use = function(self, event, target, player, data)
-    player.room:setPlayerMark(player, "@@tiandu-state", "yang")
-  end,
+  tags = { Skill.Switch },
 })
+
+Fk:loadTranslationTable{
+  ["xh__tiandu"] = "天妒",
+  [":xh__tiandu"] = "转换技，出牌阶段开始时，阳：你可以弃置两张手牌并记录这些牌的花色，然后可以视为使用任意普通锦囊牌；"..
+  "阴：你判定，若结果为你记录过的花色，你受到1点无来源伤害。当此次判定的结果确定后，你获得判定牌。",
+  [":xh__tiandu_yang"] = "转换技，出牌阶段开始时，"..
+  "<font color=\"#E0DB2F\">阳：你可以弃置两张手牌并记录这些牌的花色，然后可以视为使用任意普通锦囊牌；"..
+  "<font color=\"gray\">阴：你判定，若结果为你记录过的花色，你受到1点无来源伤害。当此次判定的结果确定后，你获得判定牌。</font>",
+  [":xh__tiandu_yin"] = "转换技，出牌阶段开始时，"..
+  "<font color=\"gray\">阳：你可以弃置两张手牌并记录这些牌的花色，然后可以视为使用任意普通锦囊牌；"..
+  "<font color=\"#E0DB2F\">阴：你判定，若结果为你记录过的花色，你受到1点无来源伤害。当此次判定的结果确定后，你获得判定牌。</font>",
+  ["#xh__tiandu_delay"] = "天妒",
+
+  ["#xh__tiandu-invoke"] = "是否使用 天妒，弃置两张手牌来视为使用普通锦囊",
+  ["@[suits]xh__tiandu"] = "天妒",
+
+  ["$xh__tiandu1"] = "顺应天命，即为大道所归。",
+  ["$xh__tiandu2"] = "计高于人，为天所妒。",
+}
+
+local U = require "packages.utility.utility"
 
 tiandu:addEffect(fk.EventPhaseStart, {
-  anim_type = "offensive",
+  anim_type = "switch",
+  mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(tiandu.name) and player.phase == Player.Play
+    return
+      player:hasSkill(tiandu.name) and
+      player == target and
+      player.phase == Player.Play and
+      (player:getSwitchSkillState(tiandu.name, false) == fk.SwitchYin or player:getHandcardNum() > 1)
   end,
   on_cost = function(self, event, target, player, data)
-    local room = player.room
-    local state = player:getMark("@@tiandu-state")
-
-    if state == "yang" then
-      -- 阳：需要两张手牌
-      if player:getHandcardNum() < 2 then return false end
-      return room:askToSkillInvoke(player, {
-        skill_name = tiandu.name,
-        prompt = "#xh__tiandu-yang",
-      })
+    ---@type string
+    local skillName = tiandu.name
+    if player:getSwitchSkillState(skillName, false) == fk.SwitchYang then
+      local cards = player.room:askToDiscard(
+        player,
+        {
+          min_num = 2,
+          max_num = 2,
+          include_equip = false,
+          skill_name = skillName,
+          cancelable = true,
+          pattern = ".",
+          prompt = "#xh__tiandu-invoke",
+          skip = true
+        }
+      )
+      if #cards > 0 then
+        event:setCostData(self, cards) 
+        return true
+      end
     else
-      -- 阴
-      return room:askToSkillInvoke(player, {
-        skill_name = tiandu.name,
-        prompt = "#xh__tiandu-yin",
-      })
+      event:setCostData(self, {})
+      return true
     end
   end,
   on_use = function(self, event, target, player, data)
+    ---@type string
+    local skillName = tiandu.name
     local room = player.room
-    local state = player:getMark("@@tiandu-state")
-
-    if state == "yang" then
-      -- 阳：弃置两张手牌，视为使用普通锦囊牌
-      local cards = room:askToCards(player, {
-        min_num = 2,
-        max_num = 2,
-        include_equip = false,
-        skill_name = tiandu.name,
-        pattern = ".",
-        cancelable = false,
-      })
-
-      -- 记录弃置牌的花色
-      local suits = {}
+    local cards = event:getCostData(self)
+    if #cards > 0 then
+      room:notifySkillInvoked(player, skillName)
+      player:broadcastSkillInvoke(skillName, 1)
+      local suits = player:getTableMark("@[suits]xh__tiandu")
+      local updata_mark = false
       for _, id in ipairs(cards) do
-        local card = Fk:getCardById(id)
-        table.insertIfNeed(suits, card.suit)
-      end
-      room:setPlayerMark(player, "@@tiandu_suits", suits)
-
-      room:throwCard(cards, tiandu.name, player, player)
-
-      -- 选择要使用的普通锦囊牌
-      local trick_names = {}
-      for name, _ in pairs(Fk.packages["standard_cards"].cards) do
-        local card = Fk.cards[name]
-        if card and card.type == Card.TypeTrick and not card.is_derived then
-          table.insert(trick_names, name)
+        local suit = Fk:getCardById(id).suit
+        if suit ~= Card.NoSuit and table.insertIfNeed(suits, suit) then
+          updata_mark = true
         end
       end
-
-      if #trick_names > 0 then
-        local choice = room:askToChoice(player, {
-          choices = trick_names,
-          skill_name = tiandu.name,
-          prompt = "选择要使用的普通锦囊牌",
-          detailed = true,
-        })
-
-        if choice then
-          local card = Fk:cloneCard(choice)
-          card.skillName = tiandu.name
-          room:useCard({
-            from = player.id,
-            cards = {},
-            card = card,
-          })
-        end
+      if updata_mark then
+        room:setPlayerMark(player, "@[suits]xh__tiandu", suits)
       end
-
-      -- 切换状态
-      room:setPlayerMark(player, "@@tiandu-state", "yin")
+      room:throwCard(cards, skillName, player, player)
+      if player.dead then return false end
+      local cardMap = player:getMark("xh__tiandu_cardmap")
+      if type(cardMap) ~= "table" then
+        cardMap = {}
+        local tricks = U.getUniversalCards(room, "t")
+        for _, id in ipairs(tricks) do
+          cardMap[Fk:getCardById(id).name] = id
+        end
+        room:setPlayerMark(player, "xh__tiandu_cardmap", cardMap)
+      end
+      local _, dat = room:askToUseActiveSkill(
+        player,
+        {
+          skill_name = "xh__tiandu_view_as",
+          prompt = "#xh__tiandu-viewas",
+          cancelable = true,
+          extra_data = { card_map = cardMap }
+        }
+      )
+      if dat then
+        local card = Fk:cloneCard(dat.interaction)
+        card.skillName = skillName
+        room:useCard{
+          card = card,
+          from = player,
+          tos = dat.targets,
+          extraUse = true,
+        }
+      end
     else
-      -- 阴：进行判定并获得此判定牌
+      room:notifySkillInvoked(player, skillName)
+      player:broadcastSkillInvoke(skillName, 2)
+      local suits = player:getTableMark("@[suits]xh__tiandu")
+      local judge_pattern = table.concat(table.map(suits, function (suit)
+        return U.ConvertSuit(suit, "int", "str")
+      end), ",")
       local judge = {
         who = player,
-        reason = tiandu.name,
-        pattern = ".",
+        reason = skillName,
+        pattern = ".|.|".. judge_pattern,
       }
       room:judge(judge)
-
-      -- 获得判定牌
-      if judge.card then
-        room:moveCardTo(judge.card.id, Player.Hand, player, fk.ReasonPrey, tiandu.name)
-
-        -- 检查是否弃置过相同花色的牌
-        local suits = player:getMark("@@tiandu_suits")
-        if suits and #suits > 0 then
-          local card = Fk:getCardById(judge.card.id)
-          if table.contains(suits, card.suit) then
-            room:damage{
-              to = player,
-              damage = 1,
-              skillName = tiandu.name,
-            }
-          end
-        end
+      if table.contains(suits, judge.card.suit) and not player.dead then
+        room:damage{
+          to = player,
+          damage = 1,
+          skillName = skillName,
+        }
       end
-
-      -- 清除花色记录
-      room:setPlayerMark(player, "@@tiandu_suits", nil)
-
-      -- 切换状态
-      room:setPlayerMark(player, "@@tiandu-state", "yang")
     end
   end,
 })
+
+tiandu:addEffect(fk.FinishJudge, {
+  mute = true,
+  is_delay_effect = true,
+  can_trigger = function(self, event, target, player, data)
+    return target == player and data.reason == tiandu.name and player.room:getCardArea(data.card.id) == Card.Processing
+  end,
+  on_cost = Util.TrueFunc,
+  on_use = function(self, event, target, player, data)
+    player.room:obtainCard(player.id, data.card, true)
+  end,
+})
+
+tiandu:addLoseEffect(function (self, player)
+  player.room:setPlayerMark(player, "@[suits]xh__tiandu", 0)
+end)
 
 return tiandu

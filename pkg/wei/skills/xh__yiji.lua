@@ -1,118 +1,76 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 郭嘉 - 遗计技能
--- 当你受到伤害后，你可以摸两张牌，然后可以将至多两张手牌交给其他角色。
--- 当你每轮首次进入濒死状态时，你可以摸一张牌，然后可以将一张手牌交给其他角色。
-
-local yiji = fk.CreateSkill {
+local yiji = fk.CreateSkill({
   name = "xh__yiji",
-}
-
-Fk:loadTranslationTable {
-  ["xh__yiji"] = "遗计",
-  [":xh__yiji"] = "当你受到伤害后，你可以摸两张牌，然后可以将至多两张手牌交给其他角色。"..
-    "当你每轮首次进入濒死状态时，你可以摸一张牌，然后可以将一张手牌交给其他角色。",
-
-  ["#xh__yiji-invoke"] = "遗计：你可以摸两张牌，然后将至多两张手牌交给其他角色",
-  ["#xh__yiji-give"] = "遗计：选择要交给 %dest 的牌",
-  ["#xh__yiji-dying"] = "遗计：濒死时，你可以摸一张牌，然后将一张手牌交给其他角色",
-
-  ["$xh__yiji1"] = "就这样吧。",
-  ["$xh__yiji2"] = "也好。",
-}
-
--- 受伤后摸牌给牌
-yiji:addEffect(fk.Damaged, {
-  anim_type = "support",
-  can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(yiji.name) and data.damage > 0
-  end,
-  on_cost = function(self, event, target, player, data)
-    return player.room:askToSkillInvoke(player, {
-      skill_name = yiji.name,
-      prompt = "#xh__yiji-invoke",
-    })
-  end,
-  on_use = function(self, event, target, player, data)
-    local room = player.room
-
-    -- 摸两张牌
-    player:drawCards(2, yiji.name)
-
-    -- 将至多两张手牌交给其他角色
-    if player:isKongcheng() then return end
-
-    local cards = room:askToCards(player, {
-      min_num = 0,
-      max_num = 2,
-      include_equip = false,
-      skill_name = yiji.name,
-      pattern = ".",
-      prompt = "选择至多两张手牌交给其他角色",
-      cancelable = true,
-    })
-
-    if #cards > 0 then
-      local targets = room:getOtherPlayers(player, false)
-      local to = room:askToChoosePlayers(player, {
-        min_num = 1,
-        max_num = 1,
-        targets = targets,
-        skill_name = yiji.name,
-        prompt = "#xh__yiji-give",
-        cancelable = false,
-      })[1]
-
-      room:moveCardTo(cards, Player.Hand, to, fk.ReasonGive, yiji.name, nil, false, player.id)
+  dynamic_desc = function (self, player, lang)
+    if Fk:currentRoom():isGameMode("1v2_mode") then
+      return "xh__yiji_1v2"
+    elseif Fk:currentRoom():isGameMode("2v2_mode") then
+      return "xh__yiji_2v2"
     end
+    return "xh__yiji_role"
   end,
 })
 
--- 濒死时摸牌给牌
+Fk:loadTranslationTable{
+  ["xh__yiji"] = "遗计",
+  [":xh__yiji"] = "当你受到伤害后，你可以摸两张牌，然后你可将至多等量张手牌交给其他角色；当你每轮首次进入濒死状态时，你可以摸一张牌，然后你可将此牌交给一名其他角色。",
+  [":xh__yiji_role"] = "当你受到伤害后，你可以摸两张牌，然后你可将其中任意张牌交给其他角色；当你每轮首次进入濒死状态时，你可以摸一张牌，然后你可将此牌交给一名其他角色。",
+  [":xh__yiji_2v2"] = "当你受到伤害后，或当你每轮首次进入濒死状态时，你可以摸两张牌，然后你可将至多等量张手牌交给其他角色。",
+  [":xh__yiji_1v2"] = "当你受到伤害后，你可以摸两张牌，然后你可将至多等量张手牌交给其他角色；当你每轮首次进入濒死状态时，你可以摸一张牌，然后你可将此牌交给一名其他角色。",
+  ["$xh__yiji1"] = "身不能征伐，此计或可襄君太平！",
+  ["$xh__yiji2"] = "此身赴黄泉，望明公见计如晤。",
+}
+
+yiji:addEffect(fk.Damaged, {
+  anim_type = "masochism",
+  on_use = function(self, event, target, player, data)
+    local skillName = yiji.name
+    local room = player.room
+    local toGive = player:drawCards(2, skillName)
+    if room:isGameMode("role_mode") then
+      toGive = table.filter(toGive, function(id) return room:getCardArea(id) == Card.PlayerHand and room:getCardOwner(id) == player end)
+    else
+      toGive = player:getCardIds("h")
+    end
+    if player.dead or #toGive == 0 then return end
+    room:askToYiji(player, { cards = toGive, targets = room:getOtherPlayers(player, false), skill_name = skillName, min_num = 0, max_num = 2 })
+  end
+})
+
 yiji:addEffect(fk.EnterDying, {
-  anim_type = "support",
+  anim_type = "masochism",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(yiji.name) and
-      player:usedEffectTimes(yiji.name .. "_dying", Player.HistoryRound) == 0
-  end,
-  on_cost = function(self, event, target, player, data)
-    return player.room:askToSkillInvoke(player, {
-      skill_name = yiji.name,
-      prompt = "#xh__yiji-dying",
-    })
+    if not player:hasSkill(self) or target ~= player then return false end
+    local room = player.room
+    local logic = room.logic
+    local dying_event = logic:getCurrentEvent():findParent(GameEvent.Dying, true)
+    if dying_event == nil then return false end
+    local mark = player:getMark("xh__yiji-round")
+    if mark == 0 then
+      logic:getEventsOfScope(GameEvent.Dying, 1, function (e)
+        local last_dying = e.data
+        if last_dying.who == player then
+          mark = e.id
+          room:setPlayerMark(player, "xh__yiji-round", mark)
+          return true
+        end
+        return false
+      end, Player.HistoryRound)
+    end
+    return mark == dying_event.id
   end,
   on_use = function(self, event, target, player, data)
+    local skillName = yiji.name
     local room = player.room
-
-    -- 摸一张牌
-    player:drawCards(1, yiji.name)
-
-    -- 将一张手牌交给其他角色
-    if player:isKongcheng() then return end
-
-    local card = room:askToCards(player, {
-      min_num = 1,
-      max_num = 1,
-      include_equip = false,
-      skill_name = yiji.name,
-      pattern = ".",
-      prompt = "选择一张手牌交给其他角色",
-      cancelable = true,
-    })
-
-    if #card > 0 then
-      local targets = room:getOtherPlayers(player, false)
-      local to = room:askToChoosePlayers(player, {
-        min_num = 1,
-        max_num = 1,
-        targets = targets,
-        skill_name = yiji.name,
-        prompt = "#xh__yiji-give",
-        cancelable = false,
-      })[1]
-
-      room:moveCardTo(card, Player.Hand, to, fk.ReasonGive, yiji.name, nil, false, player.id)
+    local x = room:isGameMode("2v2_mode") and 2 or 1
+    local toGive = player:drawCards(x, skillName)
+    if not room:isGameMode("2v2_mode") then
+      toGive = table.filter(toGive, function(id) return room:getCardArea(id) == Card.PlayerHand and room:getCardOwner(id) == player end)
+    else
+      toGive = player:getCardIds("h")
     end
-  end,
+    if player.dead or #toGive == 0 then return end
+    room:askToYiji(player, { cards = toGive, targets = room:getOtherPlayers(player, false), skill_name = skillName, min_num = 0, max_num = x })
+  end
 })
 
 return yiji
