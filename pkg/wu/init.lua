@@ -48,13 +48,13 @@ Fk:loadTranslationTable {
 }
 
 -- 孙坚(新)，男，吴，4/5勾玉
-local sunjian_new = General:new(extension, "xh__sunjian_new", "wu", 4, 5)
+local sunjian_new = General:new(extension, "new__sunjian", "wu", 4, 5)
 sunjian_new:addSkills { "xh__hulie" }
 Fk:loadTranslationTable {
-  ["xh__sunjian_new"] = "孙坚",
-  ["#xh__sunjian_new"] = "江东猛虎",
-  ["illustrator:xh__sunjian_new"] = "KayaK",
-  ["~xh__sunjian_new"] = "有埋伏……呃……",
+  ["new__sunjian"] = "孙坚",
+  ["#new__sunjian"] = "江东猛虎",
+  ["illustrator:new__sunjian"] = "KayaK",
+  ["~new__sunjian"] = "有埋伏……呃……",
 }
 
 -- 孙策(吴)，男，吴，4勾玉

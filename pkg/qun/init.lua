@@ -490,12 +490,12 @@ Fk:loadTranslationTable {
 }
 
 -- 董卓(新)，男，群，4勾玉
-General:new(extension, "xh__dongzhuo_new", "qun", 4):addSkills { "xh__xiongni", "xh__fengshang" }
+General:new(extension, "new__dongzhuo", "qun", 4):addSkills { "xh__xiongni", "xh__fengshang" }
 Fk:loadTranslationTable {
-  ["xh__dongzhuo_new"] = "董卓",
-  ["#xh__dongzhuo_new"] = "魔王",
-  ["illustrator:xh__dongzhuo_new"] = "KayaK",
-  ["~xh__dongzhuo_new"] = "汉室……亡了……",
+  ["new__dongzhuo"] = "董卓",
+  ["#new__dongzhuo"] = "魔王",
+  ["illustrator:new__dongzhuo"] = "KayaK",
+  ["~new__dongzhuo"] = "汉室……亡了……",
 }
 
 -- 郭图，男，群，3勾玉

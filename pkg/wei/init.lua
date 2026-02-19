@@ -20,21 +20,21 @@ Fk:loadTranslationTable {
 }
 
 -- 曹仁，男，魏，4勾玉
-General:new(extension, "xh__caoren_xh", "wei", 4):addSkills { "xh__sujun", "xh__lifeng" }
+General:new(extension, "xh__caoren", "wei", 4):addSkills { "xh__sujun", "xh__lifeng" }
 Fk:loadTranslationTable {
-  ["xh__caoren_xh"] = "曹仁",
-  ["#xh__caoren_xh"] = "大将军",
-  ["illustrator:xh__caoren_xh"] = "KayaK",
-  ["~xh__caoren_xh"] = "实在是守不住了……",
+  ["xh__caoren"] = "曹仁",
+  ["#xh__caoren"] = "大将军",
+  ["illustrator:xh__caoren"] = "KayaK",
+  ["~xh__caoren"] = "实在是守不住了……",
 }
 
 -- 曹仁(新)，男，魏，4勾玉
-General:new(extension, "xh__caoren_new", "wei", 4):addSkills { "xh__weikui", "xh__lizhan" }
+General:new(extension, "new__caoren", "wei", 4):addSkills { "xh__weikui", "xh__lizhan" }
 Fk:loadTranslationTable {
-  ["xh__caoren_new"] = "曹仁",
-  ["#xh__caoren_new"] = "大将军",
-  ["illustrator:xh__caoren_new"] = "KayaK",
-  ["~xh__caoren_new"] = "实在是守不住了……",
+  ["new__caoren"] = "曹仁",
+  ["#new__caoren"] = "大将军",
+  ["illustrator:new__caoren"] = "KayaK",
+  ["~new__caoren"] = "实在是守不住了……",
 }
 
 -- 夏侯惇，男，魏，4勾玉
