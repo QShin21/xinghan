@@ -24,11 +24,11 @@ Fk:loadTranslationTable {
 
 yuanhu:addEffect("active", {
   mute = true,
-  prompt = "#yuanhu-choose",
+  prompt = "#xh__yuanhu-choose",
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__yuanhu.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(yuanhu.name, Player.HistoryPhase) == 0
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -46,13 +46,13 @@ yuanhu:addEffect("active", {
     local target = effect.tos[1]
     local card = Fk:getCardById(effect.cards[1])
 
-    room:notifySkillInvoked(player, xh__yuanhu.name, "support", {target})
-    room:moveCardIntoEquip(target, effect.cards[1], xh__yuanhu.name, false, player)
+    room:notifySkillInvoked(player, yuanhu.name, "support", {target})
+    room:moveCardIntoEquip(target, effect.cards[1], yuanhu.name, false, player)
 
     if target.dead then return end
 
     if card.sub_type == Card.SubtypeWeapon then
-      player:broadcastSkillInvoke(xh__yuanhu.name, 1)
+      player:broadcastSkillInvoke(yuanhu.name, 1)
       -- 弃置距离为1的另一名角色区域里的至多两张牌
       local targets = table.filter(room.alive_players, function(p)
         return p ~= target and p:distanceTo(target) == 1 and not p:isAllNude()
@@ -63,8 +63,8 @@ yuanhu:addEffect("active", {
         targets = targets,
         min_num = 1,
         max_num = 1,
-        prompt = "#yuanhu-discard::" .. target.id,
-        skill_name = xh__yuanhu.name,
+        prompt = "#xh__yuanhu-discard::" .. target.id,
+        skill_name = yuanhu.name,
         cancelable = false,
       })[1]
 
@@ -73,26 +73,26 @@ yuanhu:addEffect("active", {
           min_num = 1,
           max_num = 2,
           include_equip = true,
-          skill_name = xh__yuanhu.name,
+          skill_name = yuanhu.name,
           pattern = tostring(Exppattern{ id = p:getCardIds("hej") }),
-          prompt = "#yuanhu-discard2",
+          prompt = "#xh__yuanhu-discard2",
           cancelable = false,
         })
-        room:throwCard(cards, xh__yuanhu.name, p, player)
+        room:throwCard(cards, yuanhu.name, p, player)
       end
 
     elseif card.sub_type == Card.SubtypeArmor then
-      player:broadcastSkillInvoke(xh__yuanhu.name, 2)
-      target:drawCards(2, xh__yuanhu.name)
+      player:broadcastSkillInvoke(yuanhu.name, 2)
+      target:drawCards(2, yuanhu.name)
 
     elseif card.sub_type == Card.SubtypeOffensiveRide or card.sub_type == Card.SubtypeDefensiveRide then
-      player:broadcastSkillInvoke(xh__yuanhu.name, 3)
+      player:broadcastSkillInvoke(yuanhu.name, 3)
       if target:isWounded() then
         room:recover{
           who = target,
           num = 1,
           recoverBy = player,
-          skillName = xh__yuanhu.name,
+          skillName = yuanhu.name,
         }
       end
     end
