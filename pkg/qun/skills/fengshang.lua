@@ -4,18 +4,18 @@
 -- 你可以将本回合弃牌堆中两张花色相同的牌分配给等量角色（每轮每种花色的牌限一次）。
 
 local fengshang = fk.CreateSkill {
-  name = "fengshang",
+  name = "xh__fengshang",
 }
 
 Fk:loadTranslationTable {
-  ["fengshang"] = "封赏",
-  [":fengshang"] = "出牌阶段限一次，或有角色进入濒死状态时（每回合限一次），"..
+  ["xh__fengshang"] = "封赏",
+  [":xh__fengshang"] = "出牌阶段限一次，或有角色进入濒死状态时（每回合限一次），"..
     "你可以将本回合弃牌堆中两张花色相同的牌分配给等量角色（每轮每种花色的牌限一次）。",
 
-  ["#fengshang-use"] = "封赏：选择两张相同花色的牌分配给角色",
+  ["#xh__fengshang-use"] = "封赏：选择两张相同花色的牌分配给角色",
 
-  ["$fengshang1"] = "封赏天下，谁敢不从！",
-  ["$fengshang2"] = "董卓封赏，天下归心！",
+  ["$xh__fengshang1"] = "封赏天下，谁敢不从！",
+  ["$xh__fengshang2"] = "董卓封赏，天下归心！",
 }
 
 fengshang:addEffect("active", {
@@ -24,14 +24,14 @@ fengshang:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(fengshang.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__fengshang.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, fengshang.name, "support")
-    player:broadcastSkillInvoke(fengshang.name)
+    room:notifySkillInvoked(player, xh__fengshang.name, "support")
+    player:broadcastSkillInvoke(xh__fengshang.name)
 
     -- 从弃牌堆选择两张相同花色的牌
     -- 简化实现：随机选择两张相同花色的牌分配给角色

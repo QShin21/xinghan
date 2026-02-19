@@ -4,18 +4,18 @@
 -- 其使用的第二张牌若为黑色，则对你无效。
 
 local yixiang = fk.CreateSkill {
-  name = "yixiang",
+  name = "xh__yixiang",
 }
 
 Fk:loadTranslationTable {
-  ["yixiang"] = "义襄",
-  [":yixiang"] = "锁定技，其他角色的出牌阶段内，其使用的第一张牌对你伤害-1；"..
+  ["xh__yixiang"] = "义襄",
+  [":xh__yixiang"] = "锁定技，其他角色的出牌阶段内，其使用的第一张牌对你伤害-1；"..
     "其使用的第二张牌若为黑色，则对你无效。",
 
-  ["@@yixiang_count"] = "义襄计数",
+  ["@@xh__yixiang_count"] = "义襄计数",
 
-  ["$yixiang1"] = "义襄徐州，保境安民！",
-  ["$yixiang2"] = "陶谦义襄，仁德布施！",
+  ["$xh__yixiang1"] = "义襄徐州，保境安民！",
+  ["$xh__yixiang2"] = "陶谦义襄，仁德布施！",
 }
 
 -- 记录使用牌数
@@ -38,7 +38,7 @@ yixiang:addEffect(fk.CardUsing, {
 yixiang:addEffect(fk.DamageInflicted, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(yixiang.name) then return false end
+    if target ~= player or not player:hasSkill(xh__yixiang.name) then return false end
     if not data.from then return false end
     local count = data.from:getMark("@@yixiang_count") or 0
     return count == 1
@@ -53,7 +53,7 @@ yixiang:addEffect(fk.DamageInflicted, {
 yixiang:addEffect(fk.CardEffecting, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(yixiang.name) then return false end
+    if target ~= player or not player:hasSkill(xh__yixiang.name) then return false end
     if not data.from then return false end
     local count = data.from:getMark("@@yixiang_count") or 0
     return count == 2 and data.card.color == Card.Black

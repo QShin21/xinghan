@@ -3,23 +3,23 @@
 -- 锁定技，你每回合第一次受到伤害后，回复1点体力。你每回合第二次受到伤害后，失去1点体力。
 
 local shibei = fk.CreateSkill {
-  name = "shibei",
+  name = "xh__shibei",
 }
 
 Fk:loadTranslationTable {
-  ["shibei"] = "矢北",
-  [":shibei"] = "锁定技，你每回合第一次受到伤害后，回复1点体力。你每回合第二次受到伤害后，失去1点体力。",
+  ["xh__shibei"] = "矢北",
+  [":xh__shibei"] = "锁定技，你每回合第一次受到伤害后，回复1点体力。你每回合第二次受到伤害后，失去1点体力。",
 
-  ["@@shibei_count"] = "矢北计数",
+  ["@@xh__shibei_count"] = "矢北计数",
 
-  ["$shibei1"] = "矢志不渝，北面称臣！",
-  ["$shibei2"] = "河北忠臣，矢志不渝！",
+  ["$xh__shibei1"] = "矢志不渝，北面称臣！",
+  ["$xh__shibei2"] = "河北忠臣，矢志不渝！",
 }
 
 shibei:addEffect(fk.Damaged, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(shibei.name)
+    return target == player and player:hasSkill(xh__shibei.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -34,11 +34,11 @@ shibei:addEffect(fk.Damaged, {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = shibei.name,
+        skillName = xh__shibei.name,
       }
     elseif count == 2 then
       -- 第二次：失去体力
-      room:loseHp(player, 1, shibei.name)
+      room:loseHp(player, 1, xh__shibei.name)
     end
   end,
 })

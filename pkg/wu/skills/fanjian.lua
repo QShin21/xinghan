@@ -5,21 +5,21 @@
 -- 2.失去1点体力。
 
 local fanjian = fk.CreateSkill {
-  name = "fanjian",
+  name = "xh__fanjian",
 }
 
 Fk:loadTranslationTable {
-  ["fanjian"] = "反间",
-  [":fanjian"] = "出牌阶段限一次，你可以展示并交给对手一张手牌并令其本回合非锁定技失效，"..
+  ["xh__fanjian"] = "反间",
+  [":xh__fanjian"] = "出牌阶段限一次，你可以展示并交给对手一张手牌并令其本回合非锁定技失效，"..
     "其选择一项：1.展示所有手牌，然后弃置与此牌花色相同的所有牌（至少两张）；2.失去1点体力。",
 
-  ["#fanjian-use"] = "反间：选择一张手牌交给对手",
-  ["#fanjian-choice"] = "反间：选择一项",
+  ["#xh__fanjian-use"] = "反间：选择一张手牌交给对手",
+  ["#xh__fanjian-choice"] = "反间：选择一项",
   ["fanjian_discard"] = "展示手牌并弃置同花色牌",
   ["fanjian_damage"] = "失去1点体力",
 
-  ["$fanjian1"] = "反间之计，谁能识破？",
-  ["$fanjian2"] = "此计名为反间，实则离间！",
+  ["$xh__fanjian1"] = "反间之计，谁能识破？",
+  ["$xh__fanjian2"] = "此计名为反间，实则离间！",
 }
 
 fanjian:addEffect("active", {
@@ -28,7 +28,7 @@ fanjian:addEffect("active", {
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(fanjian.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(xh__fanjian.name, Player.HistoryPhase) == 0 and
       not player:isKongcheng()
   end,
   card_filter = function(self, player, to_select, selected)
@@ -44,13 +44,13 @@ fanjian:addEffect("active", {
     local target = effect.tos[1]
     local card_id = effect.cards[1]
 
-    room:notifySkillInvoked(player, fanjian.name, "control", {target})
-    player:broadcastSkillInvoke(fanjian.name)
+    room:notifySkillInvoked(player, xh__fanjian.name, "control", {target})
+    player:broadcastSkillInvoke(xh__fanjian.name)
 
     -- 展示并交给对手
     local card = Fk:getCardById(card_id)
-    room:showCards(player, {card_id}, fanjian.name)
-    room:moveCardTo(card_id, Player.Hand, target, fk.ReasonGive, fanjian.name, nil, false, player.id)
+    room:showCards(player, {card_id}, xh__fanjian.name)
+    room:moveCardTo(card_id, Player.Hand, target, fk.ReasonGive, xh__fanjian.name, nil, false, player.id)
 
     -- 令其非锁定技失效
     room:addPlayerMark(target, "@@fanjian_disable", 1)
@@ -68,7 +68,7 @@ fanjian:addEffect("active", {
       if has_suit then
         choice = room:askToChoice(target, {
           choices = {"fanjian_discard", "fanjian_damage"},
-          skill_name = fanjian.name,
+          skill_name = xh__fanjian.name,
           prompt = "#fanjian-choice",
           detailed = false,
         })
@@ -80,7 +80,7 @@ fanjian:addEffect("active", {
     if choice == "fanjian_discard" then
       -- 展示所有手牌
       local handcards = target:getCardIds("h")
-      room:showCards(target, handcards, fanjian.name)
+      room:showCards(target, handcards, xh__fanjian.name)
       
       -- 弃置同花色牌
       local suit = card.suit
@@ -89,10 +89,10 @@ fanjian:addEffect("active", {
       end)
       
       if #to_discard >= 2 then
-        room:throwCard(to_discard, fanjian.name, target, player)
+        room:throwCard(to_discard, xh__fanjian.name, target, player)
       end
     else
-      room:loseHp(target, 1, fanjian.name)
+      room:loseHp(target, 1, xh__fanjian.name)
     end
   end,
 })

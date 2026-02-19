@@ -3,17 +3,17 @@
 -- 出牌阶段限一次，你可以展示所有手牌并将其中所有的【杀】交给一名其他角色，然后对其造成1点伤害。
 
 local mutao = fk.CreateSkill {
-  name = "mutao",
+  name = "xh__mutao",
 }
 
 Fk:loadTranslationTable {
-  ["mutao"] = "募讨",
-  [":mutao"] = "出牌阶段限一次，你可以展示所有手牌并将其中所有的【杀】交给一名其他角色，然后对其造成1点伤害。",
+  ["xh__mutao"] = "募讨",
+  [":xh__mutao"] = "出牌阶段限一次，你可以展示所有手牌并将其中所有的【杀】交给一名其他角色，然后对其造成1点伤害。",
 
-  ["#mutao-target"] = "募讨：选择一名其他角色",
+  ["#xh__mutao-target"] = "募讨：选择一名其他角色",
 
-  ["$mutao1"] = "募讨义兵，讨伐奸贼！",
-  ["$mutao2"] = "义兵既募，讨贼安民！",
+  ["$xh__mutao1"] = "募讨义兵，讨伐奸贼！",
+  ["$xh__mutao2"] = "义兵既募，讨贼安民！",
 }
 
 mutao:addEffect("active", {
@@ -22,7 +22,7 @@ mutao:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(mutao.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(xh__mutao.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -33,12 +33,12 @@ mutao:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, mutao.name, "offensive", {target})
-    player:broadcastSkillInvoke(mutao.name)
+    room:notifySkillInvoked(player, xh__mutao.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__mutao.name)
 
     -- 展示所有手牌
     local handcards = player:getCardIds("h")
-    room:showCards(player, handcards, mutao.name)
+    room:showCards(player, handcards, xh__mutao.name)
     
     -- 找出所有杀
     local slash_cards = table.filter(handcards, function(id)
@@ -47,7 +47,7 @@ mutao:addEffect("active", {
     
     -- 交给目标
     if #slash_cards > 0 then
-      room:moveCardTo(slash_cards, Player.Hand, target, fk.ReasonGive, mutao.name, nil, false, player.id)
+      room:moveCardTo(slash_cards, Player.Hand, target, fk.ReasonGive, xh__mutao.name, nil, false, player.id)
     end
     
     -- 造成1点伤害
@@ -55,7 +55,7 @@ mutao:addEffect("active", {
       from = player,
       to = target,
       damage = 1,
-      skillName = mutao.name,
+      skillName = xh__mutao.name,
     }
   end,
 })

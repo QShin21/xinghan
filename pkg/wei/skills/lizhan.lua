@@ -3,23 +3,23 @@
 -- 结束阶段，你可以令任意名已受伤角色摸一张牌。
 
 local lizhan = fk.CreateSkill {
-  name = "lizhan",
+  name = "xh__lizhan",
 }
 
 Fk:loadTranslationTable {
-  ["lizhan"] = "励战",
-  [":lizhan"] = "结束阶段，你可以令任意名已受伤角色摸一张牌。",
+  ["xh__lizhan"] = "励战",
+  [":xh__lizhan"] = "结束阶段，你可以令任意名已受伤角色摸一张牌。",
 
-  ["#lizhan-choose"] = "励战：选择任意名已受伤角色摸一张牌",
+  ["#xh__lizhan-choose"] = "励战：选择任意名已受伤角色摸一张牌",
 
-  ["$lizhan1"] = "励战之士，奋勇杀敌！",
-  ["$lizhan2"] = "身先士卒，鼓舞军心！",
+  ["$xh__lizhan1"] = "励战之士，奋勇杀敌！",
+  ["$xh__lizhan2"] = "身先士卒，鼓舞军心！",
 }
 
 lizhan:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(lizhan.name) and
+    return target == player and player:hasSkill(xh__lizhan.name) and
       player.phase == Player.Finish
   end,
   on_cost = function(self, event, target, player, data)
@@ -35,7 +35,7 @@ lizhan:addEffect(fk.EventPhaseStart, {
       min_num = 0,
       max_num = #targets,
       targets = targets,
-      skill_name = lizhan.name,
+      skill_name = xh__lizhan.name,
       prompt = "#lizhan-choose",
       cancelable = true,
     })
@@ -51,7 +51,7 @@ lizhan:addEffect(fk.EventPhaseStart, {
 
     for _, p in ipairs(tos) do
       if not p.dead then
-        p:drawCards(1, lizhan.name)
+        p:drawCards(1, xh__lizhan.name)
       end
     end
   end,

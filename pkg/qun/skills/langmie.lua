@@ -5,29 +5,29 @@
 -- 2.若其本回合造成了2点或更多伤害，你弃置一张牌对其造成1点伤害。
 
 local langmie = fk.CreateSkill {
-  name = "langmie",
+  name = "xh__langmie",
 }
 
 Fk:loadTranslationTable {
-  ["langmie"] = "狼灭",
-  [":langmie"] = "对手的结束阶段，你可以选择一项："..
+  ["xh__langmie"] = "狼灭",
+  [":xh__langmie"] = "对手的结束阶段，你可以选择一项："..
     "1.若其本回合使用过两张或更多同类型的牌，你弃置一张牌并摸两张牌；"..
     "2.若其本回合造成了2点或更多伤害，你弃置一张牌对其造成1点伤害。",
 
-  ["#langmie-invoke"] = "狼灭：选择一项效果",
+  ["#xh__langmie-invoke"] = "狼灭：选择一项效果",
   ["langmie_draw"] = "弃置一张牌并摸两张牌",
   ["langmie_damage"] = "弃置一张牌对其造成1点伤害",
-  ["@@langmie_card_types"] = "狼灭牌类型",
-  ["@@langmie_damage_count"] = "狼灭伤害计数",
+  ["@@xh__langmie_card_types"] = "狼灭牌类型",
+  ["@@xh__langmie_damage_count"] = "狼灭伤害计数",
 
-  ["$langmie1"] = "狼灭之威，势不可挡！",
-  ["$langmie2"] = "段煨狼灭，天下无双！",
+  ["$xh__langmie1"] = "狼灭之威，势不可挡！",
+  ["$xh__langmie2"] = "段煨狼灭，天下无双！",
 }
 
 langmie:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(langmie.name) then return false end
+    if target == player or not player:hasSkill(xh__langmie.name) then return false end
     if target.phase ~= Player.Finish then return false end
     if player:isNude() then return false end
     
@@ -74,7 +74,7 @@ langmie:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = langmie.name,
+      skill_name = xh__langmie.name,
       prompt = "#langmie-invoke",
       detailed = false,
     })
@@ -92,21 +92,21 @@ langmie:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = langmie.name,
+      skill_name = xh__langmie.name,
       pattern = ".",
       prompt = "选择一张牌弃置",
       cancelable = false,
     })
-    room:throwCard(id, langmie.name, player, player)
+    room:throwCard(id, xh__langmie.name, player, player)
     
     if choice == "langmie_draw" then
-      player:drawCards(2, langmie.name)
+      player:drawCards(2, xh__langmie.name)
     else
       room:damage{
         from = player,
         to = to,
         damage = 1,
-        skillName = langmie.name,
+        skillName = xh__langmie.name,
       }
     end
   end,

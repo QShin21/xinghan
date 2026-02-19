@@ -4,18 +4,18 @@
 -- 阴：你可以从弃牌堆中获得一张你本回合使用过的花色的牌，令一名角色视为对你使用一张【决斗】。
 
 local liyong = fk.CreateSkill {
-  name = "liyong",
+  name = "xh__liyong",
 }
 
 Fk:loadTranslationTable {
-  ["liyong"] = "历勇",
-  [":liyong"] = "转换技，出牌阶段每项限一次，阳：你可以将一张本回合你未使用过的花色的牌当【决斗】使用；"..
+  ["xh__liyong"] = "历勇",
+  [":xh__liyong"] = "转换技，出牌阶段每项限一次，阳：你可以将一张本回合你未使用过的花色的牌当【决斗】使用；"..
     "阴：你可以从弃牌堆中获得一张你本回合使用过的花色的牌，令一名角色视为对你使用一张【决斗】。",
 
-  ["#liyong-use"] = "历勇：选择一张牌",
+  ["#xh__liyong-use"] = "历勇：选择一张牌",
 
-  ["$liyong1"] = "历勇之威，势不可挡！",
-  ["$liyong2"] = "勇冠三军，所向披靡！",
+  ["$xh__liyong1"] = "历勇之威，势不可挡！",
+  ["$xh__liyong2"] = "勇冠三军，所向披靡！",
 }
 
 liyong:addEffect("viewas", {
@@ -41,7 +41,7 @@ liyong:addEffect("viewas", {
     if #cards ~= 1 then return nil end
     
     local card = Fk:cloneCard("duel")
-    card.skillName = liyong.name
+    card.skillName = xh__liyong.name
     card:addSubcard(cards[1])
     return card
   end,
@@ -56,7 +56,7 @@ liyong:addEffect("viewas", {
 liyong:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and data.card and data.card.skillName == liyong.name
+    return target == player and data.card and data.card.skillName == xh__liyong.name
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

@@ -4,30 +4,30 @@
 -- 然后你判定，除非其弃置一张与判定结果花色相同的牌，否则其不能抵消此【杀】。
 
 local tieji = fk.CreateSkill {
-  name = "tieji",
+  name = "xh__tieji",
 }
 
 Fk:loadTranslationTable {
-  ["tieji"] = "铁骑",
-  [":tieji"] = "当你使用【杀】指定目标后，你可以令其本回合非锁定技失效，"..
+  ["xh__tieji"] = "铁骑",
+  [":xh__tieji"] = "当你使用【杀】指定目标后，你可以令其本回合非锁定技失效，"..
     "然后你判定，除非其弃置一张与判定结果花色相同的牌，否则其不能抵消此【杀】。",
 
-  ["#tieji-invoke"] = "铁骑：是否令目标非锁定技失效并进行判定？",
-  ["#tieji-discard"] = "铁骑：弃置一张%arg花色的牌，否则不能抵消此杀",
+  ["#xh__tieji-invoke"] = "铁骑：是否令目标非锁定技失效并进行判定？",
+  ["#xh__tieji-discard"] = "铁骑：弃置一张%arg花色的牌，否则不能抵消此杀",
 
-  ["$tieji1"] = "铁骑突阵，势不可挡！",
-  ["$tieji2"] = "西凉铁骑，天下无双！",
+  ["$xh__tieji1"] = "铁骑突阵，势不可挡！",
+  ["$xh__tieji2"] = "西凉铁骑，天下无双！",
 }
 
 tieji:addEffect(fk.TargetSpecified, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(tieji.name) and
+    return target == player and player:hasSkill(xh__tieji.name) and
       data.card and data.card.trueName == "slash"
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = tieji.name,
+      skill_name = xh__tieji.name,
       prompt = "#tieji-invoke",
     })
   end,
@@ -41,7 +41,7 @@ tieji:addEffect(fk.TargetSpecified, {
     -- 判定
     local judge = room:judge{
       who = player,
-      reason = tieji.name,
+      reason = xh__tieji.name,
     }
     
     -- 记录判定花色
@@ -76,14 +76,14 @@ tieji:addEffect(fk.CardEffecting, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = tieji.name,
+      skill_name = xh__tieji.name,
       pattern = tostring(Exppattern{ id = suit_cards }),
       prompt = "#tieji-discard:::" .. suit,
       cancelable = true,
     })
     
     if #id > 0 then
-      room:throwCard(id, tieji.name, player, player)
+      room:throwCard(id, xh__tieji.name, player, player)
       room:setPlayerMark(player, "@@tieji_suit", 0)
       return false
     end

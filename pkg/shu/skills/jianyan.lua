@@ -4,23 +4,23 @@
 -- 然后依次亮出牌堆顶的牌直到亮出符合你声明的牌并将此牌交给一名男性角色。
 
 local jianyan = fk.CreateSkill {
-  name = "jianyan",
+  name = "xh__jianyan",
 }
 
 Fk:loadTranslationTable {
-  ["jianyan"] = "荐言",
-  [":jianyan"] = "出牌阶段每项限一次，你可以声明：一种牌的类别或一种牌的颜色，"..
+  ["xh__jianyan"] = "荐言",
+  [":xh__jianyan"] = "出牌阶段每项限一次，你可以声明：一种牌的类别或一种牌的颜色，"..
     "然后依次亮出牌堆顶的牌直到亮出符合你声明的牌并将此牌交给一名男性角色。",
 
-  ["#jianyan-use"] = "荐言：选择声明类型或颜色",
+  ["#xh__jianyan-use"] = "荐言：选择声明类型或颜色",
   ["jianyan_basic"] = "声明基本牌",
   ["jianyan_trick"] = "声明锦囊牌",
   ["jianyan_equip"] = "声明装备牌",
   ["jianyan_red"] = "声明红色牌",
   ["jianyan_black"] = "声明黑色牌",
 
-  ["$jianyan1"] = "荐言献策，助君成事！",
-  ["$jianyan2"] = "良言相劝，望君采纳！",
+  ["$xh__jianyan1"] = "荐言献策，助君成事！",
+  ["$xh__jianyan2"] = "良言相劝，望君采纳！",
 }
 
 jianyan:addEffect("active", {
@@ -37,8 +37,8 @@ jianyan:addEffect("active", {
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, jianyan.name, "support")
-    player:broadcastSkillInvoke(jianyan.name)
+    room:notifySkillInvoked(player, xh__jianyan.name, "support")
+    player:broadcastSkillInvoke(xh__jianyan.name)
 
     local used = player:getMark("@@jianyan_used") or {}
     local choices = {}
@@ -53,7 +53,7 @@ jianyan:addEffect("active", {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = jianyan.name,
+      skill_name = xh__jianyan.name,
       prompt = "#jianyan-use",
       detailed = false,
     })
@@ -72,7 +72,7 @@ jianyan:addEffect("active", {
       local card = Fk:getCardById(top_card)
       
       table.insert(revealed, top_card)
-      room:showCards(player, {top_card}, jianyan.name)
+      room:showCards(player, {top_card}, xh__jianyan.name)
       
       local match = false
       if choice == "jianyan_basic" and card.type == Card.TypeBasic then match = true end
@@ -86,7 +86,7 @@ jianyan:addEffect("active", {
         break
       else
         -- 不符合的牌放入弃牌堆
-        room:moveCardTo(top_card, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, jianyan.name)
+        room:moveCardTo(top_card, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__jianyan.name)
       end
     end
     
@@ -101,12 +101,12 @@ jianyan:addEffect("active", {
           min_num = 1,
           max_num = 1,
           targets = males,
-          skill_name = jianyan.name,
+          skill_name = xh__jianyan.name,
           prompt = "选择一名男性角色获得此牌",
           cancelable = false,
         })[1]
         
-        room:moveCardTo(found_card, Player.Hand, to, fk.ReasonGive, jianyan.name, nil, false, player.id)
+        room:moveCardTo(found_card, Player.Hand, to, fk.ReasonGive, xh__jianyan.name, nil, false, player.id)
       end
     end
   end,

@@ -3,24 +3,24 @@
 -- 当你使用牌时，若此牌与你使用的上一张牌点数或花色相同，你可以摸一张牌。
 
 local jianying = fk.CreateSkill {
-  name = "jianying",
+  name = "xh__jianying",
 }
 
 Fk:loadTranslationTable {
-  ["jianying"] = "渐营",
-  [":jianying"] = "当你使用牌时，若此牌与你使用的上一张牌点数或花色相同，你可以摸一张牌。",
+  ["xh__jianying"] = "渐营",
+  [":xh__jianying"] = "当你使用牌时，若此牌与你使用的上一张牌点数或花色相同，你可以摸一张牌。",
 
-  ["#jianying-invoke"] = "渐营：是否摸一张牌？",
-  ["@@jianying_last"] = "渐营上一张牌",
+  ["#xh__jianying-invoke"] = "渐营：是否摸一张牌？",
+  ["@@xh__jianying_last"] = "渐营上一张牌",
 
-  ["$jianying1"] = "渐营之计，步步为营！",
-  ["$jianying2"] = "河北谋士，智计百出！",
+  ["$xh__jianying1"] = "渐营之计，步步为营！",
+  ["$xh__jianying2"] = "河北谋士，智计百出！",
 }
 
 jianying:addEffect(fk.CardUsing, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(jianying.name) then return false end
+    if target ~= player or not player:hasSkill(xh__jianying.name) then return false end
     if not data.card then return false end
     
     local last = player:getMark("@@jianying_last")
@@ -33,12 +33,12 @@ jianying:addEffect(fk.CardUsing, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = jianying.name,
+      skill_name = xh__jianying.name,
       prompt = "#jianying-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, jianying.name)
+    player:drawCards(1, xh__jianying.name)
   end,
 })
 

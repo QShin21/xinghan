@@ -5,29 +5,29 @@
 -- 2.令你本回合对其使用【杀】无距离和次数限制。
 
 local liantao = fk.CreateSkill {
-  name = "liantao",
+  name = "xh__liantao",
 }
 
 Fk:loadTranslationTable {
-  ["liantao"] = "连讨",
-  [":liantao"] = "出牌阶段开始时，你可以选择一名其他角色，然后其选择一项："..
+  ["xh__liantao"] = "连讨",
+  [":xh__liantao"] = "出牌阶段开始时，你可以选择一名其他角色，然后其选择一项："..
     "1.交给你一张牌，然后你本回合对其使用【杀】无次数限制；"..
     "2.令你本回合对其使用【杀】无距离和次数限制。",
 
-  ["#liantao-choose"] = "连讨：选择一名其他角色",
+  ["#xh__liantao-choose"] = "连讨：选择一名其他角色",
   ["liantao_choice1"] = "交给对方一张牌，对方本回合对你使用杀无次数限制",
   ["liantao_choice2"] = "令对方本回合对你使用杀无距离和次数限制",
-  ["@@liantao_no_slash"] = "连讨禁止杀",
-  ["@@liantao_target"] = "连讨目标",
+  ["@@xh__liantao_no_slash"] = "连讨禁止杀",
+  ["@@xh__liantao_target"] = "连讨目标",
 
-  ["$liantao1"] = "连讨之威，势不可挡！",
-  ["$liantao2"] = "孙策连讨，天下无双！",
+  ["$xh__liantao1"] = "连讨之威，势不可挡！",
+  ["$xh__liantao2"] = "孙策连讨，天下无双！",
 }
 
 liantao:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(liantao.name) and
+    return target == player and player:hasSkill(xh__liantao.name) and
       player.phase == Player.Play
   end,
   on_cost = function(self, event, target, player, data)
@@ -38,7 +38,7 @@ liantao:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = liantao.name,
+      skill_name = xh__liantao.name,
       prompt = "#liantao-choose",
       cancelable = true,
     })
@@ -54,7 +54,7 @@ liantao:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(to, {
       choices = {"liantao_choice1", "liantao_choice2"},
-      skill_name = liantao.name,
+      skill_name = xh__liantao.name,
       prompt = "选择一项",
       detailed = false,
     })
@@ -66,12 +66,12 @@ liantao:addEffect(fk.EventPhaseStart, {
           min_num = 1,
           max_num = 1,
           include_equip = true,
-          skill_name = liantao.name,
+          skill_name = xh__liantao.name,
           pattern = ".",
           prompt = "选择一张牌交给" .. player.name,
           cancelable = false,
         })
-        room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, liantao.name, nil, false, to.id)
+        room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, xh__liantao.name, nil, false, to.id)
       end
     end
     

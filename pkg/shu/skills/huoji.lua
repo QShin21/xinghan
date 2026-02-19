@@ -3,15 +3,15 @@
 -- 你可以将一张红色牌当【火攻】使用，你的【火攻】改为令目标展示随机手牌。
 
 local huoji = fk.CreateSkill {
-  name = "huoji",
+  name = "xh__huoji",
 }
 
 Fk:loadTranslationTable {
-  ["huoji"] = "火计",
-  [":huoji"] = "你可以将一张红色牌当【火攻】使用，你的【火攻】改为令目标展示随机手牌。",
+  ["xh__huoji"] = "火计",
+  [":xh__huoji"] = "你可以将一张红色牌当【火攻】使用，你的【火攻】改为令目标展示随机手牌。",
 
-  ["$huoji1"] = "火计破敌，势不可挡！",
-  ["$huoji2"] = "火烧连营，片甲不留！",
+  ["$xh__huoji1"] = "火计破敌，势不可挡！",
+  ["$xh__huoji2"] = "火烧连营，片甲不留！",
 }
 
 huoji:addEffect("viewas", {
@@ -24,7 +24,7 @@ huoji:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("fire_attack")
-    card.skillName = huoji.name
+    card.skillName = xh__huoji.name
     card:addSubcard(cards[1])
     return card
   end,

@@ -3,21 +3,21 @@
 -- 锁定技，你计算与其他角色的距离-1；若你的体力值不大于2，其他角色计算与你的距离+1。
 
 local yicong = fk.CreateSkill {
-  name = "yicong",
+  name = "xh__yicong",
 }
 
 Fk:loadTranslationTable {
-  ["yicong"] = "义从",
-  [":yicong"] = "锁定技，你计算与其他角色的距离-1；若你的体力值不大于2，其他角色计算与你的距离+1。",
+  ["xh__yicong"] = "义从",
+  [":xh__yicong"] = "锁定技，你计算与其他角色的距离-1；若你的体力值不大于2，其他角色计算与你的距离+1。",
 
-  ["$yicong1"] = "义从白马，天下无双！",
-  ["$yicong2"] = "白马义从，所向披靡！",
+  ["$xh__yicong1"] = "义从白马，天下无双！",
+  ["$xh__yicong2"] = "白马义从，所向披靡！",
 }
 
 -- 距离-1
 yicong:addEffect("distance", {
   correct_func = function(self, from, to)
-    if from:hasSkill(yicong.name) then
+    if from:hasSkill(xh__yicong.name) then
       return -1
     end
     return 0
@@ -27,7 +27,7 @@ yicong:addEffect("distance", {
 -- 其他角色计算与你的距离+1（体力值不大于2时）
 yicong:addEffect("distance", {
   correct_func = function(self, from, to)
-    if to:hasSkill(yicong.name) and to.hp <= 2 then
+    if to:hasSkill(xh__yicong.name) and to.hp <= 2 then
       return 1
     end
     return 0

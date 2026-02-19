@@ -4,26 +4,26 @@
 -- 1.令其摸一张牌；2.令其将一张手牌交给另一名角色，然后其摸一张牌。
 
 local yimou = fk.CreateSkill {
-  name = "yimou",
+  name = "xh__yimou",
 }
 
 Fk:loadTranslationTable {
-  ["yimou"] = "毅谋",
-  [":yimou"] = "当与你距离1以内的角色受到伤害后，你可以选择一项："..
+  ["xh__yimou"] = "毅谋",
+  [":xh__yimou"] = "当与你距离1以内的角色受到伤害后，你可以选择一项："..
     "1.令其摸一张牌；2.令其将一张手牌交给另一名角色，然后其摸一张牌。",
 
-  ["#yimou-invoke"] = "毅谋：选择一项效果",
+  ["#xh__yimou-invoke"] = "毅谋：选择一项效果",
   ["yimou_draw"] = "令其摸一张牌",
   ["yimou_give"] = "令其将一张手牌交给另一名角色，然后其摸一张牌",
 
-  ["$yimou1"] = "毅谋兼备，智勇双全！",
-  ["$yimou2"] = "坚毅果敢，谋定后动！",
+  ["$xh__yimou1"] = "毅谋兼备，智勇双全！",
+  ["$xh__yimou2"] = "坚毅果敢，谋定后动！",
 }
 
 yimou:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(yimou.name) then return false end
+    if not player:hasSkill(xh__yimou.name) then return false end
     if player:distanceTo(target) > 1 then return false end
     return true
   end,
@@ -37,7 +37,7 @@ yimou:addEffect(fk.Damaged, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = yimou.name,
+      skill_name = xh__yimou.name,
       prompt = "#yimou-invoke",
       detailed = false,
     })
@@ -50,7 +50,7 @@ yimou:addEffect(fk.Damaged, {
     local choice = event:getCostData(self).choice
     
     if choice == "yimou_draw" then
-      target:drawCards(1, yimou.name)
+      target:drawCards(1, xh__yimou.name)
     else
       -- 选择一张手牌交给另一名角色
       local others = table.filter(room.alive_players, function(p)
@@ -62,7 +62,7 @@ yimou:addEffect(fk.Damaged, {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = yimou.name,
+          skill_name = xh__yimou.name,
           pattern = ".",
           prompt = "选择一张手牌交给另一名角色",
           cancelable = false,
@@ -72,13 +72,13 @@ yimou:addEffect(fk.Damaged, {
           min_num = 1,
           max_num = 1,
           targets = others,
-          skill_name = yimou.name,
+          skill_name = xh__yimou.name,
           prompt = "选择一名角色获得此牌",
           cancelable = false,
         })[1]
         
-        room:moveCardTo(card_id[1], Player.Hand, to, fk.ReasonGive, yimou.name, nil, false, target.id)
-        target:drawCards(1, yimou.name)
+        room:moveCardTo(card_id[1], Player.Hand, to, fk.ReasonGive, xh__yimou.name, nil, false, target.id)
+        target:drawCards(1, xh__yimou.name)
       end
     end
   end,

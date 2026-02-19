@@ -4,25 +4,25 @@
 -- 若点数等于X，你可以令你本回合发动"鼓舌"的次数上限+1。（X为你的手牌数量）
 
 local jici = fk.CreateSkill {
-  name = "jici",
+  name = "xh__jici",
 }
 
 Fk:loadTranslationTable {
-  ["jici"] = "激词",
-  [":jici"] = "当你发动\"鼓舌\"拼点的牌亮出后，若点数小于X，你可令点数+X；"..
+  ["xh__jici"] = "激词",
+  [":xh__jici"] = "当你发动\"鼓舌\"拼点的牌亮出后，若点数小于X，你可令点数+X；"..
     "若点数等于X，你可以令你本回合发动\"鼓舌\"的次数上限+1。（X为你的手牌数量）",
 
-  ["#jici-invoke"] = "激词：是否发动效果？",
-  ["@@jici_extra"] = "激词",
+  ["#xh__jici-invoke"] = "激词：是否发动效果？",
+  ["@@xh__jici_extra"] = "激词",
 
-  ["$jici1"] = "激词慷慨，言辞犀利！",
-  ["$jici2"] = "词锋如剑，直指人心！",
+  ["$xh__jici1"] = "激词慷慨，言辞犀利！",
+  ["$xh__jici2"] = "词锋如剑，直指人心！",
 }
 
 jici:addEffect(fk.PindianCardsDisplayed, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(jici.name) then return false end
+    if not player:hasSkill(xh__jici.name) then return false end
     if not data.pindianData or data.pindianData.reason ~= "gushe" then return false end
 
     -- 检查是否是玩家的拼点牌
@@ -39,7 +39,7 @@ jici:addEffect(fk.PindianCardsDisplayed, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = jici.name,
+      skill_name = xh__jici.name,
       prompt = "#jici-invoke",
     })
   end,

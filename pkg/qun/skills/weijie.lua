@@ -5,19 +5,19 @@
 -- 你视为使用或打出此牌。
 
 local weijie = fk.CreateSkill {
-  name = "weijie",
+  name = "xh__weijie",
 }
 
 Fk:loadTranslationTable {
-  ["weijie"] = "诿解",
-  [":weijie"] = "其他角色的回合限一次，当你需要使用或打出基本牌时，"..
+  ["xh__weijie"] = "诿解",
+  [":xh__weijie"] = "其他角色的回合限一次，当你需要使用或打出基本牌时，"..
     "你可弃置与你距离为1的其他角色一张手牌，若此牌与你需要使用或打出的牌名相同，"..
     "你视为使用或打出此牌。",
 
-  ["#weijie-use"] = "诿解：选择一名距离为1的角色",
+  ["#xh__weijie-use"] = "诿解：选择一名距离为1的角色",
 
-  ["$weijie1"] = "诿解之计，借刀杀人！",
-  ["$weijie2"] = "郭图诿解，天下无双！",
+  ["$xh__weijie1"] = "诿解之计，借刀杀人！",
+  ["$xh__weijie2"] = "郭图诿解，天下无双！",
 }
 
 weijie:addEffect("viewas", {
@@ -28,7 +28,7 @@ weijie:addEffect("viewas", {
     if #cards ~= 0 then return nil end
     
     -- 检查是否可以使用
-    if player:usedSkillTimes(weijie.name, Player.HistoryTurn) > 0 then return nil end
+    if player:usedSkillTimes(xh__weijie.name, Player.HistoryTurn) > 0 then return nil end
     
     -- 找出距离为1的角色
     local room = player.room
@@ -42,10 +42,10 @@ weijie:addEffect("viewas", {
     return nil
   end,
   enabled_at_play = function(self, player)
-    return player:usedSkillTimes(weijie.name, Player.HistoryTurn) == 0
+    return player:usedSkillTimes(xh__weijie.name, Player.HistoryTurn) == 0
   end,
   enabled_at_response = function(self, player, response)
-    return not response and player:usedSkillTimes(weijie.name, Player.HistoryTurn) == 0
+    return not response and player:usedSkillTimes(xh__weijie.name, Player.HistoryTurn) == 0
   end,
 })
 

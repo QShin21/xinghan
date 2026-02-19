@@ -5,20 +5,20 @@
 -- 若如此做，直到本回合结束，你使用与弃置牌相同花色的牌无距离和次数限制。
 
 local chenglue = fk.CreateSkill {
-  name = "chenglue",
+  name = "xh__chenglue",
 }
 
 Fk:loadTranslationTable {
-  ["chenglue"] = "成略",
-  [":chenglue"] = "转换技，出牌阶段限一次，①你可以摸一张牌，然后弃置两张手牌。"..
+  ["xh__chenglue"] = "成略",
+  [":xh__chenglue"] = "转换技，出牌阶段限一次，①你可以摸一张牌，然后弃置两张手牌。"..
     "②你可以摸两张牌，然后弃置一张手牌。"..
     "若如此做，直到本回合结束，你使用与弃置牌相同花色的牌无距离和次数限制。",
 
-  ["#chenglue-use"] = "成略：选择弃置的牌",
-  ["@@chenglue_suits"] = "成略",
+  ["#xh__chenglue-use"] = "成略：选择弃置的牌",
+  ["@@xh__chenglue_suits"] = "成略",
 
-  ["$chenglue1"] = "成略之计，智取天下！",
-  ["$chenglue2"] = "许攸成略，天下无双！",
+  ["$xh__chenglue1"] = "成略之计，智取天下！",
+  ["$xh__chenglue2"] = "许攸成略，天下无双！",
 }
 
 chenglue:addEffect("active", {
@@ -27,14 +27,14 @@ chenglue:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(chenglue.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__chenglue.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, chenglue.name, "draw")
-    player:broadcastSkillInvoke(chenglue.name)
+    room:notifySkillInvoked(player, xh__chenglue.name, "draw")
+    player:broadcastSkillInvoke(xh__chenglue.name)
 
     local state = player:getMark("@@chenglue_state") or 0
     
@@ -48,14 +48,14 @@ chenglue:addEffect("active", {
     end
     
     -- 摸牌
-    player:drawCards(draw_num, chenglue.name)
+    player:drawCards(draw_num, xh__chenglue.name)
     
     -- 弃牌
     local cards = room:askToCards(player, {
       min_num = discard_num,
       max_num = discard_num,
       include_equip = false,
-      skill_name = chenglue.name,
+      skill_name = xh__chenglue.name,
       pattern = ".",
       prompt = "选择" .. discard_num .. "张手牌弃置",
       cancelable = false,
@@ -70,7 +70,7 @@ chenglue:addEffect("active", {
       end
     end
     
-    room:throwCard(cards, chenglue.name, player, player)
+    room:throwCard(cards, xh__chenglue.name, player, player)
     
     -- 设置花色标记
     room:setPlayerMark(player, "@@chenglue_suits", suits)

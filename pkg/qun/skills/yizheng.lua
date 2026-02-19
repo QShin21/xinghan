@@ -4,19 +4,19 @@
 -- 若你赢，其跳过下个摸牌阶段；若你没赢，其可以对你造成至多2点伤害。
 
 local yizheng = fk.CreateSkill {
-  name = "yizheng",
+  name = "xh__yizheng",
 }
 
 Fk:loadTranslationTable {
-  ["yizheng"] = "义争",
-  [":yizheng"] = "出牌阶段限一次，你可以与一名手牌数大于你的角色拼点："..
+  ["xh__yizheng"] = "义争",
+  [":xh__yizheng"] = "出牌阶段限一次，你可以与一名手牌数大于你的角色拼点："..
     "若你赢，其跳过下个摸牌阶段；若你没赢，其可以对你造成至多2点伤害。",
 
-  ["#yizheng-target"] = "义争：选择一名手牌数大于你的角色",
-  ["#yizheng-damage"] = "义争：是否对杨彪造成伤害？",
+  ["#xh__yizheng-target"] = "义争：选择一名手牌数大于你的角色",
+  ["#xh__yizheng-damage"] = "义争：是否对杨彪造成伤害？",
 
-  ["$yizheng1"] = "义争之志，不屈不挠！",
-  ["$yizheng2"] = "杨彪义争，汉室忠臣！",
+  ["$xh__yizheng1"] = "义争之志，不屈不挠！",
+  ["$xh__yizheng2"] = "杨彪义争，汉室忠臣！",
 }
 
 yizheng:addEffect("active", {
@@ -25,7 +25,7 @@ yizheng:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(yizheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(xh__yizheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -36,10 +36,10 @@ yizheng:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, yizheng.name, "control", {target})
-    player:broadcastSkillInvoke(yizheng.name)
+    room:notifySkillInvoked(player, xh__yizheng.name, "control", {target})
+    player:broadcastSkillInvoke(xh__yizheng.name)
 
-    local pindian = room:pindian({player, target}, yizheng.name)
+    local pindian = room:pindian({player, target}, xh__yizheng.name)
     
     if pindian.results[player].winner then
       -- 你赢：跳过下个摸牌阶段
@@ -49,7 +49,7 @@ yizheng:addEffect("active", {
       if target:isAlive() then
         local damage = room:askToChoice(target, {
           choices = {"0", "1", "2"},
-          skill_name = yizheng.name,
+          skill_name = xh__yizheng.name,
           prompt = "#yizheng-damage",
           detailed = false,
         })
@@ -60,7 +60,7 @@ yizheng:addEffect("active", {
             from = target,
             to = player,
             damage = num,
-            skillName = yizheng.name,
+            skillName = xh__yizheng.name,
           }
         end
       end

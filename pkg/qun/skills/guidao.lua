@@ -3,23 +3,23 @@
 -- 当一张判定牌生效前，你可以用一张黑色牌替换之。
 
 local guidao = fk.CreateSkill {
-  name = "guidao",
+  name = "xh__guidao",
 }
 
 Fk:loadTranslationTable {
-  ["guidao"] = "鬼道",
-  [":guidao"] = "当一张判定牌生效前，你可以用一张黑色牌替换之。",
+  ["xh__guidao"] = "鬼道",
+  [":xh__guidao"] = "当一张判定牌生效前，你可以用一张黑色牌替换之。",
 
-  ["#guidao-replace"] = "鬼道：是否用一张黑色牌替换判定牌？",
+  ["#xh__guidao-replace"] = "鬼道：是否用一张黑色牌替换判定牌？",
 
-  ["$guidao1"] = "鬼道无常，变化莫测！",
-  ["$guidao2"] = "天命在我，谁能违逆！",
+  ["$xh__guidao1"] = "鬼道无常，变化莫测！",
+  ["$xh__guidao2"] = "天命在我，谁能违逆！",
 }
 
 guidao:addEffect(fk.AskForRetrial, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(guidao.name) then return false end
+    if not player:hasSkill(xh__guidao.name) then return false end
     
     -- 检查是否有黑色牌
     local cards = player:getCardIds("he")
@@ -29,7 +29,7 @@ guidao:addEffect(fk.AskForRetrial, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = guidao.name,
+      skill_name = xh__guidao.name,
       prompt = "#guidao-replace",
     })
   end,
@@ -44,13 +44,13 @@ guidao:addEffect(fk.AskForRetrial, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = guidao.name,
+      skill_name = xh__guidao.name,
       pattern = tostring(Exppattern{ id = black_cards }),
       prompt = "选择一张黑色牌替换判定牌",
       cancelable = false,
     })
     
-    room:retrial(card_id[1], player, data, guidao.name)
+    room:retrial(card_id[1], player, data, xh__guidao.name)
   end,
 })
 

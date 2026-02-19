@@ -3,30 +3,30 @@
 -- 每回合限一次，当一名角色受到伤害时，你可以防止此伤害并失去2点体力，然后其摸一张牌，你摸一张牌。
 
 local jishan = fk.CreateSkill {
-  name = "jishan",
+  name = "xh__jishan",
 }
 
 Fk:loadTranslationTable {
-  ["jishan"] = "积善",
-  [":jishan"] = "每回合限一次，当一名角色受到伤害时，你可以防止此伤害并失去2点体力，然后其摸一张牌，你摸一张牌。",
+  ["xh__jishan"] = "积善",
+  [":xh__jishan"] = "每回合限一次，当一名角色受到伤害时，你可以防止此伤害并失去2点体力，然后其摸一张牌，你摸一张牌。",
 
-  ["#jishan-invoke"] = "积善：是否防止伤害并失去2点体力？",
+  ["#xh__jishan-invoke"] = "积善：是否防止伤害并失去2点体力？",
 
-  ["$jishan1"] = "积善之家，必有余庆！",
-  ["$jishan2"] = "仁德布施，积善成德！",
+  ["$xh__jishan1"] = "积善之家，必有余庆！",
+  ["$xh__jishan2"] = "仁德布施，积善成德！",
 }
 
 jishan:addEffect(fk.DamageInflicted, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(jishan.name) then return false end
-    if player:usedSkillTimes(jishan.name, Player.HistoryTurn) > 0 then return false end
+    if not player:hasSkill(xh__jishan.name) then return false end
+    if player:usedSkillTimes(xh__jishan.name, Player.HistoryTurn) > 0 then return false end
     if player.hp < 2 then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = jishan.name,
+      skill_name = xh__jishan.name,
       prompt = "#jishan-invoke",
     })
   end,
@@ -37,11 +37,11 @@ jishan:addEffect(fk.DamageInflicted, {
     data:preventDamage()
     
     -- 失去2点体力
-    room:loseHp(player, 2, jishan.name)
+    room:loseHp(player, 2, xh__jishan.name)
     
     -- 摸牌
-    target:drawCards(1, jishan.name)
-    player:drawCards(1, jishan.name)
+    target:drawCards(1, xh__jishan.name)
+    player:drawCards(1, xh__jishan.name)
   end,
 })
 

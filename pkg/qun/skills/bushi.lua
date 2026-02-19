@@ -3,32 +3,32 @@
 -- 当你受到1点伤害后你可以获得一张"米"。当你对其他角色造成1点伤害后，其可以获得一张"米"。
 
 local bushi = fk.CreateSkill {
-  name = "bushi",
+  name = "xh__bushi",
 }
 
 Fk:loadTranslationTable {
-  ["bushi"] = "布施",
-  [":bushi"] = "当你受到1点伤害后你可以获得一张\"米\"。当你对其他角色造成1点伤害后，其可以获得一张\"米\"。",
+  ["xh__bushi"] = "布施",
+  [":xh__bushi"] = "当你受到1点伤害后你可以获得一张\"米\"。当你对其他角色造成1点伤害后，其可以获得一张\"米\"。",
 
-  ["#bushi-get"] = "布施：是否获得一张米？",
-  ["#bushi-give"] = "布施：是否令其获得一张米？",
+  ["#xh__bushi-get"] = "布施：是否获得一张米？",
+  ["#xh__bushi-give"] = "布施：是否令其获得一张米？",
 
-  ["$bushi1"] = "布施众生，五斗米道！",
-  ["$bushi2"] = "张鲁布施，汉中太平！",
+  ["$xh__bushi1"] = "布施众生，五斗米道！",
+  ["$xh__bushi2"] = "张鲁布施，汉中太平！",
 }
 
 -- 受到伤害后获得米
 bushi:addEffect(fk.Damaged, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(bushi.name) then return false end
+    if target ~= player or not player:hasSkill(xh__bushi.name) then return false end
     
     local mi = player:getMark("@@yishe_mi")
     return mi and type(mi) == "table" and #mi > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = bushi.name,
+      skill_name = xh__bushi.name,
       prompt = "#bushi-get",
     })
   end,
@@ -38,7 +38,7 @@ bushi:addEffect(fk.Damaged, {
     
     if mi and #mi > 0 then
       local id = table.remove(mi, 1)
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, bushi.name)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__bushi.name)
       room:setPlayerMark(player, "@@yishe_mi", mi)
       
       -- 如果是最后一张米，回复体力
@@ -58,7 +58,7 @@ bushi:addEffect(fk.Damaged, {
 bushi:addEffect(fk.Damage, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(bushi.name) then return false end
+    if target ~= player or not player:hasSkill(xh__bushi.name) then return false end
     if not data.to or data.to == player then return false end
     
     local mi = player:getMark("@@yishe_mi")
@@ -66,7 +66,7 @@ bushi:addEffect(fk.Damage, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = bushi.name,
+      skill_name = xh__bushi.name,
       prompt = "#bushi-give",
     })
   end,
@@ -77,7 +77,7 @@ bushi:addEffect(fk.Damage, {
     
     if mi and #mi > 0 then
       local id = table.remove(mi, 1)
-      room:moveCardTo(id, Player.Hand, to, fk.ReasonGive, bushi.name, nil, false, player.id)
+      room:moveCardTo(id, Player.Hand, to, fk.ReasonGive, xh__bushi.name, nil, false, player.id)
       room:setPlayerMark(player, "@@yishe_mi", mi)
       
       -- 如果是最后一张米，回复体力

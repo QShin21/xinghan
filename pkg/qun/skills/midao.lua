@@ -3,30 +3,30 @@
 -- 当一张判定牌生效前，你可以用一张"米"代替之。
 
 local midao = fk.CreateSkill {
-  name = "midao",
+  name = "xh__midao",
 }
 
 Fk:loadTranslationTable {
-  ["midao"] = "米道",
-  [":midao"] = "当一张判定牌生效前，你可以用一张\"米\"代替之。",
+  ["xh__midao"] = "米道",
+  [":xh__midao"] = "当一张判定牌生效前，你可以用一张\"米\"代替之。",
 
-  ["#midao-invoke"] = "米道：是否用一张米代替判定牌？",
+  ["#xh__midao-invoke"] = "米道：是否用一张米代替判定牌？",
 
-  ["$midao1"] = "米道之术，五斗米道！",
-  ["$midao2"] = "张鲁米道，汉中太平！",
+  ["$xh__midao1"] = "米道之术，五斗米道！",
+  ["$xh__midao2"] = "张鲁米道，汉中太平！",
 }
 
 midao:addEffect(fk.AskForRetarget, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(midao.name) then return false end
+    if not player:hasSkill(xh__midao.name) then return false end
     
     local sheng = player:getMark("@@jutu_sheng")
     return sheng and type(sheng) == "table" and #sheng > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = midao.name,
+      skill_name = xh__midao.name,
       prompt = "#midao-invoke",
     })
   end,

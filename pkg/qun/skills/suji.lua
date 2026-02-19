@@ -3,24 +3,24 @@
 -- 已受伤角色的出牌阶段开始时，你可以将一张黑色牌当【杀】使用，若其受到此【杀】伤害，你获得其一张牌。
 
 local suji = fk.CreateSkill {
-  name = "suji",
+  name = "xh__suji",
 }
 
 Fk:loadTranslationTable {
-  ["suji"] = "肃疾",
-  [":suji"] = "已受伤角色的出牌阶段开始时，你可以将一张黑色牌当【杀】使用，若其受到此【杀】伤害，你获得其一张牌。",
+  ["xh__suji"] = "肃疾",
+  [":xh__suji"] = "已受伤角色的出牌阶段开始时，你可以将一张黑色牌当【杀】使用，若其受到此【杀】伤害，你获得其一张牌。",
 
-  ["#suji-invoke"] = "肃疾：是否将一张黑色牌当杀使用？",
-  ["@@suji_damage"] = "肃疾伤害",
+  ["#xh__suji-invoke"] = "肃疾：是否将一张黑色牌当杀使用？",
+  ["@@xh__suji_damage"] = "肃疾伤害",
 
-  ["$suji1"] = "肃疾之威，势不可挡！",
-  ["$suji2"] = "黑山军威，天下无双！",
+  ["$xh__suji1"] = "肃疾之威，势不可挡！",
+  ["$xh__suji2"] = "黑山军威，天下无双！",
 }
 
 suji:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(suji.name) then return false end
+    if not player:hasSkill(xh__suji.name) then return false end
     if target == player then return false end
     if target.phase ~= Player.Play then return false end
     if not target:isWounded() then return false end
@@ -43,7 +43,7 @@ suji:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = suji.name,
+      skill_name = xh__suji.name,
       pattern = tostring(Exppattern{ id = black_cards }),
       prompt = "#suji-invoke",
       cancelable = true,
@@ -61,7 +61,7 @@ suji:addEffect(fk.EventPhaseStart, {
     room:setPlayerMark(player, "@@suji_damage", 0)
     
     local slash = Fk:cloneCard("slash")
-    slash.skillName = suji.name
+    slash.skillName = xh__suji.name
     slash:addSubcard(card_id)
     
     room:useCard{
@@ -76,9 +76,9 @@ suji:addEffect(fk.EventPhaseStart, {
       local id = room:askToChooseCard(player, {
         target = target,
         flag = "he",
-        skill_name = suji.name,
+        skill_name = xh__suji.name,
       })
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, suji.name)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__suji.name)
     end
     
     room:setPlayerMark(player, "@@suji_damage", 0)

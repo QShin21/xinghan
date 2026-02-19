@@ -4,19 +4,19 @@
 -- 若其赢，其使用的下一张【杀】的伤害值基数+1。
 
 local kannan = fk.CreateSkill {
-  name = "kannan",
+  name = "xh__kannan",
 }
 
 Fk:loadTranslationTable {
-  ["kannan"] = "戡难",
-  [":kannan"] = "出牌阶段限一次，你可与对手拼点，若你赢，你使用的下一张【杀】的伤害值基数+1；"..
+  ["xh__kannan"] = "戡难",
+  [":xh__kannan"] = "出牌阶段限一次，你可与对手拼点，若你赢，你使用的下一张【杀】的伤害值基数+1；"..
     "若其赢，其使用的下一张【杀】的伤害值基数+1。",
 
-  ["#kannan-target"] = "戡难：选择一名对手进行拼点",
-  ["@@kannan_damage"] = "戡难",
+  ["#xh__kannan-target"] = "戡难：选择一名对手进行拼点",
+  ["@@xh__kannan_damage"] = "戡难",
 
-  ["$kannan1"] = "戡难之志，平定乱世！",
-  ["$kannan2"] = "扬州刺史，戡难安民！",
+  ["$xh__kannan1"] = "戡难之志，平定乱世！",
+  ["$xh__kannan2"] = "扬州刺史，戡难安民！",
 }
 
 kannan:addEffect("active", {
@@ -25,7 +25,7 @@ kannan:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(kannan.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(xh__kannan.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -36,10 +36,10 @@ kannan:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, kannan.name, "offensive", {target})
-    player:broadcastSkillInvoke(kannan.name)
+    room:notifySkillInvoked(player, xh__kannan.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__kannan.name)
 
-    local pindian = room:pindian({player, target}, kannan.name)
+    local pindian = room:pindian({player, target}, xh__kannan.name)
     
     if pindian.results[player].winner then
       -- 你赢：你的下一张杀伤害+1

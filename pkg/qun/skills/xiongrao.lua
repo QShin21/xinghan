@@ -4,32 +4,32 @@
 -- 然后你加体力上限至4点并摸等同于加体力上限数量的牌。
 
 local xiongrao = fk.CreateSkill {
-  name = "xiongrao",
+  name = "xh__xiongrao",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["xiongrao"] = "熊扰",
-  [":xiongrao"] = "限定技，准备阶段，你可以令所有其他角色本回合除锁定技、限定技、觉醒技以外的技能均失效，"..
+  ["xh__xiongrao"] = "熊扰",
+  [":xh__xiongrao"] = "限定技，准备阶段，你可以令所有其他角色本回合除锁定技、限定技、觉醒技以外的技能均失效，"..
     "然后你加体力上限至4点并摸等同于加体力上限数量的牌。",
 
-  ["#xiongrao-invoke"] = "熊扰：是否发动？",
-  ["@@xiongrao_disable"] = "熊扰失效",
+  ["#xh__xiongrao-invoke"] = "熊扰：是否发动？",
+  ["@@xh__xiongrao_disable"] = "熊扰失效",
 
-  ["$xiongrao1"] = "熊扰天下，谁敢争锋！",
-  ["$xiongrao2"] = "西凉熊虎，威震天下！",
+  ["$xh__xiongrao1"] = "熊扰天下，谁敢争锋！",
+  ["$xh__xiongrao2"] = "西凉熊虎，威震天下！",
 }
 
 xiongrao:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xiongrao.name) and
+    return target == player and player:hasSkill(xh__xiongrao.name) and
       player.phase == Player.Start and
-      player:usedSkillTimes(xiongrao.name, Player.HistoryGame) == 0
+      player:usedSkillTimes(xh__xiongrao.name, Player.HistoryGame) == 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xiongrao.name,
+      skill_name = xh__xiongrao.name,
       prompt = "#xiongrao-invoke",
     })
   end,
@@ -50,7 +50,7 @@ xiongrao:addEffect(fk.EventPhaseStart, {
     end
     
     -- 摸牌
-    player:drawCards(add, xiongrao.name)
+    player:drawCards(add, xh__xiongrao.name)
   end,
 })
 

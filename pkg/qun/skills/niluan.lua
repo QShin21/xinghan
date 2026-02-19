@@ -4,25 +4,25 @@
 -- 则你可以对其使用一张【杀】，当此【杀】结算结束后，若此【杀】对其造成过伤害，则你弃置其一张牌。
 
 local niluan = fk.CreateSkill {
-  name = "niluan",
+  name = "xh__niluan",
 }
 
 Fk:loadTranslationTable {
-  ["niluan"] = "逆乱",
-  [":niluan"] = "其他角色的结束阶段，若其本回合对除其以外的角色使用过牌，"..
+  ["xh__niluan"] = "逆乱",
+  [":xh__niluan"] = "其他角色的结束阶段，若其本回合对除其以外的角色使用过牌，"..
     "则你可以对其使用一张【杀】，当此【杀】结算结束后，若此【杀】对其造成过伤害，则你弃置其一张牌。",
 
-  ["#niluan-use"] = "逆乱：是否对其使用一张杀？",
-  ["@@niluan_damage"] = "逆乱伤害",
+  ["#xh__niluan-use"] = "逆乱：是否对其使用一张杀？",
+  ["@@xh__niluan_damage"] = "逆乱伤害",
 
-  ["$niluan1"] = "逆乱之志，不屈不挠！",
-  ["$niluan2"] = "西凉铁骑，逆乱天下！",
+  ["$xh__niluan1"] = "逆乱之志，不屈不挠！",
+  ["$xh__niluan2"] = "西凉铁骑，逆乱天下！",
 }
 
 niluan:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(niluan.name) then return false end
+    if target == player or not player:hasSkill(xh__niluan.name) then return false end
     if target.phase ~= Player.Finish then return false end
     
     -- 检查是否对其他角色使用过牌
@@ -30,7 +30,7 @@ niluan:addEffect(fk.EventPhaseStart, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = niluan.name,
+      skill_name = xh__niluan.name,
       prompt = "#niluan-use",
     })
   end,
@@ -38,7 +38,7 @@ niluan:addEffect(fk.EventPhaseStart, {
     local room = player.room
     
     local slash = Fk:cloneCard("slash")
-    slash.skillName = niluan.name
+    slash.skillName = xh__niluan.name
     
     room:useCard{
       from = player.id,
@@ -77,9 +77,9 @@ niluan:addEffect(fk.Damage, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "he",
-      skill_name = niluan.name,
+      skill_name = xh__niluan.name,
     })
-    room:throwCard(id, niluan.name, to, player)
+    room:throwCard(id, xh__niluan.name, to, player)
   end,
 })
 

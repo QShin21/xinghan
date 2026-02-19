@@ -3,15 +3,15 @@
 -- 你可以将一张【杀】当【闪】、【闪】当【杀】、【酒】当【桃】、【桃】当【酒】使用或打出。
 
 local longdan = fk.CreateSkill {
-  name = "longdan",
+  name = "xh__longdan",
 }
 
 Fk:loadTranslationTable {
-  ["longdan"] = "龙胆",
-  [":longdan"] = "你可以将一张【杀】当【闪】、【闪】当【杀】、【酒】当【桃】、【桃】当【酒】使用或打出。",
+  ["xh__longdan"] = "龙胆",
+  [":xh__longdan"] = "你可以将一张【杀】当【闪】、【闪】当【杀】、【酒】当【桃】、【桃】当【酒】使用或打出。",
 
-  ["$longdan1"] = "能进能退，乃真正法器！",
-  ["$longdan2"] = "吾乃常山赵子龙也！",
+  ["$xh__longdan1"] = "能进能退，乃真正法器！",
+  ["$xh__longdan2"] = "吾乃常山赵子龙也！",
 }
 
 longdan:addEffect("viewas", {
@@ -51,7 +51,7 @@ longdan:addEffect("viewas", {
       return nil
     end
 
-    new_card.skillName = longdan.name
+    new_card.skillName = xh__longdan.name
     new_card:addSubcard(cards[1])
     return new_card
   end,

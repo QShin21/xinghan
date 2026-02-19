@@ -4,21 +4,21 @@
 -- 直到你下回合开始前，若以此法受到伤害的角色未对你造成过伤害，你的下个摸牌阶段摸牌数+2。
 
 local juguan = fk.CreateSkill {
-  name = "juguan",
+  name = "xh__juguan",
 }
 
 Fk:loadTranslationTable {
-  ["juguan"] = "拒关",
-  [":juguan"] = "出牌阶段限一次，你可将一张手牌当不计入次数的【杀】或【决斗】使用。"..
+  ["xh__juguan"] = "拒关",
+  [":xh__juguan"] = "出牌阶段限一次，你可将一张手牌当不计入次数的【杀】或【决斗】使用。"..
     "直到你下回合开始前，若以此法受到伤害的角色未对你造成过伤害，你的下个摸牌阶段摸牌数+2。",
 
-  ["#juguan-use"] = "拒关：选择一张手牌",
+  ["#xh__juguan-use"] = "拒关：选择一张手牌",
   ["juguan_slash"] = "当杀使用",
   ["juguan_duel"] = "当决斗使用",
-  ["@@juguan_bonus"] = "拒关奖励",
+  ["@@xh__juguan_bonus"] = "拒关奖励",
 
-  ["$juguan1"] = "拒关之险，谁敢闯关！",
-  ["$juguan2"] = "高干拒关，天下无双！",
+  ["$xh__juguan1"] = "拒关之险，谁敢闯关！",
+  ["$xh__juguan2"] = "高干拒关，天下无双！",
 }
 
 juguan:addEffect("viewas", {
@@ -34,19 +34,19 @@ juguan:addEffect("viewas", {
     local room = player.room
     local choice = room:askToChoice(player, {
       choices = {"juguan_slash", "juguan_duel"},
-      skill_name = juguan.name,
+      skill_name = xh__juguan.name,
       prompt = "选择当什么牌使用",
       detailed = false,
     })
     
     local card_name = choice == "juguan_slash" and "slash" or "duel"
     local card = Fk:cloneCard(card_name)
-    card.skillName = juguan.name
+    card.skillName = xh__juguan.name
     card:addSubcard(cards[1])
     return card
   end,
   enabled_at_play = function(self, player)
-    return player:usedSkillTimes(juguan.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__juguan.name, Player.HistoryPhase) == 0
   end,
 })
 

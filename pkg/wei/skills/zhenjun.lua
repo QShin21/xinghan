@@ -4,28 +4,28 @@
 -- 若其以此法被弃置的牌中没有装备牌，你选择一项：1. 弃置一张牌；2. 令其摸等量的牌。
 
 local zhenjun = fk.CreateSkill {
-  name = "zhenjun",
+  name = "xh__zhenjun",
 }
 
 Fk:loadTranslationTable {
-  ["zhenjun"] = "镇军",
-  [":zhenjun"] = "准备阶段或结束阶段，你可以弃置一名角色的X张牌（X为其手牌数减体力值且至少为1），"..
+  ["xh__zhenjun"] = "镇军",
+  [":xh__zhenjun"] = "准备阶段或结束阶段，你可以弃置一名角色的X张牌（X为其手牌数减体力值且至少为1），"..
     "若其以此法被弃置的牌中没有装备牌，你选择一项：1. 弃置一张牌；2. 令其摸等量的牌。",
 
-  ["#zhenjun-choose"] = "镇军：选择一名角色弃置其X张牌",
-  ["#zhenjun-discard"] = "镇军：选择要弃置的牌",
-  ["#zhenjun-choice"] = "镇军：被弃置的牌中没有装备牌，请选择一项",
+  ["#xh__zhenjun-choose"] = "镇军：选择一名角色弃置其X张牌",
+  ["#xh__zhenjun-discard"] = "镇军：选择要弃置的牌",
+  ["#xh__zhenjun-choice"] = "镇军：被弃置的牌中没有装备牌，请选择一项",
   ["zhenjun_choice1"] = "弃置一张牌",
   ["zhenjun_choice2"] = "令其摸等量的牌",
 
-  ["$zhenjun1"] = "镇守边疆，保境安民！",
-  ["$zhenjun2"] = "军令如山，违者必究！",
+  ["$xh__zhenjun1"] = "镇守边疆，保境安民！",
+  ["$xh__zhenjun2"] = "军令如山，违者必究！",
 }
 
 zhenjun:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(zhenjun.name) then return false end
+    if target ~= player or not player:hasSkill(xh__zhenjun.name) then return false end
     if player.phase ~= Player.Start and player.phase ~= Player.Finish then return false end
 
     local room = player.room
@@ -47,7 +47,7 @@ zhenjun:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = zhenjun.name,
+      skill_name = xh__zhenjun.name,
       prompt = "#zhenjun-choose",
       cancelable = true,
     })
@@ -70,7 +70,7 @@ zhenjun:addEffect(fk.EventPhaseStart, {
       min_num = x,
       max_num = x,
       include_equip = true,
-      skill_name = zhenjun.name,
+      skill_name = xh__zhenjun.name,
       pattern = tostring(Exppattern{ id = to:getCardIds("he") }),
       prompt = "#zhenjun-discard",
       cancelable = false,
@@ -83,7 +83,7 @@ zhenjun:addEffect(fk.EventPhaseStart, {
     end)
 
     -- 弃置牌
-    room:throwCard(cards, zhenjun.name, to, player)
+    room:throwCard(cards, xh__zhenjun.name, to, player)
 
     -- 若没有装备牌，选择一项
     if not has_equip and not player.dead then
@@ -95,7 +95,7 @@ zhenjun:addEffect(fk.EventPhaseStart, {
 
       local choice = room:askToChoice(player, {
         choices = choices,
-        skill_name = zhenjun.name,
+        skill_name = xh__zhenjun.name,
         prompt = "#zhenjun-choice",
         detailed = false,
       })
@@ -106,15 +106,15 @@ zhenjun:addEffect(fk.EventPhaseStart, {
           min_num = 1,
           max_num = 1,
           include_equip = true,
-          skill_name = zhenjun.name,
+          skill_name = xh__zhenjun.name,
           pattern = ".",
           cancelable = false,
         })
-        room:throwCard(card, zhenjun.name, player, player)
+        room:throwCard(card, xh__zhenjun.name, player, player)
       else
         -- 令其摸等量的牌
         if not to.dead then
-          to:drawCards(#cards, zhenjun.name)
+          to:drawCards(#cards, xh__zhenjun.name)
         end
       end
     end

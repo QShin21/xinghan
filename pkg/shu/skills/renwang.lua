@@ -4,25 +4,25 @@
 -- 则你可以弃置其一张牌。
 
 local renwang = fk.CreateSkill {
-  name = "renwang",
+  name = "xh__renwang",
 }
 
 Fk:loadTranslationTable {
-  ["renwang"] = "仁望",
-  [":renwang"] = "当对手于其出牌阶段内对你使用【杀】或普通锦囊牌时，若你不是此阶段第一次成为上述牌的目标，"..
+  ["xh__renwang"] = "仁望",
+  [":xh__renwang"] = "当对手于其出牌阶段内对你使用【杀】或普通锦囊牌时，若你不是此阶段第一次成为上述牌的目标，"..
     "则你可以弃置其一张牌。",
 
-  ["#renwang-invoke"] = "仁望：你可以弃置 %dest 一张牌",
-  ["@@renwang_target_count"] = "仁望目标计数",
+  ["#xh__renwang-invoke"] = "仁望：你可以弃置 %dest 一张牌",
+  ["@@xh__renwang_target_count"] = "仁望目标计数",
 
-  ["$renwang1"] = "仁望天下，德服四方！",
-  ["$renwang2"] = "以德服人，不战而屈人之兵！",
+  ["$xh__renwang1"] = "仁望天下，德服四方！",
+  ["$xh__renwang2"] = "以德服人，不战而屈人之兵！",
 }
 
 renwang:addEffect(fk.TargetConfirmed, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(renwang.name) then return false end
+    if not player:hasSkill(xh__renwang.name) then return false end
     if target == player then return false end  -- 对手使用
     if target.phase ~= Player.Play then return false end
     
@@ -40,7 +40,7 @@ renwang:addEffect(fk.TargetConfirmed, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = renwang.name,
+      skill_name = xh__renwang.name,
       prompt = "#renwang-invoke::" .. target.id,
     })
   end,
@@ -51,9 +51,9 @@ renwang:addEffect(fk.TargetConfirmed, {
       local id = room:askToChooseCard(player, {
         target = target,
         flag = "he",
-        skill_name = renwang.name,
+        skill_name = xh__renwang.name,
       })
-      room:throwCard(id, renwang.name, target, player)
+      room:throwCard(id, xh__renwang.name, target, player)
     end
   end,
 })

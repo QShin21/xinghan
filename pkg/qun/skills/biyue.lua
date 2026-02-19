@@ -3,28 +3,28 @@
 -- 结束阶段，你可以摸一张牌，若你本回合未造成过伤害，则改为摸两张牌。
 
 local biyue = fk.CreateSkill {
-  name = "biyue",
+  name = "xh__biyue",
 }
 
 Fk:loadTranslationTable {
-  ["biyue"] = "闭月",
-  [":biyue"] = "结束阶段，你可以摸一张牌，若你本回合未造成过伤害，则改为摸两张牌。",
+  ["xh__biyue"] = "闭月",
+  [":xh__biyue"] = "结束阶段，你可以摸一张牌，若你本回合未造成过伤害，则改为摸两张牌。",
 
-  ["#biyue-invoke"] = "闭月：摸一张牌（若本回合未造成伤害则摸两张）",
+  ["#xh__biyue-invoke"] = "闭月：摸一张牌（若本回合未造成伤害则摸两张）",
 
-  ["$biyue1"] = "夫君，我要……",
-  ["$biyue2"] = "失礼了……",
+  ["$xh__biyue1"] = "夫君，我要……",
+  ["$xh__biyue2"] = "失礼了……",
 }
 
 biyue:addEffect(fk.EventPhaseStart, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(biyue.name) and
+    return target == player and player:hasSkill(xh__biyue.name) and
       player.phase == Player.Finish
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = biyue.name,
+      skill_name = xh__biyue.name,
       prompt = "#biyue-invoke",
     })
   end,
@@ -36,10 +36,10 @@ biyue:addEffect(fk.EventPhaseStart, {
 
     if has_damage then
       -- 造成过伤害：摸一张牌
-      player:drawCards(1, biyue.name)
+      player:drawCards(1, xh__biyue.name)
     else
       -- 未造成伤害：摸两张牌
-      player:drawCards(2, biyue.name)
+      player:drawCards(2, xh__biyue.name)
     end
     
     -- 清除标记
@@ -51,7 +51,7 @@ biyue:addEffect(fk.EventPhaseStart, {
 biyue:addEffect(fk.Damage, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(biyue.name)
+    return target == player and player:hasSkill(xh__biyue.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

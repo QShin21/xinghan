@@ -5,19 +5,19 @@
 -- 若你没赢，其对你造成1点伤害。
 
 local quhu = fk.CreateSkill {
-  name = "quhu",
+  name = "xh__quhu",
 }
 
 Fk:loadTranslationTable {
-  ["quhu"] = "驱虎",
-  [":quhu"] = "出牌阶段限一次，你可以与一名体力值大于你的角色拼点："..
+  ["xh__quhu"] = "驱虎",
+  [":xh__quhu"] = "出牌阶段限一次，你可以与一名体力值大于你的角色拼点："..
     "若你赢，你令该角色对其攻击范围内由你选择的另一名角色造成1点伤害；若你没赢，其对你造成1点伤害。",
 
-  ["#quhu-choose"] = "驱虎：选择一名体力值大于你的角色进行拼点",
-  ["#quhu-target"] = "驱虎：选择 %dest 攻击范围内的一名角色，令其受到1点伤害",
+  ["#xh__quhu-choose"] = "驱虎：选择一名体力值大于你的角色进行拼点",
+  ["#xh__quhu-target"] = "驱虎：选择 %dest 攻击范围内的一名角色，令其受到1点伤害",
 
-  ["$quhu1"] = "两虎相斗，旁观成败。",
-  ["$quhu2"] = "驱兽相争，坐收渔利。",
+  ["$xh__quhu1"] = "两虎相斗，旁观成败。",
+  ["$xh__quhu2"] = "驱兽相争，坐收渔利。",
 }
 
 quhu:addEffect("active", {
@@ -26,7 +26,7 @@ quhu:addEffect("active", {
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(quhu.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__quhu.name, Player.HistoryPhase) == 0
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -42,14 +42,14 @@ quhu:addEffect("active", {
     local target = effect.tos[1]
     local card = effect.cards[1]
 
-    room:notifySkillInvoked(player, quhu.name, "offensive", {target})
+    room:notifySkillInvoked(player, xh__quhu.name, "offensive", {target})
 
     -- 拼点
-    local pindian = room:pindian({player, target}, quhu.name)
+    local pindian = room:pindian({player, target}, xh__quhu.name)
 
     if pindian.results[player].winner then
       -- 玩家赢
-      player:broadcastSkillInvoke(quhu.name, 1)
+      player:broadcastSkillInvoke(xh__quhu.name, 1)
 
       -- 选择目标攻击范围内的一名角色
       local targets = table.filter(room:getOtherPlayers(target), function(p)
@@ -61,7 +61,7 @@ quhu:addEffect("active", {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = quhu.name,
+          skill_name = xh__quhu.name,
           prompt = "#quhu-target::" .. target.id,
           cancelable = false,
         })[1]
@@ -70,17 +70,17 @@ quhu:addEffect("active", {
           from = target,
           to = victim,
           damage = 1,
-          skillName = quhu.name,
+          skillName = xh__quhu.name,
         }
       end
     else
       -- 玩家输
-      player:broadcastSkillInvoke(quhu.name, 2)
+      player:broadcastSkillInvoke(xh__quhu.name, 2)
       room:damage{
         from = target,
         to = player,
         damage = 1,
-        skillName = quhu.name,
+        skillName = xh__quhu.name,
       }
     end
   end,

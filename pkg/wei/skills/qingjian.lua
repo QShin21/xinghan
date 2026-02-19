@@ -3,25 +3,25 @@
 -- 每回合限一次，当你获得其他角色的牌后，你可以将其中任意张牌交给任意名角色。
 
 local qingjian = fk.CreateSkill {
-  name = "qingjian",
+  name = "xh__qingjian",
 }
 
 Fk:loadTranslationTable {
-  ["qingjian"] = "清俭",
-  [":qingjian"] = "每回合限一次，当你获得其他角色的牌后，你可以将其中任意张牌交给任意名角色。",
+  ["xh__qingjian"] = "清俭",
+  [":xh__qingjian"] = "每回合限一次，当你获得其他角色的牌后，你可以将其中任意张牌交给任意名角色。",
 
-  ["#qingjian-invoke"] = "清俭：是否将获得的牌交给其他角色？",
-  ["@@qingjian_max_cards"] = "清俭手牌上限",
+  ["#xh__qingjian-invoke"] = "清俭：是否将获得的牌交给其他角色？",
+  ["@@xh__qingjian_max_cards"] = "清俭手牌上限",
 
-  ["$qingjian1"] = "清俭之德，天下无双！",
-  ["$qingjian2"] = "李典清俭，忠义无双！",
+  ["$xh__qingjian1"] = "清俭之德，天下无双！",
+  ["$xh__qingjian2"] = "李典清俭，忠义无双！",
 }
 
 qingjian:addEffect(fk.AfterCardsMove, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(qingjian.name) then return false end
-    if player:usedSkillTimes(qingjian.name, Player.HistoryTurn) > 0 then return false end
+    if not player:hasSkill(xh__qingjian.name) then return false end
+    if player:usedSkillTimes(xh__qingjian.name, Player.HistoryTurn) > 0 then return false end
     
     -- 检查是否获得了其他角色的牌
     for _, move in ipairs(data) do
@@ -37,7 +37,7 @@ qingjian:addEffect(fk.AfterCardsMove, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = qingjian.name,
+      skill_name = xh__qingjian.name,
       prompt = "#qingjian-invoke",
     })
   end,
@@ -49,7 +49,7 @@ qingjian:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = player:getHandcardNum(),
       include_equip = false,
-      skill_name = qingjian.name,
+      skill_name = xh__qingjian.name,
       pattern = ".",
       prompt = "选择要给出的牌",
       cancelable = true,
@@ -62,7 +62,7 @@ qingjian:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = #cards,
       targets = room:getOtherPlayers(player),
-      skill_name = qingjian.name,
+      skill_name = xh__qingjian.name,
       prompt = "选择目标角色",
       cancelable = false,
     })
@@ -70,7 +70,7 @@ qingjian:addEffect(fk.AfterCardsMove, {
     -- 给牌
     for i, to in ipairs(targets) do
       if i <= #cards then
-        room:moveCardTo(cards[i], Player.Hand, to, fk.ReasonGive, qingjian.name, nil, false, player.id)
+        room:moveCardTo(cards[i], Player.Hand, to, fk.ReasonGive, xh__qingjian.name, nil, false, player.id)
       end
     end
   end,

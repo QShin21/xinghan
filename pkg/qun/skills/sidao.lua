@@ -4,26 +4,26 @@
 -- 你可以将一张手牌当【顺手牵羊】对其使用。
 
 local sidao = fk.CreateSkill {
-  name = "sidao",
+  name = "xh__sidao",
 }
 
 Fk:loadTranslationTable {
-  ["sidao"] = "伺盗",
-  [":sidao"] = "出牌阶段限一次，当你对一名其他角色连续使用两张牌后，"..
+  ["xh__sidao"] = "伺盗",
+  [":xh__sidao"] = "出牌阶段限一次，当你对一名其他角色连续使用两张牌后，"..
     "你可以将一张手牌当【顺手牵羊】对其使用。",
 
-  ["#sidao-use"] = "伺盗：将一张手牌当顺手牵羊使用",
+  ["#xh__sidao-use"] = "伺盗：将一张手牌当顺手牵羊使用",
 
-  ["$sidao1"] = "伺机而动，盗亦有道！",
-  ["$sidao2"] = "伺盗之术，出其不意！",
+  ["$xh__sidao1"] = "伺机而动，盗亦有道！",
+  ["$xh__sidao2"] = "伺盗之术，出其不意！",
 }
 
 sidao:addEffect(fk.CardUsing, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(sidao.name) then return false end
+    if target ~= player or not player:hasSkill(xh__sidao.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:usedSkillTimes(sidao.name, Player.HistoryPhase) > 0 then return false end
+    if player:usedSkillTimes(xh__sidao.name, Player.HistoryPhase) > 0 then return false end
     if player:isKongcheng() then return false end
     
     -- 检查是否连续使用两张牌给同一目标
@@ -39,7 +39,7 @@ sidao:addEffect(fk.CardUsing, {
     local to = room:getPlayerById(data.to)
     
     return room:askToSkillInvoke(player, {
-      skill_name = sidao.name,
+      skill_name = xh__sidao.name,
       prompt = "#sidao-use",
     })
   end,
@@ -51,14 +51,14 @@ sidao:addEffect(fk.CardUsing, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = sidao.name,
+      skill_name = xh__sidao.name,
       pattern = ".",
       prompt = "选择一张手牌当顺手牵羊使用",
       cancelable = false,
     })
     
     local card = Fk:cloneCard("dismantlement")
-    card.skillName = sidao.name
+    card.skillName = xh__sidao.name
     card:addSubcard(card_id[1])
     
     room:useCard{

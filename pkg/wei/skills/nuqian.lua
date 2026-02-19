@@ -4,22 +4,22 @@
 -- 你使用装备牌转化的【杀】造成的伤害+1。
 
 local nuqian = fk.CreateSkill {
-  name = "nuqian",
+  name = "xh__nuqian",
 }
 
 Fk:loadTranslationTable {
-  ["nuqian"] = "怒斩",
-  [":nuqian"] = "锁定技，你使用锦囊牌转化的【杀】无次数限制；"..
+  ["xh__nuqian"] = "怒斩",
+  [":xh__nuqian"] = "锁定技，你使用锦囊牌转化的【杀】无次数限制；"..
     "你使用装备牌转化的【杀】造成的伤害+1。",
 
-  ["$nuqian1"] = "怒斩敌首，威震华夏！",
-  ["$nuqian2"] = "青龙偃月，所向披靡！",
+  ["$xh__nuqian1"] = "怒斩敌首，威震华夏！",
+  ["$xh__nuqian2"] = "青龙偃月，所向披靡！",
 }
 
 -- 锦囊牌转化的杀无次数限制
 nuqian:addEffect("targetmod", {
   residue_func = function(self, player, skill, scope, card)
-    if not player:hasSkill(nuqian.name) then return 0 end
+    if not player:hasSkill(xh__nuqian.name) then return 0 end
     if skill.trueName ~= "slash_skill" then return 0 end
 
     -- 检查是否为锦囊牌转化
@@ -39,7 +39,7 @@ nuqian:addEffect("targetmod", {
 nuqian:addEffect(fk.DamageCaused, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(nuqian.name) then return false end
+    if target ~= player or not player:hasSkill(xh__nuqian.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
 
     -- 检查是否为装备牌转化

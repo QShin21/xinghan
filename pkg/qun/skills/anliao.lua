@@ -3,17 +3,17 @@
 -- 出牌阶段限X次，你可以重铸一名角色的一张牌（X为群雄势力角色数）。
 
 local anliao = fk.CreateSkill {
-  name = "anliao",
+  name = "xh__anliao",
 }
 
 Fk:loadTranslationTable {
-  ["anliao"] = "安辽",
-  [":anliao"] = "出牌阶段限X次，你可以重铸一名角色的一张牌（X为群雄势力角色数）。",
+  ["xh__anliao"] = "安辽",
+  [":xh__anliao"] = "出牌阶段限X次，你可以重铸一名角色的一张牌（X为群雄势力角色数）。",
 
-  ["#anliao-target"] = "安辽：选择一名角色重铸其一张牌",
+  ["#xh__anliao-target"] = "安辽：选择一名角色重铸其一张牌",
 
-  ["$anliao1"] = "安辽之策，保境安民！",
-  ["$anliao2"] = "辽东公孙，安辽天下！",
+  ["$xh__anliao1"] = "安辽之策，保境安民！",
+  ["$xh__anliao2"] = "辽东公孙，安辽天下！",
 }
 
 anliao:addEffect("active", {
@@ -31,7 +31,7 @@ anliao:addEffect("active", {
       end
     end
     
-    return player:usedSkillTimes(anliao.name, Player.HistoryPhase) < qun_count
+    return player:usedSkillTimes(xh__anliao.name, Player.HistoryPhase) < qun_count
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -42,18 +42,18 @@ anliao:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, anliao.name, "control", {target})
-    player:broadcastSkillInvoke(anliao.name)
+    room:notifySkillInvoked(player, xh__anliao.name, "control", {target})
+    player:broadcastSkillInvoke(xh__anliao.name)
 
     -- 选择一张牌重铸
     local id = room:askToChooseCard(player, {
       target = target,
       flag = "he",
-      skill_name = anliao.name,
+      skill_name = xh__anliao.name,
     })
     
-    room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, anliao.name)
-    player:drawCards(1, anliao.name)
+    room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__anliao.name)
+    player:drawCards(1, xh__anliao.name)
   end,
 })
 

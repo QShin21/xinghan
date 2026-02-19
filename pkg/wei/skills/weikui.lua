@@ -4,20 +4,20 @@
 -- 若其中没有【闪】，你弃置其中一张牌，否则你视为对其使用一张【杀】，且你本回合计算与其的距离视为1。
 
 local weikui = fk.CreateSkill {
-  name = "weikui",
+  name = "xh__weikui",
 }
 
 Fk:loadTranslationTable {
-  ["weikui"] = "伪溃",
-  [":weikui"] = "出牌阶段限一次，你可以失去1点体力并观看一名有手牌的其他角色的手牌，"..
+  ["xh__weikui"] = "伪溃",
+  [":xh__weikui"] = "出牌阶段限一次，你可以失去1点体力并观看一名有手牌的其他角色的手牌，"..
     "若其中没有【闪】，你弃置其中一张牌，否则你视为对其使用一张【杀】，且你本回合计算与其的距离视为1。",
 
-  ["#weikui-choose"] = "伪溃：选择一名有手牌的角色",
-  ["#weikui-discard"] = "伪溃：弃置其一张牌",
-  ["@@weikui_distance"] = "伪溃",
+  ["#xh__weikui-choose"] = "伪溃：选择一名有手牌的角色",
+  ["#xh__weikui-discard"] = "伪溃：弃置其一张牌",
+  ["@@xh__weikui_distance"] = "伪溃",
 
-  ["$weikui1"] = "伪溃诱敌，出奇制胜！",
-  ["$weikui2"] = "示敌以弱，攻其不备！",
+  ["$xh__weikui1"] = "伪溃诱敌，出奇制胜！",
+  ["$xh__weikui2"] = "示敌以弱，攻其不备！",
 }
 
 weikui:addEffect("active", {
@@ -26,7 +26,7 @@ weikui:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(weikui.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(xh__weikui.name, Player.HistoryPhase) == 0 and
       player.hp > 0
   end,
   card_filter = Util.FalseFunc,
@@ -38,17 +38,17 @@ weikui:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, weikui.name, "offensive", {target})
-    player:broadcastSkillInvoke(weikui.name)
+    room:notifySkillInvoked(player, xh__weikui.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__weikui.name)
 
     -- 失去1点体力
-    room:loseHp(player, 1, weikui.name)
+    room:loseHp(player, 1, xh__weikui.name)
 
     if player.dead or target.dead then return end
 
     -- 观看其手牌
     local handcards = target:getCardIds("h")
-    room:showCards(player, handcards, weikui.name)
+    room:showCards(player, handcards, xh__weikui.name)
 
     -- 检查是否有闪
     local has_jink = table.find(handcards, function(id)
@@ -61,14 +61,14 @@ weikui:addEffect("active", {
         local id = room:askToChooseCard(player, {
           target = target,
           flag = "h",
-          skill_name = weikui.name,
+          skill_name = xh__weikui.name,
         })
-        room:throwCard(id, weikui.name, target, player)
+        room:throwCard(id, xh__weikui.name, target, player)
       end
     else
       -- 有闪：视为对其使用杀
       local slash = Fk:cloneCard("slash")
-      slash.skillName = weikui.name
+      slash.skillName = xh__weikui.name
       room:useCard{
         from = player.id,
         tos = {target.id},

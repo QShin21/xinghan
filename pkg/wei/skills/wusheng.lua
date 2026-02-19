@@ -3,15 +3,15 @@
 -- 你的红色牌可以当作【杀】使用或打出；你使用♢【杀】无距离限制。
 
 local wusheng = fk.CreateSkill {
-  name = "wusheng",
+  name = "xh__wusheng",
 }
 
 Fk:loadTranslationTable {
-  ["wusheng"] = "武圣",
-  [":wusheng"] = "你的红色牌可以当作【杀】使用或打出；你使用♢【杀】无距离限制。",
+  ["xh__wusheng"] = "武圣",
+  [":xh__wusheng"] = "你的红色牌可以当作【杀】使用或打出；你使用♢【杀】无距离限制。",
 
-  ["$wusheng1"] = "武圣关公，义薄云天！",
-  ["$wusheng2"] = "关公武圣，天下无双！",
+  ["$xh__wusheng1"] = "武圣关公，义薄云天！",
+  ["$xh__wusheng2"] = "关公武圣，天下无双！",
 }
 
 wusheng:addEffect("viewas", {
@@ -24,7 +24,7 @@ wusheng:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("slash")
-    card.skillName = wusheng.name
+    card.skillName = xh__wusheng.name
     card:addSubcard(cards[1])
     return card
   end,

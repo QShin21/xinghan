@@ -5,23 +5,23 @@
 -- 2.令你此阶段对其使用牌无距离和次数限制。
 
 local tanbei = fk.CreateSkill {
-  name = "tanbei",
+  name = "xh__tanbei",
 }
 
 Fk:loadTranslationTable {
-  ["tanbei"] = "贪狈",
-  [":tanbei"] = "出牌阶段限一次，你可以令一名其他角色选择一项："..
+  ["xh__tanbei"] = "贪狈",
+  [":xh__tanbei"] = "出牌阶段限一次，你可以令一名其他角色选择一项："..
     "1.其交给你一张手牌，你此阶段不能再对其使用牌；"..
     "2.令你此阶段对其使用牌无距离和次数限制。",
 
-  ["#tanbei-target"] = "贪狈：选择一名其他角色",
+  ["#xh__tanbei-target"] = "贪狈：选择一名其他角色",
   ["tanbei_give"] = "交给一张手牌",
   ["tanbei_unlimit"] = "令其使用牌无距离和次数限制",
-  ["@@tanbei_forbid"] = "贪狈禁止",
-  ["@@tanbei_unlimit"] = "贪狈",
+  ["@@xh__tanbei_forbid"] = "贪狈禁止",
+  ["@@xh__tanbei_unlimit"] = "贪狈",
 
-  ["$tanbei1"] = "贪狈之性，得寸进尺！",
-  ["$tanbei2"] = "贪得无厌，狈行天下！",
+  ["$xh__tanbei1"] = "贪狈之性，得寸进尺！",
+  ["$xh__tanbei2"] = "贪得无厌，狈行天下！",
 }
 
 tanbei:addEffect("active", {
@@ -30,7 +30,7 @@ tanbei:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(tanbei.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__tanbei.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -41,8 +41,8 @@ tanbei:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, tanbei.name, "control", {target})
-    player:broadcastSkillInvoke(tanbei.name)
+    room:notifySkillInvoked(player, xh__tanbei.name, "control", {target})
+    player:broadcastSkillInvoke(xh__tanbei.name)
 
     local choice
     if target:isKongcheng() then
@@ -50,7 +50,7 @@ tanbei:addEffect("active", {
     else
       choice = room:askToChoice(target, {
         choices = {"tanbei_give", "tanbei_unlimit"},
-        skill_name = tanbei.name,
+        skill_name = xh__tanbei.name,
         prompt = "选择一项",
         detailed = false,
       })
@@ -62,12 +62,12 @@ tanbei:addEffect("active", {
         min_num = 1,
         max_num = 1,
         include_equip = false,
-        skill_name = tanbei.name,
+        skill_name = xh__tanbei.name,
         pattern = ".",
         prompt = "选择一张手牌交给" .. player.name,
         cancelable = false,
       })
-      room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, tanbei.name, nil, false, target.id)
+      room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, xh__tanbei.name, nil, false, target.id)
       
       -- 此阶段不能再对其使用牌
       room:setPlayerMark(player, "@@tanbei_forbid_" .. target.id, 1)

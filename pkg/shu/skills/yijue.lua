@@ -5,22 +5,22 @@
 -- 红色，则你获得此牌，然后你可以令其回复1点体力。
 
 local yijue = fk.CreateSkill {
-  name = "yijue",
+  name = "xh__yijue",
 }
 
 Fk:loadTranslationTable {
-  ["yijue"] = "义绝",
-  [":yijue"] = "出牌阶段限一次，你可以弃置一张牌，然后令一名其他角色展示一张手牌，若此牌为："..
+  ["xh__yijue"] = "义绝",
+  [":xh__yijue"] = "出牌阶段限一次，你可以弃置一张牌，然后令一名其他角色展示一张手牌，若此牌为："..
     "黑色，则直到回合结束，其不能使用或打出手牌且所有非锁定技失效、你使用【杀】对其造成伤害时此伤害+1；"..
     "红色，则你获得此牌，然后你可以令其回复1点体力。",
 
-  ["#yijue-choose"] = "义绝：弃置一张牌，令一名角色展示手牌",
-  ["#yijue-show"] = "义绝：请展示一张手牌",
-  ["#yijue-recover"] = "义绝：是否令 %dest 回复1点体力？",
-  ["@@yijue_black"] = "义绝",
+  ["#xh__yijue-choose"] = "义绝：弃置一张牌，令一名角色展示手牌",
+  ["#xh__yijue-show"] = "义绝：请展示一张手牌",
+  ["#xh__yijue-recover"] = "义绝：是否令 %dest 回复1点体力？",
+  ["@@xh__yijue_black"] = "义绝",
 
-  ["$yijue1"] = "关某之志，在于忠义！",
-  ["$yijue2"] = "义之所至，生死相随！",
+  ["$xh__yijue1"] = "关某之志，在于忠义！",
+  ["$xh__yijue2"] = "义之所至，生死相随！",
 }
 
 yijue:addEffect("active", {
@@ -29,7 +29,7 @@ yijue:addEffect("active", {
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(yijue.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__yijue.name, Player.HistoryPhase) == 0
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -45,10 +45,10 @@ yijue:addEffect("active", {
     local target = effect.tos[1]
     local card = effect.cards[1]
 
-    room:notifySkillInvoked(player, yijue.name, "offensive", {target})
+    room:notifySkillInvoked(player, xh__yijue.name, "offensive", {target})
 
     -- 弃置牌
-    room:throwCard(card, yijue.name, player, player)
+    room:throwCard(card, xh__yijue.name, player, player)
 
     if target.dead or target:isKongcheng() then return end
 
@@ -57,14 +57,14 @@ yijue:addEffect("active", {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = yijue.name,
+      skill_name = xh__yijue.name,
       pattern = ".",
       prompt = "#yijue-show",
       cancelable = false,
     })[1]
 
     local shown = Fk:getCardById(shown_card)
-    room:showCards(target, {shown_card}, yijue.name)
+    room:showCards(target, {shown_card}, xh__yijue.name)
 
     if shown.color == Card.Black then
       -- 黑色：不能使用或打出手牌，非锁定技失效，杀伤害+1
@@ -75,11 +75,11 @@ yijue:addEffect("active", {
       room:handleAddLoseSkills(target, "-yijue_disable", nil, false, true)
     else
       -- 红色：获得此牌，可选择回复体力
-      room:moveCardTo(shown_card, Player.Hand, player, fk.ReasonPrey, yijue.name)
+      room:moveCardTo(shown_card, Player.Hand, player, fk.ReasonPrey, xh__yijue.name)
 
       if target:isWounded() then
         local choice = room:askToSkillInvoke(player, {
-          skill_name = yijue.name,
+          skill_name = xh__yijue.name,
           prompt = "#yijue-recover::" .. target.id,
         })
 
@@ -88,7 +88,7 @@ yijue:addEffect("active", {
             who = target,
             num = 1,
             recoverBy = player,
-            skillName = yijue.name,
+            skillName = xh__yijue.name,
           }
         end
       end

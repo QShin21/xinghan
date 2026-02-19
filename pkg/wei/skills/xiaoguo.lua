@@ -5,27 +5,27 @@
 -- 2. 受到你造成的1点伤害。
 
 local xiaoguo = fk.CreateSkill {
-  name = "xiaoguo",
+  name = "xh__xiaoguo",
 }
 
 Fk:loadTranslationTable {
-  ["xiaoguo"] = "骁果",
-  [":xiaoguo"] = "其他角色的结束阶段，你可以弃置一张手牌，然后该角色选择一项："..
+  ["xh__xiaoguo"] = "骁果",
+  [":xh__xiaoguo"] = "其他角色的结束阶段，你可以弃置一张手牌，然后该角色选择一项："..
     "1. 弃置一张装备牌，你摸一张牌；2. 受到你造成的1点伤害。",
 
-  ["#xiaoguo-invoke"] = "骁果：你可以弃置一张手牌",
-  ["#xiaoguo-choice"] = "骁果：请选择一项",
+  ["#xh__xiaoguo-invoke"] = "骁果：你可以弃置一张手牌",
+  ["#xh__xiaoguo-choice"] = "骁果：请选择一项",
   ["xiaoguo_choice1"] = "弃置一张装备牌，对方摸一张牌",
   ["xiaoguo_choice2"] = "受到1点伤害",
 
-  ["$xiaoguo1"] = "骁勇善战，果敢无畏！",
-  ["$xiaoguo2"] = "冲锋陷阵，所向披靡！",
+  ["$xh__xiaoguo1"] = "骁勇善战，果敢无畏！",
+  ["$xh__xiaoguo2"] = "冲锋陷阵，所向披靡！",
 }
 
 xiaoguo:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target ~= player and player:hasSkill(xiaoguo.name) and
+    return target ~= player and player:hasSkill(xh__xiaoguo.name) and
       target.phase == Player.Finish and not player:isKongcheng()
   end,
   on_cost = function(self, event, target, player, data)
@@ -35,7 +35,7 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xiaoguo.name,
+      skill_name = xh__xiaoguo.name,
       pattern = ".",
       prompt = "#xiaoguo-invoke",
       cancelable = true,
@@ -51,7 +51,7 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
     local card = event:getCostData(self).cards[1]
 
     -- 弃置手牌
-    room:throwCard(card, xiaoguo.name, player, player)
+    room:throwCard(card, xh__xiaoguo.name, player, player)
 
     if target.dead then return end
 
@@ -67,7 +67,7 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
 
     local choice = room:askToChoice(target, {
       choices = choices,
-      skill_name = xiaoguo.name,
+      skill_name = xh__xiaoguo.name,
       prompt = "#xiaoguo-choice",
       detailed = false,
     })
@@ -82,10 +82,10 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
         local id = room:askToChooseCard(player, {
           target = target,
           flag = "e",
-          skill_name = xiaoguo.name,
+          skill_name = xh__xiaoguo.name,
         })
-        room:throwCard(id, xiaoguo.name, target, player)
-        player:drawCards(1, xiaoguo.name)
+        room:throwCard(id, xh__xiaoguo.name, target, player)
+        player:drawCards(1, xh__xiaoguo.name)
       end
     else
       -- 受到1点伤害
@@ -93,7 +93,7 @@ xiaoguo:addEffect(fk.EventPhaseStart, {
         from = player,
         to = target,
         damage = 1,
-        skillName = xiaoguo.name,
+        skillName = xh__xiaoguo.name,
       }
     end
   end,

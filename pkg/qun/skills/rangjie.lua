@@ -3,29 +3,29 @@
 -- 当你受到1点伤害后，你可以移动场上的一张牌，然后你可以于本回合进入弃牌堆的牌中选择一张与此牌花色相同的牌获得之。
 
 local rangjie = fk.CreateSkill {
-  name = "rangjie",
+  name = "xh__rangjie",
 }
 
 Fk:loadTranslationTable {
-  ["rangjie"] = "让节",
-  [":rangjie"] = "当你受到1点伤害后，你可以移动场上的一张牌，然后你可以于本回合进入弃牌堆的牌中选择一张与此牌花色相同的牌获得之。",
+  ["xh__rangjie"] = "让节",
+  [":xh__rangjie"] = "当你受到1点伤害后，你可以移动场上的一张牌，然后你可以于本回合进入弃牌堆的牌中选择一张与此牌花色相同的牌获得之。",
 
-  ["#rangjie-move"] = "让节：移动场上的一张牌",
-  ["#rangjie-get"] = "让节：是否获得弃牌堆中同花色的牌？",
+  ["#xh__rangjie-move"] = "让节：移动场上的一张牌",
+  ["#xh__rangjie-get"] = "让节：是否获得弃牌堆中同花色的牌？",
 
-  ["$rangjie1"] = "让节守礼，不失风度！",
-  ["$rangjie2"] = "礼让为先，节操为重！",
+  ["$xh__rangjie1"] = "让节守礼，不失风度！",
+  ["$xh__rangjie2"] = "礼让为先，节操为重！",
 }
 
 rangjie:addEffect(fk.Damaged, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(rangjie.name) and
+    return target == player and player:hasSkill(xh__rangjie.name) and
       data.damage == 1
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = rangjie.name,
+      skill_name = xh__rangjie.name,
       prompt = "#rangjie-move",
     })
   end,
@@ -44,7 +44,7 @@ rangjie:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = froms,
-      skill_name = rangjie.name,
+      skill_name = xh__rangjie.name,
       prompt = "选择移动牌的来源",
       cancelable = false,
     })[1]
@@ -53,7 +53,7 @@ rangjie:addEffect(fk.Damaged, {
     local card_id = room:askToChooseCard(player, {
       target = from,
       flag = "he",
-      skill_name = rangjie.name,
+      skill_name = xh__rangjie.name,
     })
     
     local card = Fk:getCardById(card_id)
@@ -69,12 +69,12 @@ rangjie:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = tos,
-      skill_name = rangjie.name,
+      skill_name = xh__rangjie.name,
       prompt = "选择移动牌的目标",
       cancelable = false,
     })[1]
     
-    room:moveCardTo(card_id, Player.Hand, to, fk.ReasonGive, rangjie.name, nil, false, from.id)
+    room:moveCardTo(card_id, Player.Hand, to, fk.ReasonGive, xh__rangjie.name, nil, false, from.id)
     
     -- 询问是否获得弃牌堆中同花色的牌
     local suit = card.suit
@@ -85,20 +85,20 @@ rangjie:addEffect(fk.Damaged, {
     
     if #same_suit_cards > 0 then
       if room:askToSkillInvoke(player, {
-        skill_name = rangjie.name,
+        skill_name = xh__rangjie.name,
         prompt = "#rangjie-get",
       }) then
         local get_id = room:askToCards(player, {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = rangjie.name,
+          skill_name = xh__rangjie.name,
           pattern = tostring(Exppattern{ id = same_suit_cards }),
           prompt = "选择一张同花色的牌获得",
           cancelable = false,
         })
         
-        room:moveCardTo(get_id[1], Player.Hand, player, fk.ReasonPrey, rangjie.name)
+        room:moveCardTo(get_id[1], Player.Hand, player, fk.ReasonPrey, xh__rangjie.name)
       end
     end
   end,

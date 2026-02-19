@@ -4,27 +4,27 @@
 -- 1.本回合非锁定技失效；2.交给你1张手牌；3.弃置装备区里的所有牌。
 
 local huoshui = fk.CreateSkill {
-  name = "huoshui",
+  name = "xh__huoshui",
 }
 
 Fk:loadTranslationTable {
-  ["huoshui"] = "祸水",
-  [":huoshui"] = "准备阶段，你可以令对手依次执行X项效果（X为你已损失的体力值且至少为1）："..
+  ["xh__huoshui"] = "祸水",
+  [":xh__huoshui"] = "准备阶段，你可以令对手依次执行X项效果（X为你已损失的体力值且至少为1）："..
     "1.本回合非锁定技失效；2.交给你1张手牌；3.弃置装备区里的所有牌。",
 
-  ["#huoshui-invoke"] = "祸水：是否发动？",
+  ["#xh__huoshui-invoke"] = "祸水：是否发动？",
   ["huoshui_disable"] = "非锁定技失效",
   ["huoshui_give"] = "交给你1张手牌",
   ["huoshui_discard"] = "弃置装备区里的所有牌",
 
-  ["$huoshui1"] = "祸水红颜，倾国倾城！",
-  ["$huoshui2"] = "邹氏祸水，天下大乱！",
+  ["$xh__huoshui1"] = "祸水红颜，倾国倾城！",
+  ["$xh__huoshui2"] = "邹氏祸水，天下大乱！",
 }
 
 huoshui:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(huoshui.name) then return false end
+    if target ~= player or not player:hasSkill(xh__huoshui.name) then return false end
     if player.phase ~= Player.Start then return false end
     
     local lost_hp = player.maxHp - player.hp
@@ -32,7 +32,7 @@ huoshui:addEffect(fk.EventPhaseStart, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = huoshui.name,
+      skill_name = xh__huoshui.name,
       prompt = "#huoshui-invoke",
     })
   end,
@@ -58,17 +58,17 @@ huoshui:addEffect(fk.EventPhaseStart, {
               min_num = 1,
               max_num = 1,
               include_equip = false,
-              skill_name = huoshui.name,
+              skill_name = xh__huoshui.name,
               pattern = ".",
               prompt = "选择一张手牌交给" .. player.name,
               cancelable = false,
             })
-            room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, huoshui.name, nil, false, p.id)
+            room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, xh__huoshui.name, nil, false, p.id)
           end
         else
           local equip_cards = p:getCardIds("e")
           if #equip_cards > 0 then
-            room:throwCard(equip_cards, huoshui.name, p, player)
+            room:throwCard(equip_cards, xh__huoshui.name, p, player)
           end
         end
       end

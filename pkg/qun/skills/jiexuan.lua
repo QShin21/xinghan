@@ -4,18 +4,18 @@
 -- 阴：你可以将一张黑色牌当【过河拆桥】使用。
 
 local jiexuan = fk.CreateSkill {
-  name = "jiexuan",
+  name = "xh__jiexuan",
 }
 
 Fk:loadTranslationTable {
-  ["jiexuan"] = "解悬",
-  [":jiexuan"] = "转换技，出牌阶段限一次，阳：你可以将一张红色牌当【顺手牵羊】使用；"..
+  ["xh__jiexuan"] = "解悬",
+  [":xh__jiexuan"] = "转换技，出牌阶段限一次，阳：你可以将一张红色牌当【顺手牵羊】使用；"..
     "阴：你可以将一张黑色牌当【过河拆桥】使用。",
 
-  ["#jiexuan-use"] = "解悬：选择一张牌",
+  ["#xh__jiexuan-use"] = "解悬：选择一张牌",
 
-  ["$jiexuan1"] = "解悬之计，化险为夷！",
-  ["$jiexuan2"] = "连环之计，解悬为安！",
+  ["$xh__jiexuan1"] = "解悬之计，化险为夷！",
+  ["$xh__jiexuan2"] = "连环之计，解悬为安！",
 }
 
 jiexuan:addEffect("viewas", {
@@ -40,12 +40,12 @@ jiexuan:addEffect("viewas", {
     local card_name = state == 0 and "snatch" or "dismantlement"
     
     local card = Fk:cloneCard(card_name)
-    card.skillName = jiexuan.name
+    card.skillName = xh__jiexuan.name
     card:addSubcard(cards[1])
     return card
   end,
   enabled_at_play = function(self, player)
-    return player:usedSkillTimes(jiexuan.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__jiexuan.name, Player.HistoryPhase) == 0
   end,
 })
 
@@ -53,7 +53,7 @@ jiexuan:addEffect("viewas", {
 jiexuan:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and data.card and data.card.skillName == jiexuan.name
+    return target == player and data.card and data.card.skillName == xh__jiexuan.name
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

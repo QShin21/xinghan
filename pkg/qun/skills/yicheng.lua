@@ -4,19 +4,19 @@
 -- 然后可以用任意张手牌交换其中等量张牌，若展示牌点数之和因此增加，你可以用所有手牌交换展示牌。
 
 local yicheng = fk.CreateSkill {
-  name = "yicheng",
+  name = "xh__yicheng",
 }
 
 Fk:loadTranslationTable {
-  ["yicheng"] = "易城",
-  [":yicheng"] = "出牌阶段限一次，你可以展示牌堆顶X张牌（X为你的体力上限），"..
+  ["xh__yicheng"] = "易城",
+  [":xh__yicheng"] = "出牌阶段限一次，你可以展示牌堆顶X张牌（X为你的体力上限），"..
     "然后可以用任意张手牌交换其中等量张牌，若展示牌点数之和因此增加，你可以用所有手牌交换展示牌。",
 
-  ["#yicheng-use"] = "易城：展示牌堆顶的牌",
-  ["#yicheng-exchange"] = "易城：选择要交换的牌",
+  ["#xh__yicheng-use"] = "易城：展示牌堆顶的牌",
+  ["#xh__yicheng-exchange"] = "易城：选择要交换的牌",
 
-  ["$yicheng1"] = "易城之计，攻守兼备！",
-  ["$yicheng2"] = "黄巾刘辟，易城天下！",
+  ["$xh__yicheng1"] = "易城之计，攻守兼备！",
+  ["$xh__yicheng2"] = "黄巾刘辟，易城天下！",
 }
 
 yicheng:addEffect("active", {
@@ -25,14 +25,14 @@ yicheng:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(yicheng.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__yicheng.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, yicheng.name, "draw")
-    player:broadcastSkillInvoke(yicheng.name)
+    room:notifySkillInvoked(player, xh__yicheng.name, "draw")
+    player:broadcastSkillInvoke(xh__yicheng.name)
 
     local x = player.maxHp
     
@@ -41,7 +41,7 @@ yicheng:addEffect("active", {
     for i = 1, x do
       if #room.draw_pile > 0 then
         table.insert(cards, room.draw_pile[1])
-        room:showCards(player, {room.draw_pile[1]}, yicheng.name)
+        room:showCards(player, {room.draw_pile[1]}, xh__yicheng.name)
         table.remove(room.draw_pile, 1)
       end
     end
@@ -62,7 +62,7 @@ yicheng:addEffect("active", {
         min_num = 1,
         max_num = math.min(#handcards, #cards),
         include_equip = false,
-        skill_name = yicheng.name,
+        skill_name = xh__yicheng.name,
         pattern = ".",
         prompt = "#yicheng-exchange",
         cancelable = true,
@@ -78,7 +78,7 @@ yicheng:addEffect("active", {
         -- 如果点数和增加，可以用所有手牌交换
         if new_sum > original_sum then
           local all_exchange = room:askToSkillInvoke(player, {
-            skill_name = yicheng.name,
+            skill_name = xh__yicheng.name,
             prompt = "是否用所有手牌交换展示牌？",
           })
           
@@ -93,23 +93,23 @@ yicheng:addEffect("active", {
           table.insert(exchange_cards, cards[i])
         end
         
-        room:moveCardTo(to_exchange, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, yicheng.name)
-        room:moveCardTo(exchange_cards, Player.Hand, player, fk.ReasonPrey, yicheng.name)
+        room:moveCardTo(to_exchange, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__yicheng.name)
+        room:moveCardTo(exchange_cards, Player.Hand, player, fk.ReasonPrey, xh__yicheng.name)
         
         -- 剩余的牌放入弃牌堆
         for i = #to_exchange + 1, #cards do
-          room:moveCardTo(cards[i], Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, yicheng.name)
+          room:moveCardTo(cards[i], Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__yicheng.name)
         end
       else
         -- 不交换，所有牌放入弃牌堆
         for _, id in ipairs(cards) do
-          room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, yicheng.name)
+          room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__yicheng.name)
         end
       end
     else
       -- 没有手牌，所有牌放入弃牌堆
       for _, id in ipairs(cards) do
-        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, yicheng.name)
+        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__yicheng.name)
       end
     end
   end,

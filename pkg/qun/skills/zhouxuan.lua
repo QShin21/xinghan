@@ -4,25 +4,25 @@
 -- 直到你下个出牌阶段结束。当你使用牌时你移去一张"旋"并摸一张牌。
 
 local zhouxuan = fk.CreateSkill {
-  name = "zhouxuan",
+  name = "xh__zhouxuan",
 }
 
 Fk:loadTranslationTable {
-  ["zhouxuan"] = "周旋",
-  [":zhouxuan"] = "弃牌阶段开始时，你可以将任意张手牌扣置于你的武将牌上，称为\"旋\"（至多五张），"..
+  ["xh__zhouxuan"] = "周旋",
+  [":xh__zhouxuan"] = "弃牌阶段开始时，你可以将任意张手牌扣置于你的武将牌上，称为\"旋\"（至多五张），"..
     "直到你下个出牌阶段结束。当你使用牌时你移去一张\"旋\"并摸一张牌。",
 
-  ["#zhouxuan-place"] = "周旋：选择要置为旋的手牌",
-  ["@@zhouxuan_xuan"] = "旋",
+  ["#xh__zhouxuan-place"] = "周旋：选择要置为旋的手牌",
+  ["@@xh__zhouxuan_xuan"] = "旋",
 
-  ["$zhouxuan1"] = "周旋之计，智取天下！",
-  ["$zhouxuan2"] = "张郃周旋，天下无双！",
+  ["$xh__zhouxuan1"] = "周旋之计，智取天下！",
+  ["$xh__zhouxuan2"] = "张郃周旋，天下无双！",
 }
 
 zhouxuan:addEffect(fk.EventPhaseStart, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(zhouxuan.name) then return false end
+    if target ~= player or not player:hasSkill(xh__zhouxuan.name) then return false end
     if player.phase ~= Player.Discard then return false end
     return not player:isKongcheng()
   end,
@@ -33,7 +33,7 @@ zhouxuan:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = math.min(5, player:getHandcardNum()),
       include_equip = false,
-      skill_name = zhouxuan.name,
+      skill_name = xh__zhouxuan.name,
       pattern = ".",
       prompt = "#zhouxuan-place",
       cancelable = true,
@@ -54,7 +54,7 @@ zhouxuan:addEffect(fk.EventPhaseStart, {
     
     for _, id in ipairs(cards) do
       table.insert(xuan, id)
-      room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, zhouxuan.name)
+      room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, xh__zhouxuan.name)
     end
     
     room:setPlayerMark(player, "@@zhouxuan_xuan", xuan)
@@ -65,7 +65,7 @@ zhouxuan:addEffect(fk.EventPhaseStart, {
 zhouxuan:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(zhouxuan.name) then return false end
+    if target ~= player or not player:hasSkill(xh__zhouxuan.name) then return false end
     
     local xuan = player:getMark("@@zhouxuan_xuan")
     return xuan and type(xuan) == "table" and #xuan > 0
@@ -77,10 +77,10 @@ zhouxuan:addEffect(fk.CardUsing, {
     
     if #xuan > 0 then
       local id = table.remove(xuan, 1)
-      room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, zhouxuan.name)
+      room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__zhouxuan.name)
       room:setPlayerMark(player, "@@zhouxuan_xuan", xuan)
       
-      player:drawCards(1, zhouxuan.name)
+      player:drawCards(1, xh__zhouxuan.name)
     end
   end,
 })

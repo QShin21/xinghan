@@ -4,21 +4,21 @@
 -- 1.弃置一张武器牌；2.令其摸一张牌。若当前轮数为1，此回合结束时，本技能视为未发动过。
 
 local jiefan = fk.CreateSkill {
-  name = "jiefan",
+  name = "xh__jiefan",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["jiefan"] = "解烦",
-  [":jiefan"] = "限定技，出牌阶段，你可以选择一名角色，然后攻击范围内含有其的所有角色依次选择一项："..
+  ["xh__jiefan"] = "解烦",
+  [":xh__jiefan"] = "限定技，出牌阶段，你可以选择一名角色，然后攻击范围内含有其的所有角色依次选择一项："..
     "1.弃置一张武器牌；2.令其摸一张牌。若当前轮数为1，此回合结束时，本技能视为未发动过。",
 
-  ["#jiefan-target"] = "解烦：选择一名角色",
+  ["#xh__jiefan-target"] = "解烦：选择一名角色",
   ["jiefan_discard"] = "弃置一张武器牌",
   ["jiefan_draw"] = "令其摸一张牌",
 
-  ["$jiefan1"] = "解烦救急，义不容辞！",
-  ["$jiefan2"] = "江东猛将，解烦救困！",
+  ["$xh__jiefan1"] = "解烦救急，义不容辞！",
+  ["$xh__jiefan2"] = "江东猛将，解烦救困！",
 }
 
 jiefan:addEffect("active", {
@@ -27,7 +27,7 @@ jiefan:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(jiefan.name, Player.HistoryGame) == 0
+    return player:usedSkillTimes(xh__jiefan.name, Player.HistoryGame) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -38,8 +38,8 @@ jiefan:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, jiefan.name, "support", {target})
-    player:broadcastSkillInvoke(jiefan.name)
+    room:notifySkillInvoked(player, xh__jiefan.name, "support", {target})
+    player:broadcastSkillInvoke(xh__jiefan.name)
 
     -- 找出攻击范围内含有目标的所有角色
     local attackers = table.filter(room.alive_players, function(p)
@@ -58,7 +58,7 @@ jiefan:addEffect("active", {
       if has_weapon then
         choice = room:askToChoice(attacker, {
           choices = {"jiefan_discard", "jiefan_draw"},
-          skill_name = jiefan.name,
+          skill_name = xh__jiefan.name,
           prompt = "选择一项",
           detailed = false,
         })
@@ -74,14 +74,14 @@ jiefan:addEffect("active", {
           min_num = 1,
           max_num = 1,
           include_equip = true,
-          skill_name = jiefan.name,
+          skill_name = xh__jiefan.name,
           pattern = tostring(Exppattern{ id = weapon_cards }),
           prompt = "选择一张武器牌弃置",
           cancelable = false,
         })
-        room:throwCard(id, jiefan.name, attacker, player)
+        room:throwCard(id, xh__jiefan.name, attacker, player)
       else
-        target:drawCards(1, jiefan.name)
+        target:drawCards(1, xh__jiefan.name)
       end
       
       ::continue::
@@ -105,7 +105,7 @@ jiefan:addEffect(fk.TurnEnd, {
   on_use = function(self, event, target, player, data)
     local room = player.room
     room:setPlayerMark(player, "@@jiefan_reset", 0)
-    player:setSkillUseHistory(jiefan.name, 0, Player.HistoryGame)
+    player:setSkillUseHistory(xh__jiefan.name, 0, Player.HistoryGame)
   end,
 })
 

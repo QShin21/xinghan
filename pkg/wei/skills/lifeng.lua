@@ -3,19 +3,19 @@
 -- 你的回合外，你可以将一张本回合所有角色均未使用过的颜色的手牌当【无懈可击】使用。
 
 local lifeng = fk.CreateSkill {
-  name = "lifeng",
+  name = "xh__lifeng",
 }
 
 Fk:loadTranslationTable {
-  ["lifeng"] = "砺锋",
-  [":lifeng"] = "你的回合外，你可以将一张本回合所有角色均未使用过的颜色的手牌当【无懈可击】使用。",
+  ["xh__lifeng"] = "砺锋",
+  [":xh__lifeng"] = "你的回合外，你可以将一张本回合所有角色均未使用过的颜色的手牌当【无懈可击】使用。",
 
-  ["#lifeng-use"] = "砺锋：你可以将一张未使用过颜色的手牌当【无懈可击】使用",
-  ["@@lifeng_used_red"] = "砺锋红",
-  ["@@lifeng_used_black"] = "砺锋黑",
+  ["#xh__lifeng-use"] = "砺锋：你可以将一张未使用过颜色的手牌当【无懈可击】使用",
+  ["@@xh__lifeng_used_red"] = "砺锋红",
+  ["@@xh__lifeng_used_black"] = "砺锋黑",
 
-  ["$lifeng1"] = "锋芒毕露，锐不可当！",
-  ["$lifeng2"] = "砺剑待发，一击必中！",
+  ["$xh__lifeng1"] = "锋芒毕露，锐不可当！",
+  ["$xh__lifeng2"] = "砺剑待发，一击必中！",
 }
 
 -- 记录本回合使用过的牌的颜色
@@ -70,7 +70,7 @@ lifeng:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("nullification")
-    card.skillName = lifeng.name
+    card.skillName = xh__lifeng.name
     card:addSubcard(cards[1])
     return card
   end,

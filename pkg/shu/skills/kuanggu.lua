@@ -4,26 +4,26 @@
 -- 你可以回复1点体力或摸一张牌。
 
 local kuanggu = fk.CreateSkill {
-  name = "kuanggu",
+  name = "xh__kuanggu",
 }
 
 Fk:loadTranslationTable {
-  ["kuanggu"] = "狂骨",
-  [":kuanggu"] = "当你对距离1以内的一名角色造成1点伤害后，若你与其的距离于其因受到此伤害而扣减体力前小于等于1，"..
+  ["xh__kuanggu"] = "狂骨",
+  [":xh__kuanggu"] = "当你对距离1以内的一名角色造成1点伤害后，若你与其的距离于其因受到此伤害而扣减体力前小于等于1，"..
     "你可以回复1点体力或摸一张牌。",
 
-  ["#kuanggu-invoke"] = "狂骨：选择回复1点体力或摸一张牌",
+  ["#xh__kuanggu-invoke"] = "狂骨：选择回复1点体力或摸一张牌",
   ["kuanggu_recover"] = "回复1点体力",
   ["kuanggu_draw"] = "摸一张牌",
 
-  ["$kuanggu1"] = "狂骨噬血，战无不胜！",
-  ["$kuanggu2"] = "谁敢挡我！",
+  ["$xh__kuanggu1"] = "狂骨噬血，战无不胜！",
+  ["$xh__kuanggu2"] = "谁敢挡我！",
 }
 
 kuanggu:addEffect(fk.Damage, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(kuanggu.name) then return false end
+    if target ~= player or not player:hasSkill(xh__kuanggu.name) then return false end
     if not data.to or data.damage ~= 1 then return false end
     
     -- 检查距离
@@ -41,7 +41,7 @@ kuanggu:addEffect(fk.Damage, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = kuanggu.name,
+      skill_name = xh__kuanggu.name,
       prompt = "#kuanggu-invoke",
       detailed = false,
     })
@@ -58,10 +58,10 @@ kuanggu:addEffect(fk.Damage, {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = kuanggu.name,
+        skillName = xh__kuanggu.name,
       }
     else
-      player:drawCards(1, kuanggu.name)
+      player:drawCards(1, xh__kuanggu.name)
     end
   end,
 })

@@ -4,28 +4,28 @@
 -- 1.造成的伤害+1；2.不能被响应。
 
 local langdao = fk.CreateSkill {
-  name = "langdao",
+  name = "xh__langdao",
 }
 
 Fk:loadTranslationTable {
-  ["langdao"] = "狼蹈",
-  [":langdao"] = "每项限一次，当你使用【杀】指定唯一目标时，你可以选择一项，令此【杀】："..
+  ["xh__langdao"] = "狼蹈",
+  [":xh__langdao"] = "每项限一次，当你使用【杀】指定唯一目标时，你可以选择一项，令此【杀】："..
     "1.造成的伤害+1；2.不能被响应。",
 
-  ["#langdao-choice"] = "狼蹈：选择一项效果",
+  ["#xh__langdao-choice"] = "狼蹈：选择一项效果",
   ["langdao_damage"] = "伤害+1",
   ["langdao_unrespondable"] = "不能被响应",
-  ["@@langdao_damage_used"] = "狼蹈伤害已用",
-  ["@@langdao_unrespondable_used"] = "狼蹈不可响应已用",
+  ["@@xh__langdao_damage_used"] = "狼蹈伤害已用",
+  ["@@xh__langdao_unrespondable_used"] = "狼蹈不可响应已用",
 
-  ["$langdao1"] = "狼蹈之威，势不可挡！",
-  ["$langdao2"] = "黑山狼骑，天下无双！",
+  ["$xh__langdao1"] = "狼蹈之威，势不可挡！",
+  ["$xh__langdao2"] = "黑山狼骑，天下无双！",
 }
 
 langdao:addEffect(fk.TargetSpecified, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(langdao.name) then return false end
+    if target ~= player or not player:hasSkill(xh__langdao.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     if #data.use.tos ~= 1 then return false end
     
@@ -50,7 +50,7 @@ langdao:addEffect(fk.TargetSpecified, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = langdao.name,
+      skill_name = xh__langdao.name,
       prompt = "#langdao-choice",
       detailed = false,
     })

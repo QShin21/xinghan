@@ -3,22 +3,22 @@
 -- 锁定技，摸牌阶段，你多摸X张牌；弃牌阶段开始时，你弃置一张牌（X为场上势力数）。
 
 local yongsi = fk.CreateSkill {
-  name = "yongsi",
+  name = "xh__yongsi",
 }
 
 Fk:loadTranslationTable {
-  ["yongsi"] = "庸肆",
-  [":yongsi"] = "锁定技，摸牌阶段，你多摸X张牌；弃牌阶段开始时，你弃置一张牌（X为场上势力数）。",
+  ["xh__yongsi"] = "庸肆",
+  [":xh__yongsi"] = "锁定技，摸牌阶段，你多摸X张牌；弃牌阶段开始时，你弃置一张牌（X为场上势力数）。",
 
-  ["$yongsi1"] = "庸肆之志，称霸天下！",
-  ["$yongsi2"] = "袁术称帝，天下归心！",
+  ["$xh__yongsi1"] = "庸肆之志，称霸天下！",
+  ["$xh__yongsi2"] = "袁术称帝，天下归心！",
 }
 
 -- 多摸牌
 yongsi:addEffect(fk.DrawNCards, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(yongsi.name)
+    return target == player and player:hasSkill(xh__yongsi.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -39,7 +39,7 @@ yongsi:addEffect(fk.DrawNCards, {
 yongsi:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(yongsi.name) and
+    return target == player and player:hasSkill(xh__yongsi.name) and
       player.phase == Player.Discard and not player:isNude()
   end,
   on_cost = Util.TrueFunc,
@@ -50,13 +50,13 @@ yongsi:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = yongsi.name,
+      skill_name = xh__yongsi.name,
       pattern = ".",
       prompt = "选择一张牌弃置",
       cancelable = false,
     })
     
-    room:throwCard(id, yongsi.name, player, player)
+    room:throwCard(id, xh__yongsi.name, player, player)
   end,
 })
 

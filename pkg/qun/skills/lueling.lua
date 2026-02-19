@@ -4,19 +4,19 @@
 -- 然后你进行判定，若结果的点数与其声明的：相同，你对其造成2点伤害；不同，其交给你一张手牌。
 
 local lueling = fk.CreateSkill {
-  name = "lueling",
+  name = "xh__lueling",
 }
 
 Fk:loadTranslationTable {
-  ["lueling"] = "掠命",
-  [":lueling"] = "出牌阶段限一次，你可以令一名装备区的牌数小于你的其他角色声明一个点数，"..
+  ["xh__lueling"] = "掠命",
+  [":xh__lueling"] = "出牌阶段限一次，你可以令一名装备区的牌数小于你的其他角色声明一个点数，"..
     "然后你进行判定，若结果的点数与其声明的：相同，你对其造成2点伤害；不同，其交给你一张手牌。",
 
-  ["#lueling-target"] = "掠命：选择一名装备区牌数小于你的角色",
-  ["#lueling-declare"] = "掠命：声明一个点数",
+  ["#xh__lueling-target"] = "掠命：选择一名装备区牌数小于你的角色",
+  ["#xh__lueling-declare"] = "掠命：声明一个点数",
 
-  ["$lueling1"] = "掠命之威，谁敢不从！",
-  ["$lueling2"] = "命悬一线，掠命为生！",
+  ["$xh__lueling1"] = "掠命之威，谁敢不从！",
+  ["$xh__lueling2"] = "命悬一线，掠命为生！",
 }
 
 lueling:addEffect("active", {
@@ -25,7 +25,7 @@ lueling:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(lueling.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(xh__lueling.name, Player.HistoryPhase) == 0 and
       #player:getCardIds("e") > 0
   end,
   card_filter = Util.FalseFunc,
@@ -37,8 +37,8 @@ lueling:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, lueling.name, "offensive", {target})
-    player:broadcastSkillInvoke(lueling.name)
+    room:notifySkillInvoked(player, xh__lueling.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__lueling.name)
 
     -- 声明一个点数
     local numbers = {}
@@ -48,7 +48,7 @@ lueling:addEffect("active", {
     
     local declared_num = room:askToChoice(target, {
       choices = numbers,
-      skill_name = lueling.name,
+      skill_name = xh__lueling.name,
       prompt = "#lueling-declare",
       detailed = false,
     })
@@ -58,7 +58,7 @@ lueling:addEffect("active", {
     -- 判定
     local judge = room:judge{
       who = player,
-      reason = lueling.name,
+      reason = xh__lueling.name,
     }
     
     if judge.card.number == declared then
@@ -67,7 +67,7 @@ lueling:addEffect("active", {
         from = player,
         to = target,
         damage = 2,
-        skillName = lueling.name,
+        skillName = xh__lueling.name,
       }
     else
       -- 不同：交给你一张手牌
@@ -76,12 +76,12 @@ lueling:addEffect("active", {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = lueling.name,
+          skill_name = xh__lueling.name,
           pattern = ".",
           prompt = "选择一张手牌交给" .. player.name,
           cancelable = false,
         })
-        room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, lueling.name, nil, false, target.id)
+        room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, xh__lueling.name, nil, false, target.id)
       end
     end
   end,

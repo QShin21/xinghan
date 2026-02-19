@@ -3,23 +3,23 @@
 -- 结束阶段，你可以对一名没有手牌的其他角色造成1点伤害。
 
 local juece = fk.CreateSkill {
-  name = "juece",
+  name = "xh__juece",
 }
 
 Fk:loadTranslationTable {
-  ["juece"] = "绝策",
-  [":juece"] = "结束阶段，你可以对一名没有手牌的其他角色造成1点伤害。",
+  ["xh__juece"] = "绝策",
+  [":xh__juece"] = "结束阶段，你可以对一名没有手牌的其他角色造成1点伤害。",
 
-  ["#juece-choose"] = "绝策：选择一名没有手牌的角色造成1点伤害",
+  ["#xh__juece-choose"] = "绝策：选择一名没有手牌的角色造成1点伤害",
 
-  ["$juece1"] = "绝策断粮，必取敌命！",
-  ["$juece2"] = "无粮之军，必败无疑！",
+  ["$xh__juece1"] = "绝策断粮，必取敌命！",
+  ["$xh__juece2"] = "无粮之军，必败无疑！",
 }
 
 juece:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(juece.name) and
+    return target == player and player:hasSkill(xh__juece.name) and
       player.phase == Player.Finish
   end,
   on_cost = function(self, event, target, player, data)
@@ -35,7 +35,7 @@ juece:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = juece.name,
+      skill_name = xh__juece.name,
       prompt = "#juece-choose",
       cancelable = true,
     })
@@ -53,7 +53,7 @@ juece:addEffect(fk.EventPhaseStart, {
       from = player,
       to = to,
       damage = 1,
-      skillName = juece.name,
+      skillName = xh__juece.name,
     }
   end,
 })

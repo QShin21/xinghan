@@ -3,24 +3,24 @@
 -- 锁定技，当你受到【杀】造成的伤害时，若此【杀】：为红色，伤害来源选择回复1点体力或摸一张牌；不为红色，则你摸一张牌。
 
 local yaowu = fk.CreateSkill {
-  name = "yaowu",
+  name = "xh__yaowu",
 }
 
 Fk:loadTranslationTable {
-  ["yaowu"] = "耀武",
-  [":yaowu"] = "锁定技，当你受到【杀】造成的伤害时，若此【杀】：为红色，伤害来源选择回复1点体力或摸一张牌；不为红色，则你摸一张牌。",
+  ["xh__yaowu"] = "耀武",
+  [":xh__yaowu"] = "锁定技，当你受到【杀】造成的伤害时，若此【杀】：为红色，伤害来源选择回复1点体力或摸一张牌；不为红色，则你摸一张牌。",
 
   ["yaowu_recover"] = "回复1点体力",
   ["yaowu_draw"] = "摸一张牌",
 
-  ["$yaowu1"] = "耀武扬威，谁敢争锋！",
-  ["$yaowu2"] = "西凉华雄，天下无双！",
+  ["$xh__yaowu1"] = "耀武扬威，谁敢争锋！",
+  ["$xh__yaowu2"] = "西凉华雄，天下无双！",
 }
 
 yaowu:addEffect(fk.DamageInflicted, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(yaowu.name) then return false end
+    if target ~= player or not player:hasSkill(xh__yaowu.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     return true
   end,
@@ -34,7 +34,7 @@ yaowu:addEffect(fk.DamageInflicted, {
       if data.from then
         local choice = room:askToChoice(data.from, {
           choices = {"yaowu_recover", "yaowu_draw"},
-          skill_name = yaowu.name,
+          skill_name = xh__yaowu.name,
           prompt = "选择一项",
           detailed = false,
         })
@@ -44,15 +44,15 @@ yaowu:addEffect(fk.DamageInflicted, {
             who = data.from,
             num = 1,
             recoverBy = data.from,
-            skillName = yaowu.name,
+            skillName = xh__yaowu.name,
           }
         else
-          data.from:drawCards(1, yaowu.name)
+          data.from:drawCards(1, xh__yaowu.name)
         end
       end
     else
       -- 非红色杀：你摸一张牌
-      player:drawCards(1, yaowu.name)
+      player:drawCards(1, xh__yaowu.name)
     end
   end,
 })

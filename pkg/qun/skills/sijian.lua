@@ -3,23 +3,23 @@
 -- 当你失去手牌后，若你没有手牌，你可以弃置一名其他角色的一张牌。
 
 local sijian = fk.CreateSkill {
-  name = "sijian",
+  name = "xh__sijian",
 }
 
 Fk:loadTranslationTable {
-  ["sijian"] = "死谏",
-  [":sijian"] = "当你失去手牌后，若你没有手牌，你可以弃置一名其他角色的一张牌。",
+  ["xh__sijian"] = "死谏",
+  [":xh__sijian"] = "当你失去手牌后，若你没有手牌，你可以弃置一名其他角色的一张牌。",
 
-  ["#sijian-invoke"] = "死谏：你可以弃置一名其他角色的一张牌",
+  ["#xh__sijian-invoke"] = "死谏：你可以弃置一名其他角色的一张牌",
 
-  ["$sijian1"] = "死谏君王，虽死无悔！",
-  ["$sijian2"] = "忠言逆耳，死谏不悔！",
+  ["$xh__sijian1"] = "死谏君王，虽死无悔！",
+  ["$xh__sijian2"] = "忠言逆耳，死谏不悔！",
 }
 
 sijian:addEffect(fk.AfterCardsMove, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(sijian.name) then return false end
+    if not player:hasSkill(xh__sijian.name) then return false end
     if not player:isKongcheng() then return false end
 
     -- 检查是否因失去牌而变成空手牌
@@ -42,7 +42,7 @@ sijian:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = sijian.name,
+      skill_name = xh__sijian.name,
       prompt = "#sijian-invoke",
       cancelable = true,
     })
@@ -59,9 +59,9 @@ sijian:addEffect(fk.AfterCardsMove, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "he",
-      skill_name = sijian.name,
+      skill_name = xh__sijian.name,
     })
-    room:throwCard(id, sijian.name, to, player)
+    room:throwCard(id, xh__sijian.name, to, player)
   end,
 })
 

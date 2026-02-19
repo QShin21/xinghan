@@ -4,21 +4,21 @@
 -- 然后你令一名有牌的其他角色选择一项：1.弃置一张锦囊牌；2.依次弃置两张非锦囊牌。
 
 local mieji = fk.CreateSkill {
-  name = "mieji",
+  name = "xh__mieji",
 }
 
 Fk:loadTranslationTable {
-  ["mieji"] = "灭计",
-  [":mieji"] = "出牌阶段限一次，你可以展示一张黑色锦囊牌并将此牌置于牌堆顶，"..
+  ["xh__mieji"] = "灭计",
+  [":xh__mieji"] = "出牌阶段限一次，你可以展示一张黑色锦囊牌并将此牌置于牌堆顶，"..
     "然后你令一名有牌的其他角色选择一项：1.弃置一张锦囊牌；2.依次弃置两张非锦囊牌。",
 
-  ["#mieji-use"] = "灭计：展示一张黑色锦囊牌置于牌堆顶",
-  ["#mieji-choice"] = "灭计：请选择一项",
+  ["#xh__mieji-use"] = "灭计：展示一张黑色锦囊牌置于牌堆顶",
+  ["#xh__mieji-choice"] = "灭计：请选择一项",
   ["mieji_choice1"] = "弃置一张锦囊牌",
   ["mieji_choice2"] = "依次弃置两张非锦囊牌",
 
-  ["$mieji1"] = "灭计破敌，算无遗策！",
-  ["$mieji2"] = "计谋已定，必取敌首！",
+  ["$xh__mieji1"] = "灭计破敌，算无遗策！",
+  ["$xh__mieji2"] = "计谋已定，必取敌首！",
 }
 
 mieji:addEffect("active", {
@@ -27,7 +27,7 @@ mieji:addEffect("active", {
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(mieji.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__mieji.name, Player.HistoryPhase) == 0
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -44,14 +44,14 @@ mieji:addEffect("active", {
     local target = effect.tos[1]
     local card = effect.cards[1]
 
-    room:notifySkillInvoked(player, mieji.name, "control", {target})
-    player:broadcastSkillInvoke(mieji.name)
+    room:notifySkillInvoked(player, xh__mieji.name, "control", {target})
+    player:broadcastSkillInvoke(xh__mieji.name)
 
     -- 展示牌
-    room:showCards(player, {card}, mieji.name)
+    room:showCards(player, {card}, xh__mieji.name)
 
     -- 将牌置于牌堆顶
-    room:moveCardTo(card, Card.DrawPile, nil, fk.ReasonPut, mieji.name, nil, true)
+    room:moveCardTo(card, Card.DrawPile, nil, fk.ReasonPut, xh__mieji.name, nil, true)
 
     if target.dead then return end
 
@@ -80,7 +80,7 @@ mieji:addEffect("active", {
 
     local choice = room:askToChoice(target, {
       choices = choices,
-      skill_name = mieji.name,
+      skill_name = xh__mieji.name,
       prompt = "#mieji-choice",
       detailed = false,
     })
@@ -94,9 +94,9 @@ mieji:addEffect("active", {
       local id = room:askToChooseCard(player, {
         target = target,
         flag = "he",
-        skill_name = mieji.name,
+        skill_name = xh__mieji.name,
       })
-      room:throwCard(id, mieji.name, target, player)
+      room:throwCard(id, xh__mieji.name, target, player)
     else
       -- 依次弃置两张非锦囊牌
       for i = 1, 2 do
@@ -111,9 +111,9 @@ mieji:addEffect("active", {
         local id = room:askToChooseCard(player, {
           target = target,
           flag = "he",
-          skill_name = mieji.name,
+          skill_name = xh__mieji.name,
         })
-        room:throwCard(id, mieji.name, target, player)
+        room:throwCard(id, xh__mieji.name, target, player)
       end
     end
   end,

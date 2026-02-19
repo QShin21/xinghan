@@ -3,34 +3,34 @@
 -- 限定技，出牌阶段开始时，你可以对对手造成X点伤害（X为对手因"明策"摸牌的次数）。
 
 local yinpan = fk.CreateSkill {
-  name = "yinpan",
+  name = "xh__yinpan",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["yinpan"] = "引叛",
-  [":yinpan"] = "限定技，出牌阶段开始时，你可以对对手造成X点伤害（X为对手因\"明策\"摸牌的次数）。",
+  ["xh__yinpan"] = "引叛",
+  [":xh__yinpan"] = "限定技，出牌阶段开始时，你可以对对手造成X点伤害（X为对手因\"明策\"摸牌的次数）。",
 
-  ["#yinpan-invoke"] = "引叛：是否对对手造成伤害？",
-  ["@@yinpan_count"] = "引叛计数",
+  ["#xh__yinpan-invoke"] = "引叛：是否对对手造成伤害？",
+  ["@@xh__yinpan_count"] = "引叛计数",
 
-  ["$yinpan1"] = "引叛之计，借刀杀人！",
-  ["$yinpan2"] = "陈宫引叛，天下大乱！",
+  ["$xh__yinpan1"] = "引叛之计，借刀杀人！",
+  ["$xh__yinpan2"] = "陈宫引叛，天下大乱！",
 }
 
 yinpan:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(yinpan.name) then return false end
+    if target ~= player or not player:hasSkill(xh__yinpan.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:usedSkillTimes(yinpan.name, Player.HistoryGame) > 0 then return false end
+    if player:usedSkillTimes(xh__yinpan.name, Player.HistoryGame) > 0 then return false end
     
     local count = player:getMark("@@yinpan_count") or 0
     return count > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = yinpan.name,
+      skill_name = xh__yinpan.name,
       prompt = "#yinpan-invoke",
     })
   end,
@@ -48,7 +48,7 @@ yinpan:addEffect(fk.EventPhaseStart, {
       from = player,
       to = to,
       damage = count,
-      skillName = yinpan.name,
+      skillName = xh__yinpan.name,
     }
   end,
 })

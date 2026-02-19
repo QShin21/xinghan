@@ -4,27 +4,27 @@
 -- 你可以令其于本回合下个摸牌/出牌阶段结束后执行一次额外的摸牌/出牌阶段。
 
 local hongji = fk.CreateSkill {
-  name = "hongji",
+  name = "xh__hongji",
 }
 
 Fk:loadTranslationTable {
-  ["hongji"] = "鸿济",
-  [":hongji"] = "每轮各限一次，每名角色的准备阶段，若其手牌数为全场最多/最少，"..
+  ["xh__hongji"] = "鸿济",
+  [":xh__hongji"] = "每轮各限一次，每名角色的准备阶段，若其手牌数为全场最多/最少，"..
     "你可以令其于本回合下个摸牌/出牌阶段结束后执行一次额外的摸牌/出牌阶段。",
 
-  ["#hongji-most"] = "鸿济：令 %dest 执行额外的摸牌阶段",
-  ["#hongji-least"] = "鸿济：令 %dest 执行额外的出牌阶段",
-  ["@@hongji_extra_draw"] = "鸿济摸牌",
-  ["@@hongji_extra_play"] = "鸿济出牌",
+  ["#xh__hongji-most"] = "鸿济：令 %dest 执行额外的摸牌阶段",
+  ["#xh__hongji-least"] = "鸿济：令 %dest 执行额外的出牌阶段",
+  ["@@xh__hongji_extra_draw"] = "鸿济摸牌",
+  ["@@xh__hongji_extra_play"] = "鸿济出牌",
 
-  ["$hongji1"] = "鸿济天下，惠及苍生！",
-  ["$hongji2"] = "济世救人，义不容辞！",
+  ["$xh__hongji1"] = "鸿济天下，惠及苍生！",
+  ["$xh__hongji2"] = "济世救人，义不容辞！",
 }
 
 hongji:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(hongji.name) then return false end
+    if not player:hasSkill(xh__hongji.name) then return false end
     if target.phase ~= Player.Start then return false end
     
     -- 检查是否已使用过
@@ -75,7 +75,7 @@ hongji:addEffect(fk.EventPhaseStart, {
     else
       choice = room:askToChoice(player, {
         choices = {"most", "least"},
-        skill_name = hongji.name,
+        skill_name = xh__hongji.name,
         prompt = "选择一项效果",
         detailed = false,
       })
@@ -111,7 +111,7 @@ hongji:addEffect(fk.EventPhaseEnd, {
     room:setPlayerMark(player, "@@hongji_extra_draw", 0)
     
     -- 执行额外的摸牌阶段
-    player:drawCards(2, hongji.name)
+    player:drawCards(2, xh__hongji.name)
   end,
 })
 
@@ -128,7 +128,7 @@ hongji:addEffect(fk.EventPhaseEnd, {
     room:setPlayerMark(player, "@@hongji_extra_play", 0)
     
     -- 执行额外的出牌阶段（简化处理：摸一张牌）
-    player:drawCards(1, hongji.name)
+    player:drawCards(1, xh__hongji.name)
   end,
 })
 

@@ -3,28 +3,28 @@
 -- 当你受到伤害后，你可以获得对你造成伤害的牌并摸一张牌。
 
 local jianxiong = fk.CreateSkill {
-  name = "jianxiong",
+  name = "xh__jianxiong",
 }
 
 Fk:loadTranslationTable {
-  ["jianxiong"] = "奸雄",
-  [":jianxiong"] = "当你受到伤害后，你可以获得对你造成伤害的牌并摸一张牌。",
+  ["xh__jianxiong"] = "奸雄",
+  [":xh__jianxiong"] = "当你受到伤害后，你可以获得对你造成伤害的牌并摸一张牌。",
 
-  ["#jianxiong-invoke"] = "奸雄：获得造成伤害的牌并摸一张牌",
+  ["#xh__jianxiong-invoke"] = "奸雄：获得造成伤害的牌并摸一张牌",
 
-  ["$jianxiong1"] = "宁教我负天下人，休教天下人负我！",
-  ["$jianxiong2"] = "吾好梦中杀人！",
+  ["$xh__jianxiong1"] = "宁教我负天下人，休教天下人负我！",
+  ["$xh__jianxiong2"] = "吾好梦中杀人！",
 }
 
 jianxiong:addEffect(fk.Damaged, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(jianxiong.name) and
+    return target == player and player:hasSkill(xh__jianxiong.name) and
       data.card and not data.card:isVirtual()
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = jianxiong.name,
+      skill_name = xh__jianxiong.name,
       prompt = "#jianxiong-invoke",
     })
   end,
@@ -34,11 +34,11 @@ jianxiong:addEffect(fk.Damaged, {
 
     -- 获得造成伤害的牌
     if table.contains(room.discard_pile, card.id) then
-      room:moveCardTo(card.id, Player.Hand, player, fk.ReasonPrey, jianxiong.name)
+      room:moveCardTo(card.id, Player.Hand, player, fk.ReasonPrey, xh__jianxiong.name)
     end
 
     -- 摸一张牌
-    player:drawCards(1, jianxiong.name)
+    player:drawCards(1, xh__jianxiong.name)
   end,
 })
 

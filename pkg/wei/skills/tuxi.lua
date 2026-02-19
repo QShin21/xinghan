@@ -3,25 +3,25 @@
 -- 摸牌阶段，你可以少摸任意张牌，然后获得等量名有手牌的其他角色的各一张手牌。
 
 local tuxi = fk.CreateSkill {
-  name = "tuxi",
+  name = "xh__tuxi",
 }
 
 Fk:loadTranslationTable {
-  ["tuxi"] = "突袭",
-  [":tuxi"] = "摸牌阶段，你可以少摸任意张牌，然后获得等量名有手牌的其他角色的各一张手牌。",
+  ["xh__tuxi"] = "突袭",
+  [":xh__tuxi"] = "摸牌阶段，你可以少摸任意张牌，然后获得等量名有手牌的其他角色的各一张手牌。",
 
-  ["#tuxi-choose"] = "突袭：选择要少摸的牌数",
-  ["#tuxi-target"] = "突袭：选择 %arg 名有手牌的角色，获得其各一张手牌",
-  ["#tuxi-card"] = "突袭：选择 %dest 的一张手牌",
+  ["#xh__tuxi-choose"] = "突袭：选择要少摸的牌数",
+  ["#xh__tuxi-target"] = "突袭：选择 %arg 名有手牌的角色，获得其各一张手牌",
+  ["#xh__tuxi-card"] = "突袭：选择 %dest 的一张手牌",
 
-  ["$tuxi1"] = "哼，没想到吧！",
-  ["$tuxi2"] = "拿来吧！",
+  ["$xh__tuxi1"] = "哼，没想到吧！",
+  ["$xh__tuxi2"] = "拿来吧！",
 }
 
 tuxi:addEffect(fk.DrawNCards, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player and player:hasSkill(tuxi.name) and data.num > 0 then
+    if target == player and player:hasSkill(xh__tuxi.name) and data.num > 0 then
       local room = player.room
       return table.find(room:getOtherPlayers(player), function(p)
         return not p:isKongcheng()
@@ -47,7 +47,7 @@ tuxi:addEffect(fk.DrawNCards, {
 
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = tuxi.name,
+      skill_name = xh__tuxi.name,
       prompt = "#tuxi-choose",
       detailed = false,
     })
@@ -74,7 +74,7 @@ tuxi:addEffect(fk.DrawNCards, {
       min_num = num,
       max_num = num,
       targets = targets,
-      skill_name = tuxi.name,
+      skill_name = xh__tuxi.name,
       prompt = "#tuxi-target::" .. num,
       cancelable = false,
     })
@@ -85,9 +85,9 @@ tuxi:addEffect(fk.DrawNCards, {
         local id = room:askToChooseCard(player, {
           target = p,
           flag = "h",
-          skill_name = tuxi.name,
+          skill_name = xh__tuxi.name,
         })
-        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, tuxi.name, nil, false, p.id)
+        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__tuxi.name, nil, false, p.id)
       end
     end
   end,

@@ -3,23 +3,23 @@
 -- 当你受到1点伤害后，你可以令一名角色摸两张牌，然后若其手牌数小于其体力上限，你摸一张牌。
 
 local jieming = fk.CreateSkill {
-  name = "jieming",
+  name = "xh__jieming",
 }
 
 Fk:loadTranslationTable {
-  ["jieming"] = "节命",
-  [":jieming"] = "当你受到1点伤害后，你可以令一名角色摸两张牌，然后若其手牌数小于其体力上限，你摸一张牌。",
+  ["xh__jieming"] = "节命",
+  [":xh__jieming"] = "当你受到1点伤害后，你可以令一名角色摸两张牌，然后若其手牌数小于其体力上限，你摸一张牌。",
 
-  ["#jieming-choose"] = "节命：选择一名角色令其摸两张牌",
+  ["#xh__jieming-choose"] = "节命：选择一名角色令其摸两张牌",
 
-  ["$jieming1"] = "秉忠贞之志，守谦退之节。",
-  ["$jieming2"] = "我命由天，不在此列！",
+  ["$xh__jieming1"] = "秉忠贞之志，守谦退之节。",
+  ["$xh__jieming2"] = "我命由天，不在此列！",
 }
 
 jieming:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(jieming.name) and data.damage > 0
+    return target == player and player:hasSkill(xh__jieming.name) and data.damage > 0
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -29,7 +29,7 @@ jieming:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = jieming.name,
+      skill_name = xh__jieming.name,
       prompt = "#jieming-choose",
       cancelable = true,
     })
@@ -44,12 +44,12 @@ jieming:addEffect(fk.Damaged, {
     local to = event:getCostData(self).tos[1]
 
     -- 目标摸两张牌
-    to:drawCards(2, jieming.name)
+    to:drawCards(2, xh__jieming.name)
 
     -- 若其手牌数小于其体力上限，你摸一张牌
     if not player.dead and not to.dead then
       if to:getHandcardNum() < to.maxHp then
-        player:drawCards(1, jieming.name)
+        player:drawCards(1, xh__jieming.name)
       end
     end
   end,

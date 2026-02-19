@@ -4,12 +4,12 @@
 -- 1.获得你攻击范围内的一名其他角色的一张牌；2.视为对你攻击范围内的一名其他角色使用一张【杀】。
 
 local xiaoxiong = fk.CreateSkill {
-  name = "xiaoxiong",
+  name = "xh__xiaoxiong",
 }
 
 Fk:loadTranslationTable {
-  ["xiaoxiong"] = "宵袭",
-  [":xiaoxiong"] = "锁定技，出牌阶段开始时，你失去1点体力或减1点体力上限，然后选择一项："..
+  ["xh__xiaoxiong"] = "宵袭",
+  [":xh__xiaoxiong"] = "锁定技，出牌阶段开始时，你失去1点体力或减1点体力上限，然后选择一项："..
     "1.获得你攻击范围内的一名其他角色的一张牌；2.视为对你攻击范围内的一名其他角色使用一张【杀】。",
 
   ["xiaoxiong_losehp"] = "失去1点体力",
@@ -17,14 +17,14 @@ Fk:loadTranslationTable {
   ["xiaoxiong_get"] = "获得一张牌",
   ["xiaoxiong_slash"] = "使用一张杀",
 
-  ["$xiaoxiong1"] = "宵袭敌营，出其不意！",
-  ["$xiaoxiong2"] = "夜袭之计，攻其不备！",
+  ["$xh__xiaoxiong1"] = "宵袭敌营，出其不意！",
+  ["$xh__xiaoxiong2"] = "夜袭之计，攻其不备！",
 }
 
 xiaoxiong:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xiaoxiong.name) and
+    return target == player and player:hasSkill(xh__xiaoxiong.name) and
       player.phase == Player.Play
   end,
   on_cost = Util.TrueFunc,
@@ -34,13 +34,13 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
     -- 选择代价
     local choice = room:askToChoice(player, {
       choices = {"xiaoxiong_losehp", "xiaoxiong_losemaxhp"},
-      skill_name = xiaoxiong.name,
+      skill_name = xh__xiaoxiong.name,
       prompt = "选择代价",
       detailed = false,
     })
     
     if choice == "xiaoxiong_losehp" then
-      room:loseHp(player, 1, xiaoxiong.name)
+      room:loseHp(player, 1, xh__xiaoxiong.name)
     else
       room:changeMaxHp(player, -1)
     end
@@ -55,7 +55,7 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
     -- 选择效果
     local effect = room:askToChoice(player, {
       choices = {"xiaoxiong_get", "xiaoxiong_slash"},
-      skill_name = xiaoxiong.name,
+      skill_name = xh__xiaoxiong.name,
       prompt = "选择效果",
       detailed = false,
     })
@@ -64,7 +64,7 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xiaoxiong.name,
+      skill_name = xh__xiaoxiong.name,
       prompt = "选择目标",
       cancelable = false,
     })[1]
@@ -75,14 +75,14 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
         local id = room:askToChooseCard(player, {
           target = to,
           flag = "he",
-          skill_name = xiaoxiong.name,
+          skill_name = xh__xiaoxiong.name,
         })
-        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xiaoxiong.name)
+        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__xiaoxiong.name)
       end
     else
       -- 使用杀
       local slash = Fk:cloneCard("slash")
-      slash.skillName = xiaoxiong.name
+      slash.skillName = xh__xiaoxiong.name
       room:useCard{
         from = player.id,
         tos = {to.id},

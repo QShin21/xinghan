@@ -3,19 +3,19 @@
 -- 出牌阶段限一次，你可以受到1点伤害或弃置一张武器牌，对对手造成1点伤害。
 
 local qiangxi = fk.CreateSkill {
-  name = "qiangxi",
+  name = "xh__qiangxi",
 }
 
 Fk:loadTranslationTable {
-  ["qiangxi"] = "强袭",
-  [":qiangxi"] = "出牌阶段限一次，你可以受到1点伤害或弃置一张武器牌，对对手造成1点伤害。",
+  ["xh__qiangxi"] = "强袭",
+  [":xh__qiangxi"] = "出牌阶段限一次，你可以受到1点伤害或弃置一张武器牌，对对手造成1点伤害。",
 
-  ["#qiangxi-use"] = "强袭：选择一项代价，对一名角色造成1点伤害",
+  ["#xh__qiangxi-use"] = "强袭：选择一项代价，对一名角色造成1点伤害",
   ["qiangxi_damage"] = "受到1点伤害",
   ["qiangxi_weapon"] = "弃置一张武器牌",
-  ["#qiangxi-target"] = "强袭：选择一名角色造成1点伤害",
+  ["#xh__qiangxi-target"] = "强袭：选择一名角色造成1点伤害",
 
-  ["$qiangxi1"] = "强袭敌阵，虽死无憾！",
+  ["$xh__qiangxi1"] = "强袭敌阵，虽死无憾！",
   ["qiangxi2"] = "看我强袭！",
 }
 
@@ -25,7 +25,7 @@ qiangxi:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(qiangxi.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xh__qiangxi.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -36,8 +36,8 @@ qiangxi:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, qiangxi.name, "offensive", {target})
-    player:broadcastSkillInvoke(qiangxi.name)
+    room:notifySkillInvoked(player, xh__qiangxi.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__qiangxi.name)
 
     local choices = {"qiangxi_damage"}
     
@@ -52,13 +52,13 @@ qiangxi:addEffect("active", {
 
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = qiangxi.name,
+      skill_name = xh__qiangxi.name,
       prompt = "#qiangxi-use",
       detailed = false,
     })
 
     if choice == "qiangxi_damage" then
-      room:loseHp(player, 1, qiangxi.name)
+      room:loseHp(player, 1, xh__qiangxi.name)
     else
       -- 弃置一张武器牌
       local weapon_cards = table.filter(player:getCardIds("he"), function(id)
@@ -69,13 +69,13 @@ qiangxi:addEffect("active", {
         min_num = 1,
         max_num = 1,
         include_equip = true,
-        skill_name = qiangxi.name,
+        skill_name = xh__qiangxi.name,
         pattern = tostring(Exppattern{ id = weapon_cards }),
         prompt = "选择一张武器牌弃置",
         cancelable = false,
       })
       
-      room:throwCard(id, qiangxi.name, player, player)
+      room:throwCard(id, xh__qiangxi.name, player, player)
     end
 
     if not target.dead then
@@ -83,7 +83,7 @@ qiangxi:addEffect("active", {
         from = player,
         to = target,
         damage = 1,
-        skillName = qiangxi.name,
+        skillName = xh__qiangxi.name,
       }
     end
   end,

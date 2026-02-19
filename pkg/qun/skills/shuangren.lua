@@ -4,25 +4,25 @@
 -- 若你没赢，你此阶段不能使用【杀】。
 
 local shuangren = fk.CreateSkill {
-  name = "shuangren",
+  name = "xh__shuangren",
 }
 
 Fk:loadTranslationTable {
-  ["shuangren"] = "双刃",
-  [":shuangren"] = "出牌阶段开始时，你可以与一名角色拼点：若你赢，你视为对与其势力相同的一至两名角色（若为两名，则须包含该角色）使用一张【杀】；"..
+  ["xh__shuangren"] = "双刃",
+  [":xh__shuangren"] = "出牌阶段开始时，你可以与一名角色拼点：若你赢，你视为对与其势力相同的一至两名角色（若为两名，则须包含该角色）使用一张【杀】；"..
     "若你没赢，你此阶段不能使用【杀】。",
 
-  ["#shuangren-target"] = "双刃：选择一名角色进行拼点",
-  ["@@shuangren_no_slash"] = "双刃禁止杀",
+  ["#xh__shuangren-target"] = "双刃：选择一名角色进行拼点",
+  ["@@xh__shuangren_no_slash"] = "双刃禁止杀",
 
-  ["$shuangren1"] = "双刃齐出，势不可挡！",
-  ["$shuangren2"] = "纪灵在此，谁敢争锋！",
+  ["$xh__shuangren1"] = "双刃齐出，势不可挡！",
+  ["$xh__shuangren2"] = "纪灵在此，谁敢争锋！",
 }
 
 shuangren:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(shuangren.name) and
+    return target == player and player:hasSkill(xh__shuangren.name) and
       player.phase == Player.Play and not player:isKongcheng()
   end,
   on_cost = function(self, event, target, player, data)
@@ -37,7 +37,7 @@ shuangren:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = shuangren.name,
+      skill_name = xh__shuangren.name,
       prompt = "#shuangren-target",
       cancelable = true,
     })
@@ -51,7 +51,7 @@ shuangren:addEffect(fk.EventPhaseStart, {
     local room = player.room
     local to = event:getCostData(self).tos[1]
     
-    local pindian = room:pindian({player, to}, shuangren.name)
+    local pindian = room:pindian({player, to}, xh__shuangren.name)
     
     if pindian.results[player].winner then
       -- 赢了：对同势力角色使用杀
@@ -65,7 +65,7 @@ shuangren:addEffect(fk.EventPhaseStart, {
         min_num = 1,
         max_num = 2,
         targets = same_kingdom,
-        skill_name = shuangren.name,
+        skill_name = xh__shuangren.name,
         prompt = "选择1-2名同势力角色",
         cancelable = false,
       })
@@ -76,7 +76,7 @@ shuangren:addEffect(fk.EventPhaseStart, {
       end
       
       local slash = Fk:cloneCard("slash")
-      slash.skillName = shuangren.name
+      slash.skillName = xh__shuangren.name
       
       room:useCard{
         from = player.id,

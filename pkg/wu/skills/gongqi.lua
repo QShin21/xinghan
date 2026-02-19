@@ -5,21 +5,21 @@
 -- 若你以此法弃置的牌为装备牌，你可以弃置一名其他角色的一张牌。
 
 local gongqi = fk.CreateSkill {
-  name = "gongqi",
+  name = "xh__gongqi",
 }
 
 Fk:loadTranslationTable {
-  ["gongqi"] = "弓骑",
-  [":gongqi"] = "出牌阶段限一次，你可以弃置一张牌，然后你本回合的攻击范围为无限，"..
+  ["xh__gongqi"] = "弓骑",
+  [":xh__gongqi"] = "出牌阶段限一次，你可以弃置一张牌，然后你本回合的攻击范围为无限，"..
     "且你本回合使用与你以此法弃置的牌花色相同的【杀】无次数限制，"..
     "若你以此法弃置的牌为装备牌，你可以弃置一名其他角色的一张牌。",
 
-  ["#gongqi-use"] = "弓骑：弃置一张牌",
-  ["#gongqi-discard"] = "弓骑：是否弃置一名角色的一张牌？",
-  ["@@gongqi_suit"] = "弓骑",
+  ["#xh__gongqi-use"] = "弓骑：弃置一张牌",
+  ["#xh__gongqi-discard"] = "弓骑：是否弃置一名角色的一张牌？",
+  ["@@xh__gongqi_suit"] = "弓骑",
 
-  ["$gongqi1"] = "弓骑射敌，百步穿杨！",
-  ["$gongqi2"] = "弓马娴熟，百发百中！",
+  ["$xh__gongqi1"] = "弓骑射敌，百步穿杨！",
+  ["$xh__gongqi2"] = "弓马娴熟，百发百中！",
 }
 
 gongqi:addEffect("active", {
@@ -28,7 +28,7 @@ gongqi:addEffect("active", {
   card_num = 1,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(gongqi.name, Player.HistoryPhase) == 0 and not player:isNude()
+    return player:usedSkillTimes(xh__gongqi.name, Player.HistoryPhase) == 0 and not player:isNude()
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -39,13 +39,13 @@ gongqi:addEffect("active", {
     local card_id = effect.cards[1]
     local card = Fk:getCardById(card_id)
 
-    room:notifySkillInvoked(player, gongqi.name, "offensive")
-    player:broadcastSkillInvoke(gongqi.name)
+    room:notifySkillInvoked(player, xh__gongqi.name, "offensive")
+    player:broadcastSkillInvoke(xh__gongqi.name)
 
     local is_equip = card.type == Card.TypeEquip
     local suit = card.suit
 
-    room:throwCard(card_id, gongqi.name, player, player)
+    room:throwCard(card_id, xh__gongqi.name, player, player)
 
     -- 设置标记
     room:setPlayerMark(player, "@@gongqi_suit", suit)
@@ -59,14 +59,14 @@ gongqi:addEffect("active", {
       
       if #targets > 0 then
         if room:askToSkillInvoke(player, {
-          skill_name = gongqi.name,
+          skill_name = xh__gongqi.name,
           prompt = "#gongqi-discard",
         }) then
           local to = room:askToChoosePlayers(player, {
             min_num = 1,
             max_num = 1,
             targets = targets,
-            skill_name = gongqi.name,
+            skill_name = xh__gongqi.name,
             prompt = "选择一名角色弃置其一张牌",
             cancelable = false,
           })[1]
@@ -74,9 +74,9 @@ gongqi:addEffect("active", {
           local id = room:askToChooseCard(player, {
             target = to,
             flag = "he",
-            skill_name = gongqi.name,
+            skill_name = xh__gongqi.name,
           })
-          room:throwCard(id, gongqi.name, to, player)
+          room:throwCard(id, xh__gongqi.name, to, player)
         end
       end
     end

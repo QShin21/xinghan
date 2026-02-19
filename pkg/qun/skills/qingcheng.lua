@@ -3,17 +3,17 @@
 -- 出牌阶段限一次，你可以选择手牌数小于等于你的一名角色与其交换手牌。
 
 local qingcheng = fk.CreateSkill {
-  name = "qingcheng",
+  name = "xh__qingcheng",
 }
 
 Fk:loadTranslationTable {
-  ["qingcheng"] = "倾城",
-  [":qingcheng"] = "出牌阶段限一次，你可以选择手牌数小于等于你的一名角色与其交换手牌。",
+  ["xh__qingcheng"] = "倾城",
+  [":xh__qingcheng"] = "出牌阶段限一次，你可以选择手牌数小于等于你的一名角色与其交换手牌。",
 
-  ["#qingcheng-target"] = "倾城：选择一名手牌数小于等于你的角色",
+  ["#xh__qingcheng-target"] = "倾城：选择一名手牌数小于等于你的角色",
 
-  ["$qingcheng1"] = "倾城之貌，倾国倾城！",
-  ["$qingcheng2"] = "邹氏倾城，天下无双！",
+  ["$xh__qingcheng1"] = "倾城之貌，倾国倾城！",
+  ["$xh__qingcheng2"] = "邹氏倾城，天下无双！",
 }
 
 qingcheng:addEffect("active", {
@@ -22,7 +22,7 @@ qingcheng:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(qingcheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(xh__qingcheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -33,15 +33,15 @@ qingcheng:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, qingcheng.name, "control", {target})
-    player:broadcastSkillInvoke(qingcheng.name)
+    room:notifySkillInvoked(player, xh__qingcheng.name, "control", {target})
+    player:broadcastSkillInvoke(xh__qingcheng.name)
 
     -- 交换手牌
     local player_cards = player:getCardIds("h")
     local target_cards = target:getCardIds("h")
     
-    room:moveCardTo(player_cards, Player.Hand, target, fk.ReasonGive, qingcheng.name, nil, false, player.id)
-    room:moveCardTo(target_cards, Player.Hand, player, fk.ReasonGive, qingcheng.name, nil, false, target.id)
+    room:moveCardTo(player_cards, Player.Hand, target, fk.ReasonGive, xh__qingcheng.name, nil, false, player.id)
+    room:moveCardTo(target_cards, Player.Hand, player, fk.ReasonGive, xh__qingcheng.name, nil, false, target.id)
   end,
 })
 

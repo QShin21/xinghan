@@ -3,24 +3,24 @@
 -- 觉醒技，准备阶段，若你当前体力值小于等于2，则你减1点体力上限，然后获得技能"英姿"和"英魂"。
 
 local hunzi = fk.CreateSkill {
-  name = "hunzi",
+  name = "xh__hunzi",
   frequency = Skill.Wake,
 }
 
 Fk:loadTranslationTable {
-  ["hunzi"] = "魂姿",
-  [":hunzi"] = "觉醒技，准备阶段，若你当前体力值小于等于2，则你减1点体力上限，然后获得技能\"英姿\"和\"英魂\"。",
+  ["xh__hunzi"] = "魂姿",
+  [":xh__hunzi"] = "觉醒技，准备阶段，若你当前体力值小于等于2，则你减1点体力上限，然后获得技能\"英姿\"和\"英魂\"。",
 
-  ["$hunzi1"] = "魂姿觉醒，天下无双！",
-  ["$hunzi2"] = "江东小霸王，魂姿觉醒！",
+  ["$xh__hunzi1"] = "魂姿觉醒，天下无双！",
+  ["$xh__hunzi2"] = "江东小霸王，魂姿觉醒！",
 }
 
 hunzi:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(hunzi.name) then return false end
+    if target ~= player or not player:hasSkill(xh__hunzi.name) then return false end
     if player.phase ~= Player.Start then return false end
-    if player:usedSkillTimes(hunzi.name, Player.HistoryGame) > 0 then return false end
+    if player:usedSkillTimes(xh__hunzi.name, Player.HistoryGame) > 0 then return false end
     
     return player.hp <= 2
   end,

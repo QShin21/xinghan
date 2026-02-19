@@ -4,27 +4,27 @@
 -- 当你受到伤害后，你可以令你势力相同的一名角色摸一张牌，若该角色不是你，你也摸一张牌。
 
 local wanggui = fk.CreateSkill {
-  name = "wanggui",
+  name = "xh__wanggui",
 }
 
 Fk:loadTranslationTable {
-  ["wanggui"] = "望归",
-  [":wanggui"] = "当你造成伤害后，你可以对与你势力不同的一名角色造成1点伤害（每回合限一次）；"..
+  ["xh__wanggui"] = "望归",
+  [":xh__wanggui"] = "当你造成伤害后，你可以对与你势力不同的一名角色造成1点伤害（每回合限一次）；"..
     "当你受到伤害后，你可以令你势力相同的一名角色摸一张牌，若该角色不是你，你也摸一张牌。",
 
-  ["#wanggui-damage"] = "望归：对一名不同势力角色造成1点伤害",
-  ["#wanggui-draw"] = "望归：令一名同势力角色摸一张牌",
+  ["#xh__wanggui-damage"] = "望归：对一名不同势力角色造成1点伤害",
+  ["#xh__wanggui-draw"] = "望归：令一名同势力角色摸一张牌",
 
-  ["$wanggui1"] = "望归故里，心系苍生！",
-  ["$wanggui2"] = "归心似箭，何惧路遥！",
+  ["$xh__wanggui1"] = "望归故里，心系苍生！",
+  ["$xh__wanggui2"] = "归心似箭，何惧路遥！",
 }
 
 -- 造成伤害后
 wanggui:addEffect(fk.Damage, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(wanggui.name) and
-      player:usedEffectTimes(wanggui.name .. "_damage", Player.HistoryTurn) == 0
+    return target == player and player:hasSkill(xh__wanggui.name) and
+      player:usedEffectTimes(xh__wanggui.name .. "_damage", Player.HistoryTurn) == 0
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -39,7 +39,7 @@ wanggui:addEffect(fk.Damage, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = wanggui.name,
+      skill_name = xh__wanggui.name,
       prompt = "#wanggui-damage",
       cancelable = true,
     })
@@ -57,7 +57,7 @@ wanggui:addEffect(fk.Damage, {
       from = player,
       to = to,
       damage = 1,
-      skillName = wanggui.name,
+      skillName = xh__wanggui.name,
     }
   end,
 })
@@ -66,7 +66,7 @@ wanggui:addEffect(fk.Damage, {
 wanggui:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(wanggui.name)
+    return target == player and player:hasSkill(xh__wanggui.name)
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -81,7 +81,7 @@ wanggui:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = wanggui.name,
+      skill_name = xh__wanggui.name,
       prompt = "#wanggui-draw",
       cancelable = true,
     })
@@ -95,11 +95,11 @@ wanggui:addEffect(fk.Damaged, {
     local room = player.room
     local to = event:getCostData(self).tos[1]
 
-    to:drawCards(1, wanggui.name)
+    to:drawCards(1, xh__wanggui.name)
 
     -- 若该角色不是你，你也摸一张牌
     if to ~= player and not player.dead then
-      player:drawCards(1, wanggui.name)
+      player:drawCards(1, xh__wanggui.name)
     end
   end,
 })

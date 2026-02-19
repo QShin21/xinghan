@@ -4,19 +4,19 @@
 -- 若如此做，此技能失效，直到你下个回合的结束阶段。
 
 local yangwei = fk.CreateSkill {
-  name = "yangwei",
+  name = "xh__yangwei",
 }
 
 Fk:loadTranslationTable {
-  ["yangwei"] = "扬威",
-  [":yangwei"] = "出牌阶段限一次，你可以摸两张牌并令你本阶段：使用【杀】的次数上限+1、使用【杀】无距离限制且无视防具。"..
+  ["xh__yangwei"] = "扬威",
+  [":xh__yangwei"] = "出牌阶段限一次，你可以摸两张牌并令你本阶段：使用【杀】的次数上限+1、使用【杀】无距离限制且无视防具。"..
     "若如此做，此技能失效，直到你下个回合的结束阶段。",
 
-  ["#yangwei-invoke"] = "扬威：是否摸两张牌并强化杀？",
-  ["@@yangwei_active"] = "扬威",
+  ["#xh__yangwei-invoke"] = "扬威：是否摸两张牌并强化杀？",
+  ["@@xh__yangwei_active"] = "扬威",
 
-  ["$yangwei1"] = "扬威天下，谁敢争锋！",
-  ["$yangwei2"] = "西凉华雄，威震天下！",
+  ["$xh__yangwei1"] = "扬威天下，谁敢争锋！",
+  ["$xh__yangwei2"] = "西凉华雄，威震天下！",
 }
 
 yangwei:addEffect("active", {
@@ -25,18 +25,18 @@ yangwei:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(yangwei.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(xh__yangwei.name, Player.HistoryPhase) == 0 and
       player:getMark("@@yangwei_disabled") == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, yangwei.name, "offensive")
-    player:broadcastSkillInvoke(yangwei.name)
+    room:notifySkillInvoked(player, xh__yangwei.name, "offensive")
+    player:broadcastSkillInvoke(xh__yangwei.name)
 
     -- 摸两张牌
-    player:drawCards(2, yangwei.name)
+    player:drawCards(2, xh__yangwei.name)
     
     -- 设置标记
     room:setPlayerMark(player, "@@yangwei_active", 1)

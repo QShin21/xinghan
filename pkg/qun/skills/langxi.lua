@@ -4,23 +4,23 @@
 -- 若结果为黑色，你对其造成1点伤害。
 
 local langxi = fk.CreateSkill {
-  name = "langxi",
+  name = "xh__langxi",
 }
 
 Fk:loadTranslationTable {
-  ["langxi"] = "狼袭",
-  [":langxi"] = "准备阶段，你可以选择一名体力值不大于你的角色，然后你进行判定，若结果为黑色，你对其造成1点伤害。",
+  ["xh__langxi"] = "狼袭",
+  [":xh__langxi"] = "准备阶段，你可以选择一名体力值不大于你的角色，然后你进行判定，若结果为黑色，你对其造成1点伤害。",
 
-  ["#langxi-target"] = "狼袭：选择一名体力值不大于你的角色",
+  ["#xh__langxi-target"] = "狼袭：选择一名体力值不大于你的角色",
 
-  ["$langxi1"] = "狼袭之威，势不可挡！",
-  ["$langxi2"] = "西凉狼骑，天下无双！",
+  ["$xh__langxi1"] = "狼袭之威，势不可挡！",
+  ["$xh__langxi2"] = "西凉狼骑，天下无双！",
 }
 
 langxi:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(langxi.name) and player.phase == Player.Start
+    return target == player and player:hasSkill(xh__langxi.name) and player.phase == Player.Start
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -34,7 +34,7 @@ langxi:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = langxi.name,
+      skill_name = xh__langxi.name,
       prompt = "#langxi-target",
       cancelable = true,
     })
@@ -50,7 +50,7 @@ langxi:addEffect(fk.EventPhaseStart, {
     
     local judge = room:judge{
       who = player,
-      reason = langxi.name,
+      reason = xh__langxi.name,
     }
     
     if judge.card.color == Card.Black then
@@ -58,7 +58,7 @@ langxi:addEffect(fk.EventPhaseStart, {
         from = player,
         to = to,
         damage = 1,
-        skillName = langxi.name,
+        skillName = xh__langxi.name,
       }
     end
   end,

@@ -4,23 +4,23 @@
 -- 令其本回合下次受到的伤害+1，且其下个出牌阶段开始时进行判定...
 
 local xionghuo = fk.CreateSkill {
-  name = "xionghuo",
+  name = "xh__xionghuo",
 }
 
 Fk:loadTranslationTable {
-  ["xionghuo"] = "凶镬",
-  [":xionghuo"] = "每局游戏限三次，出牌阶段限一次，你可以选择一名角色，"..
+  ["xh__xionghuo"] = "凶镬",
+  [":xh__xionghuo"] = "每局游戏限三次，出牌阶段限一次，你可以选择一名角色，"..
     "令其本回合下次受到的伤害+1，且其下个出牌阶段开始时进行判定，若结果为："..
     "♢，你对其造成1点火焰伤害且其本回合不能对你使用【杀】；"..
     "♡，其失去1点体力且其本回合手牌上限-1；"..
     "♤或♧，你获得其装备区和手牌区里的各一张牌。",
 
-  ["#xionghuo-target"] = "凶镬：选择一名角色",
-  ["@@xionghuo_damage"] = "凶镬",
-  ["@@xionghuo_judge"] = "凶镬判定",
+  ["#xh__xionghuo-target"] = "凶镬：选择一名角色",
+  ["@@xh__xionghuo_damage"] = "凶镬",
+  ["@@xh__xionghuo_judge"] = "凶镬判定",
 
-  ["$xionghuo1"] = "凶镬之威，谁敢争锋！",
-  ["$xionghuo2"] = "镬烹之刑，威震天下！",
+  ["$xh__xionghuo1"] = "凶镬之威，谁敢争锋！",
+  ["$xh__xionghuo2"] = "镬烹之刑，威震天下！",
 }
 
 xionghuo:addEffect("active", {
@@ -29,8 +29,8 @@ xionghuo:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xionghuo.name, Player.HistoryPhase) == 0 and
-      player:usedSkillTimes(xionghuo.name, Player.HistoryGame) < 3
+    return player:usedSkillTimes(xh__xionghuo.name, Player.HistoryPhase) == 0 and
+      player:usedSkillTimes(xh__xionghuo.name, Player.HistoryGame) < 3
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -41,8 +41,8 @@ xionghuo:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xionghuo.name, "offensive", {target})
-    player:broadcastSkillInvoke(xionghuo.name)
+    room:notifySkillInvoked(player, xh__xionghuo.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__xionghuo.name)
 
     -- 令其下次受到伤害+1
     room:addPlayerMark(target, "@@xionghuo_damage", 1)
@@ -82,7 +82,7 @@ xionghuo:addEffect(fk.EventPhaseStart, {
     
     local judge = room:judge{
       who = player,
-      reason = xionghuo.name,
+      reason = xh__xionghuo.name,
     }
     
     local suit = judge.card.suit
@@ -94,12 +94,12 @@ xionghuo:addEffect(fk.EventPhaseStart, {
         to = player,
         damage = 1,
         damageType = fk.FireDamage,
-        skillName = xionghuo.name,
+        skillName = xh__xionghuo.name,
       }
       room:addPlayerMark(player, "@@xionghuo_no_slash", source.id)
     elseif suit == Card.Heart then
       -- 失去1点体力且本回合手牌上限-1
-      room:loseHp(player, 1, xionghuo.name)
+      room:loseHp(player, 1, xh__xionghuo.name)
       room:addPlayerMark(player, "@@xionghuo_hand_limit", -1)
     else
       -- 获得装备区和手牌区各一张牌
@@ -111,18 +111,18 @@ xionghuo:addEffect(fk.EventPhaseStart, {
           local id = room:askToChooseCard(source, {
             target = player,
             flag = "e",
-            skill_name = xionghuo.name,
+            skill_name = xh__xionghuo.name,
           })
-          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xionghuo.name)
+          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xh__xionghuo.name)
         end
         
         if #hand_cards > 0 then
           local id = room:askToChooseCard(source, {
             target = player,
             flag = "h",
-            skill_name = xionghuo.name,
+            skill_name = xh__xionghuo.name,
           })
-          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xionghuo.name)
+          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xh__xionghuo.name)
         end
       end
     end

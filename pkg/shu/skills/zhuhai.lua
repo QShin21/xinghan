@@ -3,25 +3,25 @@
 -- 其他角色的结束阶段，若该角色本回合造成过伤害则你可以将一张手牌当【杀】或【过河拆桥】对其使用。
 
 local zhuhai = fk.CreateSkill {
-  name = "zhuhai",
+  name = "xh__zhuhai",
 }
 
 Fk:loadTranslationTable {
-  ["zhuhai"] = "诛害",
-  [":zhuhai"] = "其他角色的结束阶段，若该角色本回合造成过伤害则你可以将一张手牌当【杀】或【过河拆桥】对其使用。",
+  ["xh__zhuhai"] = "诛害",
+  [":xh__zhuhai"] = "其他角色的结束阶段，若该角色本回合造成过伤害则你可以将一张手牌当【杀】或【过河拆桥】对其使用。",
 
-  ["#zhuhai-use"] = "诛害：将一张手牌当杀或过河拆桥使用",
+  ["#xh__zhuhai-use"] = "诛害：将一张手牌当杀或过河拆桥使用",
   ["zhuhai_slash"] = "当杀使用",
   ["zhuhai_dismantlement"] = "当过河拆桥使用",
 
-  ["$zhuhai1"] = "诛害奸佞，替天行道！",
-  ["$zhuhai2"] = "害人者，必受其害！",
+  ["$xh__zhuhai1"] = "诛害奸佞，替天行道！",
+  ["$xh__zhuhai2"] = "害人者，必受其害！",
 }
 
 zhuhai:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(zhuhai.name) then return false end
+    if target == player or not player:hasSkill(xh__zhuhai.name) then return false end
     if target.phase ~= Player.Finish then return false end
     if player:isKongcheng() then return false end
     
@@ -35,7 +35,7 @@ zhuhai:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = zhuhai.name,
+      skill_name = xh__zhuhai.name,
       pattern = ".",
       prompt = "#zhuhai-use",
       cancelable = true,
@@ -52,14 +52,14 @@ zhuhai:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(player, {
       choices = {"zhuhai_slash", "zhuhai_dismantlement"},
-      skill_name = zhuhai.name,
+      skill_name = xh__zhuhai.name,
       prompt = "选择当什么牌使用",
       detailed = false,
     })
     
     local card_name = choice == "zhuhai_slash" and "slash" or "dismantlement"
     local card = Fk:cloneCard(card_name)
-    card.skillName = zhuhai.name
+    card.skillName = xh__zhuhai.name
     card:addSubcard(card_id)
     
     room:useCard{

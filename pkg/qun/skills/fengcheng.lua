@@ -5,22 +5,22 @@
 -- 2. 受到你造成的2点火焰伤害。
 
 local fengcheng = fk.CreateSkill {
-  name = "fengcheng",
+  name = "xh__fengcheng",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["fengcheng"] = "焚城",
-  [":fengcheng"] = "限定技，出牌阶段，你可以令所有其他角色依次选择一项："..
+  ["xh__fengcheng"] = "焚城",
+  [":xh__fengcheng"] = "限定技，出牌阶段，你可以令所有其他角色依次选择一项："..
     "1. 弃置至少X+1张牌（X为上一名进行选择的角色以此法弃置的牌数）；2. 受到你造成的2点火焰伤害。",
 
-  ["#fengcheng-invoke"] = "焚城：令所有其他角色弃牌或受到火焰伤害",
-  ["#fengcheng-choice"] = "焚城：请选择一项",
+  ["#xh__fengcheng-invoke"] = "焚城：令所有其他角色弃牌或受到火焰伤害",
+  ["#xh__fengcheng-choice"] = "焚城：请选择一项",
   ["fengcheng_discard"] = "弃置至少%arg张牌",
   ["fengcheng_damage"] = "受到2点火焰伤害",
 
-  ["$fengcheng1"] = "焚城之计，玉石俱焚！",
-  ["$fengcheng2"] = "火烧连营，片甲不留！",
+  ["$xh__fengcheng1"] = "焚城之计，玉石俱焚！",
+  ["$xh__fengcheng2"] = "火烧连营，片甲不留！",
 }
 
 fengcheng:addEffect("active", {
@@ -29,14 +29,14 @@ fengcheng:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(fengcheng.name) == 0
+    return player:usedSkillTimes(xh__fengcheng.name) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, fengcheng.name, "offensive")
-    player:broadcastSkillInvoke(fengcheng.name)
+    room:notifySkillInvoked(player, xh__fengcheng.name, "offensive")
+    player:broadcastSkillInvoke(xh__fengcheng.name)
 
     local others = room:getOtherPlayers(player, false)
     local last_discard_count = 0
@@ -53,7 +53,7 @@ fengcheng:addEffect("active", {
 
         local choice = room:askToChoice(p, {
           choices = choices,
-          skill_name = fengcheng.name,
+          skill_name = xh__fengcheng.name,
           prompt = "#fengcheng-choice",
           detailed = false,
         })
@@ -66,12 +66,12 @@ fengcheng:addEffect("active", {
             min_num = min_discard,
             max_num = max_discard,
             include_equip = true,
-            skill_name = fengcheng.name,
+            skill_name = xh__fengcheng.name,
             pattern = ".",
             cancelable = false,
           })
 
-          room:throwCard(cards, fengcheng.name, p, p)
+          room:throwCard(cards, xh__fengcheng.name, p, p)
           last_discard_count = #cards
         else
           -- 受到2点火焰伤害
@@ -80,7 +80,7 @@ fengcheng:addEffect("active", {
             to = p,
             damage = 2,
             damageType = fk.FireDamage,
-            skillName = fengcheng.name,
+            skillName = xh__fengcheng.name,
           }
         end
       end

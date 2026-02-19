@@ -5,26 +5,26 @@
 -- 2.令所有手牌数和体力值的大小关系与你相同的角色摸一张牌。
 
 local zhenze = fk.CreateSkill {
-  name = "zhenze",
+  name = "xh__zhenze",
 }
 
 Fk:loadTranslationTable {
-  ["zhenze"] = "震泽",
-  [":zhenze"] = "弃牌阶段开始时，你可以选择一项："..
+  ["xh__zhenze"] = "震泽",
+  [":xh__zhenze"] = "弃牌阶段开始时，你可以选择一项："..
     "1.令所有手牌数和体力值的大小关系与你不同的角色失去1点体力；"..
     "2.令所有手牌数和体力值的大小关系与你相同的角色摸一张牌。",
 
   ["zhenze_damage"] = "令手牌数和体力值关系不同的角色失去1点体力",
   ["zhenze_draw"] = "令手牌数和体力值关系相同的角色摸一张牌",
 
-  ["$zhenze1"] = "震泽之威，势不可挡！",
-  ["$zhenze2"] = "辽东公孙，震泽天下！",
+  ["$xh__zhenze1"] = "震泽之威，势不可挡！",
+  ["$xh__zhenze2"] = "辽东公孙，震泽天下！",
 }
 
 zhenze:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(zhenze.name) and
+    return target == player and player:hasSkill(xh__zhenze.name) and
       player.phase == Player.Discard
   end,
   on_cost = function(self, event, target, player, data)
@@ -32,7 +32,7 @@ zhenze:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(player, {
       choices = {"zhenze_damage", "zhenze_draw"},
-      skill_name = zhenze.name,
+      skill_name = xh__zhenze.name,
       prompt = "选择一项",
       detailed = false,
     })
@@ -56,11 +56,11 @@ zhenze:addEffect(fk.EventPhaseStart, {
         
         if choice == "zhenze_damage" then
           if not same then
-            room:loseHp(p, 1, zhenze.name)
+            room:loseHp(p, 1, xh__zhenze.name)
           end
         else
           if same then
-            p:drawCards(1, zhenze.name)
+            p:drawCards(1, xh__zhenze.name)
           end
         end
       end

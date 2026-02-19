@@ -4,33 +4,33 @@
 -- 你可以将牌堆顶六张牌置入弃牌堆，然后从弃牌堆中选择一张点数为6且上个回合未选择的牌名的牌获得。
 
 local xingluan = fk.CreateSkill {
-  name = "xingluan",
+  name = "xh__xingluan",
 }
 
 Fk:loadTranslationTable {
-  ["xingluan"] = "兴乱",
-  [":xingluan"] = "出牌阶段限一次，当你使用仅指定一个目标的牌结算完毕后，"..
+  ["xh__xingluan"] = "兴乱",
+  [":xh__xingluan"] = "出牌阶段限一次，当你使用仅指定一个目标的牌结算完毕后，"..
     "你可以将牌堆顶六张牌置入弃牌堆，然后从弃牌堆中选择一张点数为6且上个回合未选择的牌名的牌获得。",
 
-  ["#xingluan-invoke"] = "兴乱：是否将牌堆顶六张牌置入弃牌堆并选择获得一张牌？",
-  ["@@xingluan_used"] = "兴乱已用牌名",
+  ["#xh__xingluan-invoke"] = "兴乱：是否将牌堆顶六张牌置入弃牌堆并选择获得一张牌？",
+  ["@@xh__xingluan_used"] = "兴乱已用牌名",
 
-  ["$xingluan1"] = "兴乱之计，天下大乱！",
-  ["$xingluan2"] = "樊稠兴乱，势不可挡！",
+  ["$xh__xingluan1"] = "兴乱之计，天下大乱！",
+  ["$xh__xingluan2"] = "樊稠兴乱，势不可挡！",
 }
 
 xingluan:addEffect(fk.CardUseFinished, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xingluan.name) then return false end
+    if target ~= player or not player:hasSkill(xh__xingluan.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:usedSkillTimes(xingluan.name, Player.HistoryPhase) > 0 then return false end
+    if player:usedSkillTimes(xh__xingluan.name, Player.HistoryPhase) > 0 then return false end
     if not data.card or #data.use.tos ~= 1 then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xingluan.name,
+      skill_name = xh__xingluan.name,
       prompt = "#xingluan-invoke",
     })
   end,
@@ -42,7 +42,7 @@ xingluan:addEffect(fk.CardUseFinished, {
     for i = 1, 6 do
       if #room.draw_pile > 0 then
         table.insert(cards, room.draw_pile[1])
-        room:moveCardTo(room.draw_pile[1], Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xingluan.name)
+        room:moveCardTo(room.draw_pile[1], Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__xingluan.name)
         table.remove(room.draw_pile, 1)
       end
     end
@@ -61,14 +61,14 @@ xingluan:addEffect(fk.CardUseFinished, {
         min_num = 1,
         max_num = 1,
         include_equip = false,
-        skill_name = xingluan.name,
+        skill_name = xh__xingluan.name,
         pattern = tostring(Exppattern{ id = valid_cards }),
         prompt = "选择一张点数为6的牌获得",
         cancelable = false,
       })
       
       local card = Fk:getCardById(id[1])
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xingluan.name)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__xingluan.name)
       
       -- 记录已选择的牌名
       table.insert(used_names, card.name)

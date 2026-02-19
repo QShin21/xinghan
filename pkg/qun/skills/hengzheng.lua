@@ -3,23 +3,23 @@
 -- 准备阶段，若你的体力值为1或你没有手牌，你可以获得一名其他角色区域里的一张牌。
 
 local hengzheng = fk.CreateSkill {
-  name = "hengzheng",
+  name = "xh__hengzheng",
 }
 
 Fk:loadTranslationTable {
-  ["hengzheng"] = "横征",
-  [":hengzheng"] = "准备阶段，若你的体力值为1或你没有手牌，你可以获得一名其他角色区域里的一张牌。",
+  ["xh__hengzheng"] = "横征",
+  [":xh__hengzheng"] = "准备阶段，若你的体力值为1或你没有手牌，你可以获得一名其他角色区域里的一张牌。",
 
-  ["#hengzheng-invoke"] = "横征：获得一名其他角色区域里的一张牌",
+  ["#xh__hengzheng-invoke"] = "横征：获得一名其他角色区域里的一张牌",
 
-  ["$hengzheng1"] = "天下之大，何人敢不从！",
-  ["$hengzheng2"] = "顺我者昌，逆我者亡！",
+  ["$xh__hengzheng1"] = "天下之大，何人敢不从！",
+  ["$xh__hengzheng2"] = "顺我者昌，逆我者亡！",
 }
 
 hengzheng:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(hengzheng.name) and
+    return target == player and player:hasSkill(xh__hengzheng.name) and
       player.phase == Player.Start and
       (player.hp == 1 or player:isKongcheng())
   end,
@@ -35,7 +35,7 @@ hengzheng:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = hengzheng.name,
+      skill_name = xh__hengzheng.name,
       prompt = "#hengzheng-invoke",
       cancelable = true,
     })
@@ -52,10 +52,10 @@ hengzheng:addEffect(fk.EventPhaseStart, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "hej",
-      skill_name = hengzheng.name,
+      skill_name = xh__hengzheng.name,
     })
 
-    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, hengzheng.name, nil, false, to.id)
+    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__hengzheng.name, nil, false, to.id)
   end,
 })
 

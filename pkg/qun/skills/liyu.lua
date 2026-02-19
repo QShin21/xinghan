@@ -4,32 +4,32 @@
 -- 然后若此牌为：非装备牌，其摸一张牌；装备牌，你视为对由其指定的另一名其他角色使用一张【决斗】。
 
 local liyu = fk.CreateSkill {
-  name = "liyu",
+  name = "xh__liyu",
 }
 
 Fk:loadTranslationTable {
-  ["liyu"] = "利驭",
-  [":liyu"] = "当你使用【杀】对一名其他角色造成伤害后，你可以获得其区域里的一张牌并展示之，"..
+  ["xh__liyu"] = "利驭",
+  [":xh__liyu"] = "当你使用【杀】对一名其他角色造成伤害后，你可以获得其区域里的一张牌并展示之，"..
     "然后若此牌为：非装备牌，其摸一张牌；装备牌，你视为对由其指定的另一名其他角色使用一张【决斗】。",
 
-  ["#liyu-invoke"] = "利驭：获得 %dest 区域里的一张牌",
-  ["#liyu-duel"] = "利驭：选择一名角色使用【决斗】",
+  ["#xh__liyu-invoke"] = "利驭：获得 %dest 区域里的一张牌",
+  ["#xh__liyu-duel"] = "利驭：选择一名角色使用【决斗】",
 
-  ["$liyu1"] = "人不为己，天诛地灭！",
-  ["$liyu2"] = "大丈夫相时而动！",
+  ["$xh__liyu1"] = "人不为己，天诛地灭！",
+  ["$xh__liyu2"] = "大丈夫相时而动！",
 }
 
 liyu:addEffect(fk.Damage, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(liyu.name) and
+    return target == player and player:hasSkill(xh__liyu.name) and
       data.card and data.card.trueName == "slash" and
       data.to and data.to ~= player and not data.to.dead and
       not data.to:isAllNude()
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = liyu.name,
+      skill_name = xh__liyu.name,
       prompt = "#liyu-invoke::" .. data.to.id,
     })
   end,
@@ -41,16 +41,16 @@ liyu:addEffect(fk.Damage, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "hej",
-      skill_name = liyu.name,
+      skill_name = xh__liyu.name,
     })
 
     local card = Fk:getCardById(id)
 
     -- 展示牌
-    room:showCards(player, {id}, liyu.name)
+    room:showCards(player, {id}, xh__liyu.name)
 
     -- 获得牌
-    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, liyu.name, nil, false, to.id)
+    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__liyu.name, nil, false, to.id)
 
     -- 判断牌的类型
     if card.type == Card.TypeEquip then
@@ -64,13 +64,13 @@ liyu:addEffect(fk.Damage, {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = liyu.name,
+          skill_name = xh__liyu.name,
           prompt = "#liyu-duel",
           cancelable = false,
         })[1]
 
         local duel = Fk:cloneCard("duel")
-        duel.skillName = liyu.name
+        duel.skillName = xh__liyu.name
         room:useCard{
           from = player.id,
           tos = {victim.id},
@@ -80,7 +80,7 @@ liyu:addEffect(fk.Damage, {
     else
       -- 非装备牌：其摸一张牌
       if not to.dead then
-        to:drawCards(1, liyu.name)
+        to:drawCards(1, xh__liyu.name)
       end
     end
   end,

@@ -5,19 +5,19 @@
 -- 当你脱离濒死状态时，本技能视为未发动过并删除回复体力的效果。
 
 local xiongyi = fk.CreateSkill {
-  name = "xiongyi",
+  name = "xh__xiongyi",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["xiongyi"] = "雄异",
-  [":xiongyi"] = "限定技，出牌阶段，你可以令与你势力相同的所有角色各摸三张牌，"..
+  ["xh__xiongyi"] = "雄异",
+  [":xh__xiongyi"] = "限定技，出牌阶段，你可以令与你势力相同的所有角色各摸三张牌，"..
     "然后若你的体力值为场上唯一最小，你回复1点体力：当你脱离濒死状态时，本技能视为未发动过并删除回复体力的效果。",
 
-  ["#xiongyi-invoke"] = "雄异：令同势力角色各摸三张牌",
+  ["#xh__xiongyi-invoke"] = "雄异：令同势力角色各摸三张牌",
 
-  ["$xiongyi1"] = "雄异西凉，威震天下！",
-  ["$xiongyi2"] = "西凉铁骑，何人能挡！",
+  ["$xh__xiongyi1"] = "雄异西凉，威震天下！",
+  ["$xh__xiongyi2"] = "西凉铁骑，何人能挡！",
 }
 
 xiongyi:addEffect("active", {
@@ -26,14 +26,14 @@ xiongyi:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xiongyi.name) == 0
+    return player:usedSkillTimes(xh__xiongyi.name) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xiongyi.name, "support")
-    player:broadcastSkillInvoke(xiongyi.name)
+    room:notifySkillInvoked(player, xh__xiongyi.name, "support")
+    player:broadcastSkillInvoke(xh__xiongyi.name)
 
     local kingdom = player.kingdom
 
@@ -44,7 +44,7 @@ xiongyi:addEffect("active", {
 
     for _, p in ipairs(same_kingdom) do
       if not p.dead then
-        p:drawCards(3, xiongyi.name)
+        p:drawCards(3, xh__xiongyi.name)
       end
     end
 
@@ -66,7 +66,7 @@ xiongyi:addEffect("active", {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = xiongyi.name,
+        skillName = xh__xiongyi.name,
       }
       room:setPlayerMark(player, "@@xiongyi_recover", 1)
     end
@@ -87,7 +87,7 @@ xiongyi:addEffect(fk.AfterDying, {
     local room = player.room
     room:setPlayerMark(player, "@@xiongyi_used", 0)
     room:setPlayerMark(player, "@@xiongyi_recover", 0)
-    player:setSkillUseHistory(xiongyi.name, 0, Player.HistoryGame)
+    player:setSkillUseHistory(xh__xiongyi.name, 0, Player.HistoryGame)
   end,
 })
 

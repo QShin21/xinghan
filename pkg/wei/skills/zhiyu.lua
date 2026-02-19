@@ -4,30 +4,30 @@
 -- 若所有手牌颜色均相同，你获得弃置的牌且下回合"奇策"发动次数+1。
 
 local zhiyu = fk.CreateSkill {
-  name = "zhiyu",
+  name = "xh__zhiyu",
 }
 
 Fk:loadTranslationTable {
-  ["zhiyu"] = "智愚",
-  [":zhiyu"] = "当你受到伤害后，你可以摸一张牌，然后展示所有手牌且伤害来源弃置一张手牌。"..
+  ["xh__zhiyu"] = "智愚",
+  [":xh__zhiyu"] = "当你受到伤害后，你可以摸一张牌，然后展示所有手牌且伤害来源弃置一张手牌。"..
     "若所有手牌颜色均相同，你获得弃置的牌且下回合\"奇策\"发动次数+1。",
 
-  ["#zhiyu-invoke"] = "智愚：摸一张牌，展示手牌，令伤害来源弃置一张牌",
-  ["@@zhiyu_extra"] = "智愚",
+  ["#xh__zhiyu-invoke"] = "智愚：摸一张牌，展示手牌，令伤害来源弃置一张牌",
+  ["@@xh__zhiyu_extra"] = "智愚",
 
-  ["$zhiyu1"] = "大智若愚，大巧若拙！",
-  ["$zhiyu2"] = "智者千虑，必有一失！",
+  ["$xh__zhiyu1"] = "大智若愚，大巧若拙！",
+  ["$xh__zhiyu2"] = "智者千虑，必有一失！",
 }
 
 zhiyu:addEffect(fk.Damaged, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(zhiyu.name) and
+    return target == player and player:hasSkill(xh__zhiyu.name) and
       data.from and not data.from.dead
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = zhiyu.name,
+      skill_name = xh__zhiyu.name,
       prompt = "#zhiyu-invoke",
     })
   end,
@@ -36,13 +36,13 @@ zhiyu:addEffect(fk.Damaged, {
     local from = data.from
 
     -- 摸一张牌
-    player:drawCards(1, zhiyu.name)
+    player:drawCards(1, xh__zhiyu.name)
 
     if player:isKongcheng() then return end
 
     -- 展示所有手牌
     local handcards = player:getCardIds("h")
-    room:showCards(player, handcards, zhiyu.name)
+    room:showCards(player, handcards, xh__zhiyu.name)
 
     -- 伤害来源弃置一张手牌
     if from.dead or from:isKongcheng() then return end
@@ -50,7 +50,7 @@ zhiyu:addEffect(fk.Damaged, {
     local id = room:askToChooseCard(player, {
       target = from,
       flag = "h",
-      skill_name = zhiyu.name,
+      skill_name = xh__zhiyu.name,
     })
 
     -- 检查手牌颜色是否均相同
@@ -68,12 +68,12 @@ zhiyu:addEffect(fk.Damaged, {
 
     if same_color then
       -- 获得弃置的牌
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, zhiyu.name, nil, false, from.id)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__zhiyu.name, nil, false, from.id)
 
       -- 下回合奇策发动次数+1
       room:addPlayerMark(player, "@@zhiyu_extra", 1)
     else
-      room:throwCard(id, zhiyu.name, from, player)
+      room:throwCard(id, xh__zhiyu.name, from, player)
     end
   end,
 })

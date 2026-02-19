@@ -4,21 +4,21 @@
 -- 1. 弃置一张牌；2. 令你摸一张牌。
 
 local gushe = fk.CreateSkill {
-  name = "gushe",
+  name = "xh__gushe",
 }
 
 Fk:loadTranslationTable {
-  ["gushe"] = "鼓舌",
-  [":gushe"] = "出牌阶段限一次，你可以与对手拼点，没赢的角色选择一项："..
+  ["xh__gushe"] = "鼓舌",
+  [":xh__gushe"] = "出牌阶段限一次，你可以与对手拼点，没赢的角色选择一项："..
     "1. 弃置一张牌；2. 令你摸一张牌。",
 
-  ["#gushe-choose"] = "鼓舌：选择一名角色进行拼点",
-  ["#gushe-choice"] = "鼓舌：请选择一项",
+  ["#xh__gushe-choose"] = "鼓舌：选择一名角色进行拼点",
+  ["#xh__gushe-choice"] = "鼓舌：请选择一项",
   ["gushe_discard"] = "弃置一张牌",
   ["gushe_draw"] = "令对方摸一张牌",
 
-  ["$gushe1"] = "鼓舌如簧，巧言令色！",
-  ["$gushe2"] = "三寸不烂之舌，可敌百万雄师！",
+  ["$xh__gushe1"] = "鼓舌如簧，巧言令色！",
+  ["$xh__gushe2"] = "三寸不烂之舌，可敌百万雄师！",
 }
 
 gushe:addEffect("active", {
@@ -27,7 +27,7 @@ gushe:addEffect("active", {
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(gushe.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(xh__gushe.name, Player.HistoryPhase) == 0 and
       not player:isKongcheng()
   end,
   card_filter = function(self, player, to_select, selected)
@@ -43,11 +43,11 @@ gushe:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, gushe.name, "control", {target})
-    player:broadcastSkillInvoke(gushe.name)
+    room:notifySkillInvoked(player, xh__gushe.name, "control", {target})
+    player:broadcastSkillInvoke(xh__gushe.name)
 
     -- 拼点
-    local pindian = room:pindian({player, target}, gushe.name)
+    local pindian = room:pindian({player, target}, xh__gushe.name)
 
     local loser
     if pindian.results[player].winner then
@@ -66,7 +66,7 @@ gushe:addEffect("active", {
 
     local choice = room:askToChoice(loser, {
       choices = choices,
-      skill_name = gushe.name,
+      skill_name = xh__gushe.name,
       prompt = "#gushe-choice",
       detailed = false,
     })
@@ -75,14 +75,14 @@ gushe:addEffect("active", {
       local id = room:askToChooseCard(loser, {
         target = loser,
         flag = "he",
-        skill_name = gushe.name,
+        skill_name = xh__gushe.name,
       })
-      room:throwCard(id, gushe.name, loser, loser)
+      room:throwCard(id, xh__gushe.name, loser, loser)
     else
       -- 令对方摸一张牌
       local drawer = (loser == player) and target or player
       if not drawer.dead then
-        drawer:drawCards(1, gushe.name)
+        drawer:drawCards(1, xh__gushe.name)
       end
     end
   end,

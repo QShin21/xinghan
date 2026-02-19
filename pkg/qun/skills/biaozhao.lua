@@ -5,26 +5,26 @@
 -- 准备阶段，若你的武将牌上有"表"，则你移去"表"并选择一名角色，该角色回复1点体力并摸三张牌。
 
 local biaozhao = fk.CreateSkill {
-  name = "biaozhao",
+  name = "xh__biaozhao",
 }
 
 Fk:loadTranslationTable {
-  ["biaozhao"] = "表召",
-  [":biaozhao"] = "结束阶段，你可以将一张牌置于武将牌上，称为\"表\"。"..
+  ["xh__biaozhao"] = "表召",
+  [":xh__biaozhao"] = "结束阶段，你可以将一张牌置于武将牌上，称为\"表\"。"..
     "当有一张与\"表\"点数相同的牌进入弃牌堆时，你移去\"表\"并失去1点体力。"..
     "准备阶段，若你的武将牌上有\"表\"，则你移去\"表\"并选择一名角色，该角色回复1点体力并摸三张牌。",
 
-  ["#biaozhao-place"] = "表召：选择一张牌置为表",
-  ["@@biaozhao_biao"] = "表",
+  ["#xh__biaozhao-place"] = "表召：选择一张牌置为表",
+  ["@@xh__biaozhao_biao"] = "表",
 
-  ["$biaozhao1"] = "表召之计，借刀杀人！",
-  ["$biaozhao2"] = "许贡表召，天下大乱！",
+  ["$xh__biaozhao1"] = "表召之计，借刀杀人！",
+  ["$xh__biaozhao2"] = "许贡表召，天下大乱！",
 }
 
 biaozhao:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(biaozhao.name) then return false end
+    if target ~= player or not player:hasSkill(xh__biaozhao.name) then return false end
     if player.phase ~= Player.Finish then return false end
     return not player:isNude()
   end,
@@ -35,7 +35,7 @@ biaozhao:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = biaozhao.name,
+      skill_name = xh__biaozhao.name,
       pattern = ".",
       prompt = "#biaozhao-place",
       cancelable = true,
@@ -51,7 +51,7 @@ biaozhao:addEffect(fk.EventPhaseStart, {
     local card_id = event:getCostData(self).cards[1]
     
     -- 置为表
-    room:moveCardTo(card_id, Card.Processing, player, fk.ReasonPut, biaozhao.name)
+    room:moveCardTo(card_id, Card.Processing, player, fk.ReasonPut, xh__biaozhao.name)
     room:setPlayerMark(player, "@@biaozhao_biao", card_id)
   end,
 })
@@ -60,7 +60,7 @@ biaozhao:addEffect(fk.EventPhaseStart, {
 biaozhao:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(biaozhao.name) then return false end
+    if target ~= player or not player:hasSkill(xh__biaozhao.name) then return false end
     if player.phase ~= Player.Start then return false end
     
     local biao = player:getMark("@@biaozhao_biao")
@@ -72,7 +72,7 @@ biaozhao:addEffect(fk.EventPhaseStart, {
     local biao = player:getMark("@@biaozhao_biao")
     
     -- 移去表
-    room:moveCardTo(biao, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, biaozhao.name)
+    room:moveCardTo(biao, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__biaozhao.name)
     room:setPlayerMark(player, "@@biaozhao_biao", 0)
     
     -- 选择一名角色
@@ -80,7 +80,7 @@ biaozhao:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = room.alive_players,
-      skill_name = biaozhao.name,
+      skill_name = xh__biaozhao.name,
       prompt = "选择一名角色回复1点体力并摸三张牌",
       cancelable = false,
     })[1]
@@ -89,9 +89,9 @@ biaozhao:addEffect(fk.EventPhaseStart, {
       who = to,
       num = 1,
       recoverBy = player,
-      skillName = biaozhao.name,
+      skillName = xh__biaozhao.name,
     }
-    to:drawCards(3, biaozhao.name)
+    to:drawCards(3, xh__biaozhao.name)
   end,
 })
 
@@ -99,7 +99,7 @@ biaozhao:addEffect(fk.EventPhaseStart, {
 biaozhao:addEffect(fk.AfterCardsMove, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(biaozhao.name) then return false end
+    if not player:hasSkill(xh__biaozhao.name) then return false end
     
     local biao = player:getMark("@@biaozhao_biao")
     if not biao or biao == 0 then return false end
@@ -125,11 +125,11 @@ biaozhao:addEffect(fk.AfterCardsMove, {
     local biao = player:getMark("@@biaozhao_biao")
     
     -- 移去表
-    room:moveCardTo(biao, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, biaozhao.name)
+    room:moveCardTo(biao, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__biaozhao.name)
     room:setPlayerMark(player, "@@biaozhao_biao", 0)
     
     -- 失去1点体力
-    room:loseHp(player, 1, biaozhao.name)
+    room:loseHp(player, 1, xh__biaozhao.name)
   end,
 })
 

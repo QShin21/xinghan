@@ -5,24 +5,24 @@
 -- 若如此做，你可以视为使用一张无距离限制的【杀】。
 
 local luanwu = fk.CreateSkill {
-  name = "luanwu",
+  name = "xh__luanwu",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["luanwu"] = "乱武",
-  [":luanwu"] = "限定技，出牌阶段，你可以令所有其他角色依次选择一项："..
+  ["xh__luanwu"] = "乱武",
+  [":xh__luanwu"] = "限定技，出牌阶段，你可以令所有其他角色依次选择一项："..
     "1. 对距离最近的另一名角色使用一张【杀】；2. 失去1点体力。"..
     "若如此做，你可以视为使用一张无距离限制的【杀】。",
 
-  ["#luanwu-invoke"] = "乱武：发动乱武",
-  ["#luanwu-choice"] = "乱武：请选择一项",
+  ["#xh__luanwu-invoke"] = "乱武：发动乱武",
+  ["#xh__luanwu-choice"] = "乱武：请选择一项",
   ["luanwu_choice1"] = "对距离最近的角色使用一张【杀】",
   ["luanwu_choice2"] = "失去1点体力",
-  ["#luanwu-slash"] = "乱武：你可以视为使用一张无距离限制的【杀】",
+  ["#xh__luanwu-slash"] = "乱武：你可以视为使用一张无距离限制的【杀】",
 
-  ["$luanwu1"] = "哭喊吧，哀求吧，挣扎吧，然后……死吧！",
-  ["$luanwu2"] = "让我看清楚你们那丑陋的嘴脸！",
+  ["$xh__luanwu1"] = "哭喊吧，哀求吧，挣扎吧，然后……死吧！",
+  ["$xh__luanwu2"] = "让我看清楚你们那丑陋的嘴脸！",
 }
 
 luanwu:addEffect("active", {
@@ -31,14 +31,14 @@ luanwu:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(luanwu.name) == 0
+    return player:usedSkillTimes(xh__luanwu.name) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, luanwu.name, "offensive")
-    player:broadcastSkillInvoke(luanwu.name)
+    room:notifySkillInvoked(player, xh__luanwu.name, "offensive")
+    player:broadcastSkillInvoke(xh__luanwu.name)
 
     local others = room:getOtherPlayers(player, false)
 
@@ -77,7 +77,7 @@ luanwu:addEffect("active", {
 
         local choice = room:askToChoice(p, {
           choices = choices,
-          skill_name = luanwu.name,
+          skill_name = xh__luanwu.name,
           prompt = "#luanwu-choice",
           detailed = false,
         })
@@ -85,7 +85,7 @@ luanwu:addEffect("active", {
         if choice == "luanwu_choice1" then
           -- 使用杀
           local slash = Fk:cloneCard("slash")
-          slash.skillName = luanwu.name
+          slash.skillName = xh__luanwu.name
 
           local targets = table.filter(nearest, function(target)
             return p:canUseTo(slash, target)
@@ -96,7 +96,7 @@ luanwu:addEffect("active", {
               min_num = 1,
               max_num = 1,
               targets = targets,
-              skill_name = luanwu.name,
+              skill_name = xh__luanwu.name,
               prompt = "选择距离最近的一名角色使用【杀】",
               cancelable = false,
             })[1]
@@ -109,7 +109,7 @@ luanwu:addEffect("active", {
           end
         else
           -- 失去1点体力
-          room:loseHp(p, 1, luanwu.name)
+          room:loseHp(p, 1, xh__luanwu.name)
         end
       end
     end
@@ -117,7 +117,7 @@ luanwu:addEffect("active", {
     -- 可以视为使用一张杀
     if not player.dead then
       local slash = Fk:cloneCard("slash")
-      slash.skillName = luanwu.name
+      slash.skillName = xh__luanwu.name
 
       local targets = table.filter(room:getOtherPlayers(player, false), function(p)
         return player:canUseTo(slash, p)
@@ -125,14 +125,14 @@ luanwu:addEffect("active", {
 
       if #targets > 0 then
         local use = room:askToUseCard(player, {
-          skill_name = luanwu.name,
+          skill_name = xh__luanwu.name,
           pattern = slash,
           prompt = "#luanwu-slash",
           cancelable = true,
         })
 
         if use then
-          use.card.skillName = luanwu.name
+          use.card.skillName = xh__luanwu.name
           room:useCard(use)
         end
       end

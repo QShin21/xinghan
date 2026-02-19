@@ -3,15 +3,15 @@
 -- 你可以将一张黑色牌当【杀】使用或打出。
 
 local xiaoxi = fk.CreateSkill {
-  name = "xiaoxi",
+  name = "xh__xiaoxi",
 }
 
 Fk:loadTranslationTable {
-  ["xiaoxi"] = "骁袭",
-  [":xiaoxi"] = "你可以将一张黑色牌当【杀】使用或打出。",
+  ["xh__xiaoxi"] = "骁袭",
+  [":xh__xiaoxi"] = "你可以将一张黑色牌当【杀】使用或打出。",
 
-  ["$xiaoxi1"] = "骁袭敌阵，势不可挡！",
-  ["$xiaoxi2"] = "西凉骁骑，袭敌千里！",
+  ["$xh__xiaoxi1"] = "骁袭敌阵，势不可挡！",
+  ["$xh__xiaoxi2"] = "西凉骁骑，袭敌千里！",
 }
 
 xiaoxi:addEffect("viewas", {
@@ -24,7 +24,7 @@ xiaoxi:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("slash")
-    card.skillName = xiaoxi.name
+    card.skillName = xh__xiaoxi.name
     card:addSubcard(cards[1])
     return card
   end,

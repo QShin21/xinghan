@@ -4,20 +4,20 @@
 -- 你计算与其他角色的距离-X，且你可以多使用X张【杀】（X为你以此法失去的体力值数）。
 
 local qimou = fk.CreateSkill {
-  name = "qimou",
+  name = "xh__qimou",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["qimou"] = "奇谋",
-  [":qimou"] = "限定技，出牌阶段，你可以失去任意点体力，然后直到回合结束，"..
+  ["xh__qimou"] = "奇谋",
+  [":xh__qimou"] = "限定技，出牌阶段，你可以失去任意点体力，然后直到回合结束，"..
     "你计算与其他角色的距离-X，且你可以多使用X张【杀】（X为你以此法失去的体力值数）。",
 
-  ["#qimou-use"] = "奇谋：选择失去的体力值",
-  ["@@qimou_x"] = "奇谋",
+  ["#xh__qimou-use"] = "奇谋：选择失去的体力值",
+  ["@@xh__qimou_x"] = "奇谋",
 
-  ["$qimou1"] = "奇谋妙计，出奇制胜！",
-  ["$qimou2"] = "兵行险着，方为上策！",
+  ["$xh__qimou1"] = "奇谋妙计，出奇制胜！",
+  ["$xh__qimou2"] = "兵行险着，方为上策！",
 }
 
 qimou:addEffect("active", {
@@ -26,14 +26,14 @@ qimou:addEffect("active", {
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(qimou.name) == 0 and player.hp > 1
+    return player:usedSkillTimes(xh__qimou.name) == 0 and player.hp > 1
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, qimou.name, "offensive")
-    player:broadcastSkillInvoke(qimou.name)
+    room:notifySkillInvoked(player, xh__qimou.name, "offensive")
+    player:broadcastSkillInvoke(xh__qimou.name)
 
     -- 选择失去的体力值
     local max_lose = player.hp - 1
@@ -44,7 +44,7 @@ qimou:addEffect("active", {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = qimou.name,
+      skill_name = xh__qimou.name,
       prompt = "#qimou-use",
       detailed = false,
     })
@@ -52,7 +52,7 @@ qimou:addEffect("active", {
     local x = tonumber(choice)
     
     -- 失去体力
-    room:loseHp(player, x, qimou.name)
+    room:loseHp(player, x, xh__qimou.name)
     
     -- 设置标记
     room:setPlayerMark(player, "@@qimou_x", x)

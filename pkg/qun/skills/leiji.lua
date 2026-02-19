@@ -4,24 +4,24 @@
 -- ♤，你对其造成2点雷电伤害；♧，你回复1点体力，然后对其造成1点雷电伤害。
 
 local leiji = fk.CreateSkill {
-  name = "leiji",
+  name = "xh__leiji",
 }
 
 Fk:loadTranslationTable {
-  ["leiji"] = "雷击",
-  [":leiji"] = "当你使用或打出【闪】时，你可以令一名其他角色判定，若结果为："..
+  ["xh__leiji"] = "雷击",
+  [":xh__leiji"] = "当你使用或打出【闪】时，你可以令一名其他角色判定，若结果为："..
     "♤，你对其造成2点雷电伤害；♧，你回复1点体力，然后对其造成1点雷电伤害。",
 
-  ["#leiji-target"] = "雷击：选择一名角色进行判定",
+  ["#xh__leiji-target"] = "雷击：选择一名角色进行判定",
 
-  ["$leiji1"] = "雷击！天罚降临！",
-  ["$leiji2"] = "苍天已死，黄天当立！",
+  ["$xh__leiji1"] = "雷击！天罚降临！",
+  ["$xh__leiji2"] = "苍天已死，黄天当立！",
 }
 
 leiji:addEffect(fk.CardUsing, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(leiji.name) and
+    return target == player and player:hasSkill(xh__leiji.name) and
       data.card and data.card.trueName == "jink"
   end,
   on_cost = function(self, event, target, player, data)
@@ -32,7 +32,7 @@ leiji:addEffect(fk.CardUsing, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = leiji.name,
+      skill_name = xh__leiji.name,
       prompt = "#leiji-target",
       cancelable = true,
     })
@@ -48,7 +48,7 @@ leiji:addEffect(fk.CardUsing, {
     
     local judge = room:judge{
       who = to,
-      reason = leiji.name,
+      reason = xh__leiji.name,
     }
     
     local suit = judge.card.suit
@@ -59,21 +59,21 @@ leiji:addEffect(fk.CardUsing, {
         to = to,
         damage = 2,
         damageType = fk.ThunderDamage,
-        skillName = leiji.name,
+        skillName = xh__leiji.name,
       }
     elseif suit == Card.Club then
       room:recover{
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = leiji.name,
+        skillName = xh__leiji.name,
       }
       room:damage{
         from = player,
         to = to,
         damage = 1,
         damageType = fk.ThunderDamage,
-        skillName = leiji.name,
+        skillName = xh__leiji.name,
       }
     end
   end,
@@ -82,7 +82,7 @@ leiji:addEffect(fk.CardUsing, {
 leiji:addEffect(fk.CardResponding, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(leiji.name) and
+    return target == player and player:hasSkill(xh__leiji.name) and
       data.card and data.card.trueName == "jink"
   end,
   on_cost = function(self, event, target, player, data)
@@ -93,7 +93,7 @@ leiji:addEffect(fk.CardResponding, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = leiji.name,
+      skill_name = xh__leiji.name,
       prompt = "#leiji-target",
       cancelable = true,
     })
@@ -109,7 +109,7 @@ leiji:addEffect(fk.CardResponding, {
     
     local judge = room:judge{
       who = to,
-      reason = leiji.name,
+      reason = xh__leiji.name,
     }
     
     local suit = judge.card.suit
@@ -120,21 +120,21 @@ leiji:addEffect(fk.CardResponding, {
         to = to,
         damage = 2,
         damageType = fk.ThunderDamage,
-        skillName = leiji.name,
+        skillName = xh__leiji.name,
       }
     elseif suit == Card.Club then
       room:recover{
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = leiji.name,
+        skillName = xh__leiji.name,
       }
       room:damage{
         from = player,
         to = to,
         damage = 1,
         damageType = fk.ThunderDamage,
-        skillName = leiji.name,
+        skillName = xh__leiji.name,
       }
     end
   end,

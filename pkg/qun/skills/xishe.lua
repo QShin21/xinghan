@@ -4,24 +4,24 @@
 -- 若其体力值小于你，则此【杀】不能被响应，然后你可以重复此流程。
 
 local xishe = fk.CreateSkill {
-  name = "xishe",
+  name = "xh__xishe",
 }
 
 Fk:loadTranslationTable {
-  ["xishe"] = "袭射",
-  [":xishe"] = "其他角色的准备阶段，你可以弃置你装备区里的一张牌，视为对其使用一张无距离限制的普通【杀】，"..
+  ["xh__xishe"] = "袭射",
+  [":xh__xishe"] = "其他角色的准备阶段，你可以弃置你装备区里的一张牌，视为对其使用一张无距离限制的普通【杀】，"..
     "若其体力值小于你，则此【杀】不能被响应，然后你可以重复此流程。",
 
-  ["#xishe-invoke"] = "袭射：是否弃置装备牌对其使用杀？",
+  ["#xh__xishe-invoke"] = "袭射：是否弃置装备牌对其使用杀？",
 
-  ["$xishe1"] = "袭射之威，势不可挡！",
-  ["$xishe2"] = "江夏黄祖，射术无双！",
+  ["$xh__xishe1"] = "袭射之威，势不可挡！",
+  ["$xh__xishe2"] = "江夏黄祖，射术无双！",
 }
 
 xishe:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(xishe.name) then return false end
+    if target == player or not player:hasSkill(xh__xishe.name) then return false end
     if target.phase ~= Player.Start then return false end
     
     -- 检查是否有装备牌
@@ -29,7 +29,7 @@ xishe:addEffect(fk.EventPhaseStart, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xishe.name,
+      skill_name = xh__xishe.name,
       prompt = "#xishe-invoke",
     })
   end,
@@ -42,17 +42,17 @@ xishe:addEffect(fk.EventPhaseStart, {
         min_num = 1,
         max_num = 1,
         include_equip = true,
-        skill_name = xishe.name,
+        skill_name = xh__xishe.name,
         pattern = ".|.|.|equip",
         prompt = "选择一张装备牌弃置",
         cancelable = false,
       })
       
-      room:throwCard(id, xishe.name, player, player)
+      room:throwCard(id, xh__xishe.name, player, player)
       
       -- 使用杀
       local slash = Fk:cloneCard("slash")
-      slash.skillName = xishe.name
+      slash.skillName = xh__xishe.name
       
       local extra_data = {}
       if target.hp < player.hp then
@@ -69,7 +69,7 @@ xishe:addEffect(fk.EventPhaseStart, {
       -- 询问是否继续
       if #player:getCardIds("e") > 0 then
         if not room:askToSkillInvoke(player, {
-          skill_name = xishe.name,
+          skill_name = xh__xishe.name,
           prompt = "#xishe-invoke",
         }) then
           break

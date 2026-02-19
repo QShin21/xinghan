@@ -3,29 +3,29 @@
 -- 当你成为【杀】的目标后，你可以弃置两张牌（不足则全弃），然后摸两张牌。
 
 local tianming = fk.CreateSkill {
-  name = "tianming",
+  name = "xh__tianming",
 }
 
 Fk:loadTranslationTable {
-  ["tianming"] = "天命",
-  [":tianming"] = "当你成为【杀】的目标后，你可以弃置两张牌（不足则全弃），然后摸两张牌。",
+  ["xh__tianming"] = "天命",
+  [":xh__tianming"] = "当你成为【杀】的目标后，你可以弃置两张牌（不足则全弃），然后摸两张牌。",
 
-  ["#tianming-invoke"] = "天命：是否弃置两张牌并摸两张牌？",
+  ["#xh__tianming-invoke"] = "天命：是否弃置两张牌并摸两张牌？",
 
-  ["$tianming1"] = "天命所归，谁敢不从！",
-  ["$tianming2"] = "汉室正统，天命在我！",
+  ["$xh__tianming1"] = "天命所归，谁敢不从！",
+  ["$xh__tianming2"] = "汉室正统，天命在我！",
 }
 
 tianming:addEffect(fk.TargetConfirmed, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(tianming.name) then return false end
+    if target ~= player or not player:hasSkill(xh__tianming.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = tianming.name,
+      skill_name = xh__tianming.name,
       prompt = "#tianming-invoke",
     })
   end,
@@ -41,16 +41,16 @@ tianming:addEffect(fk.TargetConfirmed, {
         min_num = discard_num,
         max_num = discard_num,
         include_equip = true,
-        skill_name = tianming.name,
+        skill_name = xh__tianming.name,
         pattern = ".",
         prompt = "选择" .. discard_num .. "张牌弃置",
         cancelable = false,
       })
-      room:throwCard(cards, tianming.name, player, player)
+      room:throwCard(cards, xh__tianming.name, player, player)
     end
     
     -- 摸两张牌
-    player:drawCards(2, tianming.name)
+    player:drawCards(2, xh__tianming.name)
   end,
 })
 

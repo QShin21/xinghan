@@ -4,20 +4,20 @@
 -- 若你没赢，本回合你不能使用【杀】。
 
 local xianzhen = fk.CreateSkill {
-  name = "xianzhen",
+  name = "xh__xianzhen",
 }
 
 Fk:loadTranslationTable {
-  ["xianzhen"] = "陷阵",
-  [":xianzhen"] = "出牌阶段限一次，你可以与一名角色拼点：若你赢，本回合你无视其防具且对其使用【杀】无距离和次数限制；"..
+  ["xh__xianzhen"] = "陷阵",
+  [":xh__xianzhen"] = "出牌阶段限一次，你可以与一名角色拼点：若你赢，本回合你无视其防具且对其使用【杀】无距离和次数限制；"..
     "若你没赢，本回合你不能使用【杀】。",
 
-  ["#xianzhen-choose"] = "陷阵：选择一名角色进行拼点",
-  ["@@xianzhen_target"] = "陷阵目标",
-  ["@@xianzhen_no_slash"] = "陷阵禁止杀",
+  ["#xh__xianzhen-choose"] = "陷阵：选择一名角色进行拼点",
+  ["@@xh__xianzhen_target"] = "陷阵目标",
+  ["@@xh__xianzhen_no_slash"] = "陷阵禁止杀",
 
-  ["$xianzhen1"] = "陷阵之志，有死无生！",
-  ["$xianzhen2"] = "高顺陷阵，天下无双！",
+  ["$xh__xianzhen1"] = "陷阵之志，有死无生！",
+  ["$xh__xianzhen2"] = "高顺陷阵，天下无双！",
 }
 
 xianzhen:addEffect("active", {
@@ -26,7 +26,7 @@ xianzhen:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xianzhen.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(xh__xianzhen.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -37,10 +37,10 @@ xianzhen:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xianzhen.name, "offensive", {target})
-    player:broadcastSkillInvoke(xianzhen.name)
+    room:notifySkillInvoked(player, xh__xianzhen.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__xianzhen.name)
 
-    local pindian = room:pindian({player, target}, xianzhen.name)
+    local pindian = room:pindian({player, target}, xh__xianzhen.name)
     
     if pindian.results[player].winner then
       -- 你赢：无视防具，无距离和次数限制

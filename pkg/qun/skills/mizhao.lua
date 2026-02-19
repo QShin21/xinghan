@@ -3,17 +3,17 @@
 -- 出牌阶段限一次，你可以与对手拼点，拼点赢的角色视为对拼点没赢的角色使用一张无距离和次数限制的普通【杀】。
 
 local mizhao = fk.CreateSkill {
-  name = "mizhao",
+  name = "xh__mizhao",
 }
 
 Fk:loadTranslationTable {
-  ["mizhao"] = "密诏",
-  [":mizhao"] = "出牌阶段限一次，你可以与对手拼点，拼点赢的角色视为对拼点没赢的角色使用一张无距离和次数限制的普通【杀】。",
+  ["xh__mizhao"] = "密诏",
+  [":xh__mizhao"] = "出牌阶段限一次，你可以与对手拼点，拼点赢的角色视为对拼点没赢的角色使用一张无距离和次数限制的普通【杀】。",
 
-  ["#mizhao-target"] = "密诏：选择一名对手进行拼点",
+  ["#xh__mizhao-target"] = "密诏：选择一名对手进行拼点",
 
-  ["$mizhao1"] = "密诏已下，谁敢不从！",
-  ["$mizhao2"] = "汉室密诏，奉旨讨贼！",
+  ["$xh__mizhao1"] = "密诏已下，谁敢不从！",
+  ["$xh__mizhao2"] = "汉室密诏，奉旨讨贼！",
 }
 
 mizhao:addEffect("active", {
@@ -22,7 +22,7 @@ mizhao:addEffect("active", {
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(mizhao.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(xh__mizhao.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -33,10 +33,10 @@ mizhao:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, mizhao.name, "offensive", {target})
-    player:broadcastSkillInvoke(mizhao.name)
+    room:notifySkillInvoked(player, xh__mizhao.name, "offensive", {target})
+    player:broadcastSkillInvoke(xh__mizhao.name)
 
-    local pindian = room:pindian({player, target}, mizhao.name)
+    local pindian = room:pindian({player, target}, xh__mizhao.name)
     
     local winner, loser
     if pindian.results[player].winner then
@@ -49,7 +49,7 @@ mizhao:addEffect("active", {
     
     -- 赢的角色对没赢的角色使用杀
     local slash = Fk:cloneCard("slash")
-    slash.skillName = mizhao.name
+    slash.skillName = xh__mizhao.name
     
     room:useCard{
       from = winner.id,

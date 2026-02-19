@@ -4,25 +4,25 @@
 -- 一名角色的结束阶段，你摸等同于你本回合以此法交给其他角色牌数的牌。
 
 local lirang = fk.CreateSkill {
-  name = "lirang",
+  name = "xh__lirang",
 }
 
 Fk:loadTranslationTable {
-  ["lirang"] = "礼让",
-  [":lirang"] = "当你的牌因弃置而置入弃牌堆后，你可以将其中的任意张牌交给其他角色；"..
+  ["xh__lirang"] = "礼让",
+  [":xh__lirang"] = "当你的牌因弃置而置入弃牌堆后，你可以将其中的任意张牌交给其他角色；"..
     "一名角色的结束阶段，你摸等同于你本回合以此法交给其他角色牌数的牌。",
 
-  ["#lirang-give"] = "礼让：是否将弃牌交给其他角色？",
-  ["@@lirang_count"] = "礼让计数",
+  ["#xh__lirang-give"] = "礼让：是否将弃牌交给其他角色？",
+  ["@@xh__lirang_count"] = "礼让计数",
 
-  ["$lirang1"] = "礼让为先，谦逊待人！",
-  ["$lirang2"] = "孔融让梨，千古美谈！",
+  ["$xh__lirang1"] = "礼让为先，谦逊待人！",
+  ["$xh__lirang2"] = "孔融让梨，千古美谈！",
 }
 
 lirang:addEffect(fk.AfterCardsMove, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(lirang.name) then return false end
+    if not player:hasSkill(xh__lirang.name) then return false end
     
     local moved_cards = {}
     for _, move in ipairs(data) do
@@ -42,7 +42,7 @@ lirang:addEffect(fk.AfterCardsMove, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = lirang.name,
+      skill_name = xh__lirang.name,
       prompt = "#lirang-give",
     })
   end,
@@ -55,7 +55,7 @@ lirang:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = #cards,
       include_equip = false,
-      skill_name = lirang.name,
+      skill_name = xh__lirang.name,
       pattern = tostring(Exppattern{ id = cards }),
       prompt = "选择要交给其他角色的牌",
       cancelable = true,
@@ -69,12 +69,12 @@ lirang:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = lirang.name,
+      skill_name = xh__lirang.name,
       prompt = "选择一名角色获得这些牌",
       cancelable = false,
     })[1]
     
-    room:moveCardTo(to_give, Player.Hand, to, fk.ReasonGive, lirang.name, nil, false, player.id)
+    room:moveCardTo(to_give, Player.Hand, to, fk.ReasonGive, xh__lirang.name, nil, false, player.id)
     
     -- 记录给出的牌数
     room:addPlayerMark(player, "@@lirang_count", #to_give)
@@ -85,14 +85,14 @@ lirang:addEffect(fk.AfterCardsMove, {
 lirang:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(lirang.name) and
+    return target == player and player:hasSkill(xh__lirang.name) and
       player.phase == Player.Finish and player:getMark("@@lirang_count") > 0
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
     local count = player:getMark("@@lirang_count")
-    player:drawCards(count, lirang.name)
+    player:drawCards(count, xh__lirang.name)
     room:setPlayerMark(player, "@@lirang_count", 0)
   end,
 })

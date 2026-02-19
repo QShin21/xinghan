@@ -4,34 +4,34 @@
 -- 令其展示所有手牌并交给你一张点数最大的牌然后你回复1点体力或摸两张牌。
 
 local ziqu = fk.CreateSkill {
-  name = "ziqu",
+  name = "xh__ziqu",
   frequency = Skill.Limited,
 }
 
 Fk:loadTranslationTable {
-  ["ziqu"] = "资取",
-  [":ziqu"] = "限定技，当你对对手造成伤害时，你可以防止此伤害，"..
+  ["xh__ziqu"] = "资取",
+  [":xh__ziqu"] = "限定技，当你对对手造成伤害时，你可以防止此伤害，"..
     "令其展示所有手牌并交给你一张点数最大的牌然后你回复1点体力或摸两张牌。",
 
-  ["#ziqu-invoke"] = "资取：是否防止伤害并获得牌？",
+  ["#xh__ziqu-invoke"] = "资取：是否防止伤害并获得牌？",
   ["ziqu_recover"] = "回复1点体力",
   ["ziqu_draw"] = "摸两张牌",
 
-  ["$ziqu1"] = "资取之计，借力打力！",
-  ["$ziqu2"] = "张辽资取，天下无双！",
+  ["$xh__ziqu1"] = "资取之计，借力打力！",
+  ["$xh__ziqu2"] = "张辽资取，天下无双！",
 }
 
 ziqu:addEffect(fk.DamageCaused, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(ziqu.name) then return false end
-    if player:usedSkillTimes(ziqu.name, Player.HistoryGame) > 0 then return false end
+    if target ~= player or not player:hasSkill(xh__ziqu.name) then return false end
+    if player:usedSkillTimes(xh__ziqu.name, Player.HistoryGame) > 0 then return false end
     if not data.to or data.to:isKongcheng() then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = ziqu.name,
+      skill_name = xh__ziqu.name,
       prompt = "#ziqu-invoke",
     })
   end,
@@ -44,7 +44,7 @@ ziqu:addEffect(fk.DamageCaused, {
     
     -- 展示所有手牌
     local handcards = to:getCardIds("h")
-    room:showCards(to, handcards, ziqu.name)
+    room:showCards(to, handcards, xh__ziqu.name)
     
     -- 找出点数最大的牌
     local max_number = 0
@@ -69,20 +69,20 @@ ziqu:addEffect(fk.DamageCaused, {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = ziqu.name,
+          skill_name = xh__ziqu.name,
           pattern = tostring(Exppattern{ id = max_cards }),
           prompt = "选择一张点数最大的牌交给" .. player.name,
           cancelable = false,
         })[1]
       end
       
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, ziqu.name, nil, false, to.id)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, xh__ziqu.name, nil, false, to.id)
     end
     
     -- 选择回复体力或摸牌
     local choice = room:askToChoice(player, {
       choices = {"ziqu_recover", "ziqu_draw"},
-      skill_name = ziqu.name,
+      skill_name = xh__ziqu.name,
       prompt = "选择一项",
       detailed = false,
     })
@@ -92,10 +92,10 @@ ziqu:addEffect(fk.DamageCaused, {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = ziqu.name,
+        skillName = xh__ziqu.name,
       }
     else
-      player:drawCards(2, ziqu.name)
+      player:drawCards(2, xh__ziqu.name)
     end
   end,
 })

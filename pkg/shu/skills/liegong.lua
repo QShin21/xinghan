@@ -6,28 +6,28 @@
 -- 2.若你的体力值小于等于其体力值，此【杀】对其伤害+1。
 
 local liegong = fk.CreateSkill {
-  name = "liegong",
+  name = "xh__liegong",
 }
 
 Fk:loadTranslationTable {
-  ["liegong"] = "烈弓",
-  [":liegong"] = "你使用【杀】可选择在此【杀】点数距离内的对手为目标。"..
+  ["xh__liegong"] = "烈弓",
+  [":xh__liegong"] = "你使用【杀】可选择在此【杀】点数距离内的对手为目标。"..
     "当你使用【杀】指定目标后，你可以根据下列条件执行相应的效果："..
     "1.若你的手牌数大于等于其手牌数，该角色不能使用【闪】；"..
     "2.若你的体力值小于等于其体力值，此【杀】对其伤害+1。",
 
-  ["#liegong-effect"] = "烈弓：选择执行的效果",
+  ["#xh__liegong-effect"] = "烈弓：选择执行的效果",
   ["liegong_no_jink"] = "令其不能使用闪",
   ["liegong_damage"] = "令此杀伤害+1",
 
-  ["$liegong1"] = "烈弓射日，百步穿杨！",
-  ["$liegong2"] = "老当益壮，不减当年！",
+  ["$xh__liegong1"] = "烈弓射日，百步穿杨！",
+  ["$xh__liegong2"] = "老当益壮，不减当年！",
 }
 
 -- 扩大杀的目标范围
 liegong:addEffect("targetmod", {
   distance_limit_func = function(self, player, skill, card, to)
-    if player:hasSkill(liegong.name) and card and card.trueName == "slash" then
+    if player:hasSkill(xh__liegong.name) and card and card.trueName == "slash" then
       return card.number
     end
     return 0
@@ -37,7 +37,7 @@ liegong:addEffect("targetmod", {
 liegong:addEffect(fk.TargetSpecified, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(liegong.name) then return false end
+    if target ~= player or not player:hasSkill(xh__liegong.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     return true
   end,
@@ -61,7 +61,7 @@ liegong:addEffect(fk.TargetSpecified, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = liegong.name,
+      skill_name = xh__liegong.name,
       prompt = "#liegong-effect",
       detailed = false,
     })

@@ -4,25 +4,25 @@
 -- 则你本回合使用【杀】无次数限制。
 
 local zongshi = fk.CreateSkill {
-  name = "zongshi",
+  name = "xh__zongshi",
 }
 
 Fk:loadTranslationTable {
-  ["zongshi"] = "宗室",
-  [":zongshi"] = "锁定技，你的手牌上限+X（X为全场势力数）；准备阶段，若你的手牌数大于你的体力值，"..
+  ["xh__zongshi"] = "宗室",
+  [":xh__zongshi"] = "锁定技，你的手牌上限+X（X为全场势力数）；准备阶段，若你的手牌数大于你的体力值，"..
     "则你本回合使用【杀】无次数限制。",
 
-  ["@@zongshi_no_limit"] = "宗室",
+  ["@@xh__zongshi_no_limit"] = "宗室",
 
-  ["$zongshi1"] = "宗室之贵，非同凡响！",
-  ["$zongshi2"] = "汉室宗亲，名正言顺！",
+  ["$xh__zongshi1"] = "宗室之贵，非同凡响！",
+  ["$xh__zongshi2"] = "汉室宗亲，名正言顺！",
 }
 
 -- 准备阶段检查
 zongshi:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(zongshi.name) and
+    return target == player and player:hasSkill(xh__zongshi.name) and
       player.phase == Player.Start and
       player:getHandcardNum() > player.hp
   end,

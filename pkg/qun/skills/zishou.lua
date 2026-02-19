@@ -3,28 +3,28 @@
 -- 摸牌阶段，你可以多摸X张牌（X为全场势力数）。若如此做，本回合你使用牌不能选择其他角色为目标。
 
 local zishou = fk.CreateSkill {
-  name = "zishou",
+  name = "xh__zishou",
 }
 
 Fk:loadTranslationTable {
-  ["zishou"] = "自守",
-  [":zishou"] = "摸牌阶段，你可以多摸X张牌（X为全场势力数）。若如此做，本回合你使用牌不能选择其他角色为目标。",
+  ["xh__zishou"] = "自守",
+  [":xh__zishou"] = "摸牌阶段，你可以多摸X张牌（X为全场势力数）。若如此做，本回合你使用牌不能选择其他角色为目标。",
 
-  ["#zishou-invoke"] = "自守：是否多摸牌？本回合不能以其他角色为目标",
-  ["@@zishou_no_target"] = "自守",
+  ["#xh__zishou-invoke"] = "自守：是否多摸牌？本回合不能以其他角色为目标",
+  ["@@xh__zishou_no_target"] = "自守",
 
-  ["$zishou1"] = "自守荆州，保境安民！",
-  ["$zishou2"] = "守土有责，不敢懈怠！",
+  ["$xh__zishou1"] = "自守荆州，保境安民！",
+  ["$xh__zishou2"] = "守土有责，不敢懈怠！",
 }
 
 zishou:addEffect(fk.DrawNCards, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(zishou.name)
+    return target == player and player:hasSkill(xh__zishou.name)
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = zishou.name,
+      skill_name = xh__zishou.name,
       prompt = "#zishou-invoke",
     })
   end,

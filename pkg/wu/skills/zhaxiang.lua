@@ -4,31 +4,31 @@
 -- 则此阶段你使用【杀】的次数上限+1、此阶段你使用红色【杀】无距离限制且不能被【闪】响应。
 
 local zhaxiang = fk.CreateSkill {
-  name = "zhaxiang",
+  name = "xh__zhaxiang",
 }
 
 Fk:loadTranslationTable {
-  ["zhaxiang"] = "诈降",
-  [":zhaxiang"] = "锁定技，当你失去1点体力后，你摸三张牌，然后若此时为你的出牌阶段，"..
+  ["xh__zhaxiang"] = "诈降",
+  [":xh__zhaxiang"] = "锁定技，当你失去1点体力后，你摸三张牌，然后若此时为你的出牌阶段，"..
     "则此阶段你使用【杀】的次数上限+1、此阶段你使用红色【杀】无距离限制且不能被【闪】响应。",
 
-  ["@@zhaxiang_slash"] = "诈降",
+  ["@@xh__zhaxiang_slash"] = "诈降",
 
-  ["$zhaxiang1"] = "诈降之计，苦肉为名！",
-  ["$zhaxiang2"] = "苦肉计成，诈降破敌！",
+  ["$xh__zhaxiang1"] = "诈降之计，苦肉为名！",
+  ["$xh__zhaxiang2"] = "苦肉计成，诈降破敌！",
 }
 
 zhaxiang:addEffect(fk.HpLost, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(zhaxiang.name) and data.num > 0
+    return target == player and player:hasSkill(xh__zhaxiang.name) and data.num > 0
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
     
     -- 摸三张牌
-    player:drawCards(3, zhaxiang.name)
+    player:drawCards(3, xh__zhaxiang.name)
     
     -- 如果是出牌阶段
     if player.phase == Player.Play then
@@ -50,7 +50,7 @@ zhaxiang:addEffect("targetmod", {
 -- 红色杀无距离限制
 zhaxiang:addEffect("targetmod", {
   distance_limit_func = function(self, player, skill, card, to)
-    if player:hasSkill(zhaxiang.name) and player.phase == Player.Play and
+    if player:hasSkill(xh__zhaxiang.name) and player.phase == Player.Play and
       card and card.trueName == "slash" and card.color == Card.Red then
       return true
     end

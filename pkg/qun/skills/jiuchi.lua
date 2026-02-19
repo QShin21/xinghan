@@ -3,15 +3,15 @@
 -- 你可以将一张♤手牌当【酒】使用。
 
 local jiuchi = fk.CreateSkill {
-  name = "jiuchi",
+  name = "xh__jiuchi",
 }
 
 Fk:loadTranslationTable {
-  ["jiuchi"] = "酒池",
-  [":jiuchi"] = "你可以将一张♤手牌当【酒】使用。",
+  ["xh__jiuchi"] = "酒池",
+  [":xh__jiuchi"] = "你可以将一张♤手牌当【酒】使用。",
 
-  ["$jiuchi1"] = "美酒佳酿，畅饮不醉！",
-  ["$jiuchi2"] = "好酒，好酒！",
+  ["$xh__jiuchi1"] = "美酒佳酿，畅饮不醉！",
+  ["$xh__jiuchi2"] = "好酒，好酒！",
 }
 
 jiuchi:addEffect("viewas", {
@@ -25,7 +25,7 @@ jiuchi:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("analeptic")
-    card.skillName = jiuchi.name
+    card.skillName = xh__jiuchi.name
     card:addSubcard(cards[1])
     return card
   end,
