@@ -16,11 +16,11 @@ Fk:loadTranslationTable {
   ["$zhenqia2"] = "双股剑出，天下无双！",
 }
 
--- 攻击范围+1
-zhenqia:addEffect("attack_range", {
+-- 攻击范围+1（通过减少距离实现）
+zhenqia:addEffect("distance", {
   correct_func = function(self, from, to)
     if from:hasSkill(zhenqia.name) then
-      return 1
+      return -1
     end
     return 0
   end,
@@ -33,7 +33,8 @@ zhenqia:addEffect(fk.TargetSpecified, {
     if target ~= player or not player:hasSkill(zhenqia.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     -- 检查武器栏是否空置
-    return #player:getCardIds(Card.SubtypeWeapon) == 0
+    local weapon = player:getEquip(Card.SubtypeWeapon)
+    return weapon == nil or weapon == 0
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
