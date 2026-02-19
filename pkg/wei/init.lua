@@ -74,7 +74,7 @@ Fk:loadTranslationTable {
 }
 
 -- 郭嘉，男，魏，3勾玉
-General:new(extension, "xh__guojia", "wei", 3):addSkills { "xh__tiandu", "xh__yiji" }
+General:new(extension, "xh__guojia", "wei", 3):addSkills { "mou__tiandu", "xh__yiji" }
 Fk:loadTranslationTable {
   ["xh__guojia"] = "郭嘉",
   ["#xh__guojia"] = "早终的先知",
