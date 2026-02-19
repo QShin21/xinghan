@@ -9,23 +9,24 @@ local yuanhu = fk.CreateSkill {
   name = "xh__yuanhu",
 }
 
-Fk:loadTranslationTable {
-  ["xh__yuanhu"] = "援护",
-  [":xh__yuanhu"] = "出牌阶段限一次，你可以将一张装备牌置入一名角色的装备区里，然后若此牌为：武器牌，你弃置其距离为1的另一名角色区域里的至多两张牌；防具牌，其摸两张牌；坐骑牌，其回复1点体力。",
+Fk:loadTranslationTable{
+  ['xh__yuanhu'] = '援护',
+  [':xh__yuanhu'] = '出牌阶段限一次，你可以将一张装备牌置入一名角色的装备区里，然后若此牌为：武器牌，你弃置其距离为1的另一名角色区域里的至多两张牌；防具牌，其摸两张牌；坐骑牌，其回复1点体力。',
 
-  ["xh__yuanhu_active"] = "援护",
-  ["#xh__yuanhu-put"] = "援护：选择一张装备牌和一名角色，将装备置入其装备区",
-  ["#xh__yuanhu-discard"] = "援护：弃置 %dest 距离1的角色区域里的至多两张牌",
-  ["#xh__yuanhu-discard2"] = "援护：选择要弃置的牌（至多2张）",
+  ['xh__yuanhu_active'] = '援护',
+  ['#xh__yuanhu-put'] = '援护：将一张装备牌置入一名角色的装备区',
+  ['#xh__yuanhu-throw'] = '援护：弃置 %dest 距离1的角色区域里的至多两张牌',
+  ['#xh__yuanhu-throw2'] = '援护：选择要弃置的牌（至多2张）',
 
-  ["$xh__yuanhu1"] = "将军，这件兵器可还趁手？",
-  ["$xh__yuanhu2"] = "刀剑无眼，须得小心防护。",
-  ["$xh__yuanhu3"] = "宝马配英雄！哈哈哈哈……",
+  ['$xh__yuanhu1'] = '若无趁手兵器，不妨试试我这把！',
+  ['$xh__yuanhu2'] = '此乃良驹，愿助将军日行千里！',
+  ['$xh__yuanhu3'] = '将军，这件防具可还合身？',
 }
 
 yuanhu:addEffect("active", {
-  mute = true,
+  anim_type = "support",
   prompt = "#xh__yuanhu-put",
+  mute = true,
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
@@ -40,7 +41,6 @@ yuanhu:addEffect("active", {
     if #selected > 0 then return false end
     if #selected_cards == 0 then return false end
     local card = Fk:getCardById(selected_cards[1])
-    -- 检查目标的对应装备槽位为空
     return not to_select:getEquipment(card.sub_type)
   end,
   on_use = function(self, room, effect)
@@ -62,40 +62,39 @@ yuanhu:addEffect("active", {
       end)
       if #targets == 0 then return end
 
-      local p = room:askToChoosePlayers(player, {
+      local tos = room:askToChoosePlayers(player, {
         targets = targets,
         min_num = 1,
         max_num = 1,
-        prompt = "#xh__yuanhu-discard::" .. target.id,
+        prompt = "#xh__yuanhu-throw::" .. target.id,
         skill_name = yuanhu.name,
+        cancelable = false
+      })
+      local to = tos[1]
+      
+      local cards = room:askToCards(player, {
+        min_num = 1,
+        max_num = 2,
+        include_equip = true,
+        skill_name = yuanhu.name,
+        pattern = tostring(Exppattern{ id = to:getCardIds("hej") }),
+        prompt = "#xh__yuanhu-throw2",
         cancelable = false,
-      })[1]
-
-      if p then
-        local cards = room:askToCards(player, {
-          min_num = 1,
-          max_num = 2,
-          include_equip = true,
-          skill_name = yuanhu.name,
-          pattern = tostring(Exppattern{ id = p:getCardIds("hej") }),
-          prompt = "#xh__yuanhu-discard2",
-          cancelable = false,
-        })
-        room:throwCard(cards, yuanhu.name, p, player)
-      end
+      })
+      room:throwCard(cards, yuanhu.name, to, player)
 
     elseif card.sub_type == Card.SubtypeArmor then
-      player:broadcastSkillInvoke(yuanhu.name, 2)
+      player:broadcastSkillInvoke(yuanhu.name, 3)
       target:drawCards(2, yuanhu.name)
 
     elseif card.sub_type == Card.SubtypeOffensiveRide or card.sub_type == Card.SubtypeDefensiveRide then
-      player:broadcastSkillInvoke(yuanhu.name, 3)
+      player:broadcastSkillInvoke(yuanhu.name, 2)
       if target:isWounded() then
-        room:recover{
-          who = target,
+        room:recover {
           num = 1,
-          recoverBy = player,
           skillName = yuanhu.name,
+          who = target,
+          recoverBy = player
         }
       end
     end
