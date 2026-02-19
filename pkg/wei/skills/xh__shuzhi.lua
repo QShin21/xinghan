@@ -37,7 +37,7 @@ shuzhi:addEffect(fk.GameStart, {
     if choice == "shuzhi_jianxiong" then
       room:handleAddLoseSkills(player, "jianxiong", nil, false, true)
     else
-      room:handleAddLoseSkills(player, "qingzheng", nil, false, true)
+      room:handleAddLoseSkills(player, "ofl__qingzheng", nil, false, true)
     end
 
     -- 移除述志
