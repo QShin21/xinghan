@@ -22,11 +22,11 @@ Fk:loadTranslationTable {
 
 xianzhen:addEffect("active", {
   mute = true,
-  prompt = "#xianzhen-choose",
+  prompt = "#xh__xianzhen-choose",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__xianzhen.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(xianzhen.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -37,10 +37,10 @@ xianzhen:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__xianzhen.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__xianzhen.name)
+    room:notifySkillInvoked(player, xianzhen.name, "offensive", {target})
+    player:broadcastSkillInvoke(xianzhen.name)
 
-    local pindian = room:pindian({player, target}, xh__xianzhen.name)
+    local pindian = room:pindian({player, target}, xianzhen.name)
     
     if pindian.results[player].winner then
       -- 你赢：无视防具，无距离和次数限制

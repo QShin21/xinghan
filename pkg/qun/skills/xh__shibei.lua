@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 shibei:addEffect(fk.Damaged, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__shibei.name)
+    return target == player and player:hasSkill(shibei.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -34,11 +34,11 @@ shibei:addEffect(fk.Damaged, {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = xh__shibei.name,
+        skillName = shibei.name,
       }
     elseif count == 2 then
       -- 第二次：失去体力
-      room:loseHp(player, 1, xh__shibei.name)
+      room:loseHp(player, 1, shibei.name)
     end
   end,
 })

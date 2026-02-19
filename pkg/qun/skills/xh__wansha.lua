@@ -17,7 +17,7 @@ Fk:loadTranslationTable {
 wansha:addEffect(fk.EnterDying, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(xh__wansha.name) and target ~= player and
+    return player:hasSkill(wansha.name) and target ~= player and
       player.room.current == player
   end,
   on_cost = Util.TrueFunc,

@@ -23,7 +23,7 @@ Fk:loadTranslationTable {
 yishe:addEffect(fk.EventPhaseStart, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__yishe.name) then return false end
+    if target ~= player or not player:hasSkill(yishe.name) then return false end
     if player.phase ~= Player.Finish then return false end
     
     -- 检查是否有米
@@ -32,24 +32,24 @@ yishe:addEffect(fk.EventPhaseStart, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__yishe.name,
-      prompt = "#yishe-invoke",
+      skill_name = yishe.name,
+      prompt = "#xh__yishe-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
     
     -- 摸两张牌
-    player:drawCards(2, xh__yishe.name)
+    player:drawCards(2, yishe.name)
     
     -- 选择两张牌置为米
     local cards = room:askToCards(player, {
       min_num = 2,
       max_num = 2,
       include_equip = false,
-      skill_name = xh__yishe.name,
+      skill_name = yishe.name,
       pattern = ".",
-      prompt = "#yishe-place",
+      prompt = "#xh__yishe-place",
       cancelable = false,
     })
     
@@ -59,7 +59,7 @@ yishe:addEffect(fk.EventPhaseStart, {
     
     for _, id in ipairs(cards) do
       table.insert(mi, id)
-      room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, xh__yishe.name)
+      room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, yishe.name)
     end
     
     room:setPlayerMark(player, "@@yishe_mi", mi)

@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 zongshi:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zongshi.name) and
+    return target == player and player:hasSkill(zongshi.name) and
       player.phase == Player.Start and
       player:getHandcardNum() > player.hp
   end,

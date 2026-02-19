@@ -26,11 +26,11 @@ Fk:loadTranslationTable {
 
 tanbei:addEffect("active", {
   mute = true,
-  prompt = "#tanbei-target",
+  prompt = "#xh__tanbei-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__tanbei.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(tanbei.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -41,8 +41,8 @@ tanbei:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__tanbei.name, "control", {target})
-    player:broadcastSkillInvoke(xh__tanbei.name)
+    room:notifySkillInvoked(player, tanbei.name, "control", {target})
+    player:broadcastSkillInvoke(tanbei.name)
 
     local choice
     if target:isKongcheng() then
@@ -50,7 +50,7 @@ tanbei:addEffect("active", {
     else
       choice = room:askToChoice(target, {
         choices = {"tanbei_give", "tanbei_unlimit"},
-        skill_name = xh__tanbei.name,
+        skill_name = tanbei.name,
         prompt = "选择一项",
         detailed = false,
       })
@@ -62,12 +62,12 @@ tanbei:addEffect("active", {
         min_num = 1,
         max_num = 1,
         include_equip = false,
-        skill_name = xh__tanbei.name,
+        skill_name = tanbei.name,
         pattern = ".",
         prompt = "选择一张手牌交给" .. player.name,
         cancelable = false,
       })
-      room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, xh__tanbei.name, nil, false, target.id)
+      room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, tanbei.name, nil, false, target.id)
       
       -- 此阶段不能再对其使用牌
       room:setPlayerMark(player, "@@tanbei_forbid_" .. target.id, 1)

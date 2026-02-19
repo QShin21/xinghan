@@ -27,7 +27,7 @@ Fk:loadTranslationTable {
 liantao:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__liantao.name) and
+    return target == player and player:hasSkill(liantao.name) and
       player.phase == Player.Play
   end,
   on_cost = function(self, event, target, player, data)
@@ -38,8 +38,8 @@ liantao:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__liantao.name,
-      prompt = "#liantao-choose",
+      skill_name = liantao.name,
+      prompt = "#xh__liantao-choose",
       cancelable = true,
     })
     
@@ -54,7 +54,7 @@ liantao:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(to, {
       choices = {"liantao_choice1", "liantao_choice2"},
-      skill_name = xh__liantao.name,
+      skill_name = liantao.name,
       prompt = "选择一项",
       detailed = false,
     })
@@ -66,12 +66,12 @@ liantao:addEffect(fk.EventPhaseStart, {
           min_num = 1,
           max_num = 1,
           include_equip = true,
-          skill_name = xh__liantao.name,
+          skill_name = liantao.name,
           pattern = ".",
           prompt = "选择一张牌交给" .. player.name,
           cancelable = false,
         })
-        room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, xh__liantao.name, nil, false, to.id)
+        room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, liantao.name, nil, false, to.id)
       end
     end
     

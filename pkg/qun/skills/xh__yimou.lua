@@ -23,7 +23,7 @@ Fk:loadTranslationTable {
 yimou:addEffect(fk.Damaged, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__yimou.name) then return false end
+    if not player:hasSkill(yimou.name) then return false end
     if player:distanceTo(target) > 1 then return false end
     return true
   end,
@@ -37,8 +37,8 @@ yimou:addEffect(fk.Damaged, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__yimou.name,
-      prompt = "#yimou-invoke",
+      skill_name = yimou.name,
+      prompt = "#xh__yimou-invoke",
       detailed = false,
     })
     
@@ -50,7 +50,7 @@ yimou:addEffect(fk.Damaged, {
     local choice = event:getCostData(self).choice
     
     if choice == "yimou_draw" then
-      target:drawCards(1, xh__yimou.name)
+      target:drawCards(1, yimou.name)
     else
       -- 选择一张手牌交给另一名角色
       local others = table.filter(room.alive_players, function(p)
@@ -62,7 +62,7 @@ yimou:addEffect(fk.Damaged, {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = xh__yimou.name,
+          skill_name = yimou.name,
           pattern = ".",
           prompt = "选择一张手牌交给另一名角色",
           cancelable = false,
@@ -72,13 +72,13 @@ yimou:addEffect(fk.Damaged, {
           min_num = 1,
           max_num = 1,
           targets = others,
-          skill_name = xh__yimou.name,
+          skill_name = yimou.name,
           prompt = "选择一名角色获得此牌",
           cancelable = false,
         })[1]
         
-        room:moveCardTo(card_id[1], Player.Hand, to, fk.ReasonGive, xh__yimou.name, nil, false, target.id)
-        target:drawCards(1, xh__yimou.name)
+        room:moveCardTo(card_id[1], Player.Hand, to, fk.ReasonGive, yimou.name, nil, false, target.id)
+        target:drawCards(1, yimou.name)
       end
     end
   end,

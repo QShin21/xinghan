@@ -23,18 +23,18 @@ Fk:loadTranslationTable {
 
 chenglue:addEffect("active", {
   mute = true,
-  prompt = "#chenglue-use",
+  prompt = "#xh__chenglue-use",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__chenglue.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(chenglue.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__chenglue.name, "draw")
-    player:broadcastSkillInvoke(xh__chenglue.name)
+    room:notifySkillInvoked(player, chenglue.name, "draw")
+    player:broadcastSkillInvoke(chenglue.name)
 
     local state = player:getMark("@@chenglue_state") or 0
     
@@ -48,14 +48,14 @@ chenglue:addEffect("active", {
     end
     
     -- 摸牌
-    player:drawCards(draw_num, xh__chenglue.name)
+    player:drawCards(draw_num, chenglue.name)
     
     -- 弃牌
     local cards = room:askToCards(player, {
       min_num = discard_num,
       max_num = discard_num,
       include_equip = false,
-      skill_name = xh__chenglue.name,
+      skill_name = chenglue.name,
       pattern = ".",
       prompt = "选择" .. discard_num .. "张手牌弃置",
       cancelable = false,
@@ -70,7 +70,7 @@ chenglue:addEffect("active", {
       end
     end
     
-    room:throwCard(cards, xh__chenglue.name, player, player)
+    room:throwCard(cards, chenglue.name, player, player)
     
     -- 设置花色标记
     room:setPlayerMark(player, "@@chenglue_suits", suits)

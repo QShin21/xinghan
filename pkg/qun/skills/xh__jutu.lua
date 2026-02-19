@@ -21,7 +21,7 @@ Fk:loadTranslationTable {
 jutu:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__jutu.name) then return false end
+    if target ~= player or not player:hasSkill(jutu.name) then return false end
     if player.phase ~= Player.Start then return false end
     return true
   end,
@@ -32,12 +32,12 @@ jutu:addEffect(fk.EventPhaseStart, {
     -- 获得所有"生"
     local sheng = player:getMark("@@jutu_sheng") or {}
     if type(sheng) == "table" and #sheng > 0 then
-      room:moveCardTo(sheng, Player.Hand, player, fk.ReasonPrey, xh__jutu.name)
+      room:moveCardTo(sheng, Player.Hand, player, fk.ReasonPrey, jutu.name)
       room:setPlayerMark(player, "@@jutu_sheng", 0)
     end
     
     -- 摸一张牌
-    player:drawCards(1, xh__jutu.name)
+    player:drawCards(1, jutu.name)
     
     -- 计算X
     local x = player:getMark("@@yaohu_count") or 0
@@ -49,7 +49,7 @@ jutu:addEffect(fk.EventPhaseStart, {
         min_num = math.min(x, player:getCardIds("he")),
         max_num = math.min(x, player:getCardIds("he")),
         include_equip = true,
-        skill_name = xh__jutu.name,
+        skill_name = jutu.name,
         pattern = ".",
         prompt = "选择" .. math.min(x, player:getCardIds("he")) .. "张牌置为生",
         cancelable = false,
@@ -58,7 +58,7 @@ jutu:addEffect(fk.EventPhaseStart, {
       local new_sheng = {}
       for _, id in ipairs(cards) do
         table.insert(new_sheng, id)
-        room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, xh__jutu.name)
+        room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, jutu.name)
       end
       
       room:setPlayerMark(player, "@@jutu_sheng", new_sheng)

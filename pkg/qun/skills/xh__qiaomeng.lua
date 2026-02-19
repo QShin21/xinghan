@@ -21,15 +21,15 @@ Fk:loadTranslationTable {
 qiaomeng:addEffect(fk.Damage, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__qiaomeng.name) then return false end
+    if target ~= player or not player:hasSkill(qiaomeng.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     if not data.to or data.to:isNude() then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__qiaomeng.name,
-      prompt = "#qiaomeng-discard",
+      skill_name = qiaomeng.name,
+      prompt = "#xh__qiaomeng-discard",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -39,16 +39,16 @@ qiaomeng:addEffect(fk.Damage, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "he",
-      skill_name = xh__qiaomeng.name,
+      skill_name = qiaomeng.name,
     })
     
     local card = Fk:getCardById(id)
-    room:throwCard(id, xh__qiaomeng.name, to, player)
+    room:throwCard(id, qiaomeng.name, to, player)
     
     -- 如果是坐骑牌，获得之
     if card.sub_type == Card.SubtypeDefensiveRide or card.sub_type == Card.SubtypeOffensiveRide then
       if table.contains(room.discard_pile, id) then
-        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__qiaomeng.name)
+        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, qiaomeng.name)
       end
     end
   end,

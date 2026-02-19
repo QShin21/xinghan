@@ -21,9 +21,9 @@ Fk:loadTranslationTable {
 sidao:addEffect(fk.CardUsing, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__sidao.name) then return false end
+    if target ~= player or not player:hasSkill(sidao.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:usedSkillTimes(xh__sidao.name, Player.HistoryPhase) > 0 then return false end
+    if player:usedSkillTimes(sidao.name, Player.HistoryPhase) > 0 then return false end
     if player:isKongcheng() then return false end
     
     -- 检查是否连续使用两张牌给同一目标
@@ -39,8 +39,8 @@ sidao:addEffect(fk.CardUsing, {
     local to = room:getPlayerById(data.to)
     
     return room:askToSkillInvoke(player, {
-      skill_name = xh__sidao.name,
-      prompt = "#sidao-use",
+      skill_name = sidao.name,
+      prompt = "#xh__sidao-use",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -51,14 +51,14 @@ sidao:addEffect(fk.CardUsing, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__sidao.name,
+      skill_name = sidao.name,
       pattern = ".",
       prompt = "选择一张手牌当顺手牵羊使用",
       cancelable = false,
     })
     
     local card = Fk:cloneCard("dismantlement")
-    card.skillName = xh__sidao.name
+    card.skillName = sidao.name
     card:addSubcard(card_id[1])
     
     room:useCard{

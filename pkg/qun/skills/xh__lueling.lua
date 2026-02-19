@@ -21,11 +21,11 @@ Fk:loadTranslationTable {
 
 lueling:addEffect("active", {
   mute = true,
-  prompt = "#lueling-target",
+  prompt = "#xh__lueling-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__lueling.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(lueling.name, Player.HistoryPhase) == 0 and
       #player:getCardIds("e") > 0
   end,
   card_filter = Util.FalseFunc,
@@ -37,8 +37,8 @@ lueling:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__lueling.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__lueling.name)
+    room:notifySkillInvoked(player, lueling.name, "offensive", {target})
+    player:broadcastSkillInvoke(lueling.name)
 
     -- 声明一个点数
     local numbers = {}
@@ -48,8 +48,8 @@ lueling:addEffect("active", {
     
     local declared_num = room:askToChoice(target, {
       choices = numbers,
-      skill_name = xh__lueling.name,
-      prompt = "#lueling-declare",
+      skill_name = lueling.name,
+      prompt = "#xh__lueling-declare",
       detailed = false,
     })
     
@@ -58,7 +58,7 @@ lueling:addEffect("active", {
     -- 判定
     local judge = room:judge{
       who = player,
-      reason = xh__lueling.name,
+      reason = lueling.name,
     }
     
     if judge.card.number == declared then
@@ -67,7 +67,7 @@ lueling:addEffect("active", {
         from = player,
         to = target,
         damage = 2,
-        skillName = xh__lueling.name,
+        skillName = lueling.name,
       }
     else
       -- 不同：交给你一张手牌
@@ -76,12 +76,12 @@ lueling:addEffect("active", {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = xh__lueling.name,
+          skill_name = lueling.name,
           pattern = ".",
           prompt = "选择一张手牌交给" .. player.name,
           cancelable = false,
         })
-        room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, xh__lueling.name, nil, false, target.id)
+        room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, lueling.name, nil, false, target.id)
       end
     end
   end,

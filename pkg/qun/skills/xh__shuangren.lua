@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 shuangren:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__shuangren.name) and
+    return target == player and player:hasSkill(shuangren.name) and
       player.phase == Player.Play and not player:isKongcheng()
   end,
   on_cost = function(self, event, target, player, data)
@@ -37,8 +37,8 @@ shuangren:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__shuangren.name,
-      prompt = "#shuangren-target",
+      skill_name = shuangren.name,
+      prompt = "#xh__shuangren-target",
       cancelable = true,
     })
     
@@ -51,7 +51,7 @@ shuangren:addEffect(fk.EventPhaseStart, {
     local room = player.room
     local to = event:getCostData(self).tos[1]
     
-    local pindian = room:pindian({player, to}, xh__shuangren.name)
+    local pindian = room:pindian({player, to}, shuangren.name)
     
     if pindian.results[player].winner then
       -- 赢了：对同势力角色使用杀
@@ -65,7 +65,7 @@ shuangren:addEffect(fk.EventPhaseStart, {
         min_num = 1,
         max_num = 2,
         targets = same_kingdom,
-        skill_name = xh__shuangren.name,
+        skill_name = shuangren.name,
         prompt = "选择1-2名同势力角色",
         cancelable = false,
       })
@@ -76,7 +76,7 @@ shuangren:addEffect(fk.EventPhaseStart, {
       end
       
       local slash = Fk:cloneCard("slash")
-      slash.skillName = xh__shuangren.name
+      slash.skillName = shuangren.name
       
       room:useCard{
         from = player.id,

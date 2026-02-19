@@ -23,15 +23,15 @@ Fk:loadTranslationTable {
 yisuan:addEffect(fk.CardUseFinished, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yisuan.name) and
+    return target == player and player:hasSkill(yisuan.name) and
       player.phase == Player.Play and
       data.card and data.card.type == Card.TypeTrick and
-      player:usedSkillTimes(xh__yisuan.name, Player.HistoryPhase) == 0
+      player:usedSkillTimes(yisuan.name, Player.HistoryPhase) == 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__yisuan.name,
-      prompt = "#yisuan-invoke",
+      skill_name = yisuan.name,
+      prompt = "#xh__yisuan-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -39,20 +39,20 @@ yisuan:addEffect(fk.CardUseFinished, {
     
     local choice = room:askToChoice(player, {
       choices = {"yisuan_losehp", "yisuan_losemaxhp"},
-      skill_name = xh__yisuan.name,
+      skill_name = yisuan.name,
       prompt = "选择一项代价",
       detailed = false,
     })
     
     if choice == "yisuan_losehp" then
-      room:loseHp(player, 1, xh__yisuan.name)
+      room:loseHp(player, 1, yisuan.name)
     else
       room:changeMaxHp(player, -1)
     end
     
     -- 获得此牌
     if data.card and table.contains(room.discard_pile, data.card.id) then
-      room:moveCardTo(data.card.id, Player.Hand, player, fk.ReasonPrey, xh__yisuan.name)
+      room:moveCardTo(data.card.id, Player.Hand, player, fk.ReasonPrey, yisuan.name)
     end
   end,
 })

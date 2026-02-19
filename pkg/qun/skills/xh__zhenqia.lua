@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 -- 攻击范围+1（通过减少距离实现）
 zhenqia:addEffect("distance", {
   correct_func = function(self, from, to)
-    if from:hasSkill(xh__zhenqia.name) then
+    if from:hasSkill(zhenqia.name) then
       return -1
     end
     return 0
@@ -30,7 +30,7 @@ zhenqia:addEffect("distance", {
 zhenqia:addEffect(fk.TargetSpecified, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__zhenqia.name) then return false end
+    if target ~= player or not player:hasSkill(zhenqia.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     -- 检查武器栏是否空置
     local weapon = player:getEquip(Card.SubtypeWeapon)
@@ -63,7 +63,7 @@ zhenqia:addEffect(fk.CardEffecting, {
         to = player,
         damage = data.card.damage or 1,
         card = data.card,
-        skillName = xh__zhenqia.name,
+        skillName = zhenqia.name,
       }
     end
   end,

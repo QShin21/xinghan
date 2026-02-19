@@ -19,15 +19,15 @@ Fk:loadTranslationTable {
 midao:addEffect(fk.AskForRetarget, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__midao.name) then return false end
+    if not player:hasSkill(midao.name) then return false end
     
     local sheng = player:getMark("@@jutu_sheng")
     return sheng and type(sheng) == "table" and #sheng > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__midao.name,
-      prompt = "#midao-invoke",
+      skill_name = midao.name,
+      prompt = "#xh__midao-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)

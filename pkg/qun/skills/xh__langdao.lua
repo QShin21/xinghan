@@ -25,7 +25,7 @@ Fk:loadTranslationTable {
 langdao:addEffect(fk.TargetSpecified, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__langdao.name) then return false end
+    if target ~= player or not player:hasSkill(langdao.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     if #data.use.tos ~= 1 then return false end
     
@@ -50,8 +50,8 @@ langdao:addEffect(fk.TargetSpecified, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__langdao.name,
-      prompt = "#langdao-choice",
+      skill_name = langdao.name,
+      prompt = "#xh__langdao-choice",
       detailed = false,
     })
     

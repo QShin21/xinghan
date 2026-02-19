@@ -22,18 +22,18 @@ Fk:loadTranslationTable {
 
 xiongyi:addEffect("active", {
   mute = true,
-  prompt = "#xiongyi-invoke",
+  prompt = "#xh__xiongyi-invoke",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__xiongyi.name) == 0
+    return player:usedSkillTimes(xiongyi.name) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__xiongyi.name, "support")
-    player:broadcastSkillInvoke(xh__xiongyi.name)
+    room:notifySkillInvoked(player, xiongyi.name, "support")
+    player:broadcastSkillInvoke(xiongyi.name)
 
     local kingdom = player.kingdom
 
@@ -44,7 +44,7 @@ xiongyi:addEffect("active", {
 
     for _, p in ipairs(same_kingdom) do
       if not p.dead then
-        p:drawCards(3, xh__xiongyi.name)
+        p:drawCards(3, xiongyi.name)
       end
     end
 
@@ -66,7 +66,7 @@ xiongyi:addEffect("active", {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = xh__xiongyi.name,
+        skillName = xiongyi.name,
       }
       room:setPlayerMark(player, "@@xiongyi_recover", 1)
     end
@@ -87,7 +87,7 @@ xiongyi:addEffect(fk.AfterDying, {
     local room = player.room
     room:setPlayerMark(player, "@@xiongyi_used", 0)
     room:setPlayerMark(player, "@@xiongyi_recover", 0)
-    player:setSkillUseHistory(xh__xiongyi.name, 0, Player.HistoryGame)
+    player:setSkillUseHistory(xiongyi.name, 0, Player.HistoryGame)
   end,
 })
 

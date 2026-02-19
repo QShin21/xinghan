@@ -27,7 +27,7 @@ Fk:loadTranslationTable {
 langmie:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(xh__langmie.name) then return false end
+    if target == player or not player:hasSkill(langmie.name) then return false end
     if target.phase ~= Player.Finish then return false end
     if player:isNude() then return false end
     
@@ -74,8 +74,8 @@ langmie:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(player, {
       choices = choices,
-      skill_name = xh__langmie.name,
-      prompt = "#langmie-invoke",
+      skill_name = langmie.name,
+      prompt = "#xh__langmie-invoke",
       detailed = false,
     })
     
@@ -92,21 +92,21 @@ langmie:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__langmie.name,
+      skill_name = langmie.name,
       pattern = ".",
       prompt = "选择一张牌弃置",
       cancelable = false,
     })
-    room:throwCard(id, xh__langmie.name, player, player)
+    room:throwCard(id, langmie.name, player, player)
     
     if choice == "langmie_draw" then
-      player:drawCards(2, xh__langmie.name)
+      player:drawCards(2, langmie.name)
     else
       room:damage{
         from = player,
         to = to,
         damage = 1,
-        skillName = xh__langmie.name,
+        skillName = langmie.name,
       }
     end
   end,

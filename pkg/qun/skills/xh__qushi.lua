@@ -23,11 +23,11 @@ Fk:loadTranslationTable {
 
 qushi:addEffect("active", {
   mute = true,
-  prompt = "#qushi-target",
+  prompt = "#xh__qushi-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__qushi.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(qushi.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -38,25 +38,25 @@ qushi:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__qushi.name, "control", {target})
-    player:broadcastSkillInvoke(xh__qushi.name)
+    room:notifySkillInvoked(player, qushi.name, "control", {target})
+    player:broadcastSkillInvoke(qushi.name)
 
     -- 摸一张牌
-    player:drawCards(1, xh__qushi.name)
+    player:drawCards(1, qushi.name)
     
     -- 扣置一张手牌
     local card = room:askToCards(player, {
       min_num = 1,
       max_num = 1,
       include_equip = false,
-      skill_name = xh__qushi.name,
+      skill_name = qushi.name,
       pattern = ".",
       prompt = "选择一张手牌扣置",
       cancelable = false,
     })
     
     local card_type = Fk:getCardById(card[1]).type
-    room:moveCardTo(card, Card.Processing, target, fk.ReasonPut, xh__qushi.name)
+    room:moveCardTo(card, Card.Processing, target, fk.ReasonPut, qushi.name)
     room:setPlayerMark(target, "@@qushi_qu", {id = card[1], type = card_type, from = player.id})
   end,
 })
@@ -77,7 +77,7 @@ qushi:addEffect(fk.EventPhaseStart, {
     local qu = player:getMark("@@qushi_qu")
     
     -- 移去趋
-    room:moveCardTo(qu.id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__qushi.name)
+    room:moveCardTo(qu.id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, qushi.name)
     room:setPlayerMark(player, "@@qushi_qu", 0)
     
     -- 检查是否使用过相同类型的牌
@@ -87,7 +87,7 @@ qushi:addEffect(fk.EventPhaseStart, {
       if from and not from.dead then
         local target_count = player:getMark("@@qushi_target_count") or 0
         local draw_num = math.min(target_count, 5)
-        from:drawCards(draw_num, xh__qushi.name)
+        from:drawCards(draw_num, qushi.name)
       end
     end
   end,

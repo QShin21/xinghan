@@ -18,11 +18,11 @@ Fk:loadTranslationTable {
 
 mizhao:addEffect("active", {
   mute = true,
-  prompt = "#mizhao-target",
+  prompt = "#xh__mizhao-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__mizhao.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(mizhao.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -33,10 +33,10 @@ mizhao:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__mizhao.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__mizhao.name)
+    room:notifySkillInvoked(player, mizhao.name, "offensive", {target})
+    player:broadcastSkillInvoke(mizhao.name)
 
-    local pindian = room:pindian({player, target}, xh__mizhao.name)
+    local pindian = room:pindian({player, target}, mizhao.name)
     
     local winner, loser
     if pindian.results[player].winner then
@@ -49,7 +49,7 @@ mizhao:addEffect("active", {
     
     -- 赢的角色对没赢的角色使用杀
     local slash = Fk:cloneCard("slash")
-    slash.skillName = xh__mizhao.name
+    slash.skillName = mizhao.name
     
     room:useCard{
       from = winner.id,

@@ -20,12 +20,12 @@ Fk:loadTranslationTable {
 zishou:addEffect(fk.DrawNCards, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zishou.name)
+    return target == player and player:hasSkill(zishou.name)
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__zishou.name,
-      prompt = "#zishou-invoke",
+      skill_name = zishou.name,
+      prompt = "#xh__zishou-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)

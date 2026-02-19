@@ -21,7 +21,7 @@ weimu:addEffect(fk.TargetConfirming, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
-    if not player:hasSkill(xh__weimu.name) then return false end
+    if not player:hasSkill(weimu.name) then return false end
 
     local card = data.card
     if not card then return false end
@@ -44,7 +44,7 @@ weimu:addEffect(fk.TargetConfirming, {
 weimu:addEffect(fk.DamageInflicted, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__weimu.name) and
+    return target == player and player:hasSkill(weimu.name) and
       player.room.current == player and data.damage > 0
   end,
   on_cost = Util.TrueFunc,
@@ -53,7 +53,7 @@ weimu:addEffect(fk.DamageInflicted, {
     local x = data.damage
 
     -- 摸2X张牌
-    player:drawCards(2 * x, xh__weimu.name)
+    player:drawCards(2 * x, weimu.name)
 
     -- 防止伤害
     data:preventDamage()

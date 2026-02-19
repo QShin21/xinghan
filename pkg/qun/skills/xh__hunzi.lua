@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 
 hunzi:addEffect(fk.EventPhaseStart, {
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__hunzi.name) and
+    return target == player and player:hasSkill(hunzi.name) and
       player.phase == Player.Start and
       player.hp <= 2
   end,
@@ -27,7 +27,7 @@ hunzi:addEffect(fk.EventPhaseStart, {
   on_use = function(self, event, target, player, data)
     local room = player.room
 
-    room:notifySkillInvoked(player, xh__hunzi.name, "support")
+    room:notifySkillInvoked(player, hunzi.name, "support")
 
     -- 减少1点体力上限
     room:changeMaxHp(player, -1)

@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 hengzheng:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__hengzheng.name) and
+    return target == player and player:hasSkill(hengzheng.name) and
       player.phase == Player.Start and
       (player.hp == 1 or player:isKongcheng())
   end,
@@ -35,8 +35,8 @@ hengzheng:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__hengzheng.name,
-      prompt = "#hengzheng-invoke",
+      skill_name = hengzheng.name,
+      prompt = "#xh__hengzheng-invoke",
       cancelable = true,
     })
 
@@ -52,10 +52,10 @@ hengzheng:addEffect(fk.EventPhaseStart, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "hej",
-      skill_name = xh__hengzheng.name,
+      skill_name = hengzheng.name,
     })
 
-    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__hengzheng.name, nil, false, to.id)
+    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, hengzheng.name, nil, false, to.id)
   end,
 })
 

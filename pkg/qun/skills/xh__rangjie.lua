@@ -20,13 +20,13 @@ Fk:loadTranslationTable {
 rangjie:addEffect(fk.Damaged, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__rangjie.name) and
+    return target == player and player:hasSkill(rangjie.name) and
       data.damage == 1
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__rangjie.name,
-      prompt = "#rangjie-move",
+      skill_name = rangjie.name,
+      prompt = "#xh__rangjie-move",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -44,7 +44,7 @@ rangjie:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = froms,
-      skill_name = xh__rangjie.name,
+      skill_name = rangjie.name,
       prompt = "选择移动牌的来源",
       cancelable = false,
     })[1]
@@ -53,7 +53,7 @@ rangjie:addEffect(fk.Damaged, {
     local card_id = room:askToChooseCard(player, {
       target = from,
       flag = "he",
-      skill_name = xh__rangjie.name,
+      skill_name = rangjie.name,
     })
     
     local card = Fk:getCardById(card_id)
@@ -69,12 +69,12 @@ rangjie:addEffect(fk.Damaged, {
       min_num = 1,
       max_num = 1,
       targets = tos,
-      skill_name = xh__rangjie.name,
+      skill_name = rangjie.name,
       prompt = "选择移动牌的目标",
       cancelable = false,
     })[1]
     
-    room:moveCardTo(card_id, Player.Hand, to, fk.ReasonGive, xh__rangjie.name, nil, false, from.id)
+    room:moveCardTo(card_id, Player.Hand, to, fk.ReasonGive, rangjie.name, nil, false, from.id)
     
     -- 询问是否获得弃牌堆中同花色的牌
     local suit = card.suit
@@ -85,20 +85,20 @@ rangjie:addEffect(fk.Damaged, {
     
     if #same_suit_cards > 0 then
       if room:askToSkillInvoke(player, {
-        skill_name = xh__rangjie.name,
-        prompt = "#rangjie-get",
+        skill_name = rangjie.name,
+        prompt = "#xh__rangjie-get",
       }) then
         local get_id = room:askToCards(player, {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = xh__rangjie.name,
+          skill_name = rangjie.name,
           pattern = tostring(Exppattern{ id = same_suit_cards }),
           prompt = "选择一张同花色的牌获得",
           cancelable = false,
         })
         
-        room:moveCardTo(get_id[1], Player.Hand, player, fk.ReasonPrey, xh__rangjie.name)
+        room:moveCardTo(get_id[1], Player.Hand, player, fk.ReasonPrey, rangjie.name)
       end
     end
   end,

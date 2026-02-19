@@ -28,14 +28,14 @@ luanji:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 2 then return nil end
     local card = Fk:cloneCard("savage_assault")
-    card.skillName = xh__luanji.name
+    card.skillName = luanji.name
     for _, id in ipairs(cards) do
       card:addSubcard(id)
     end
     return card
   end,
   enabled_at_play = function(self, player)
-    return player:usedSkillTimes(xh__luanji.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(luanji.name, Player.HistoryPhase) == 0 and
       player:getHandcardNum() >= 2 and
       player:canUse(Fk:cloneCard("savage_assault"))
   end,
@@ -45,7 +45,7 @@ luanji:addEffect("viewas", {
 luanji:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and data.card.skillName == xh__luanji.name
+    return target == player and data.card.skillName == luanji.name
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -58,7 +58,7 @@ luanji:addEffect(fk.CardResponding, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target == player then return false end
-    if not player:hasSkill(xh__luanji.name) then return false end
+    if not player:hasSkill(luanji.name) then return false end
 
     local card = data.card
     if not card or card.trueName ~= "jink" then return false end
@@ -68,7 +68,7 @@ luanji:addEffect(fk.CardResponding, {
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__luanji.name)
+    player:drawCards(1, luanji.name)
   end,
 })
 

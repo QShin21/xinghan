@@ -24,11 +24,11 @@ Fk:loadTranslationTable {
 
 kuangfu:addEffect("active", {
   mute = true,
-  prompt = "#kuangfu-target",
+  prompt = "#xh__kuangfu-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__kuangfu.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(kuangfu.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -39,18 +39,18 @@ kuangfu:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__kuangfu.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__kuangfu.name)
+    room:notifySkillInvoked(player, kuangfu.name, "offensive", {target})
+    player:broadcastSkillInvoke(kuangfu.name)
 
     -- 选择弃置装备区的一张牌
     local id = room:askToChooseCard(player, {
       target = target,
       flag = "e",
-      skill_name = xh__kuangfu.name,
+      skill_name = kuangfu.name,
     })
     
     local is_self = target == player
-    room:throwCard(id, xh__kuangfu.name, target, player)
+    room:throwCard(id, kuangfu.name, target, player)
     
     -- 标记
     room:setPlayerMark(player, "@@kuangfu_self", is_self and 1 or 0)
@@ -58,7 +58,7 @@ kuangfu:addEffect("active", {
     
     -- 视为使用杀
     local slash = Fk:cloneCard("slash")
-    slash.skillName = xh__kuangfu.name
+    slash.skillName = kuangfu.name
     
     room:useCard{
       from = player.id,
@@ -72,7 +72,7 @@ kuangfu:addEffect("active", {
     
     if is_self and caused_damage then
       -- 摸两张牌
-      player:drawCards(2, xh__kuangfu.name)
+      player:drawCards(2, kuangfu.name)
     elseif not is_self and not caused_damage then
       -- 弃置两张手牌
       if player:getHandcardNum() >= 2 then
@@ -80,12 +80,12 @@ kuangfu:addEffect("active", {
           min_num = 2,
           max_num = 2,
           include_equip = false,
-          skill_name = xh__kuangfu.name,
+          skill_name = kuangfu.name,
           pattern = ".",
           prompt = "选择两张手牌弃置",
           cancelable = false,
         })
-        room:throwCard(cards, xh__kuangfu.name, player, player)
+        room:throwCard(cards, kuangfu.name, player, player)
       end
     end
     

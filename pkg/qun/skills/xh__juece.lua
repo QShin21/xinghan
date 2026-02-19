@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 juece:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__juece.name) and
+    return target == player and player:hasSkill(juece.name) and
       player.phase == Player.Finish
   end,
   on_cost = function(self, event, target, player, data)
@@ -35,8 +35,8 @@ juece:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__juece.name,
-      prompt = "#juece-choose",
+      skill_name = juece.name,
+      prompt = "#xh__juece-choose",
       cancelable = true,
     })
 
@@ -53,7 +53,7 @@ juece:addEffect(fk.EventPhaseStart, {
       from = player,
       to = to,
       damage = 1,
-      skillName = xh__juece.name,
+      skillName = juece.name,
     }
   end,
 })

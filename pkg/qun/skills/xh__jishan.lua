@@ -19,15 +19,15 @@ Fk:loadTranslationTable {
 jishan:addEffect(fk.DamageInflicted, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__jishan.name) then return false end
-    if player:usedSkillTimes(xh__jishan.name, Player.HistoryTurn) > 0 then return false end
+    if not player:hasSkill(jishan.name) then return false end
+    if player:usedSkillTimes(jishan.name, Player.HistoryTurn) > 0 then return false end
     if player.hp < 2 then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jishan.name,
-      prompt = "#jishan-invoke",
+      skill_name = jishan.name,
+      prompt = "#xh__jishan-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -37,11 +37,11 @@ jishan:addEffect(fk.DamageInflicted, {
     data:preventDamage()
     
     -- 失去2点体力
-    room:loseHp(player, 2, xh__jishan.name)
+    room:loseHp(player, 2, jishan.name)
     
     -- 摸牌
-    target:drawCards(1, xh__jishan.name)
-    player:drawCards(1, xh__jishan.name)
+    target:drawCards(1, jishan.name)
+    player:drawCards(1, jishan.name)
   end,
 })
 

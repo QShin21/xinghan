@@ -22,15 +22,15 @@ Fk:loadTranslationTable {
 liyu:addEffect(fk.Damage, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__liyu.name) and
+    return target == player and player:hasSkill(liyu.name) and
       data.card and data.card.trueName == "slash" and
       data.to and data.to ~= player and not data.to.dead and
       not data.to:isAllNude()
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__liyu.name,
-      prompt = "#liyu-invoke::" .. data.to.id,
+      skill_name = liyu.name,
+      prompt = "#xh__liyu-invoke::" .. data.to.id,
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -41,16 +41,16 @@ liyu:addEffect(fk.Damage, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "hej",
-      skill_name = xh__liyu.name,
+      skill_name = liyu.name,
     })
 
     local card = Fk:getCardById(id)
 
     -- 展示牌
-    room:showCards(player, {id}, xh__liyu.name)
+    room:showCards(player, {id}, liyu.name)
 
     -- 获得牌
-    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__liyu.name, nil, false, to.id)
+    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, liyu.name, nil, false, to.id)
 
     -- 判断牌的类型
     if card.type == Card.TypeEquip then
@@ -64,13 +64,13 @@ liyu:addEffect(fk.Damage, {
           min_num = 1,
           max_num = 1,
           targets = targets,
-          skill_name = xh__liyu.name,
-          prompt = "#liyu-duel",
+          skill_name = liyu.name,
+          prompt = "#xh__liyu-duel",
           cancelable = false,
         })[1]
 
         local duel = Fk:cloneCard("duel")
-        duel.skillName = xh__liyu.name
+        duel.skillName = liyu.name
         room:useCard{
           from = player.id,
           tos = {victim.id},
@@ -80,7 +80,7 @@ liyu:addEffect(fk.Damage, {
     else
       -- 非装备牌：其摸一张牌
       if not to.dead then
-        to:drawCards(1, xh__liyu.name)
+        to:drawCards(1, liyu.name)
       end
     end
   end,

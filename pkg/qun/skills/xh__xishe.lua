@@ -21,7 +21,7 @@ Fk:loadTranslationTable {
 xishe:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(xh__xishe.name) then return false end
+    if target == player or not player:hasSkill(xishe.name) then return false end
     if target.phase ~= Player.Start then return false end
     
     -- 检查是否有装备牌
@@ -29,8 +29,8 @@ xishe:addEffect(fk.EventPhaseStart, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__xishe.name,
-      prompt = "#xishe-invoke",
+      skill_name = xishe.name,
+      prompt = "#xh__xishe-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -42,17 +42,17 @@ xishe:addEffect(fk.EventPhaseStart, {
         min_num = 1,
         max_num = 1,
         include_equip = true,
-        skill_name = xh__xishe.name,
+        skill_name = xishe.name,
         pattern = ".|.|.|equip",
         prompt = "选择一张装备牌弃置",
         cancelable = false,
       })
       
-      room:throwCard(id, xh__xishe.name, player, player)
+      room:throwCard(id, xishe.name, player, player)
       
       -- 使用杀
       local slash = Fk:cloneCard("slash")
-      slash.skillName = xh__xishe.name
+      slash.skillName = xishe.name
       
       local extra_data = {}
       if target.hp < player.hp then
@@ -69,8 +69,8 @@ xishe:addEffect(fk.EventPhaseStart, {
       -- 询问是否继续
       if #player:getCardIds("e") > 0 then
         if not room:askToSkillInvoke(player, {
-          skill_name = xh__xishe.name,
-          prompt = "#xishe-invoke",
+          skill_name = xishe.name,
+          prompt = "#xh__xishe-invoke",
         }) then
           break
         end

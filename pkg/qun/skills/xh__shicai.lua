@@ -17,18 +17,18 @@ Fk:loadTranslationTable {
 shicai:addEffect(fk.Damaged, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__shicai.name)
+    return target == player and player:hasSkill(shicai.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
     
     if data.damage == 1 then
-      player:drawCards(2, xh__shicai.name)
+      player:drawCards(2, shicai.name)
     else
       local handcards = player:getCardIds("h")
       if #handcards > 0 then
-        room:throwCard(handcards, xh__shicai.name, player, player)
+        room:throwCard(handcards, shicai.name, player, player)
       end
     end
   end,

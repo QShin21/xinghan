@@ -17,7 +17,7 @@ Fk:loadTranslationTable {
 -- 距离-1
 yicong:addEffect("distance", {
   correct_func = function(self, from, to)
-    if from:hasSkill(xh__yicong.name) then
+    if from:hasSkill(yicong.name) then
       return -1
     end
     return 0
@@ -27,7 +27,7 @@ yicong:addEffect("distance", {
 -- 其他角色计算与你的距离+1（体力值不大于2时）
 yicong:addEffect("distance", {
   correct_func = function(self, from, to)
-    if to:hasSkill(xh__yicong.name) and to.hp <= 2 then
+    if to:hasSkill(yicong.name) and to.hp <= 2 then
       return 1
     end
     return 0

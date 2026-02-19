@@ -24,7 +24,7 @@ Fk:loadTranslationTable {
 huoshui:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__huoshui.name) then return false end
+    if target ~= player or not player:hasSkill(huoshui.name) then return false end
     if player.phase ~= Player.Start then return false end
     
     local lost_hp = player.maxHp - player.hp
@@ -32,8 +32,8 @@ huoshui:addEffect(fk.EventPhaseStart, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__huoshui.name,
-      prompt = "#huoshui-invoke",
+      skill_name = huoshui.name,
+      prompt = "#xh__huoshui-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -58,17 +58,17 @@ huoshui:addEffect(fk.EventPhaseStart, {
               min_num = 1,
               max_num = 1,
               include_equip = false,
-              skill_name = xh__huoshui.name,
+              skill_name = huoshui.name,
               pattern = ".",
               prompt = "选择一张手牌交给" .. player.name,
               cancelable = false,
             })
-            room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, xh__huoshui.name, nil, false, p.id)
+            room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, huoshui.name, nil, false, p.id)
           end
         else
           local equip_cards = p:getCardIds("e")
           if #equip_cards > 0 then
-            room:throwCard(equip_cards, xh__huoshui.name, p, player)
+            room:throwCard(equip_cards, huoshui.name, p, player)
           end
         end
       end

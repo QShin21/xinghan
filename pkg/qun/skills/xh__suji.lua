@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 suji:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__suji.name) then return false end
+    if not player:hasSkill(suji.name) then return false end
     if target == player then return false end
     if target.phase ~= Player.Play then return false end
     if not target:isWounded() then return false end
@@ -43,9 +43,9 @@ suji:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__suji.name,
+      skill_name = suji.name,
       pattern = tostring(Exppattern{ id = black_cards }),
-      prompt = "#suji-invoke",
+      prompt = "#xh__suji-invoke",
       cancelable = true,
     })
     
@@ -61,7 +61,7 @@ suji:addEffect(fk.EventPhaseStart, {
     room:setPlayerMark(player, "@@suji_damage", 0)
     
     local slash = Fk:cloneCard("slash")
-    slash.skillName = xh__suji.name
+    slash.skillName = suji.name
     slash:addSubcard(card_id)
     
     room:useCard{
@@ -76,9 +76,9 @@ suji:addEffect(fk.EventPhaseStart, {
       local id = room:askToChooseCard(player, {
         target = target,
         flag = "he",
-        skill_name = xh__suji.name,
+        skill_name = suji.name,
       })
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__suji.name)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, suji.name)
     end
     
     room:setPlayerMark(player, "@@suji_damage", 0)

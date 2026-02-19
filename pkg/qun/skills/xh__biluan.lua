@@ -16,7 +16,7 @@ Fk:loadTranslationTable {
 
 biluan:addEffect("distance", {
   correct_func = function(self, from, to)
-    if to:hasSkill(xh__biluan.name) and from ~= to then
+    if to:hasSkill(biluan.name) and from ~= to then
       return #to:getCardIds("e")
     end
     return 0

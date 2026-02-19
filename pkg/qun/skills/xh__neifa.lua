@@ -28,7 +28,7 @@ Fk:loadTranslationTable {
 neifa:addEffect(fk.EventPhaseStart, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__neifa.name) then return false end
+    if target ~= player or not player:hasSkill(neifa.name) then return false end
     if player.phase ~= Player.Play then return false end
     return true
   end,
@@ -36,7 +36,7 @@ neifa:addEffect(fk.EventPhaseStart, {
     local room = player.room
     
     -- 摸一张牌
-    player:drawCards(1, xh__neifa.name)
+    player:drawCards(1, neifa.name)
     
     -- 弃置一张牌
     if player:isNude() then return false end
@@ -45,7 +45,7 @@ neifa:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__neifa.name,
+      skill_name = neifa.name,
       pattern = ".",
       prompt = "选择一张牌弃置",
       cancelable = true,
@@ -60,12 +60,12 @@ neifa:addEffect(fk.EventPhaseStart, {
     local room = player.room
     local card_id = event:getCostData(self).cards[1]
     
-    room:throwCard(card_id, xh__neifa.name, player, player)
+    room:throwCard(card_id, neifa.name, player, player)
     
     -- 选择效果
     local choice = room:askToChoice(player, {
       choices = {"neifa_choice1", "neifa_choice2", "neifa_choice3"},
-      skill_name = xh__neifa.name,
+      skill_name = neifa.name,
       prompt = "选择一项效果",
       detailed = false,
     })
@@ -115,7 +115,7 @@ neifa:addEffect(fk.CardUsing, {
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__neifa.name)
+    player:drawCards(1, neifa.name)
   end,
 })
 
@@ -141,7 +141,7 @@ neifa:addEffect(fk.CardUsing, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__neifa.name,
+      skill_name = neifa.name,
       prompt = "选择一名角色弃置其一张牌",
       cancelable = true,
     })
@@ -158,9 +158,9 @@ neifa:addEffect(fk.CardUsing, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "he",
-      skill_name = xh__neifa.name,
+      skill_name = neifa.name,
     })
-    room:throwCard(id, xh__neifa.name, to, player)
+    room:throwCard(id, neifa.name, to, player)
   end,
 })
 

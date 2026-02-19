@@ -21,15 +21,15 @@ Fk:loadTranslationTable {
 bushi:addEffect(fk.Damaged, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__bushi.name) then return false end
+    if target ~= player or not player:hasSkill(bushi.name) then return false end
     
     local mi = player:getMark("@@yishe_mi")
     return mi and type(mi) == "table" and #mi > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__bushi.name,
-      prompt = "#bushi-get",
+      skill_name = bushi.name,
+      prompt = "#xh__bushi-get",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -38,7 +38,7 @@ bushi:addEffect(fk.Damaged, {
     
     if mi and #mi > 0 then
       local id = table.remove(mi, 1)
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__bushi.name)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, bushi.name)
       room:setPlayerMark(player, "@@yishe_mi", mi)
       
       -- 如果是最后一张米，回复体力
@@ -58,7 +58,7 @@ bushi:addEffect(fk.Damaged, {
 bushi:addEffect(fk.Damage, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__bushi.name) then return false end
+    if target ~= player or not player:hasSkill(bushi.name) then return false end
     if not data.to or data.to == player then return false end
     
     local mi = player:getMark("@@yishe_mi")
@@ -66,8 +66,8 @@ bushi:addEffect(fk.Damage, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__bushi.name,
-      prompt = "#bushi-give",
+      skill_name = bushi.name,
+      prompt = "#xh__bushi-give",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -77,7 +77,7 @@ bushi:addEffect(fk.Damage, {
     
     if mi and #mi > 0 then
       local id = table.remove(mi, 1)
-      room:moveCardTo(id, Player.Hand, to, fk.ReasonGive, xh__bushi.name, nil, false, player.id)
+      room:moveCardTo(id, Player.Hand, to, fk.ReasonGive, bushi.name, nil, false, player.id)
       room:setPlayerMark(player, "@@yishe_mi", mi)
       
       -- 如果是最后一张米，回复体力

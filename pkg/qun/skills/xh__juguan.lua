@@ -34,19 +34,19 @@ juguan:addEffect("viewas", {
     local room = player.room
     local choice = room:askToChoice(player, {
       choices = {"juguan_slash", "juguan_duel"},
-      skill_name = xh__juguan.name,
+      skill_name = juguan.name,
       prompt = "选择当什么牌使用",
       detailed = false,
     })
     
     local card_name = choice == "juguan_slash" and "slash" or "duel"
     local card = Fk:cloneCard(card_name)
-    card.skillName = xh__juguan.name
+    card.skillName = juguan.name
     card:addSubcard(cards[1])
     return card
   end,
   enabled_at_play = function(self, player)
-    return player:usedSkillTimes(xh__juguan.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(juguan.name, Player.HistoryPhase) == 0
   end,
 })
 

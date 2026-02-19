@@ -18,11 +18,11 @@ Fk:loadTranslationTable {
 
 qingcheng:addEffect("active", {
   mute = true,
-  prompt = "#qingcheng-target",
+  prompt = "#xh__qingcheng-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__qingcheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(qingcheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -33,15 +33,15 @@ qingcheng:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__qingcheng.name, "control", {target})
-    player:broadcastSkillInvoke(xh__qingcheng.name)
+    room:notifySkillInvoked(player, qingcheng.name, "control", {target})
+    player:broadcastSkillInvoke(qingcheng.name)
 
     -- 交换手牌
     local player_cards = player:getCardIds("h")
     local target_cards = target:getCardIds("h")
     
-    room:moveCardTo(player_cards, Player.Hand, target, fk.ReasonGive, xh__qingcheng.name, nil, false, player.id)
-    room:moveCardTo(target_cards, Player.Hand, player, fk.ReasonGive, xh__qingcheng.name, nil, false, target.id)
+    room:moveCardTo(player_cards, Player.Hand, target, fk.ReasonGive, qingcheng.name, nil, false, player.id)
+    room:moveCardTo(target_cards, Player.Hand, player, fk.ReasonGive, qingcheng.name, nil, false, target.id)
   end,
 })
 

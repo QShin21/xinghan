@@ -38,7 +38,7 @@ yixiang:addEffect(fk.CardUsing, {
 yixiang:addEffect(fk.DamageInflicted, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__yixiang.name) then return false end
+    if target ~= player or not player:hasSkill(yixiang.name) then return false end
     if not data.from then return false end
     local count = data.from:getMark("@@yixiang_count") or 0
     return count == 1
@@ -53,7 +53,7 @@ yixiang:addEffect(fk.DamageInflicted, {
 yixiang:addEffect(fk.CardEffecting, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__yixiang.name) then return false end
+    if target ~= player or not player:hasSkill(yixiang.name) then return false end
     if not data.from then return false end
     local count = data.from:getMark("@@yixiang_count") or 0
     return count == 2 and data.card.color == Card.Black

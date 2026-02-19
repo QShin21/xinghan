@@ -18,7 +18,7 @@ Fk:loadTranslationTable {
 yongsi:addEffect(fk.DrawNCards, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yongsi.name)
+    return target == player and player:hasSkill(yongsi.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
@@ -39,7 +39,7 @@ yongsi:addEffect(fk.DrawNCards, {
 yongsi:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__yongsi.name) and
+    return target == player and player:hasSkill(yongsi.name) and
       player.phase == Player.Discard and not player:isNude()
   end,
   on_cost = Util.TrueFunc,
@@ -50,13 +50,13 @@ yongsi:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__yongsi.name,
+      skill_name = yongsi.name,
       pattern = ".",
       prompt = "选择一张牌弃置",
       cancelable = false,
     })
     
-    room:throwCard(id, xh__yongsi.name, player, player)
+    room:throwCard(id, yongsi.name, player, player)
   end,
 })
 

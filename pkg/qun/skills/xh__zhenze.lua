@@ -24,7 +24,7 @@ Fk:loadTranslationTable {
 zhenze:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zhenze.name) and
+    return target == player and player:hasSkill(zhenze.name) and
       player.phase == Player.Discard
   end,
   on_cost = function(self, event, target, player, data)
@@ -32,7 +32,7 @@ zhenze:addEffect(fk.EventPhaseStart, {
     
     local choice = room:askToChoice(player, {
       choices = {"zhenze_damage", "zhenze_draw"},
-      skill_name = xh__zhenze.name,
+      skill_name = zhenze.name,
       prompt = "选择一项",
       detailed = false,
     })
@@ -56,11 +56,11 @@ zhenze:addEffect(fk.EventPhaseStart, {
         
         if choice == "zhenze_damage" then
           if not same then
-            room:loseHp(p, 1, xh__zhenze.name)
+            room:loseHp(p, 1, zhenze.name)
           end
         else
           if same then
-            p:drawCards(1, xh__zhenze.name)
+            p:drawCards(1, zhenze.name)
           end
         end
       end

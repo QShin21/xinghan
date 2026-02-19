@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 sijian:addEffect(fk.AfterCardsMove, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__sijian.name) then return false end
+    if not player:hasSkill(sijian.name) then return false end
     if not player:isKongcheng() then return false end
 
     -- 检查是否因失去牌而变成空手牌
@@ -42,8 +42,8 @@ sijian:addEffect(fk.AfterCardsMove, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__sijian.name,
-      prompt = "#sijian-invoke",
+      skill_name = sijian.name,
+      prompt = "#xh__sijian-invoke",
       cancelable = true,
     })
 
@@ -59,9 +59,9 @@ sijian:addEffect(fk.AfterCardsMove, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "he",
-      skill_name = xh__sijian.name,
+      skill_name = sijian.name,
     })
-    room:throwCard(id, xh__sijian.name, to, player)
+    room:throwCard(id, sijian.name, to, player)
   end,
 })
 

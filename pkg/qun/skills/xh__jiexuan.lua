@@ -40,12 +40,12 @@ jiexuan:addEffect("viewas", {
     local card_name = state == 0 and "snatch" or "dismantlement"
     
     local card = Fk:cloneCard(card_name)
-    card.skillName = xh__jiexuan.name
+    card.skillName = jiexuan.name
     card:addSubcard(cards[1])
     return card
   end,
   enabled_at_play = function(self, player)
-    return player:usedSkillTimes(xh__jiexuan.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(jiexuan.name, Player.HistoryPhase) == 0
   end,
 })
 
@@ -53,7 +53,7 @@ jiexuan:addEffect("viewas", {
 jiexuan:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and data.card and data.card.skillName == xh__jiexuan.name
+    return target == player and data.card and data.card.skillName == jiexuan.name
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

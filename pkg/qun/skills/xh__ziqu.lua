@@ -24,15 +24,15 @@ Fk:loadTranslationTable {
 ziqu:addEffect(fk.DamageCaused, {
   anim_type = "support",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__ziqu.name) then return false end
-    if player:usedSkillTimes(xh__ziqu.name, Player.HistoryGame) > 0 then return false end
+    if target ~= player or not player:hasSkill(ziqu.name) then return false end
+    if player:usedSkillTimes(ziqu.name, Player.HistoryGame) > 0 then return false end
     if not data.to or data.to:isKongcheng() then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__ziqu.name,
-      prompt = "#ziqu-invoke",
+      skill_name = ziqu.name,
+      prompt = "#xh__ziqu-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -44,7 +44,7 @@ ziqu:addEffect(fk.DamageCaused, {
     
     -- 展示所有手牌
     local handcards = to:getCardIds("h")
-    room:showCards(to, handcards, xh__ziqu.name)
+    room:showCards(to, handcards, ziqu.name)
     
     -- 找出点数最大的牌
     local max_number = 0
@@ -69,20 +69,20 @@ ziqu:addEffect(fk.DamageCaused, {
           min_num = 1,
           max_num = 1,
           include_equip = false,
-          skill_name = xh__ziqu.name,
+          skill_name = ziqu.name,
           pattern = tostring(Exppattern{ id = max_cards }),
           prompt = "选择一张点数最大的牌交给" .. player.name,
           cancelable = false,
         })[1]
       end
       
-      room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, xh__ziqu.name, nil, false, to.id)
+      room:moveCardTo(id, Player.Hand, player, fk.ReasonGive, ziqu.name, nil, false, to.id)
     end
     
     -- 选择回复体力或摸牌
     local choice = room:askToChoice(player, {
       choices = {"ziqu_recover", "ziqu_draw"},
-      skill_name = xh__ziqu.name,
+      skill_name = ziqu.name,
       prompt = "选择一项",
       detailed = false,
     })
@@ -92,10 +92,10 @@ ziqu:addEffect(fk.DamageCaused, {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = xh__ziqu.name,
+        skillName = ziqu.name,
       }
     else
-      player:drawCards(2, xh__ziqu.name)
+      player:drawCards(2, ziqu.name)
     end
   end,
 })

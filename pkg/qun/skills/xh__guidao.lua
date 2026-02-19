@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 guidao:addEffect(fk.AskForRetrial, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__guidao.name) then return false end
+    if not player:hasSkill(guidao.name) then return false end
     
     -- 检查是否有黑色牌
     local cards = player:getCardIds("he")
@@ -29,8 +29,8 @@ guidao:addEffect(fk.AskForRetrial, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__guidao.name,
-      prompt = "#guidao-replace",
+      skill_name = guidao.name,
+      prompt = "#xh__guidao-replace",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -44,13 +44,13 @@ guidao:addEffect(fk.AskForRetrial, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__guidao.name,
+      skill_name = guidao.name,
       pattern = tostring(Exppattern{ id = black_cards }),
       prompt = "选择一张黑色牌替换判定牌",
       cancelable = false,
     })
     
-    room:retrial(card_id[1], player, data, xh__guidao.name)
+    room:retrial(card_id[1], player, data, guidao.name)
   end,
 })
 

@@ -24,7 +24,7 @@ Fk:loadTranslationTable {
 shuangxiong:addEffect(fk.EventPhaseEnd, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__shuangxiong.name) and
+    return target == player and player:hasSkill(shuangxiong.name) and
       player.phase == Player.Draw and not player:isNude()
   end,
   on_cost = function(self, event, target, player, data)
@@ -34,9 +34,9 @@ shuangxiong:addEffect(fk.EventPhaseEnd, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__shuangxiong.name,
+      skill_name = shuangxiong.name,
       pattern = ".",
-      prompt = "#shuangxiong-discard",
+      prompt = "#xh__shuangxiong-discard",
       cancelable = true,
     })
     
@@ -50,7 +50,7 @@ shuangxiong:addEffect(fk.EventPhaseEnd, {
     local card_id = event:getCostData(self).cards[1]
     local card = Fk:getCardById(card_id)
     
-    room:throwCard(card_id, xh__shuangxiong.name, player, player)
+    room:throwCard(card_id, shuangxiong.name, player, player)
     
     -- 记录颜色
     room:setPlayerMark(player, "@@shuangxiong_color", card.color)
@@ -73,7 +73,7 @@ shuangxiong:addEffect("viewas", {
     if #cards ~= 1 then return nil end
     
     local card = Fk:cloneCard("duel")
-    card.skillName = xh__shuangxiong.name
+    card.skillName = shuangxiong.name
     card:addSubcard(cards[1])
     return card
   end,
@@ -86,7 +86,7 @@ shuangxiong:addEffect("viewas", {
 shuangxiong:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__shuangxiong.name) and
+    return target == player and player:hasSkill(shuangxiong.name) and
       player.phase == Player.Finish and
       player:getMark("@@shuangxiong_damage") ~= 0
   end,
@@ -98,7 +98,7 @@ shuangxiong:addEffect(fk.EventPhaseStart, {
     if type(cards) == "table" then
       for _, id in ipairs(cards) do
         if table.contains(room.discard_pile, id) then
-          room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__shuangxiong.name)
+          room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, shuangxiong.name)
         end
       end
     end
@@ -112,7 +112,7 @@ shuangxiong:addEffect(fk.Damage, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if not data.card then return false end
-    return data.to == player and player:hasSkill(xh__shuangxiong.name)
+    return data.to == player and player:hasSkill(shuangxiong.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

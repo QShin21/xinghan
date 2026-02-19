@@ -21,17 +21,17 @@ Fk:loadTranslationTable {
 yinpan:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__yinpan.name) then return false end
+    if target ~= player or not player:hasSkill(yinpan.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:usedSkillTimes(xh__yinpan.name, Player.HistoryGame) > 0 then return false end
+    if player:usedSkillTimes(yinpan.name, Player.HistoryGame) > 0 then return false end
     
     local count = player:getMark("@@yinpan_count") or 0
     return count > 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__yinpan.name,
-      prompt = "#yinpan-invoke",
+      skill_name = yinpan.name,
+      prompt = "#xh__yinpan-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -48,7 +48,7 @@ yinpan:addEffect(fk.EventPhaseStart, {
       from = player,
       to = to,
       damage = count,
-      skillName = xh__yinpan.name,
+      skillName = yinpan.name,
     }
   end,
 })

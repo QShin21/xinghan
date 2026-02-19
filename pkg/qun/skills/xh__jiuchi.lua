@@ -25,7 +25,7 @@ jiuchi:addEffect("viewas", {
   view_as = function(self, player, cards)
     if #cards ~= 1 then return nil end
     local card = Fk:cloneCard("analeptic")
-    card.skillName = xh__jiuchi.name
+    card.skillName = jiuchi.name
     card:addSubcard(cards[1])
     return card
   end,

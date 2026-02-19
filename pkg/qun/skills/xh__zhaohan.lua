@@ -17,7 +17,7 @@ Fk:loadTranslationTable {
 zhaohan:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zhaohan.name) and
+    return target == player and player:hasSkill(zhaohan.name) and
       player.phase == Player.Start
   end,
   on_cost = Util.TrueFunc,
@@ -33,11 +33,11 @@ zhaohan:addEffect(fk.EventPhaseStart, {
         who = player,
         num = 1,
         recoverBy = player,
-        skillName = xh__zhaohan.name,
+        skillName = zhaohan.name,
       }
     else
       -- 洗过牌：失去1点体力
-      room:loseHp(player, 1, xh__zhaohan.name)
+      room:loseHp(player, 1, zhaohan.name)
     end
   end,
 })

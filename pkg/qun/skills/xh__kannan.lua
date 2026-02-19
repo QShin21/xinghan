@@ -21,11 +21,11 @@ Fk:loadTranslationTable {
 
 kannan:addEffect("active", {
   mute = true,
-  prompt = "#kannan-target",
+  prompt = "#xh__kannan-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__kannan.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(kannan.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -36,10 +36,10 @@ kannan:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__kannan.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__kannan.name)
+    room:notifySkillInvoked(player, kannan.name, "offensive", {target})
+    player:broadcastSkillInvoke(kannan.name)
 
-    local pindian = room:pindian({player, target}, xh__kannan.name)
+    local pindian = room:pindian({player, target}, kannan.name)
     
     if pindian.results[player].winner then
       -- 你赢：你的下一张杀伤害+1

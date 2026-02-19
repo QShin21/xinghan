@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 jinjiu:addEffect("filter", {
   mute = true,
   card_filter = function(self, card, player)
-    if not player:hasSkill(xh__jinjiu.name) then return false end
+    if not player:hasSkill(jinjiu.name) then return false end
     if card.trueName ~= "analeptic" then return false end
     return true
   end,
@@ -35,7 +35,7 @@ jinjiu:addEffect("filter", {
 jinjiu:addEffect("prohibit", {
   mute = true,
   prohibit_use = function(self, player, card)
-    if not player.room.current:hasSkill(xh__jinjiu.name) then return false end
+    if not player.room.current:hasSkill(jinjiu.name) then return false end
     if player == player.room.current then return false end
     return card.trueName == "analeptic"
   end,

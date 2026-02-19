@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 zhouxuan:addEffect(fk.EventPhaseStart, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__zhouxuan.name) then return false end
+    if target ~= player or not player:hasSkill(zhouxuan.name) then return false end
     if player.phase ~= Player.Discard then return false end
     return not player:isKongcheng()
   end,
@@ -33,9 +33,9 @@ zhouxuan:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = math.min(5, player:getHandcardNum()),
       include_equip = false,
-      skill_name = xh__zhouxuan.name,
+      skill_name = zhouxuan.name,
       pattern = ".",
-      prompt = "#zhouxuan-place",
+      prompt = "#xh__zhouxuan-place",
       cancelable = true,
     })
     
@@ -54,7 +54,7 @@ zhouxuan:addEffect(fk.EventPhaseStart, {
     
     for _, id in ipairs(cards) do
       table.insert(xuan, id)
-      room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, xh__zhouxuan.name)
+      room:moveCardTo(id, Card.Processing, player, fk.ReasonPut, zhouxuan.name)
     end
     
     room:setPlayerMark(player, "@@zhouxuan_xuan", xuan)
@@ -65,7 +65,7 @@ zhouxuan:addEffect(fk.EventPhaseStart, {
 zhouxuan:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__zhouxuan.name) then return false end
+    if target ~= player or not player:hasSkill(zhouxuan.name) then return false end
     
     local xuan = player:getMark("@@zhouxuan_xuan")
     return xuan and type(xuan) == "table" and #xuan > 0
@@ -77,10 +77,10 @@ zhouxuan:addEffect(fk.CardUsing, {
     
     if #xuan > 0 then
       local id = table.remove(xuan, 1)
-      room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__zhouxuan.name)
+      room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, zhouxuan.name)
       room:setPlayerMark(player, "@@zhouxuan_xuan", xuan)
       
-      player:drawCards(1, xh__zhouxuan.name)
+      player:drawCards(1, zhouxuan.name)
     end
   end,
 })

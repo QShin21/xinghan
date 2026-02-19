@@ -21,22 +21,22 @@ Fk:loadTranslationTable {
 
 yangwei:addEffect("active", {
   mute = true,
-  prompt = "#yangwei-invoke",
+  prompt = "#xh__yangwei-invoke",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__yangwei.name, Player.HistoryPhase) == 0 and
+    return player:usedSkillTimes(yangwei.name, Player.HistoryPhase) == 0 and
       player:getMark("@@yangwei_disabled") == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__yangwei.name, "offensive")
-    player:broadcastSkillInvoke(xh__yangwei.name)
+    room:notifySkillInvoked(player, yangwei.name, "offensive")
+    player:broadcastSkillInvoke(yangwei.name)
 
     -- 摸两张牌
-    player:drawCards(2, xh__yangwei.name)
+    player:drawCards(2, yangwei.name)
     
     -- 设置标记
     room:setPlayerMark(player, "@@yangwei_active", 1)

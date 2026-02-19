@@ -27,18 +27,18 @@ Fk:loadTranslationTable {
 
 luanwu:addEffect("active", {
   mute = true,
-  prompt = "#luanwu-invoke",
+  prompt = "#xh__luanwu-invoke",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__luanwu.name) == 0
+    return player:usedSkillTimes(luanwu.name) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__luanwu.name, "offensive")
-    player:broadcastSkillInvoke(xh__luanwu.name)
+    room:notifySkillInvoked(player, luanwu.name, "offensive")
+    player:broadcastSkillInvoke(luanwu.name)
 
     local others = room:getOtherPlayers(player, false)
 
@@ -77,15 +77,15 @@ luanwu:addEffect("active", {
 
         local choice = room:askToChoice(p, {
           choices = choices,
-          skill_name = xh__luanwu.name,
-          prompt = "#luanwu-choice",
+          skill_name = luanwu.name,
+          prompt = "#xh__luanwu-choice",
           detailed = false,
         })
 
         if choice == "luanwu_choice1" then
           -- 使用杀
           local slash = Fk:cloneCard("slash")
-          slash.skillName = xh__luanwu.name
+          slash.skillName = luanwu.name
 
           local targets = table.filter(nearest, function(target)
             return p:canUseTo(slash, target)
@@ -96,7 +96,7 @@ luanwu:addEffect("active", {
               min_num = 1,
               max_num = 1,
               targets = targets,
-              skill_name = xh__luanwu.name,
+              skill_name = luanwu.name,
               prompt = "选择距离最近的一名角色使用【杀】",
               cancelable = false,
             })[1]
@@ -109,7 +109,7 @@ luanwu:addEffect("active", {
           end
         else
           -- 失去1点体力
-          room:loseHp(p, 1, xh__luanwu.name)
+          room:loseHp(p, 1, luanwu.name)
         end
       end
     end
@@ -117,7 +117,7 @@ luanwu:addEffect("active", {
     -- 可以视为使用一张杀
     if not player.dead then
       local slash = Fk:cloneCard("slash")
-      slash.skillName = xh__luanwu.name
+      slash.skillName = luanwu.name
 
       local targets = table.filter(room:getOtherPlayers(player, false), function(p)
         return player:canUseTo(slash, p)
@@ -125,14 +125,14 @@ luanwu:addEffect("active", {
 
       if #targets > 0 then
         local use = room:askToUseCard(player, {
-          skill_name = xh__luanwu.name,
+          skill_name = luanwu.name,
           pattern = slash,
-          prompt = "#luanwu-slash",
+          prompt = "#xh__luanwu-slash",
           cancelable = true,
         })
 
         if use then
-          use.card.skillName = xh__luanwu.name
+          use.card.skillName = luanwu.name
           room:useCard(use)
         end
       end

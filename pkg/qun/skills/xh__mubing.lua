@@ -21,14 +21,14 @@ Fk:loadTranslationTable {
 mubing:addEffect(fk.EventPhaseStart, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__mubing.name) then return false end
+    if target ~= player or not player:hasSkill(mubing.name) then return false end
     if player.phase ~= Player.Play then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__mubing.name,
-      prompt = "#mubing-invoke",
+      skill_name = mubing.name,
+      prompt = "#xh__mubing-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -39,7 +39,7 @@ mubing:addEffect(fk.EventPhaseStart, {
     for i = 1, 3 do
       if #room.draw_pile > 0 then
         table.insert(cards, room.draw_pile[1])
-        room:showCards(player, {room.draw_pile[1]}, xh__mubing.name)
+        room:showCards(player, {room.draw_pile[1]}, mubing.name)
         table.remove(room.draw_pile, 1)
       end
     end
@@ -50,7 +50,7 @@ mubing:addEffect(fk.EventPhaseStart, {
     if player:isKongcheng() then
       -- 没有手牌，不能获得
       for _, id in ipairs(cards) do
-        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__mubing.name)
+        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, mubing.name)
       end
       return
     end
@@ -60,7 +60,7 @@ mubing:addEffect(fk.EventPhaseStart, {
       min_num = 0,
       max_num = player:getHandcardNum(),
       include_equip = false,
-      skill_name = xh__mubing.name,
+      skill_name = mubing.name,
       pattern = ".",
       prompt = "选择要弃置的手牌（点数和需大于等于要获得的牌点数和）",
       cancelable = true,
@@ -69,7 +69,7 @@ mubing:addEffect(fk.EventPhaseStart, {
     if #discard_cards == 0 then
       -- 不弃置，所有牌放入弃牌堆
       for _, id in ipairs(cards) do
-        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__mubing.name)
+        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, mubing.name)
       end
       return
     end
@@ -85,7 +85,7 @@ mubing:addEffect(fk.EventPhaseStart, {
       min_num = 0,
       max_num = #cards,
       include_equip = false,
-      skill_name = xh__mubing.name,
+      skill_name = mubing.name,
       pattern = tostring(Exppattern{ id = cards }),
       prompt = "选择要获得的牌（点数和需小于等于弃置牌点数和）",
       cancelable = true,
@@ -93,9 +93,9 @@ mubing:addEffect(fk.EventPhaseStart, {
     
     if #get_cards == 0 then
       -- 不获得，弃置手牌，所有亮出的牌放入弃牌堆
-      room:throwCard(discard_cards, xh__mubing.name, player, player)
+      room:throwCard(discard_cards, mubing.name, player, player)
       for _, id in ipairs(cards) do
-        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__mubing.name)
+        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, mubing.name)
       end
       return
     end
@@ -109,22 +109,22 @@ mubing:addEffect(fk.EventPhaseStart, {
     -- 检查点数和
     if discard_sum >= get_sum then
       -- 弃置手牌
-      room:throwCard(discard_cards, xh__mubing.name, player, player)
+      room:throwCard(discard_cards, mubing.name, player, player)
       
       -- 获得牌
-      room:moveCardTo(get_cards, Player.Hand, player, fk.ReasonPrey, xh__mubing.name)
+      room:moveCardTo(get_cards, Player.Hand, player, fk.ReasonPrey, mubing.name)
       
       -- 剩余的牌放入弃牌堆
       for _, id in ipairs(cards) do
         if not table.contains(get_cards, id) then
-          room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__mubing.name)
+          room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, mubing.name)
         end
       end
     else
       -- 点数和不够，弃置手牌，所有亮出的牌放入弃牌堆
-      room:throwCard(discard_cards, xh__mubing.name, player, player)
+      room:throwCard(discard_cards, mubing.name, player, player)
       for _, id in ipairs(cards) do
-        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__mubing.name)
+        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, mubing.name)
       end
     end
   end,

@@ -19,14 +19,14 @@ Fk:loadTranslationTable {
 tianming:addEffect(fk.TargetConfirmed, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__tianming.name) then return false end
+    if target ~= player or not player:hasSkill(tianming.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     return true
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__tianming.name,
-      prompt = "#tianming-invoke",
+      skill_name = tianming.name,
+      prompt = "#xh__tianming-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -41,16 +41,16 @@ tianming:addEffect(fk.TargetConfirmed, {
         min_num = discard_num,
         max_num = discard_num,
         include_equip = true,
-        skill_name = xh__tianming.name,
+        skill_name = tianming.name,
         pattern = ".",
         prompt = "选择" .. discard_num .. "张牌弃置",
         cancelable = false,
       })
-      room:throwCard(cards, xh__tianming.name, player, player)
+      room:throwCard(cards, tianming.name, player, player)
     end
     
     -- 摸两张牌
-    player:drawCards(2, xh__tianming.name)
+    player:drawCards(2, tianming.name)
   end,
 })
 

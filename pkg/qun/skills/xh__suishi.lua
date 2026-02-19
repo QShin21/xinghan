@@ -22,12 +22,12 @@ Fk:loadTranslationTable {
 suishi:addEffect(fk.EnterDying, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(xh__suishi.name) and target ~= player and
+    return player:hasSkill(suishi.name) and target ~= player and
       data.damageFrom and data.damageFrom.kingdom == player.kingdom
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__suishi.name)
+    player:drawCards(1, suishi.name)
   end,
 })
 
@@ -35,7 +35,7 @@ suishi:addEffect(fk.EnterDying, {
 suishi:addEffect(fk.Death, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return player:hasSkill(xh__suishi.name) and target ~= player and
+    return player:hasSkill(suishi.name) and target ~= player and
       target.kingdom == player.kingdom and not player:isKongcheng()
   end,
   on_cost = Util.TrueFunc,
@@ -46,13 +46,13 @@ suishi:addEffect(fk.Death, {
       min_num = 1,
       max_num = player:getHandcardNum(),
       include_equip = false,
-      skill_name = xh__suishi.name,
+      skill_name = suishi.name,
       pattern = ".",
-      prompt = "#suishi-discard",
+      prompt = "#xh__suishi-discard",
       cancelable = false,
     })
 
-    room:throwCard(cards, xh__suishi.name, player, player)
+    room:throwCard(cards, suishi.name, player, player)
   end,
 })
 

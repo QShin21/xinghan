@@ -21,11 +21,11 @@ Fk:loadTranslationTable {
 
 yizheng:addEffect("active", {
   mute = true,
-  prompt = "#yizheng-target",
+  prompt = "#xh__yizheng-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__yizheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
+    return player:usedSkillTimes(yizheng.name, Player.HistoryPhase) == 0 and not player:isKongcheng()
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -36,10 +36,10 @@ yizheng:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__yizheng.name, "control", {target})
-    player:broadcastSkillInvoke(xh__yizheng.name)
+    room:notifySkillInvoked(player, yizheng.name, "control", {target})
+    player:broadcastSkillInvoke(yizheng.name)
 
-    local pindian = room:pindian({player, target}, xh__yizheng.name)
+    local pindian = room:pindian({player, target}, yizheng.name)
     
     if pindian.results[player].winner then
       -- 你赢：跳过下个摸牌阶段
@@ -49,8 +49,8 @@ yizheng:addEffect("active", {
       if target:isAlive() then
         local damage = room:askToChoice(target, {
           choices = {"0", "1", "2"},
-          skill_name = xh__yizheng.name,
-          prompt = "#yizheng-damage",
+          skill_name = yizheng.name,
+          prompt = "#xh__yizheng-damage",
           detailed = false,
         })
         
@@ -60,7 +60,7 @@ yizheng:addEffect("active", {
             from = target,
             to = player,
             damage = num,
-            skillName = xh__yizheng.name,
+            skillName = yizheng.name,
           }
         end
       end

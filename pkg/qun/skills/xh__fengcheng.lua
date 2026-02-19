@@ -25,18 +25,18 @@ Fk:loadTranslationTable {
 
 fengcheng:addEffect("active", {
   mute = true,
-  prompt = "#fengcheng-invoke",
+  prompt = "#xh__fengcheng-invoke",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__fengcheng.name) == 0
+    return player:usedSkillTimes(fengcheng.name) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__fengcheng.name, "offensive")
-    player:broadcastSkillInvoke(xh__fengcheng.name)
+    room:notifySkillInvoked(player, fengcheng.name, "offensive")
+    player:broadcastSkillInvoke(fengcheng.name)
 
     local others = room:getOtherPlayers(player, false)
     local last_discard_count = 0
@@ -53,8 +53,8 @@ fengcheng:addEffect("active", {
 
         local choice = room:askToChoice(p, {
           choices = choices,
-          skill_name = xh__fengcheng.name,
-          prompt = "#fengcheng-choice",
+          skill_name = fengcheng.name,
+          prompt = "#xh__fengcheng-choice",
           detailed = false,
         })
 
@@ -66,12 +66,12 @@ fengcheng:addEffect("active", {
             min_num = min_discard,
             max_num = max_discard,
             include_equip = true,
-            skill_name = xh__fengcheng.name,
+            skill_name = fengcheng.name,
             pattern = ".",
             cancelable = false,
           })
 
-          room:throwCard(cards, xh__fengcheng.name, p, p)
+          room:throwCard(cards, fengcheng.name, p, p)
           last_discard_count = #cards
         else
           -- 受到2点火焰伤害
@@ -80,7 +80,7 @@ fengcheng:addEffect("active", {
             to = p,
             damage = 2,
             damageType = fk.FireDamage,
-            skillName = xh__fengcheng.name,
+            skillName = fengcheng.name,
           }
         end
       end

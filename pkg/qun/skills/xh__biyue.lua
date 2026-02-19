@@ -19,13 +19,13 @@ Fk:loadTranslationTable {
 biyue:addEffect(fk.EventPhaseStart, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__biyue.name) and
+    return target == player and player:hasSkill(biyue.name) and
       player.phase == Player.Finish
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__biyue.name,
-      prompt = "#biyue-invoke",
+      skill_name = biyue.name,
+      prompt = "#xh__biyue-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -36,10 +36,10 @@ biyue:addEffect(fk.EventPhaseStart, {
 
     if has_damage then
       -- 造成过伤害：摸一张牌
-      player:drawCards(1, xh__biyue.name)
+      player:drawCards(1, biyue.name)
     else
       -- 未造成伤害：摸两张牌
-      player:drawCards(2, xh__biyue.name)
+      player:drawCards(2, biyue.name)
     end
     
     -- 清除标记
@@ -51,7 +51,7 @@ biyue:addEffect(fk.EventPhaseStart, {
 biyue:addEffect(fk.Damage, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__biyue.name)
+    return target == player and player:hasSkill(biyue.name)
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

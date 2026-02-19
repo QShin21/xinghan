@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 niluan:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target == player or not player:hasSkill(xh__niluan.name) then return false end
+    if target == player or not player:hasSkill(niluan.name) then return false end
     if target.phase ~= Player.Finish then return false end
     
     -- 检查是否对其他角色使用过牌
@@ -30,15 +30,15 @@ niluan:addEffect(fk.EventPhaseStart, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__niluan.name,
-      prompt = "#niluan-use",
+      skill_name = niluan.name,
+      prompt = "#xh__niluan-use",
     })
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
     
     local slash = Fk:cloneCard("slash")
-    slash.skillName = xh__niluan.name
+    slash.skillName = niluan.name
     
     room:useCard{
       from = player.id,
@@ -77,9 +77,9 @@ niluan:addEffect(fk.Damage, {
     local id = room:askToChooseCard(player, {
       target = to,
       flag = "he",
-      skill_name = xh__niluan.name,
+      skill_name = niluan.name,
     })
-    room:throwCard(id, xh__niluan.name, to, player)
+    room:throwCard(id, niluan.name, to, player)
   end,
 })
 

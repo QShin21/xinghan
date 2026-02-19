@@ -19,7 +19,7 @@ Fk:loadTranslationTable {
 zhongliu:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__zhongliu.name) and
+    return target == player and player:hasSkill(zhongliu.name) and
       data.card and not table.contains(player:getCardIds("h"), data.card.id)
   end,
   on_cost = Util.TrueFunc,

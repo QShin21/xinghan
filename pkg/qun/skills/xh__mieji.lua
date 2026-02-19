@@ -23,11 +23,11 @@ Fk:loadTranslationTable {
 
 mieji:addEffect("active", {
   mute = true,
-  prompt = "#mieji-use",
+  prompt = "#xh__mieji-use",
   card_num = 1,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__mieji.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(mieji.name, Player.HistoryPhase) == 0
   end,
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
@@ -44,14 +44,14 @@ mieji:addEffect("active", {
     local target = effect.tos[1]
     local card = effect.cards[1]
 
-    room:notifySkillInvoked(player, xh__mieji.name, "control", {target})
-    player:broadcastSkillInvoke(xh__mieji.name)
+    room:notifySkillInvoked(player, mieji.name, "control", {target})
+    player:broadcastSkillInvoke(mieji.name)
 
     -- 展示牌
-    room:showCards(player, {card}, xh__mieji.name)
+    room:showCards(player, {card}, mieji.name)
 
     -- 将牌置于牌堆顶
-    room:moveCardTo(card, Card.DrawPile, nil, fk.ReasonPut, xh__mieji.name, nil, true)
+    room:moveCardTo(card, Card.DrawPile, nil, fk.ReasonPut, mieji.name, nil, true)
 
     if target.dead then return end
 
@@ -80,8 +80,8 @@ mieji:addEffect("active", {
 
     local choice = room:askToChoice(target, {
       choices = choices,
-      skill_name = xh__mieji.name,
-      prompt = "#mieji-choice",
+      skill_name = mieji.name,
+      prompt = "#xh__mieji-choice",
       detailed = false,
     })
 
@@ -94,9 +94,9 @@ mieji:addEffect("active", {
       local id = room:askToChooseCard(player, {
         target = target,
         flag = "he",
-        skill_name = xh__mieji.name,
+        skill_name = mieji.name,
       })
-      room:throwCard(id, xh__mieji.name, target, player)
+      room:throwCard(id, mieji.name, target, player)
     else
       -- 依次弃置两张非锦囊牌
       for i = 1, 2 do
@@ -111,9 +111,9 @@ mieji:addEffect("active", {
         local id = room:askToChooseCard(player, {
           target = target,
           flag = "he",
-          skill_name = xh__mieji.name,
+          skill_name = mieji.name,
         })
-        room:throwCard(id, xh__mieji.name, target, player)
+        room:throwCard(id, mieji.name, target, player)
       end
     end
   end,

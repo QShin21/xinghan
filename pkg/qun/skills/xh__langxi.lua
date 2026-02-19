@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 langxi:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__langxi.name) and player.phase == Player.Start
+    return target == player and player:hasSkill(langxi.name) and player.phase == Player.Start
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
@@ -34,8 +34,8 @@ langxi:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__langxi.name,
-      prompt = "#langxi-target",
+      skill_name = langxi.name,
+      prompt = "#xh__langxi-target",
       cancelable = true,
     })
     
@@ -50,7 +50,7 @@ langxi:addEffect(fk.EventPhaseStart, {
     
     local judge = room:judge{
       who = player,
-      reason = xh__langxi.name,
+      reason = langxi.name,
     }
     
     if judge.card.color == Card.Black then
@@ -58,7 +58,7 @@ langxi:addEffect(fk.EventPhaseStart, {
         from = player,
         to = to,
         damage = 1,
-        skillName = xh__langxi.name,
+        skillName = langxi.name,
       }
     end
   end,

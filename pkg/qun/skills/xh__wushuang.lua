@@ -20,7 +20,7 @@ wushuang:addEffect(fk.TargetConfirming, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
-    if not player:hasSkill(xh__wushuang.name) then return false end
+    if not player:hasSkill(wushuang.name) then return false end
 
     local card = data.card
     if not card then return false end
@@ -38,7 +38,7 @@ wushuang:addEffect(fk.TargetConfirming, {
 wushuang:addEffect(fk.CardEffectCancelledOut, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(xh__wushuang.name) then return false end
+    if not player:hasSkill(wushuang.name) then return false end
 
     local card = data.card
     if not card then return false end

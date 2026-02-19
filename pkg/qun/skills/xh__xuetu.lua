@@ -20,11 +20,11 @@ Fk:loadTranslationTable {
 
 xuetu:addEffect("active", {
   mute = true,
-  prompt = "#xuetu-target",
+  prompt = "#xh__xuetu-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__xuetu.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(xuetu.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -45,8 +45,8 @@ xuetu:addEffect("active", {
     local target = effect.tos[1]
     local state = player:getMark("@@xuetu_state") or 0
 
-    room:notifySkillInvoked(player, xh__xuetu.name, "support", {target})
-    player:broadcastSkillInvoke(xh__xuetu.name)
+    room:notifySkillInvoked(player, xuetu.name, "support", {target})
+    player:broadcastSkillInvoke(xuetu.name)
 
     if state == 0 then
       -- 阳：回复体力
@@ -54,11 +54,11 @@ xuetu:addEffect("active", {
         who = target,
         num = 1,
         recoverBy = player,
-        skillName = xh__xuetu.name,
+        skillName = xuetu.name,
       }
     else
       -- 阴：摸牌
-      target:drawCards(2, xh__xuetu.name)
+      target:drawCards(2, xuetu.name)
     end
     
     -- 切换状态

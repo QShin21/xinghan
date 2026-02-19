@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 
 guhuo:addEffect("active", {
   mute = true,
-  prompt = "#guhuo-use",
+  prompt = "#xh__guhuo-use",
   card_num = 1,
   target_num = 0,
   can_use = function(self, player)
@@ -34,14 +34,14 @@ guhuo:addEffect("active", {
     local player = effect.from
     local card_id = effect.cards[1]
     
-    room:notifySkillInvoked(player, xh__guhuo.name, "offensive")
-    player:broadcastSkillInvoke(xh__guhuo.name)
+    room:notifySkillInvoked(player, guhuo.name, "offensive")
+    player:broadcastSkillInvoke(guhuo.name)
     
     -- 标记已使用
     room:setPlayerMark(player, "@@guhuo_used", 1)
     
     -- 扣置手牌
-    room:moveCardTo(card_id, Card.Processing, player, fk.ReasonPut, xh__guhuo.name)
+    room:moveCardTo(card_id, Card.Processing, player, fk.ReasonPut, guhuo.name)
     
     -- 让玩家选择要使用的牌名
     local card_names = {}
@@ -53,14 +53,14 @@ guhuo:addEffect("active", {
     
     local choice = room:askToChoice(player, {
       choices = card_names,
-      skill_name = xh__guhuo.name,
+      skill_name = guhuo.name,
       prompt = "选择要当什么牌使用",
       detailed = true,
     })
     
     -- 创建虚拟牌
     local card = Fk:cloneCard(choice)
-    card.skillName = xh__guhuo.name
+    card.skillName = guhuo.name
     card:addSubcard(card_id)
     
     -- 使用卡牌

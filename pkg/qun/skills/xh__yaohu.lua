@@ -27,9 +27,9 @@ Fk:loadTranslationTable {
 yaohu:addEffect(fk.EventPhaseStart, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__yaohu.name) then return false end
+    if target ~= player or not player:hasSkill(yaohu.name) then return false end
     if player.phase ~= Player.Start then return false end
-    if player:usedSkillTimes(xh__yaohu.name, Player.HistoryRound) > 0 then return false end
+    if player:usedSkillTimes(yaohu.name, Player.HistoryRound) > 0 then return false end
     return true
   end,
   on_cost = Util.TrueFunc,
@@ -50,8 +50,8 @@ yaohu:addEffect(fk.EventPhaseStart, {
     -- 选择势力
     local choice = room:askToChoice(player, {
       choices = kingdom_list,
-      skill_name = xh__yaohu.name,
-      prompt = "#yaohu-choose",
+      skill_name = yaohu.name,
+      prompt = "#xh__yaohu-choose",
       detailed = false,
     })
     
@@ -75,7 +75,7 @@ yaohu:addEffect(fk.EventPhaseStart, {
     if target == player or target.phase ~= Player.Play then return false end
     
     local source = player
-    if not source:hasSkill(xh__yaohu.name) then return false end
+    if not source:hasSkill(yaohu.name) then return false end
     
     local kingdom = source:getMark("@@yaohu_kingdom")
     if not kingdom or kingdom == 0 then return false end
@@ -92,7 +92,7 @@ yaohu:addEffect(fk.EventPhaseStart, {
     
     if #sheng > 0 then
       local id = table.remove(sheng, 1)
-      room:moveCardTo(id, Player.Hand, target, fk.ReasonGive, xh__yaohu.name, nil, false, player.id)
+      room:moveCardTo(id, Player.Hand, target, fk.ReasonGive, yaohu.name, nil, false, player.id)
       room:setPlayerMark(player, "@@jutu_sheng", sheng)
       
       -- 标记该角色需要交牌
@@ -124,14 +124,14 @@ yaohu:addEffect(fk.TargetConfirming, {
         min_num = 2,
         max_num = 2,
         include_equip = true,
-        skill_name = xh__yaohu.name,
+        skill_name = yaohu.name,
         pattern = ".",
         prompt = "选择两张牌交给" .. source.name .. "，否则此牌无效",
         cancelable = true,
       })
       
       if #cards == 2 then
-        room:moveCardTo(cards, Player.Hand, source, fk.ReasonGive, xh__yaohu.name, nil, false, player.id)
+        room:moveCardTo(cards, Player.Hand, source, fk.ReasonGive, yaohu.name, nil, false, player.id)
         return
       end
     end

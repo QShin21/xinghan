@@ -24,7 +24,7 @@ Fk:loadTranslationTable {
 xiaoxiong:addEffect(fk.EventPhaseStart, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__xiaoxiong.name) and
+    return target == player and player:hasSkill(xiaoxiong.name) and
       player.phase == Player.Play
   end,
   on_cost = Util.TrueFunc,
@@ -34,13 +34,13 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
     -- 选择代价
     local choice = room:askToChoice(player, {
       choices = {"xiaoxiong_losehp", "xiaoxiong_losemaxhp"},
-      skill_name = xh__xiaoxiong.name,
+      skill_name = xiaoxiong.name,
       prompt = "选择代价",
       detailed = false,
     })
     
     if choice == "xiaoxiong_losehp" then
-      room:loseHp(player, 1, xh__xiaoxiong.name)
+      room:loseHp(player, 1, xiaoxiong.name)
     else
       room:changeMaxHp(player, -1)
     end
@@ -55,7 +55,7 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
     -- 选择效果
     local effect = room:askToChoice(player, {
       choices = {"xiaoxiong_get", "xiaoxiong_slash"},
-      skill_name = xh__xiaoxiong.name,
+      skill_name = xiaoxiong.name,
       prompt = "选择效果",
       detailed = false,
     })
@@ -64,7 +64,7 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       targets = targets,
-      skill_name = xh__xiaoxiong.name,
+      skill_name = xiaoxiong.name,
       prompt = "选择目标",
       cancelable = false,
     })[1]
@@ -75,14 +75,14 @@ xiaoxiong:addEffect(fk.EventPhaseStart, {
         local id = room:askToChooseCard(player, {
           target = to,
           flag = "he",
-          skill_name = xh__xiaoxiong.name,
+          skill_name = xiaoxiong.name,
         })
-        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xh__xiaoxiong.name)
+        room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, xiaoxiong.name)
       end
     else
       -- 使用杀
       local slash = Fk:cloneCard("slash")
-      slash.skillName = xh__xiaoxiong.name
+      slash.skillName = xiaoxiong.name
       room:useCard{
         from = player.id,
         tos = {to.id},

@@ -18,7 +18,7 @@ Fk:loadTranslationTable {
 congjian:addEffect(fk.DamageCaused, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__congjian.name) then return false end
+    if target ~= player or not player:hasSkill(congjian.name) then return false end
     if player.phase ~= Player.NotActive then return false end
     return true
   end,
@@ -32,7 +32,7 @@ congjian:addEffect(fk.DamageCaused, {
 congjian:addEffect(fk.DamageInflicted, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__congjian.name) then return false end
+    if target ~= player or not player:hasSkill(congjian.name) then return false end
     if player.phase == Player.NotActive then return false end
     return true
   end,

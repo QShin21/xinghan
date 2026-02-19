@@ -28,7 +28,7 @@ weijie:addEffect("viewas", {
     if #cards ~= 0 then return nil end
     
     -- 检查是否可以使用
-    if player:usedSkillTimes(xh__weijie.name, Player.HistoryTurn) > 0 then return nil end
+    if player:usedSkillTimes(weijie.name, Player.HistoryTurn) > 0 then return nil end
     
     -- 找出距离为1的角色
     local room = player.room
@@ -42,10 +42,10 @@ weijie:addEffect("viewas", {
     return nil
   end,
   enabled_at_play = function(self, player)
-    return player:usedSkillTimes(xh__weijie.name, Player.HistoryTurn) == 0
+    return player:usedSkillTimes(weijie.name, Player.HistoryTurn) == 0
   end,
   enabled_at_response = function(self, player, response)
-    return not response and player:usedSkillTimes(xh__weijie.name, Player.HistoryTurn) == 0
+    return not response and player:usedSkillTimes(weijie.name, Player.HistoryTurn) == 0
   end,
 })
 

@@ -25,12 +25,12 @@ Fk:loadTranslationTable {
 
 xionghuo:addEffect("active", {
   mute = true,
-  prompt = "#xionghuo-target",
+  prompt = "#xh__xionghuo-target",
   card_num = 0,
   target_num = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__xionghuo.name, Player.HistoryPhase) == 0 and
-      player:usedSkillTimes(xh__xionghuo.name, Player.HistoryGame) < 3
+    return player:usedSkillTimes(xionghuo.name, Player.HistoryPhase) == 0 and
+      player:usedSkillTimes(xionghuo.name, Player.HistoryGame) < 3
   end,
   card_filter = Util.FalseFunc,
   target_filter = function(self, player, to_select, selected, selected_cards)
@@ -41,8 +41,8 @@ xionghuo:addEffect("active", {
     local player = effect.from
     local target = effect.tos[1]
 
-    room:notifySkillInvoked(player, xh__xionghuo.name, "offensive", {target})
-    player:broadcastSkillInvoke(xh__xionghuo.name)
+    room:notifySkillInvoked(player, xionghuo.name, "offensive", {target})
+    player:broadcastSkillInvoke(xionghuo.name)
 
     -- 令其下次受到伤害+1
     room:addPlayerMark(target, "@@xionghuo_damage", 1)
@@ -82,7 +82,7 @@ xionghuo:addEffect(fk.EventPhaseStart, {
     
     local judge = room:judge{
       who = player,
-      reason = xh__xionghuo.name,
+      reason = xionghuo.name,
     }
     
     local suit = judge.card.suit
@@ -94,12 +94,12 @@ xionghuo:addEffect(fk.EventPhaseStart, {
         to = player,
         damage = 1,
         damageType = fk.FireDamage,
-        skillName = xh__xionghuo.name,
+        skillName = xionghuo.name,
       }
       room:addPlayerMark(player, "@@xionghuo_no_slash", source.id)
     elseif suit == Card.Heart then
       -- 失去1点体力且本回合手牌上限-1
-      room:loseHp(player, 1, xh__xionghuo.name)
+      room:loseHp(player, 1, xionghuo.name)
       room:addPlayerMark(player, "@@xionghuo_hand_limit", -1)
     else
       -- 获得装备区和手牌区各一张牌
@@ -111,18 +111,18 @@ xionghuo:addEffect(fk.EventPhaseStart, {
           local id = room:askToChooseCard(source, {
             target = player,
             flag = "e",
-            skill_name = xh__xionghuo.name,
+            skill_name = xionghuo.name,
           })
-          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xh__xionghuo.name)
+          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xionghuo.name)
         end
         
         if #hand_cards > 0 then
           local id = room:askToChooseCard(source, {
             target = player,
             flag = "h",
-            skill_name = xh__xionghuo.name,
+            skill_name = xionghuo.name,
           })
-          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xh__xionghuo.name)
+          room:moveCardTo(id, Player.Hand, source, fk.ReasonPrey, xionghuo.name)
         end
       end
     end

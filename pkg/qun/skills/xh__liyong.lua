@@ -41,7 +41,7 @@ liyong:addEffect("viewas", {
     if #cards ~= 1 then return nil end
     
     local card = Fk:cloneCard("duel")
-    card.skillName = xh__liyong.name
+    card.skillName = liyong.name
     card:addSubcard(cards[1])
     return card
   end,
@@ -56,7 +56,7 @@ liyong:addEffect("viewas", {
 liyong:addEffect(fk.CardUsing, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    return target == player and data.card and data.card.skillName == xh__liyong.name
+    return target == player and data.card and data.card.skillName == liyong.name
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)

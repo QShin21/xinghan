@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 jianying:addEffect(fk.CardUsing, {
   anim_type = "draw",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__jianying.name) then return false end
+    if target ~= player or not player:hasSkill(jianying.name) then return false end
     if not data.card then return false end
     
     local last = player:getMark("@@jianying_last")
@@ -33,12 +33,12 @@ jianying:addEffect(fk.CardUsing, {
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__jianying.name,
-      prompt = "#jianying-invoke",
+      skill_name = jianying.name,
+      prompt = "#xh__jianying-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
-    player:drawCards(1, xh__jianying.name)
+    player:drawCards(1, jianying.name)
   end,
 })
 

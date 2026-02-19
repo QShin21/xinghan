@@ -20,7 +20,7 @@ Fk:loadTranslationTable {
 yaowu:addEffect(fk.DamageInflicted, {
   mute = true,
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__yaowu.name) then return false end
+    if target ~= player or not player:hasSkill(yaowu.name) then return false end
     if not data.card or data.card.trueName ~= "slash" then return false end
     return true
   end,
@@ -34,7 +34,7 @@ yaowu:addEffect(fk.DamageInflicted, {
       if data.from then
         local choice = room:askToChoice(data.from, {
           choices = {"yaowu_recover", "yaowu_draw"},
-          skill_name = xh__yaowu.name,
+          skill_name = yaowu.name,
           prompt = "选择一项",
           detailed = false,
         })
@@ -44,15 +44,15 @@ yaowu:addEffect(fk.DamageInflicted, {
             who = data.from,
             num = 1,
             recoverBy = data.from,
-            skillName = xh__yaowu.name,
+            skillName = yaowu.name,
           }
         else
-          data.from:drawCards(1, xh__yaowu.name)
+          data.from:drawCards(1, yaowu.name)
         end
       end
     else
       -- 非红色杀：你摸一张牌
-      player:drawCards(1, xh__yaowu.name)
+      player:drawCards(1, yaowu.name)
     end
   end,
 })

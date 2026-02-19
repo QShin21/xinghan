@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 xiongni:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(xh__xiongni.name) then return false end
+    if target ~= player or not player:hasSkill(xiongni.name) then return false end
     if player.phase ~= Player.Play then return false end
     return not player:isNude()
   end,
@@ -33,9 +33,9 @@ xiongni:addEffect(fk.EventPhaseStart, {
       min_num = 1,
       max_num = 1,
       include_equip = true,
-      skill_name = xh__xiongni.name,
+      skill_name = xiongni.name,
       pattern = ".",
-      prompt = "#xiongni-use",
+      prompt = "#xh__xiongni-use",
       cancelable = true,
     })
     
@@ -50,7 +50,7 @@ xiongni:addEffect(fk.EventPhaseStart, {
     local card = Fk:getCardById(card_id)
     local suit = card.suit
     
-    room:throwCard(card_id, xh__xiongni.name, player, player)
+    room:throwCard(card_id, xiongni.name, player, player)
     
     -- 其他角色需要弃置相同花色的牌
     for _, p in ipairs(room:getOtherPlayers(player)) do
@@ -64,18 +64,18 @@ xiongni:addEffect(fk.EventPhaseStart, {
             min_num = 1,
             max_num = 1,
             include_equip = true,
-            skill_name = xh__xiongni.name,
+            skill_name = xiongni.name,
             pattern = tostring(Exppattern{ id = same_suit_cards }),
-            prompt = "#xiongni-discard",
+            prompt = "#xh__xiongni-discard",
             cancelable = false,
           })
-          room:throwCard(id, xh__xiongni.name, p, player)
+          room:throwCard(id, xiongni.name, p, player)
         else
           room:damage{
             from = player,
             to = p,
             damage = 1,
-            skillName = xh__xiongni.name,
+            skillName = xiongni.name,
           }
         end
       end

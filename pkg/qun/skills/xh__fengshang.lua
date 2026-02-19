@@ -20,18 +20,18 @@ Fk:loadTranslationTable {
 
 fengshang:addEffect("active", {
   mute = true,
-  prompt = "#fengshang-use",
+  prompt = "#xh__fengshang-use",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__fengshang.name, Player.HistoryPhase) == 0
+    return player:usedSkillTimes(fengshang.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__fengshang.name, "support")
-    player:broadcastSkillInvoke(xh__fengshang.name)
+    room:notifySkillInvoked(player, fengshang.name, "support")
+    player:broadcastSkillInvoke(fengshang.name)
 
     -- 从弃牌堆选择两张相同花色的牌
     -- 简化实现：随机选择两张相同花色的牌分配给角色

@@ -23,14 +23,14 @@ Fk:loadTranslationTable {
 xiongrao:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xh__xiongrao.name) and
+    return target == player and player:hasSkill(xiongrao.name) and
       player.phase == Player.Start and
-      player:usedSkillTimes(xh__xiongrao.name, Player.HistoryGame) == 0
+      player:usedSkillTimes(xiongrao.name, Player.HistoryGame) == 0
   end,
   on_cost = function(self, event, target, player, data)
     return player.room:askToSkillInvoke(player, {
-      skill_name = xh__xiongrao.name,
-      prompt = "#xiongrao-invoke",
+      skill_name = xiongrao.name,
+      prompt = "#xh__xiongrao-invoke",
     })
   end,
   on_use = function(self, event, target, player, data)
@@ -50,7 +50,7 @@ xiongrao:addEffect(fk.EventPhaseStart, {
     end
     
     -- 摸牌
-    player:drawCards(add, xh__xiongrao.name)
+    player:drawCards(add, xiongrao.name)
   end,
 })
 

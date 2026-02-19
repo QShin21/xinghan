@@ -21,18 +21,18 @@ Fk:loadTranslationTable {
 
 tunjun:addEffect("active", {
   mute = true,
-  prompt = "#tunjun-use",
+  prompt = "#xh__tunjun-use",
   card_num = 0,
   target_num = 0,
   can_use = function(self, player)
-    return player:usedSkillTimes(xh__tunjun.name, Player.HistoryGame) == 0
+    return player:usedSkillTimes(tunjun.name, Player.HistoryGame) == 0
   end,
   card_filter = Util.FalseFunc,
   on_use = function(self, room, effect)
     local player = effect.from
 
-    room:notifySkillInvoked(player, xh__tunjun.name, "support")
-    player:broadcastSkillInvoke(xh__tunjun.name)
+    room:notifySkillInvoked(player, tunjun.name, "support")
+    player:broadcastSkillInvoke(tunjun.name)
 
     -- X为掠命发动次数，至多为4
     local x = math.min(player:getMark("@@lueling_count") or 0, 4)
@@ -45,7 +45,7 @@ tunjun:addEffect("active", {
     for i = 1, total do
       if #room.draw_pile > 0 then
         table.insert(cards, room.draw_pile[1])
-        room:showCards(player, {room.draw_pile[1]}, xh__tunjun.name)
+        room:showCards(player, {room.draw_pile[1]}, tunjun.name)
         table.remove(room.draw_pile, 1)
       end
     end
@@ -72,7 +72,7 @@ tunjun:addEffect("active", {
     -- 剩余的牌放入弃牌堆
     for _, id in ipairs(cards) do
       if not table.contains(player:getCardIds("e"), id) then
-        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xh__tunjun.name)
+        room:moveCardTo(id, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, tunjun.name)
       end
     end
   end,
