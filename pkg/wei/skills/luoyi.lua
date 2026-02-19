@@ -88,7 +88,6 @@ luoyi:addEffect(fk.DrawNCards, {
 
 -- 伤害+1效果
 luoyi:addEffect(fk.DamageCaused, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target == player and player:getMark("@@luoyi_damage") > 0 then
@@ -104,7 +103,6 @@ luoyi:addEffect(fk.DamageCaused, {
 
 -- 下回合开始时清除标记
 luoyi:addEffect(fk.TurnStart, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return target == player and player:getMark("@@luoyi_damage") > 0
   end,

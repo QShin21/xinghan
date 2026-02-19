@@ -97,7 +97,6 @@ jiefan:addEffect("active", {
 
 -- 回合结束重置
 jiefan:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player:getMark("@@jiefan_reset") > 0

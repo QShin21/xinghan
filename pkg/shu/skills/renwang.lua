@@ -60,7 +60,6 @@ renwang:addEffect(fk.TargetConfirmed, {
 
 -- 记录成为目标次数
 renwang:addEffect(fk.TargetConfirmed, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
@@ -81,7 +80,6 @@ renwang:addEffect(fk.TargetConfirmed, {
 
 -- 阶段结束清除标记
 renwang:addEffect(fk.EventPhaseEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@renwang_target_count") ~= 0 and
       player.phase == Player.Play

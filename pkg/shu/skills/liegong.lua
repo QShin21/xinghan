@@ -85,7 +85,6 @@ liegong:addEffect(fk.TargetSpecified, {
 
 -- 不能使用闪
 liegong:addEffect(fk.CardEffecting, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return player:getMark("@@liegong_no_jink") > 0 and
@@ -101,7 +100,6 @@ liegong:addEffect(fk.CardEffecting, {
 
 -- 伤害+1
 liegong:addEffect(fk.DamageCaused, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
@@ -116,7 +114,6 @@ liegong:addEffect(fk.DamageCaused, {
 
 -- 回合结束清除标记
 liegong:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@liegong_no_jink") > 0

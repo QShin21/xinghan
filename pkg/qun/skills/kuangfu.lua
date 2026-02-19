@@ -97,7 +97,6 @@ kuangfu:addEffect("active", {
 
 -- 记录是否造成伤害
 kuangfu:addEffect(fk.Damage, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and data.card and data.card.extra_data and data.card.extra_data.kuangfu

@@ -114,7 +114,6 @@ langmie:addEffect(fk.EventPhaseStart, {
 
 -- 记录使用的牌类型
 langmie:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target and target.phase == Player.Play and data.card
@@ -133,7 +132,6 @@ langmie:addEffect(fk.CardUsing, {
 
 -- 记录造成的伤害
 langmie:addEffect(fk.Damage, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target and target.phase == Player.Play
@@ -148,7 +146,6 @@ langmie:addEffect(fk.Damage, {
 
 -- 回合结束清除标记
 langmie:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@langmie_card_types") ~= 0 or player:getMark("@@langmie_damage_count") ~= 0

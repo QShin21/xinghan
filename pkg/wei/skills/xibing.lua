@@ -64,7 +64,6 @@ xibing:addEffect(fk.TargetConfirmed, {
 
 -- 不能使用牌
 xibing:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target:getMark("@@xibing_no_use") > 0
@@ -77,7 +76,6 @@ xibing:addEffect(fk.CardUsing, {
 
 -- 回合结束清除标记
 xibing:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@xibing_no_use") > 0
   end,

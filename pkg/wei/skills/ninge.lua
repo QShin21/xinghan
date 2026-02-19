@@ -51,7 +51,6 @@ ninge:addEffect(fk.Damaged, {
 
 -- 记录伤害次数
 ninge:addEffect(fk.Damaged, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return true
@@ -66,7 +65,6 @@ ninge:addEffect(fk.Damaged, {
 
 -- 回合结束清除标记
 ninge:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@ninge_damage_count") ~= 0

@@ -50,7 +50,6 @@ jizhi:addEffect(fk.CardUsing, {
 
 -- 手牌上限+1
 jizhi:addEffect(fk.MaxCardsCalc, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@jizhi_hand_limit") > 0
   end,
@@ -61,7 +60,6 @@ jizhi:addEffect(fk.MaxCardsCalc, {
 
 -- 回合结束清除标记
 jizhi:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@jizhi_hand_limit") > 0
   end,

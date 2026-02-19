@@ -99,7 +99,6 @@ fanjian:addEffect("active", {
 
 -- 回合结束清除标记
 fanjian:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@fanjian_disable") > 0

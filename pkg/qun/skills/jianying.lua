@@ -44,7 +44,6 @@ jianying:addEffect(fk.CardUsing, {
 
 -- 记录上一张使用的牌
 jianying:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and data.card

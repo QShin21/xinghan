@@ -86,7 +86,6 @@ qingjian:addEffect(fk.AfterCardsMove, {
 
 -- 手牌上限增加
 qingjian:addEffect(fk.MaxCardsCalc, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@qingjian_max_cards") > 0
   end,
@@ -97,7 +96,6 @@ qingjian:addEffect(fk.MaxCardsCalc, {
 
 -- 回合结束时清除标记
 qingjian:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@qingjian_max_cards") > 0
   end,

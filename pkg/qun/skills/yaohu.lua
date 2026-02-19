@@ -143,7 +143,6 @@ yaohu:addEffect(fk.TargetConfirming, {
 
 -- 回合结束清除标记
 yaohu:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@yaohu_give") ~= 0

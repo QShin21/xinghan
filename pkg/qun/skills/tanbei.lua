@@ -110,7 +110,6 @@ tanbei:addEffect("targetmod", {
 
 -- 回合结束清除标记
 tanbei:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     for _, p in ipairs(player.room.alive_players) do

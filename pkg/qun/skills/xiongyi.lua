@@ -78,7 +78,6 @@ xiongyi:addEffect("active", {
 
 -- 脱离濒死状态时重置技能
 xiongyi:addEffect(fk.AfterDying, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player:getMark("@@xiongyi_used") > 0

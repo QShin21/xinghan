@@ -43,7 +43,6 @@ luanji:addEffect("viewas", {
 
 -- 使用后标记
 luanji:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and data.card.skillName == luanji.name
@@ -78,7 +77,6 @@ luanji:addEffect(fk.CardResponded, {
 
 -- 回合结束清除标记
 luanji:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@luanji_card") ~= 0
   end,

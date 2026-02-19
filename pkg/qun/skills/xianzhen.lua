@@ -63,7 +63,6 @@ xianzhen:addEffect("active", {
 
 -- 不能使用杀
 xianzhen:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
@@ -78,7 +77,6 @@ xianzhen:addEffect(fk.CardUsing, {
 
 -- 弃牌阶段展示杀
 xianzhen:addEffect(fk.EventPhaseStart, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(xianzhen.name) and
@@ -121,7 +119,6 @@ xianzhen:addEffect(fk.EventPhaseStart, {
 
 -- 不计入手牌上限
 xianzhen:addEffect(fk.MaxCardsCalc, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     local slashes = player:getMark("@@xianzhen_slashes")
     return slashes and #slashes > 0
@@ -140,7 +137,6 @@ xianzhen:addEffect(fk.MaxCardsCalc, {
 
 -- 回合结束清除标记
 xianzhen:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@xianzhen_target") ~= 0 or
            player:getMark("@@xianzhen_no_slash") ~= 0 or

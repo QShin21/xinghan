@@ -67,7 +67,6 @@ xiongrao:addEffect("filter", {
 
 -- 回合结束清除标记
 xiongrao:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@xiongrao_disable") > 0

@@ -20,7 +20,6 @@ Fk:loadTranslationTable {
 
 -- 记录使用牌数
 yixiang:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target == player then return false end
@@ -67,7 +66,6 @@ yixiang:addEffect(fk.CardEffecting, {
 
 -- 回合结束清除标记
 yixiang:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@yixiang_count") ~= 0

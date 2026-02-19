@@ -76,7 +76,6 @@ langdao:addEffect(fk.TargetSpecified, {
 
 -- 伤害+1
 langdao:addEffect(fk.DamageCaused, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
@@ -91,7 +90,6 @@ langdao:addEffect(fk.DamageCaused, {
 
 -- 不能被响应
 langdao:addEffect(fk.CardEffecting, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if not data.card or data.card.trueName ~= "slash" then return false end
@@ -105,7 +103,6 @@ langdao:addEffect(fk.CardEffecting, {
 
 -- 回合结束清除标记
 langdao:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@langdao_damage_used") > 0 or player:getMark("@@langdao_unrespondable_used") > 0

@@ -13,163 +13,163 @@ Fk:loadTranslationTable {
 -- 曹洪，男，魏，4勾玉
 General:new(extension, "xh__caohong", "wei", 4):addSkills { "yuanhu" }
 Fk:loadTranslationTable {
-  ["caohong"] = "曹洪",
-  ["#caohong"] = "忠烈护主",
-  ["illustrator:caohong"] = "KayaK",
-  ["~caohong"] = "将军走好！",
+  ["xh__caohong"] = "曹洪",
+  ["#xh__caohong"] = "忠烈护主",
+  ["illustrator:xh__caohong"] = "KayaK",
+  ["~xh__caohong"] = "将军走好！",
 }
 
 -- 曹仁，男，魏，4勾玉
 General:new(extension, "xh__caoren_xh", "wei", 4):addSkills { "sujun", "lifeng" }
 Fk:loadTranslationTable {
-  ["caoren_xh"] = "曹仁",
-  ["#caoren_xh"] = "大将军",
-  ["illustrator:caoren_xh"] = "KayaK",
-  ["~caoren_xh"] = "实在是守不住了……",
+  ["xh__caoren_xh"] = "曹仁",
+  ["#xh__caoren_xh"] = "大将军",
+  ["illustrator:xh__caoren_xh"] = "KayaK",
+  ["~xh__caoren_xh"] = "实在是守不住了……",
 }
 
 -- 曹仁(新)，男，魏，4勾玉
 General:new(extension, "xh__caoren_new", "wei", 4):addSkills { "weikui", "lizhan" }
 Fk:loadTranslationTable {
-  ["caoren_new"] = "曹仁",
-  ["#caoren_new"] = "大将军",
-  ["illustrator:caoren_new"] = "KayaK",
-  ["~caoren_new"] = "实在是守不住了……",
+  ["xh__caoren_new"] = "曹仁",
+  ["#xh__caoren_new"] = "大将军",
+  ["illustrator:xh__caoren_new"] = "KayaK",
+  ["~xh__caoren_new"] = "实在是守不住了……",
 }
 
 -- 夏侯惇，男，魏，4勾玉
 General:new(extension, "xh__xiahoudun", "wei", 4):addSkills { "ganglie", "qingjian" }
 Fk:loadTranslationTable {
-  ["xiahoudun"] = "夏侯惇",
-  ["#xiahoudun"] = "独眼的罗刹",
-  ["illustrator:xiahoudun"] = "KayaK",
-  ["~xiahoudun"] = "独目残躯，不惧生死。",
+  ["xh__xiahoudun"] = "夏侯惇",
+  ["#xh__xiahoudun"] = "独眼的罗刹",
+  ["illustrator:xh__xiahoudun"] = "KayaK",
+  ["~xh__xiahoudun"] = "独目残躯，不惧生死。",
 }
 
 -- 许褚，男，魏，4勾玉
 General:new(extension, "xh__xuchu", "wei", 4):addSkills { "luoyi" }
 Fk:loadTranslationTable {
-  ["xuchu"] = "许褚",
-  ["#xuchu"] = "虎痴",
-  ["illustrator:xuchu"] = "KayaK",
-  ["~xuchu"] = "冷……好冷……",
+  ["xh__xuchu"] = "许褚",
+  ["#xh__xuchu"] = "虎痴",
+  ["illustrator:xh__xuchu"] = "KayaK",
+  ["~xh__xuchu"] = "冷……好冷……",
 }
 
 -- 张辽，男，魏，4勾玉
 General:new(extension, "xh__zhangliao", "wei", 4):addSkills { "tuxi" }
 Fk:loadTranslationTable {
-  ["zhangliao"] = "张辽",
-  ["#zhangliao"] = "前将军",
-  ["illustrator:zhangliao"] = "KayaK",
-  ["~zhangliao"] = "真的没想到……",
+  ["xh__zhangliao"] = "张辽",
+  ["#xh__zhangliao"] = "前将军",
+  ["illustrator:xh__zhangliao"] = "KayaK",
+  ["~xh__zhangliao"] = "真的没想到……",
 }
 
 -- 荀彧，男，魏，3勾玉
 General:new(extension, "xh__xunyu", "wei", 3):addSkills { "quhu", "jieming" }
 Fk:loadTranslationTable {
-  ["xunyu"] = "荀彧",
-  ["#xunyu"] = "王佐之才",
-  ["illustrator:xunyu"] = "KayaK",
-  ["~xunyu"] = "主公，臣去矣……",
+  ["xh__xunyu"] = "荀彧",
+  ["#xh__xunyu"] = "王佐之才",
+  ["illustrator:xh__xunyu"] = "KayaK",
+  ["~xh__xunyu"] = "主公，臣去矣……",
 }
 
 -- 郭嘉，男，魏，3勾玉
 General:new(extension, "xh__guojia", "wei", 3):addSkills { "tiandu", "yiji" }
 Fk:loadTranslationTable {
-  ["guojia"] = "郭嘉",
-  ["#guojia"] = "早终的先知",
-  ["illustrator:guojia"] = "KayaK",
-  ["~guojia"] = "咳……咳……",
+  ["xh__guojia"] = "郭嘉",
+  ["#xh__guojia"] = "早终的先知",
+  ["illustrator:xh__guojia"] = "KayaK",
+  ["~xh__guojia"] = "咳……咳……",
 }
 
 -- 乐进，男，魏，4勾玉
 General:new(extension, "xh__lejin", "wei", 4):addSkills { "xiaoguo" }
 Fk:loadTranslationTable {
-  ["lejin"] = "乐进",
-  ["#lejin"] = "奋强突固",
-  ["illustrator:lejin"] = "KayaK",
-  ["~lejin"] = "力竭……",
+  ["xh__lejin"] = "乐进",
+  ["#xh__lejin"] = "奋强突固",
+  ["illustrator:xh__lejin"] = "KayaK",
+  ["~xh__lejin"] = "力竭……",
 }
 
 -- 于禁，男，魏，4勾玉
 General:new(extension, "xh__yujin", "wei", 4):addSkills { "zhenjun" }
 Fk:loadTranslationTable {
-  ["yujin"] = "于禁",
-  ["#yujin"] = "弗克其终",
-  ["illustrator:yujin"] = "KayaK",
-  ["~yujin"] = "将军走好！",
+  ["xh__yujin"] = "于禁",
+  ["#xh__yujin"] = "弗克其终",
+  ["illustrator:xh__yujin"] = "KayaK",
+  ["~xh__yujin"] = "将军走好！",
 }
 
 -- 李典，男，魏，3勾玉
 General:new(extension, "xh__lidian", "wei", 3):addSkills { "xunxun", "wangxi" }
 Fk:loadTranslationTable {
-  ["lidian"] = "李典",
-  ["#lidian"] = "深明大义",
-  ["illustrator:lidian"] = "KayaK",
-  ["~lidian"] = "报国无门……",
+  ["xh__lidian"] = "李典",
+  ["#xh__lidian"] = "深明大义",
+  ["illustrator:xh__lidian"] = "KayaK",
+  ["~xh__lidian"] = "报国无门……",
 }
 
 -- 曹操，男，魏，4勾玉
 General:new(extension, "xh__caocao", "wei", 4):addSkills { "shuzhi" }
 Fk:loadTranslationTable {
-  ["caocao"] = "曹操",
-  ["#caocao"] = "魏武帝",
-  ["illustrator:caocao"] = "KayaK",
-  ["~caocao"] = "孤……不甘心……",
+  ["xh__caocao"] = "曹操",
+  ["#xh__caocao"] = "魏武帝",
+  ["illustrator:xh__caocao"] = "KayaK",
+  ["~xh__caocao"] = "孤……不甘心……",
 }
 
 -- 曹昂，男，魏，4勾玉
 General:new(extension, "xh__caoang", "wei", 4):addSkills { "kangkai" }
 Fk:loadTranslationTable {
-  ["caoang"] = "曹昂",
-  ["#caoang"] = "丰愍王",
-  ["illustrator:caoang"] = "KayaK",
-  ["~caoang"] = "父亲……快走……",
+  ["xh__caoang"] = "曹昂",
+  ["#xh__caoang"] = "丰愍王",
+  ["illustrator:xh__caoang"] = "KayaK",
+  ["~xh__caoang"] = "父亲……快走……",
 }
 
 -- 王朗，男，魏，3勾玉
 General:new(extension, "xh__wanglang", "wei", 3):addSkills { "gushe", "jici" }
 Fk:loadTranslationTable {
-  ["wanglang"] = "王朗",
-  ["#wanglang"] = "凤鸣",
-  ["illustrator:wanglang"] = "KayaK",
-  ["~wanglang"] = "诸葛村夫……",
+  ["xh__wanglang"] = "王朗",
+  ["#xh__wanglang"] = "凤鸣",
+  ["illustrator:xh__wanglang"] = "KayaK",
+  ["~xh__wanglang"] = "诸葛村夫……",
 }
 
 -- 华歆，男，魏，3勾玉
 General:new(extension, "xh__huaxin", "wei", 3):addSkills { "wanggui", "xibing" }
 Fk:loadTranslationTable {
-  ["huaxin"] = "华歆",
-  ["#huaxin"] = "一龙",
-  ["illustrator:huaxin"] = "KayaK",
-  ["~huaxin"] = "管宁……",
+  ["xh__huaxin"] = "华歆",
+  ["#xh__huaxin"] = "一龙",
+  ["illustrator:xh__huaxin"] = "KayaK",
+  ["~xh__huaxin"] = "管宁……",
 }
 
 -- 关羽(魏)，男，魏，4勾玉
 General:new(extension, "xh__guanyu_wei", "wei", 4):addSkills { "wusheng", "danqi" }
 Fk:loadTranslationTable {
-  ["guanyu_wei"] = "关羽",
-  ["#guanyu_wei"] = "武圣",
-  ["illustrator:guanyu_wei"] = "KayaK",
-  ["~guanyu_wei"] = "什么？此地竟有……",
+  ["xh__guanyu_wei"] = "关羽",
+  ["#xh__guanyu_wei"] = "武圣",
+  ["illustrator:xh__guanyu_wei"] = "KayaK",
+  ["~xh__guanyu_wei"] = "什么？此地竟有……",
 }
 
 -- 荀攸，男，魏，3勾玉
 General:new(extension, "xh__xunyou", "wei", 3):addSkills { "qice", "zhiyu" }
 Fk:loadTranslationTable {
-  ["xunyou"] = "荀攸",
-  ["#xunyou"] = "谋主",
-  ["illustrator:xunyou"] = "KayaK",
-  ["~xunyou"] = "主公……",
+  ["xh__xunyou"] = "荀攸",
+  ["#xh__xunyou"] = "谋主",
+  ["illustrator:xh__xunyou"] = "KayaK",
+  ["~xh__xunyou"] = "主公……",
 }
 
 -- 典韦，男，魏，4勾玉
 General:new(extension, "xh__dianwei", "wei", 4):addSkills { "qiangxi", "ninge" }
 Fk:loadTranslationTable {
-  ["dianwei"] = "典韦",
-  ["#dianwei"] = "古之恶来",
-  ["illustrator:dianwei"] = "KayaK",
-  ["~dianwei"] = "主公……快走……",
+  ["xh__dianwei"] = "典韦",
+  ["#xh__dianwei"] = "古之恶来",
+  ["illustrator:xh__dianwei"] = "KayaK",
+  ["~xh__dianwei"] = "主公……快走……",
 }
 
 return extension

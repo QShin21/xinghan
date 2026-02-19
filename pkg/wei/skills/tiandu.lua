@@ -24,7 +24,6 @@ Fk:loadTranslationTable {
 
 -- 转换技状态
 tiandu:addEffect(fk.GameStart, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:hasSkill(tiandu.name)
   end,

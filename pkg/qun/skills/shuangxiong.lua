@@ -109,7 +109,6 @@ shuangxiong:addEffect(fk.EventPhaseStart, {
 
 -- 记录造成伤害的牌
 shuangxiong:addEffect(fk.Damage, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if not data.card then return false end
@@ -129,7 +128,6 @@ shuangxiong:addEffect(fk.Damage, {
 
 -- 回合结束清除标记
 shuangxiong:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@shuangxiong_color") ~= 0

@@ -54,7 +54,6 @@ liyong:addEffect("viewas", {
 
 -- 使用后切换状态
 liyong:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and data.card and data.card.skillName == liyong.name
@@ -74,7 +73,6 @@ liyong:addEffect(fk.CardUsing, {
 
 -- 记录使用过的花色
 liyong:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player.phase == Player.Play and data.card
@@ -93,7 +91,6 @@ liyong:addEffect(fk.CardUsing, {
 
 -- 回合结束清除标记
 liyong:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@liyong_state") ~= 0 or player:getMark("@@liyong_used_suits") ~= 0

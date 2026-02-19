@@ -71,7 +71,6 @@ sidao:addEffect(fk.CardUsing, {
 
 -- 记录上一张使用的牌
 sidao:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player.phase == Player.Play

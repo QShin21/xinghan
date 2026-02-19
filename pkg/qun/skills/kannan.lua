@@ -53,7 +53,6 @@ kannan:addEffect("active", {
 
 -- 杀伤害+1
 kannan:addEffect(fk.DamageCaused, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end

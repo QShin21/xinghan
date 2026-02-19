@@ -100,7 +100,6 @@ hongji:addEffect(fk.EventPhaseStart, {
 
 -- 额外摸牌阶段
 hongji:addEffect(fk.EventPhaseEnd, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player.phase == Player.Draw and
@@ -118,7 +117,6 @@ hongji:addEffect(fk.EventPhaseEnd, {
 
 -- 额外出牌阶段
 hongji:addEffect(fk.EventPhaseEnd, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player.phase == Player.Play and
@@ -136,7 +134,6 @@ hongji:addEffect(fk.EventPhaseEnd, {
 
 -- 轮次结束清除标记
 hongji:addEffect(fk.RoundEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@hongji_most_used") > 0 or player:getMark("@@hongji_least_used") > 0

@@ -166,7 +166,6 @@ neifa:addEffect(fk.CardUsing, {
 
 -- 回合结束清除标记
 neifa:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@neifa_choice") ~= 0

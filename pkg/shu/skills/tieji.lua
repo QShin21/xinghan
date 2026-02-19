@@ -52,7 +52,6 @@ tieji:addEffect(fk.TargetSpecified, {
 
 -- 不能抵消杀
 tieji:addEffect(fk.CardEffecting, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if not data.card or data.card.trueName ~= "slash" then return false end
@@ -99,7 +98,6 @@ tieji:addEffect(fk.CardEffecting, {
 
 -- 回合结束清除标记
 tieji:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@tieji_disable") > 0 or player:getMark("@@tieji_suit") ~= 0

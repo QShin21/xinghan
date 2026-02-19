@@ -51,7 +51,6 @@ niluan:addEffect(fk.EventPhaseStart, {
 
 -- 记录使用牌
 niluan:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target and target.phase == Player.Play and data.to and data.to ~= target.id
@@ -86,7 +85,6 @@ niluan:addEffect(fk.Damage, {
 
 -- 回合结束清除标记
 niluan:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@niluan_used") ~= 0

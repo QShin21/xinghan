@@ -41,7 +41,6 @@ wusheng:addEffect("viewas", {
 
 -- ♢【杀】无距离限制
 wusheng:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
@@ -64,7 +63,6 @@ wusheng:addEffect(fk.CardUsing, {
 })
 
 wusheng:addEffect(fk.TargetSpecifying, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end

@@ -78,7 +78,6 @@ yangwei:addEffect("filter", {
 
 -- 回合结束清除标记
 yangwei:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@yangwei_active") > 0 or player:getMark("@@yangwei_disabled") > 0

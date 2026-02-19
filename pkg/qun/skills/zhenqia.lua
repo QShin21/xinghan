@@ -44,7 +44,6 @@ zhenqia:addEffect(fk.TargetSpecified, {
 
 -- 执行两次
 zhenqia:addEffect(fk.CardEffecting, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if not data.card or data.card.trueName ~= "slash" then return false end

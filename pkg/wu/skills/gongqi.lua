@@ -105,7 +105,6 @@ gongqi:addEffect("targetmod", {
 
 -- 回合结束清除标记
 gongqi:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@gongqi_suit") ~= 0 or player:getMark("@@gongqi_infinite") ~= 0

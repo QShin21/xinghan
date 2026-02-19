@@ -72,7 +72,6 @@ zhuhai:addEffect(fk.EventPhaseStart, {
 
 -- 记录伤害
 zhuhai:addEffect(fk.Damage, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target and target.phase == Player.Play
@@ -86,7 +85,6 @@ zhuhai:addEffect(fk.Damage, {
 
 -- 回合结束清除标记
 zhuhai:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   mute = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@zhuhai_damage") > 0

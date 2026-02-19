@@ -20,7 +20,6 @@ Fk:loadTranslationTable {
 
 -- 记录本回合使用过的牌的颜色
 lifeng:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return true
   end,
@@ -40,7 +39,6 @@ lifeng:addEffect(fk.CardUsing, {
 
 -- 回合开始时清除标记
 lifeng:addEffect(fk.TurnStart, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return true
   end,

@@ -125,7 +125,6 @@ liantao:addEffect(fk.EventPhaseStart, {
 
 -- 不能使用杀
 liantao:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
@@ -140,7 +139,6 @@ liantao:addEffect(fk.CardUsing, {
 
 -- 手牌上限+1
 liantao:addEffect(fk.MaxCardsCalc, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@liantao_hand_limit") > 0
   end,
@@ -151,7 +149,6 @@ liantao:addEffect(fk.MaxCardsCalc, {
 
 -- 回合结束清除标记
 liantao:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@liantao_no_slash") > 0 or player:getMark("@@liantao_hand_limit") > 0
   end,

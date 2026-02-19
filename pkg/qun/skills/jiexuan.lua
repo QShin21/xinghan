@@ -51,7 +51,6 @@ jiexuan:addEffect("viewas", {
 
 -- 使用后切换状态
 jiexuan:addEffect(fk.CardUsing, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and data.card and data.card.skillName == jiexuan.name

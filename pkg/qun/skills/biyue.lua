@@ -46,7 +46,6 @@ biyue:addEffect(fk.EventPhaseStart, {
 
 -- 记录是否造成过伤害
 biyue:addEffect(fk.Damage, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(biyue.name)
@@ -59,7 +58,6 @@ biyue:addEffect(fk.Damage, {
 
 -- 回合开始清除标记
 biyue:addEffect(fk.TurnStart, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:hasFlag("biyue_damage")
   end,

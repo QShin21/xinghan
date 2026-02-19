@@ -98,7 +98,6 @@ yijue:addEffect("active", {
 
 -- 杀伤害+1
 yijue:addEffect(fk.DamageCaused, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
@@ -116,7 +115,6 @@ yijue:addEffect(fk.DamageCaused, {
 
 -- 回合结束清除标记
 yijue:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@yijue_black") ~= 0 or player:getMark("@@yijue_damage") ~= 0
   end,

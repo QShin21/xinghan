@@ -90,7 +90,6 @@ lulve:addEffect(fk.EventPhaseStart, {
 
 -- 伤害+1
 lulve:addEffect(fk.DamageCaused, {
-  is_delay_effect = true,
   mute = true,
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end

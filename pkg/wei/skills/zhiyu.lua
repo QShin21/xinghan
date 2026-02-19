@@ -87,7 +87,6 @@ zhiyu:addEffect("targetmod", {
 
 -- 回合结束清除标记
 zhiyu:addEffect(fk.TurnEnd, {
-  is_delay_effect = true,
   can_refresh = function(self, event, target, player, data)
     return player:getMark("@@zhiyu_extra") > 0
   end,
