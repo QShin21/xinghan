@@ -1,6 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
--- 英姿技能
--- 锁定技，摸牌阶段，你多摸一张牌；你的手牌上限等于X（X为你的体力上限）。
+-- 张鲁 - 英姿技能（如果需要的话）
+-- 这个文件可能是误创建的，因为英姿是周瑜的技能
+-- 让我们检查一下这个技能是否被使用
 
 local yingzi = fk.CreateSkill {
   name = "yingzi",
@@ -10,8 +11,8 @@ Fk:loadTranslationTable {
   ["yingzi"] = "英姿",
   [":yingzi"] = "锁定技，摸牌阶段，你多摸一张牌；你的手牌上限等于X（X为你的体力上限）。",
 
-  ["$yingzi1"] = "英姿勃发，气吞山河！",
-  ["$yingzi2"] = "英雄气概，无人能敌！",
+  ["$yingzi1"] = "英姿勃发，天下无双！",
+  ["$yingzi2"] = "周瑜英姿，江东美周郎！",
 }
 
 -- 多摸一张牌
@@ -27,13 +28,14 @@ yingzi:addEffect(fk.DrawNCards, {
 })
 
 -- 手牌上限等于体力上限
-yingzi:addEffect(fk.MaxCardsCalc, {
+yingzi:addEffect(fk.MaxCards, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
-    return player:hasSkill(yingzi.name)
+  can_trigger = function(self, event, target, player, data)
+    return target == player and player:hasSkill(yingzi.name)
   end,
-  on_refresh = function(self, event, target, player, data)
-    data.num = player.maxHp
+  on_cost = Util.TrueFunc,
+  on_use = function(self, event, target, player, data)
+    data.value = player.maxHp
   end,
 })
 

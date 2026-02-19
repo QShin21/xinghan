@@ -19,19 +19,20 @@ Fk:loadTranslationTable {
 }
 
 -- 手牌上限+X
-zongshi:addEffect(fk.MaxCardsCalc, {
+zongshi:addEffect(fk.MaxCards, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
-    return player:hasSkill(zongshi.name)
+  can_trigger = function(self, event, target, player, data)
+    return target == player and player:hasSkill(zongshi.name)
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_cost = Util.TrueFunc,
+  on_use = function(self, event, target, player, data)
     local room = player.room
     local kingdoms = {}
     for _, p in ipairs(room.alive_players) do
       kingdoms[p.kingdom] = true
     end
     local x = table.size(kingdoms)
-    data.num = data.num + x
+    data.value = data.value + x
   end,
 })
 
@@ -62,10 +63,11 @@ zongshi:addEffect("targetmod", {
 -- 回合结束清除标记
 zongshi:addEffect(fk.TurnEnd, {
   mute = true,
-  can_refresh = function(self, event, target, player, data)
+  can_trigger = function(self, event, target, player, data)
     return player:getMark("@@zongshi_no_limit") > 0
   end,
-  on_refresh = function(self, event, target, player, data)
+  on_cost = Util.TrueFunc,
+  on_use = function(self, event, target, player, data)
     player.room:setPlayerMark(player, "@@zongshi_no_limit", 0)
   end,
 })
