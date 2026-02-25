@@ -1,17 +1,17 @@
 local yimou = fk.CreateSkill{
-  name = "xh_yimou",
+  name = "xh__yimou",
 }
 
 Fk:loadTranslationTable{
-  ["xh_yimou"] = "毅谋",
-  [":xh_yimou"] = "当与你距离1以内的角色受到伤害后，你可以选择一项：1.令其摸一张牌；2.令其将一张手牌交给另一名角色，然后其摸一张牌。",
+  ["xh__yimou"] = "毅谋",
+  [":xh__yimou"] = "当与你距离1以内的角色受到伤害后，你可以选择一项：1.令其摸一张牌；2.令其将一张手牌交给另一名角色，然后其摸一张牌。",
 
-  ["xh_yimou_draw"] = "%dest摸一张牌",
-  ["xh_yimou_give"] = "%dest将一张手牌交给另一名角色，然后摸一张牌",
-  ["#xh_yimou-give"] = "毅谋：将一张手牌交给一名其他角色，然后摸一张牌",
+  ["xh__yimou_draw"] = "%dest摸一张牌",
+  ["xh__yimou_give"] = "%dest将一张手牌交给另一名角色，然后摸一张牌",
+  ["#xh__yimou-give"] = "毅谋：将一张手牌交给一名其他角色，然后摸一张牌",
 
-  ["$xh_yimou1"] = "泰然若定，攻敌自溃！",
-  ["$xh_yimou2"] = "吾等当为大义，兴大谋，成大事！",
+  ["$xh__yimou1"] = "泰然若定，攻敌自溃！",
+  ["$xh__yimou2"] = "吾等当为大义，兴大谋，成大事！",
 }
 
 yimou:addEffect(fk.Damaged, {
@@ -21,9 +21,9 @@ yimou:addEffect(fk.Damaged, {
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
-    local choices = { "xh_yimou_draw::" .. target.id }
+    local choices = { "xh__yimou_draw::" .. target.id }
     if not target:isKongcheng() and #room:getOtherPlayers(target, false) > 0 then
-      table.insert(choices, "xh_yimou_give::" .. target.id)
+      table.insert(choices, "xh__yimou_give::" .. target.id)
     end
     table.insert(choices, "Cancel")
     local choice = room:askToChoice(player, {
@@ -40,7 +40,7 @@ yimou:addEffect(fk.Damaged, {
     local choice = event:getCostData(self).choice
     room:notifySkillInvoked(player, yimou.name, "masochism", { target })
 
-    if choice:startsWith("xh_yimou_draw") then
+    if choice:startsWith("xh__yimou_draw") then
       player:broadcastSkillInvoke(yimou.name, 1)
       if not target.dead then
         target:drawCards(1, yimou.name)
@@ -56,7 +56,7 @@ yimou:addEffect(fk.Damaged, {
         targets = room:getOtherPlayers(target, false),
         pattern = ".|.|.|hand",
         skill_name = yimou.name,
-        prompt = "#xh_yimou-give",
+        prompt = "#xh__yimou-give",
         cancelable = false,
       })
       if #cards > 0 and #to > 0 then
