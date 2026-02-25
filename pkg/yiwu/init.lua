@@ -225,7 +225,7 @@ Fk:loadTranslationTable {
 }
 
 -- 王允，男，群，3勾玉
-General:new(extension, "xh__wangyun", "qun", 3):addSkills { "jiexuan", "wzzz__zhongliu" }
+General:new(extension, "xh__wangyun", "qun", 3):addSkills { "wzzz__jiexuan", "wzzz__zhongliu" }
 Fk:loadTranslationTable {
   ["xh__wangyun"] = "王允",
   ["#xh__wangyun"] = "连环计主",
