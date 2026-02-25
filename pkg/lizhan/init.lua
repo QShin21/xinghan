@@ -58,7 +58,7 @@ Fk:loadTranslationTable {
 }
 
 -- 关羽(魏)，男，魏，4勾玉
-General:new(extension, "xhsp__guanyu", "wei", 4):addSkills { "xh__wusheng", "xh__danqi" }
+General:new(extension, "xhsp__guanyu", "wei", 4):addSkills { "ex__wusheng", "xh__danqi" }
 Fk:loadTranslationTable {
   ["xhsp__guanyu"] = "关羽",
   ["#xhsp__guanyu"] = "武圣",

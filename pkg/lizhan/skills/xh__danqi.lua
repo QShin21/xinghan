@@ -26,14 +26,11 @@ danqi:addEffect(fk.EventPhaseStart, {
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
     local room = player.room
-
     room:notifySkillInvoked(player, danqi.name, "support")
-
     -- 减少1点体力上限
     room:changeMaxHp(player, -1)
-
     -- 获得马术和怒斩
-    room:handleAddLoseSkills(player, "mashu|nuqian", nil, false, true)
+    room:handleAddLoseSkills(player, "mashu|nuzhan", nil, false, true)
   end,
 })
 
