@@ -42,7 +42,7 @@ Fk:loadTranslationTable {
 }
 
 -- 许褚，男，魏，4勾玉
-General:new(extension, "xh__xuchu", "wei", 4):addSkills { "xh__luoyi" }
+General:new(extension, "xh__xuchu", "wei", 4):addSkills { "ex__luoyi" }
 Fk:loadTranslationTable {
   ["xh__xuchu"] = "许褚",
   ["#xh__xuchu"] = "虎痴",
@@ -51,7 +51,7 @@ Fk:loadTranslationTable {
 }
 
 -- 张辽，男，魏，4勾玉
-General:new(extension, "xh__zhangliao", "wei", 4):addSkills { "xh__tuxi" }
+General:new(extension, "xh__zhangliao", "wei", 4):addSkills { "ex__tuxi" }
 Fk:loadTranslationTable {
   ["xh__zhangliao"] = "张辽",
   ["#xh__zhangliao"] = "前将军",
@@ -60,7 +60,7 @@ Fk:loadTranslationTable {
 }
 
 -- 荀彧，男，魏，3勾玉
-General:new(extension, "xh__xunyu", "wei", 3):addSkills { "xh__quhu", "xh__jieming" }
+General:new(extension, "xh__xunyu", "wei", 3):addSkills { "quhu", "m_ex__jieming" }
 Fk:loadTranslationTable {
   ["xh__xunyu"] = "荀彧",
   ["#xh__xunyu"] = "王佐之才",
@@ -69,7 +69,7 @@ Fk:loadTranslationTable {
 }
 
 -- 郭嘉，男，魏，3勾玉
-General:new(extension, "xh__guojia", "wei", 3):addSkills { "mou__tiandu", "xh__yiji" }
+General:new(extension, "xh__guojia", "wei", 3):addSkills { "mou__tiandu", "mou__yiji" }
 Fk:loadTranslationTable {
   ["xh__guojia"] = "郭嘉",
   ["#xh__guojia"] = "早终的先知",
@@ -78,7 +78,7 @@ Fk:loadTranslationTable {
 }
 
 -- 乐进，男，魏，4勾玉
-General:new(extension, "xh__lejin", "wei", 4):addSkills { "xh__xiaoguo" }
+General:new(extension, "xh__lejin", "wei", 4):addSkills { "ty__xiaoguo" }
 Fk:loadTranslationTable {
   ["xh__lejin"] = "乐进",
   ["#xh__lejin"] = "奋强突固",
@@ -87,7 +87,7 @@ Fk:loadTranslationTable {
 }
 
 -- 于禁，男，魏，4勾玉
-General:new(extension, "xh__yujin", "wei", 4):addSkills { "xh__zhenjun" }
+General:new(extension, "xh__yujin", "wei", 4):addSkills { "ty_ex__zhenjun" }
 Fk:loadTranslationTable {
   ["xh__yujin"] = "于禁",
   ["#xh__yujin"] = "弗克其终",
