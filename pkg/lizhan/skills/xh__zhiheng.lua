@@ -19,13 +19,19 @@ Fk:loadTranslationTable {
 }
 
 zhiheng:addEffect("active", {
-  mute = true,
+  anim_type = "drawcard",
   prompt = "#xh__zhiheng-use",
-  card_num = 0,
-  target_num = 0,
   max_phase_use_time = 1,
+  target_num = 0,
 
-  card_filter = Util.FalseFunc,
+  -- 关键：主动技选牌用 min_card_num + effect.cards
+  min_card_num = 1,
+
+  card_filter = function(self, player, to_select)
+    -- 与标准包一致，避免选择被禁止弃置的牌
+    return not player:prohibitDiscard(to_select)
+  end,
+
   target_filter = Util.FalseFunc,
 
   can_use = function(self, player)
@@ -34,45 +40,55 @@ zhiheng:addEffect("active", {
 
   on_use = function(self, room, effect)
     local player = effect.from
+    local discard_ids = effect.cards or {}
 
-    room:notifySkillInvoked(player, zhiheng.name, "draw")
-    player:broadcastSkillInvoke(zhiheng.name)
-
-    -- 先记录发动前的手牌，用来判断是否“弃置了所有手牌”
-    local hand_before = player:getCardIds("h")
-
-    -- 直接询问弃牌：该函数默认会把选择的牌弃掉（除非 skipDiscard = true）
-    local discard_ids = room:askToDiscard(player, {
-      min_num = 1,
-      max_num = 999,
-      include_equip = true,
-      pattern = ".",
-      skill_name = zhiheng.name,
-      prompt = "#xh__zhiheng-use",
-      cancelable = false,
-    })
-
-    local discard_num = #discard_ids
-    if discard_num == 0 or player.dead then
+    if #discard_ids == 0 or player.dead then
       return
     end
 
-    -- 判断是否弃置了所有手牌：只要求手牌全在 discard_ids 中，装备弃不弃都无所谓
+    -- 记录发动前的手牌，用于判断是否“弃置了所有手牌”
+    local hand_before = player:getCardIds(Player.Hand)
+
     local discarded_all_hand = (#hand_before > 0)
-    for _, id in ipairs(hand_before) do
-      if not table.contains(discard_ids, id) then
-        discarded_all_hand = false
-        break
+    if discarded_all_hand then
+      for _, id in ipairs(hand_before) do
+        if not table.contains(discard_ids, id) then
+          discarded_all_hand = false
+          break
+        end
       end
     end
 
-    -- 计算“上阵武将数”：这里用存活友方人数 vs 存活敌方人数近似
-    local my_side_cnt = #player:getFriends(true, false)
-    local enemy_side_cnt = #player:getEnemies(false)
+    -- 先弃牌
+    room:throwCard(discard_ids, zhiheng.name, player, player)
 
-    local draw_num = discard_num
-    if discarded_all_hand and enemy_side_cnt > my_side_cnt then
-      draw_num = draw_num + 1
+    if player.dead then
+      return
+    end
+
+    local draw_num = #discard_ids
+
+    -- “上阵武将数”按阵营存活角色的主将+副将计数
+    if discarded_all_hand then
+      local function countOnboardGenerals(ps)
+        local n = 0
+        for _, p in ipairs(ps) do
+          if not p.dead and p.general and p.general ~= "" then
+            n = n + 1
+          end
+          if not p.dead and p.deputyGeneral and p.deputyGeneral ~= "" then
+            n = n + 1
+          end
+        end
+        return n
+      end
+
+      local my_cnt = countOnboardGenerals(player:getFriends(true, false))
+      local enemy_cnt = countOnboardGenerals(player:getEnemies(false))
+
+      if enemy_cnt > my_cnt then
+        draw_num = draw_num + 1
+      end
     end
 
     player:drawCards(draw_num, zhiheng.name)
