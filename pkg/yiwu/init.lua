@@ -104,12 +104,43 @@ Fk:loadTranslationTable {
   ["~xh__lidian"] = "报国无门……",
 }
 
+-- 以下为蜀国武将
+
+-- 赵云，男，蜀，4勾玉
+General:new(extension, "xh__zhaoyun", "shu", 4):addSkills { "ol_ex__longdan", "ol_ex__yajiao" }
+Fk:loadTranslationTable {
+  ["xh__zhaoyun"] = "赵云",
+  ["#xh__zhaoyun"] = "常山赵子龙",
+  ["illustrator:xh__zhaoyun"] = "KayaK",
+  ["~xh__zhaoyun"] = "这，就是失败的滋味吗……",
+}
+
+-- 张飞，男，蜀，4勾玉
+General:new(extension, "xh__zhangfei", "shu", 4):addSkills { "ex__paoxiao", "ex__tishen" }
+Fk:loadTranslationTable {
+  ["xh__zhangfei"] = "张飞",
+  ["#xh__zhangfei"] = "万夫不当",
+  ["illustrator:xh__zhangfei"] = "KayaK",
+  ["~xh__zhangfei"] = "实在是……打不动了……",
+}
+
+-- 关羽，男，蜀，4勾玉
+General:new(extension, "xh__guanyu", "shu", 4):addSkills { "ex__wusheng", "ex__yijue" }
+Fk:loadTranslationTable {
+  ["xh__guanyu"] = "关羽",
+  ["#xh__guanyu"] = "武圣",
+  ["illustrator:xh__guanyu"] = "KayaK",
+  ["~xh__guanyu"] = "什么？此地竟有……",
+}
+
+
+
 -- 以下为吴国武将
 
 
 
 -- 孙坚，男，吴，4/5勾玉
-General:new(extension, "xh__sunjian", "wu", 4, 5):addSkills { "xh__yinghun" }
+General:new(extension, "xh__sunjian", "wu", 4, 5):addSkills { "yinghun" }
 Fk:loadTranslationTable {
   ["xh__sunjian"] = "孙坚",
   ["#xh__sunjian"] = "江东猛虎",
@@ -118,7 +149,7 @@ Fk:loadTranslationTable {
 }
 
 -- 黄盖，男，吴，4勾玉
-General:new(extension, "xh__huanggai", "wu", 4):addSkills { "xh__kurou", "xh__zhaxiang" }
+General:new(extension, "xh__huanggai", "wu", 4):addSkills { "ex__kurou", "zhaxiang" }
 Fk:loadTranslationTable {
   ["xh__huanggai"] = "黄盖",
   ["#xh__huanggai"] = "轻身为国",
@@ -127,7 +158,7 @@ Fk:loadTranslationTable {
 }
 
 -- 韩当，男，吴，4勾玉
-General:new(extension, "xh__handang", "wu", 4):addSkills { "xh__gongqi", "xh__jiefan" }
+General:new(extension, "xh__handang", "wu", 4):addSkills { "ty_ex__gongqi", "ty_ex__jiefan" }
 Fk:loadTranslationTable {
   ["xh__handang"] = "韩当",
   ["#xh__handang"] = "石城侯",
@@ -135,13 +166,5 @@ Fk:loadTranslationTable {
   ["~xh__handang"] = "江东……",
 }
 
--- 孙权，男，吴，4勾玉
-General:new(extension, "xh__sunquan", "wu", 4):addSkills { "xh__zhiheng" }
-Fk:loadTranslationTable {
-  ["xh__sunquan"] = "孙权",
-  ["#xh__sunquan"] = "年轻的贤君",
-  ["illustrator:xh__sunquan"] = "KayaK",
-  ["~xh__sunquan"] = "父亲，大哥，仲谋愧矣……",
-}
 
 return extension

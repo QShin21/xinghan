@@ -44,10 +44,14 @@ lifeng:addEffect("viewas", {
     return false
   end,
   enabled_at_response = function(self, player, response)
-    return not response and #player:getTableMark("xh__lifeng-turn") < 2
+    return player.phase == Player.NotActive
+      and (not response)
+      and #player:getTableMark("xh__lifeng-turn") < 2
   end,
   enabled_at_nullification = function (self, player, data)
-    return #player:getTableMark("xh__lifeng-turn") < 2 and #player:getHandlyIds() > 0
+    return player.phase == Player.NotActive
+      and #player:getTableMark("xh__lifeng-turn") < 2
+      and #player:getHandlyIds() > 0
   end,
 })
 

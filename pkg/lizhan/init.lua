@@ -84,6 +84,98 @@ Fk:loadTranslationTable {
   ["~xh__dianwei"] = "主公……快走……",
 }
 
+-- 以下为蜀国武将
+
+
+-- 刘备，男，蜀，4勾玉
+General:new(extension, "xh__liubei", "shu", 4):addSkills { "xh__renwang" }
+Fk:loadTranslationTable {
+  ["xh__liubei"] = "刘备",
+  ["#xh__liubei"] = "乱世的枭雄",
+  ["illustrator:xh__liubei"] = "KayaK",
+  ["~xh__liubei"] = "这就是……桃园吗……",
+}
+
+-- 诸葛亮，男，蜀，3勾玉
+General:new(extension, "xh__zhugeliang", "shu", 3):addSkills { "xh__bazhen", "xh__huoji", "xh__kanpo" }
+Fk:loadTranslationTable {
+  ["xh__zhugeliang"] = "诸葛亮",
+  ["#xh__zhugeliang"] = "卧龙",
+  ["illustrator:xh__zhugeliang"] = "KayaK",
+  ["~xh__zhugeliang"] = "将星陨落……",
+}
+
+-- 黄月英，女，蜀，3勾玉
+General:new(extension, "xh__huangyueying", "shu", 3, 3, General.Female):addSkills { "xh__jizhi", "xh__qicai" }
+Fk:loadTranslationTable {
+  ["xh__huangyueying"] = "黄月英",
+  ["#xh__huangyueying"] = "归隐的杰女",
+  ["illustrator:xh__huangyueying"] = "KayaK",
+  ["~xh__huangyueying"] = "亮……",
+}
+
+-- 孙乾，男，蜀，3勾玉
+General:new(extension, "xh__sunqian", "shu", 3):addSkills { "xh__shuomeng" }
+Fk:loadTranslationTable {
+  ["xh__sunqian"] = "孙乾",
+  ["#xh__sunqian"] = "说客",
+  ["illustrator:xh__sunqian"] = "KayaK",
+  ["~xh__sunqian"] = "主公……",
+}
+
+-- 张世平，男，蜀，3勾玉
+General:new(extension, "xh__zhangshiping", "shu", 3):addSkills { "xh__hongji" }
+Fk:loadTranslationTable {
+  ["xh__zhangshiping"] = "张世平",
+  ["#xh__zhangshiping"] = "商贾",
+  ["illustrator:xh__zhangshiping"] = "KayaK",
+  ["~xh__zhangshiping"] = "生意……",
+}
+
+-- 马超，男，蜀，4勾玉
+General:new(extension, "xh__machao", "shu", 4):addSkills { "xh__mashu", "xh__tieji" }
+Fk:loadTranslationTable {
+  ["xh__machao"] = "马超",
+  ["#xh__machao"] = "一骑当千",
+  ["illustrator:xh__machao"] = "KayaK",
+  ["~xh__machao"] = "西凉……",
+}
+
+-- 关平，男，蜀，4勾玉
+General:new(extension, "xh__guanping", "shu", 4):addSkills { "xh__longyin", "xh__jiezhong" }
+Fk:loadTranslationTable {
+  ["xh__guanping"] = "关平",
+  ["#xh__guanping"] = "忠义",
+  ["illustrator:xh__guanping"] = "KayaK",
+  ["~xh__guanping"] = "父亲……",
+}
+
+-- 魏延，男，蜀，4勾玉
+General:new(extension, "xh__weiyan", "shu", 4):addSkills { "xh__kuanggu", "xh__qimou" }
+Fk:loadTranslationTable {
+  ["xh__weiyan"] = "魏延",
+  ["#xh__weiyan"] = "狂骨",
+  ["illustrator:xh__weiyan"] = "KayaK",
+  ["~xh__weiyan"] = "谁敢杀我！",
+}
+
+-- 黄忠，男，蜀，4勾玉
+General:new(extension, "xh__huangzhong", "shu", 4):addSkills { "xh__liegong" }
+Fk:loadTranslationTable {
+  ["xh__huangzhong"] = "黄忠",
+  ["#xh__huangzhong"] = "老当益壮",
+  ["illustrator:xh__huangzhong"] = "KayaK",
+  ["~xh__huangzhong"] = "老矣……",
+}
+
+-- 徐庶，男，蜀，4勾玉
+General:new(extension, "xh__xushu", "shu", 4):addSkills { "xh__zhuhai", "xh__qianxin" }
+Fk:loadTranslationTable {
+  ["xh__xushu"] = "徐庶",
+  ["#xh__xushu"] = "忠孝",
+  ["illustrator:xh__xushu"] = "KayaK",
+  ["~xh__xushu"] = "母亲……",
+}
 
 
 -- 以下为吴国武将
