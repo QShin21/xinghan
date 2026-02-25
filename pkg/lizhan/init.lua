@@ -180,6 +180,14 @@ Fk:loadTranslationTable {
 
 -- 以下为吴国武将
 
+-- 孙权，男，吴，4勾玉
+General:new(extension, "xh__sunquan", "wu", 4):addSkills { "xh__zhiheng" }
+Fk:loadTranslationTable {
+  ["xh__sunquan"] = "孙权",
+  ["#xh__sunquan"] = "江东之主",
+  ["illustrator:xh__sunquan"] = "KayaK",
+  ["~xh__sunquan"] = "江东……",
+}
 
 -- 孙坚sp，男，吴，4/5勾玉
 General:new(extension, "xhsp__sunjian", "wu", 4, 5):addSkills { "xh__hulie" }
