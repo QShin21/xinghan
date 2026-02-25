@@ -33,7 +33,7 @@ Fk:loadTranslationTable {
 
 
 -- 夏侯惇，男，魏，4勾玉
-General:new(extension, "xh__xiahoudun", "wei", 4):addSkills { "ganglie", "qingjian" }
+General:new(extension, "xh__xiahoudun", "wei", 4):addSkills { "ex__ganglie", "ex__qingjian" }
 Fk:loadTranslationTable {
   ["xh__xiahoudun"] = "夏侯惇",
   ["#xh__xiahoudun"] = "独眼的罗刹",
