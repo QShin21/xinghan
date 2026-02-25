@@ -42,7 +42,7 @@ Fk:loadTranslationTable {
 }
 
 -- 许褚，男，魏，4勾玉
-General:new(extension, "xh__xuchu", "wei", 4):addSkills { "ex__luoyi" }
+General:new(extension, "xh__xuchu", "wei", 4):addSkills { "xh__luoyi" }
 Fk:loadTranslationTable {
   ["xh__xuchu"] = "许褚",
   ["#xh__xuchu"] = "虎痴",
