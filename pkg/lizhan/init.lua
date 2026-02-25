@@ -22,7 +22,7 @@ Fk:loadTranslationTable {
 }
 
 -- 曹仁，男，魏，4勾玉
-General:new(extension, "xhsp__caoren", "wei", 4):addSkills { "xh__weikui", "xh__lizhan" }
+General:new(extension, "xhsp__caoren", "wei", 4):addSkills { "weikui", "lizhan" }
 Fk:loadTranslationTable {
   ["xhsp__caoren"] = "曹仁",
   ["#xhsp__caoren"] = "大将军",
@@ -76,7 +76,7 @@ Fk:loadTranslationTable {
 }
 
 -- 典韦，男，魏，4勾玉
-General:new(extension, "xh__dianwei", "wei", 4):addSkills { "qiangxi", "ninge" }
+General:new(extension, "xh__dianwei", "wei", 4):addSkills { "ol__qiangxi", "ninge" }
 Fk:loadTranslationTable {
   ["xh__dianwei"] = "典韦",
   ["#xh__dianwei"] = "古之恶来",
@@ -88,7 +88,7 @@ Fk:loadTranslationTable {
 
 
 -- 刘备，男，蜀，4勾玉
-General:new(extension, "xh__liubei", "shu", 4):addSkills { "xh__renwang" }
+General:new(extension, "xh__liubei", "shu", 4):addSkills { "v11__renwang" }
 Fk:loadTranslationTable {
   ["xh__liubei"] = "刘备",
   ["#xh__liubei"] = "乱世的枭雄",
