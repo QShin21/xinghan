@@ -1,61 +1,67 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
--- 贾诩 - 帷幕技能
+-- 帷幕（自定义版本）
 -- 锁定技，当你成为黑色锦囊牌的目标时，取消之；
 -- 当你于回合内受到伤害时，你摸2X张牌，然后防止此伤害（X为此伤害值）。
 
-local weimu = fk.CreateSkill {
+local weimu = fk.CreateSkill{
   name = "xh__weimu",
+  tags = { Skill.Compulsory },
 }
 
-Fk:loadTranslationTable {
+Fk:loadTranslationTable{
   ["xh__weimu"] = "帷幕",
-  [":xh__weimu"] = "锁定技，当你成为黑色锦囊牌的目标时，取消之；"..
-    "当你于回合内受到伤害时，你摸2X张牌，然后防止此伤害（X为此伤害值）。",
+  [":xh__weimu"] = "锁定技，当你成为黑色锦囊牌的目标时，取消之；当你于回合内受到伤害时，你摸2X张牌，然后防止此伤害（X为此伤害值）。",
 
-  ["$xh__weimu1"] = "此计伤不到我！",
-  ["$xh__weimu2"] = "我就静静地看着你们。",
+  ["$xh__weimu1"] = "此伤与我无关。",
+  ["$xh__weimu2"] = "还是另寻他法吧。",
 }
 
--- 黑色锦囊牌无效
-weimu:addEffect(fk.TargetConfirming, {
-  mute = true,
+local function cancelThisTarget(data, p)
+  if data.cancelTarget then
+    data:cancelTarget(p)
+    return
+  end
+  if data.removeTarget then
+    data:removeTarget(p)
+    return
+  end
+  if data.cancelTargets then
+    data:cancelTargets({ p })
+    return
+  end
+
+  -- 兜底：尽量从 tos 里移除
+  if data.tos then
+    table.removeOne(data.tos, p)
+  end
+  if data.to == p then
+    data.to = nil
+  end
+end
+
+-- 当你成为黑色锦囊牌的目标时，取消之
+weimu:addEffect(fk.TargetSpecifying, {
+  anim_type = "defensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player then return false end
-    if not player:hasSkill(weimu.name) then return false end
-
-    local card = data.card
-    if not card then return false end
-
-    return card.color == Card.Black and card.type == Card.TypeTrick
+    return player:hasSkill(weimu.name) and not player.dead and
+      (data.to == player) and not data.cancelled and
+      data.card and data.card.type == Card.TypeTrick and data.card.color == Card.Black
   end,
-  on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    local room = player.room
-    room:doIndicate(player.id, {data.from})
-
-    -- 取消目标
-    local tos = data:preGetTargetPlayers()
-    table.removeOne(tos, player)
-    data:setTargetPlayers(tos)
+    cancelThisTarget(data, player)
   end,
 })
 
--- 回合内受伤摸牌并防止伤害
-weimu:addEffect(fk.DamageInflicted, {
-  mute = true,
+-- 回合内受到伤害：摸2X，然后防止此伤害
+weimu:addEffect(fk.DetermineDamageInflicted, {
+  anim_type = "defensive",
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(weimu.name) and
-      player.room.current == player and data.damage > 0
+    return target == player and player:hasSkill(weimu.name) and not player.dead and
+      player.room.current == player and data and data.damage and data.damage > 0
   end,
-  on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    local room = player.room
-    local x = data.damage
-
-    -- 摸2X张牌
-    player:drawCards(2 * x, weimu.name)
-
-    -- 防止伤害
+    local n = data.damage
+    player:drawCards(n * 2, weimu.name)
     data:preventDamage()
   end,
 })

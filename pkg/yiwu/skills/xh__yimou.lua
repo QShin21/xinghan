@@ -1,83 +1,68 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 鲍信 - 毅谋技能
--- 当与你距离1以内的角色受到伤害后，你可以选择一项：
--- 1.令其摸一张牌；2.令其将一张手牌交给另一名角色，然后其摸一张牌。
-
-local yimou = fk.CreateSkill {
-  name = "xh__yimou",
+local yimou = fk.CreateSkill{
+  name = "xh_yimou",
 }
 
-Fk:loadTranslationTable {
-  ["xh__yimou"] = "毅谋",
-  [":xh__yimou"] = "当与你距离1以内的角色受到伤害后，你可以选择一项："..
-    "1.令其摸一张牌；2.令其将一张手牌交给另一名角色，然后其摸一张牌。",
+Fk:loadTranslationTable{
+  ["xh_yimou"] = "毅谋",
+  [":xh_yimou"] = "当与你距离1以内的角色受到伤害后，你可以选择一项：1.令其摸一张牌；2.令其将一张手牌交给另一名角色，然后其摸一张牌。",
 
-  ["#xh__yimou-invoke"] = "毅谋：选择一项效果",
-  ["yimou_draw"] = "令其摸一张牌",
-  ["yimou_give"] = "令其将一张手牌交给另一名角色，然后其摸一张牌",
+  ["xh_yimou_draw"] = "%dest摸一张牌",
+  ["xh_yimou_give"] = "%dest将一张手牌交给另一名角色，然后摸一张牌",
+  ["#xh_yimou-give"] = "毅谋：将一张手牌交给一名其他角色，然后摸一张牌",
 
-  ["$xh__yimou1"] = "毅谋兼备，智勇双全！",
-  ["$xh__yimou2"] = "坚毅果敢，谋定后动！",
+  ["$xh_yimou1"] = "泰然若定，攻敌自溃！",
+  ["$xh_yimou2"] = "吾等当为大义，兴大谋，成大事！",
 }
 
 yimou:addEffect(fk.Damaged, {
-  anim_type = "support",
+  mute = true,
   can_trigger = function(self, event, target, player, data)
-    if not player:hasSkill(yimou.name) then return false end
-    if player:distanceTo(target) > 1 then return false end
-    return true
+    return player:hasSkill(yimou.name) and target and not target.dead and player:distanceTo(target) <= 1
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
-    
-    local choices = {"yimou_draw"}
-    if not target:isKongcheng() then
-      table.insert(choices, "yimou_give")
+    local choices = { "xh_yimou_draw::" .. target.id }
+    if not target:isKongcheng() and #room:getOtherPlayers(target, false) > 0 then
+      table.insert(choices, "xh_yimou_give::" .. target.id)
     end
-    
+    table.insert(choices, "Cancel")
     local choice = room:askToChoice(player, {
       choices = choices,
       skill_name = yimou.name,
-      prompt = "#xh__yimou-invoke",
-      detailed = false,
     })
-    
-    event:setCostData(self, {choice = choice})
-    return true
+    if choice ~= "Cancel" then
+      event:setCostData(self, { tos = { target }, choice = choice })
+      return true
+    end
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
     local choice = event:getCostData(self).choice
-    
-    if choice == "yimou_draw" then
-      target:drawCards(1, yimou.name)
+    room:notifySkillInvoked(player, yimou.name, "masochism", { target })
+
+    if choice:startsWith("xh_yimou_draw") then
+      player:broadcastSkillInvoke(yimou.name, 1)
+      if not target.dead then
+        target:drawCards(1, yimou.name)
+      end
     else
-      -- 选择一张手牌交给另一名角色
-      local others = table.filter(room.alive_players, function(p)
-        return p ~= target
-      end)
-      
-      if #others > 0 then
-        local card_id = room:askToCards(target, {
-          min_num = 1,
-          max_num = 1,
-          include_equip = false,
-          skill_name = yimou.name,
-          pattern = ".",
-          prompt = "选择一张手牌交给另一名角色",
-          cancelable = false,
-        })
-        
-        local to = room:askToChoosePlayers(target, {
-          min_num = 1,
-          max_num = 1,
-          targets = others,
-          skill_name = yimou.name,
-          prompt = "选择一名角色获得此牌",
-          cancelable = false,
-        })[1]
-        
-        room:moveCardTo(card_id[1], Player.Hand, to, fk.ReasonGive, yimou.name, nil, false, target.id)
+      player:broadcastSkillInvoke(yimou.name, 2)
+      if target.dead or target:isKongcheng() then return end
+      local to, cards = room:askToChooseCardsAndPlayers(target, {
+        min_card_num = 1,
+        max_card_num = 1,
+        min_num = 1,
+        max_num = 1,
+        targets = room:getOtherPlayers(target, false),
+        pattern = ".|.|.|hand",
+        skill_name = yimou.name,
+        prompt = "#xh_yimou-give",
+        cancelable = false,
+      })
+      if #cards > 0 and #to > 0 then
+        room:moveCardTo(cards, Player.Hand, to[1], fk.ReasonGive, yimou.name, nil, false, target)
+      end
+      if not target.dead then
         target:drawCards(1, yimou.name)
       end
     end

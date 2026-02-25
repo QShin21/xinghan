@@ -1,131 +1,84 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 郭汜 - 贪狈技能
--- 出牌阶段限一次，你可以令一名其他角色选择一项：
--- 1.其交给你一张手牌，你此阶段不能再对其使用牌；
--- 2.令你此阶段对其使用牌无距离和次数限制。
-
 local tanbei = fk.CreateSkill {
   name = "xh__tanbei",
 }
 
-Fk:loadTranslationTable {
+Fk:loadTranslationTable{
   ["xh__tanbei"] = "贪狈",
-  [":xh__tanbei"] = "出牌阶段限一次，你可以令一名其他角色选择一项："..
-    "1.其交给你一张手牌，你此阶段不能再对其使用牌；"..
-    "2.令你此阶段对其使用牌无距离和次数限制。",
+  [":xh__tanbei"] = "出牌阶段限一次，你可以令一名其他角色选择一项：1.其交给你一张手牌，你此阶段不能再对其使用牌；2.令你此阶段对其使用牌无距离和次数限制。",
 
-  ["#xh__tanbei-target"] = "贪狈：选择一名其他角色",
-  ["tanbei_give"] = "交给一张手牌",
-  ["tanbei_unlimit"] = "令其使用牌无距离和次数限制",
-  ["@@xh__tanbei_forbid"] = "贪狈禁止",
-  ["@@xh__tanbei_unlimit"] = "贪狈",
+  ["#xh__tanbei"] = "贪狈：令一名角色选择交给你一张手牌，或令你此阶段对其使用牌无距离和次数限制",
+  ["xh__tanbei1"] = "%src获得你一张手牌，此阶段不能再对你使用牌",
+  ["xh__tanbei2"] = "%src此阶段对你使用牌无距离和次数限制",
+  ["#xh__tanbei-give"] = "贪狈：交给 %src 一张手牌",
+  ["@@xh__tanbei-phase"] = "贪狈",
 
-  ["$xh__tanbei1"] = "贪狈之性，得寸进尺！",
-  ["$xh__tanbei2"] = "贪得无厌，狈行天下！",
+  ["$xh__tanbei1"] = "此机，我怎么会错失！",
+  ["$xh__tanbei2"] = "你的东西，现在是我的了！",
 }
 
 tanbei:addEffect("active", {
-  mute = true,
-  prompt = "#xh__tanbei-target",
+  anim_type = "offensive",
+  prompt = "#xh__tanbei",
   card_num = 0,
   target_num = 1,
+  max_phase_use_time = 1,
   can_use = function(self, player)
-    return player:usedSkillTimes(tanbei.name, Player.HistoryPhase) == 0
+    return player.phase == Player.Play and player:usedSkillTimes(tanbei.name, Player.HistoryPhase) == 0
   end,
   card_filter = Util.FalseFunc,
-  target_filter = function(self, player, to_select, selected, selected_cards)
-    if #selected > 0 then return false end
-    return to_select ~= player
+  target_filter = function(self, player, to_select, selected)
+    return #selected == 0 and to_select ~= player
   end,
   on_use = function(self, room, effect)
     local player = effect.from
     local target = effect.tos[1]
+    if not target or target.dead then return end
 
-    room:notifySkillInvoked(player, tanbei.name, "control", {target})
-    player:broadcastSkillInvoke(tanbei.name)
-
-    local choice
-    if target:isKongcheng() then
-      choice = "tanbei_unlimit"
-    else
-      choice = room:askToChoice(target, {
-        choices = {"tanbei_give", "tanbei_unlimit"},
-        skill_name = tanbei.name,
-        prompt = "选择一项",
-        detailed = false,
-      })
+    local choices = { "xh__tanbei2:" .. player.id }
+    if not target:isKongcheng() then
+      table.insert(choices, 1, "xh__tanbei1:" .. player.id)
     end
-    
-    if choice == "tanbei_give" then
-      -- 交给一张手牌
-      local id = room:askToCards(target, {
+
+    local choice = room:askToChoice(target, {
+      choices = choices,
+      skill_name = tanbei.name,
+    })
+
+    if choice:startsWith("xh__tanbei1") then
+      room:addTableMark(player, "xh__tanbei_forbid-phase", target.id)
+      local give = room:askToCards(target, {
         min_num = 1,
         max_num = 1,
         include_equip = false,
         skill_name = tanbei.name,
-        pattern = ".",
-        prompt = "选择一张手牌交给" .. player.name,
+        prompt = "#xh__tanbei-give:" .. player.id,
         cancelable = false,
       })
-      room:moveCardTo(id[1], Player.Hand, player, fk.ReasonGive, tanbei.name, nil, false, target.id)
-      
-      -- 此阶段不能再对其使用牌
-      room:setPlayerMark(player, "@@tanbei_forbid_" .. target.id, 1)
+      if #give > 0 then
+        room:obtainCard(player, give[1], false, fk.ReasonGive, target, tanbei.name)
+      end
     else
-      -- 此阶段对其使用牌无距离和次数限制
-      room:setPlayerMark(player, "@@tanbei_unlimit_" .. target.id, 1)
+      room:addTableMark(player, "xh__tanbei_free-phase", target.id)
+      room:setPlayerMark(target, "@@xh__tanbei-phase", 1)
     end
   end,
 })
 
--- 不能使用牌
 tanbei:addEffect("prohibit", {
   is_prohibited = function(self, from, to, card)
-    if from:getMark("@@tanbei_forbid_" .. to.id) > 0 then
-      return true
-    end
-    return false
+    return from and to and from.phase == Player.Play and
+      table.contains(from:getTableMark("xh__tanbei_forbid-phase"), to.id)
   end,
 })
 
--- 无距离和次数限制
 tanbei:addEffect("targetmod", {
-  distance_limit_func = function(self, player, skill, card, to)
-    if player:getMark("@@tanbei_unlimit_" .. to.id) > 0 then
-      return true
-    end
-    return false
+  bypass_times = function(self, player, skill, scope, card, to)
+    return card and to and player.phase == Player.Play and
+      table.contains(player:getTableMark("xh__tanbei_free-phase"), to.id)
   end,
-  residue_func = function(self, player, skill, scope, card)
-    if skill.trueName == "slash_skill" then
-      for _, p in ipairs(player.room.alive_players) do
-        if player:getMark("@@tanbei_unlimit_" .. p.id) > 0 then
-          return 999
-        end
-      end
-    end
-    return 0
-  end,
-})
-
--- 回合结束清除标记
-tanbei:addEffect(fk.TurnEnd, {
-  mute = true,
-  can_trigger = function(self, event, target, player, data)
-    for _, p in ipairs(player.room.alive_players) do
-      if player:getMark("@@tanbei_forbid_" .. p.id) > 0 or
-        player:getMark("@@tanbei_unlimit_" .. p.id) > 0 then
-        return true
-      end
-    end
-    return false
-  end,
-  on_use = function(self, event, target, player, data)
-    local room = player.room
-    for _, p in ipairs(room.alive_players) do
-      room:setPlayerMark(player, "@@tanbei_forbid_" .. p.id, 0)
-      room:setPlayerMark(player, "@@tanbei_unlimit_" .. p.id, 0)
-    end
+  bypass_distances = function(self, player, skill, card, to)
+    return card and to and player.phase == Player.Play and
+      table.contains(player:getTableMark("xh__tanbei_free-phase"), to.id)
   end,
 })
 

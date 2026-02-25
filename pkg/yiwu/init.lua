@@ -235,7 +235,7 @@ Fk:loadTranslationTable {
 
 
 -- 张济，男，群，4勾玉
-General:new(extension, "xh__zhangji_qun", "qun", 4):addSkills { "xh__lueling", "xh__tunjun" }
+General:new(extension, "xh__zhangji_qun", "qun", 4):addSkills { "xh__lueming", "xh__tunjun" }
 Fk:loadTranslationTable {
   ["xh__zhangji_qun"] = "张济",
   ["#xh__zhangji_qun"] = "西凉军阀",
@@ -349,7 +349,7 @@ Fk:loadTranslationTable {
 
 
 -- 牛辅，男，群，4/5勾玉
-General:new(extension, "xh__niufu", "qun", 4, 5):addSkills { "xh__xiaoxiong", "xh__xiongrao" }
+General:new(extension, "xh__niufu", "qun", 4, 5):addSkills { "xh__xiaoxi", "xh__xiongrao" }
 Fk:loadTranslationTable {
   ["xh__niufu"] = "牛辅",
   ["#xh__niufu"] = "西凉女婿",

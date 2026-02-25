@@ -1,104 +1,106 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 梁兴 - 掳掠技能
--- 出牌阶段开始时，你可以选择一名有手牌且手牌数小于你的角色，然后其选择一项：
--- 1.交给你所有手牌，然后你结束此阶段；2.你视为对其使用一张造成伤害+1的【杀】。
-
 local lulve = fk.CreateSkill {
   name = "xh__lulve",
 }
 
-Fk:loadTranslationTable {
+Fk:loadTranslationTable{
   ["xh__lulve"] = "掳掠",
-  [":xh__lulve"] = "出牌阶段开始时，你可以选择一名有手牌且手牌数小于你的角色，然后其选择一项："..
-    "1.交给你所有手牌，然后你结束此阶段；2.你视为对其使用一张造成伤害+1的【杀】。",
+  [":xh__lulve"] = "出牌阶段开始时，你可以选择一名有手牌且手牌数小于你的角色，然后其选择一项：1.交给你所有手牌，然后你结束此阶段；2.你视为对其使用一张造成伤害+1的【杀】。",
 
-  ["#xh__lulve-target"] = "掳掠：选择一名手牌数小于你的角色",
-  ["lulve_give"] = "交给你所有手牌",
-  ["lulve_slash"] = "你视为对其使用一张伤害+1的杀",
+  ["#xh__lulve-choose"] = "掳掠：你可以令一名有手牌且手牌数小于你的角色选择一项",
+  ["xh__lulve_give"] = "将所有手牌交给%src，然后%src结束此阶段",
+  ["xh__lulve_slash"] = "%src视为对你使用一张造成伤害+1的【杀】",
 
-  ["$xh__lulve1"] = "掳掠之威，势不可挡！",
-  ["$xh__lulve2"] = "西凉铁骑，掳掠天下！",
+  ["$xh__lulve1"] = "趁火打劫，乘危掳掠。",
+  ["$xh__lulve2"] = "天下大乱，掳掠以自保。",
 }
 
+local function endCurrentPhase(room)
+  if room.logic and room.logic.breakCurrentPhase then
+    room.logic:breakCurrentPhase()
+  elseif room.logic and room.logic.breakCurrentEvent then
+    room.logic:breakCurrentEvent()
+  end
+end
+
 lulve:addEffect(fk.EventPhaseStart, {
-  anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(lulve.name) then return false end
-    if player.phase ~= Player.Play then return false end
-    if player:isKongcheng() then return false end
-    
-    -- 检查是否有手牌数小于你的角色
-    local targets = table.filter(player.room.alive_players, function(p)
-      return p ~= player and not p:isKongcheng() and p:getHandcardNum() < player:getHandcardNum()
-    end)
-    
-    return #targets > 0
+    return target == player and player:hasSkill(lulve.name) and player.phase == Player.Play and
+      table.find(player.room:getOtherPlayers(player, false), function(p)
+        return not p.dead and (not p:isKongcheng()) and p:getHandcardNum() < player:getHandcardNum()
+      end)
   end,
+
   on_cost = function(self, event, target, player, data)
     local room = player.room
-    
-    local targets = table.filter(room.alive_players, function(p)
-      return p ~= player and not p:isKongcheng() and p:getHandcardNum() < player:getHandcardNum()
+    local targets = table.filter(room:getOtherPlayers(player, false), function(p)
+      return not p.dead and (not p:isKongcheng()) and p:getHandcardNum() < player:getHandcardNum()
     end)
-    
     local to = room:askToChoosePlayers(player, {
+      targets = targets,
       min_num = 1,
       max_num = 1,
-      targets = targets,
+      prompt = "#xh__lulve-choose",
       skill_name = lulve.name,
-      prompt = "#xh__lulve-target",
       cancelable = true,
     })
-    
     if #to > 0 then
       event:setCostData(self, {tos = to})
       return true
     end
   end,
+
   on_use = function(self, event, target, player, data)
     local room = player.room
     local to = event:getCostData(self).tos[1]
-    
+    if not to or to.dead or player.dead then return end
+
     local choice = room:askToChoice(to, {
-      choices = {"lulve_give", "lulve_slash"},
+      choices = {"xh__lulve_give:" .. player.id, "xh__lulve_slash:" .. player.id},
       skill_name = lulve.name,
-      prompt = "选择一项",
-      detailed = false,
     })
-    
-    if choice == "lulve_give" then
-      -- 交给你所有手牌
-      local handcards = to:getCardIds("h")
-      room:moveCardTo(handcards, Player.Hand, player, fk.ReasonGive, lulve.name, nil, false, to.id)
-      
-      -- 结束此阶段
-      player.phase = Player.Finish
+
+    if choice:startsWith("xh__lulve_give") then
+      local ids = to:getCardIds("h")
+      if #ids > 0 then
+        room:moveCardTo(ids, Player.Hand, player, fk.ReasonGive, lulve.name, nil, false, to)
+      end
+      if not player.dead then
+        endCurrentPhase(room)
+      end
     else
-      -- 视为使用伤害+1的杀
-      local slash = Fk:cloneCard("slash")
-      slash.skillName = lulve.name
-      
-      room:useCard{
-        from = player.id,
-        tos = {to.id},
-        card = slash,
-        extra_data = { lulve = true },
-      }
+      if player.dead or to.dead then return end
+      room:setPlayerMark(to, "xh__lulve_slashplus", player.id)
+      room:useVirtualCard("slash", nil, player, to, lulve.name, true)
     end
   end,
 })
 
--- 伤害+1
 lulve:addEffect(fk.DamageCaused, {
-  mute = true,
+  anim_type = "offensive",
   can_trigger = function(self, event, target, player, data)
-    if target ~= player then return false end
-    if not data.card or data.card.trueName ~= "slash" then return false end
-    return data.extra_data and data.extra_data.lulve
+    return target == player and player:hasSkill(lulve.name) and data.card and data.to and
+      data.card.trueName == "slash" and data.card.skillName == lulve.name and
+      data.to:getMark("xh__lulve_slashplus") == player.id
   end,
   on_cost = Util.TrueFunc,
   on_use = function(self, event, target, player, data)
-    data.damage = data.damage + 1
+    local room = player.room
+    room:setPlayerMark(data.to, "xh__lulve_slashplus", 0)
+    data:changeDamage(1)
+  end,
+})
+
+lulve:addEffect(fk.CardUseFinished, {
+  can_refresh = function(self, event, target, player, data)
+    return target == player and data.card and data.card.trueName == "slash" and data.card.skillName == lulve.name
+  end,
+  on_refresh = function(self, event, target, player, data)
+    local room = player.room
+    for _, p in ipairs(data.tos or {}) do
+      if p and not p.dead and p:getMark("xh__lulve_slashplus") == player.id then
+        room:setPlayerMark(p, "xh__lulve_slashplus", 0)
+      end
+    end
   end,
 })
 

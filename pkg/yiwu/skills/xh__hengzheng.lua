@@ -1,61 +1,63 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 董卓 - 横征技能
--- 准备阶段，若你的体力值为1或你没有手牌，你可以获得一名其他角色区域里的一张牌。
-
 local hengzheng = fk.CreateSkill {
   name = "xh__hengzheng",
 }
 
-Fk:loadTranslationTable {
+Fk:loadTranslationTable{
   ["xh__hengzheng"] = "横征",
-  [":xh__hengzheng"] = "准备阶段，若你的体力值为1或你没有手牌，你可以获得一名其他角色区域里的一张牌。",
-
-  ["#xh__hengzheng-invoke"] = "横征：获得一名其他角色区域里的一张牌",
-
-  ["$xh__hengzheng1"] = "天下之大，何人敢不从！",
-  ["$xh__hengzheng2"] = "顺我者昌，逆我者亡！",
+  [":xh__hengzheng"] = "准备阶段，若你没有手牌或体力值为1，你可以获得所有角色区域内各一张牌。",
 }
 
 hengzheng:addEffect(fk.EventPhaseStart, {
   anim_type = "offensive",
-  can_trigger = function(self, event, target, player, data)
+  can_trigger = function (self, event, target, player, data)
     return target == player and player:hasSkill(hengzheng.name) and
       player.phase == Player.Start and
-      (player.hp == 1 or player:isKongcheng())
+      (player:isKongcheng() or player.hp == 1) and
+      table.find(player.room.alive_players, function (p)
+        if p == player then
+          return #player:getCardIds("ej") > 0
+        else
+          return not p:isAllNude()
+        end
+      end)
   end,
   on_cost = function(self, event, target, player, data)
     local room = player.room
-    local targets = table.filter(room:getOtherPlayers(player), function(p)
-      return not p:isAllNude()
-    end)
-
-    if #targets == 0 then return false end
-
-    local to = room:askToChoosePlayers(player, {
-      min_num = 1,
-      max_num = 1,
-      targets = targets,
+    if room:askToSkillInvoke(player, {
       skill_name = hengzheng.name,
-      prompt = "#xh__hengzheng-invoke",
-      cancelable = true,
-    })
-
-    if #to > 0 then
-      event:setCostData(self, {tos = to})
+    }) then
+      event:setCostData(self, {tos = room:getAlivePlayers()})
       return true
     end
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
-    local to = event:getCostData(self).tos[1]
-
-    local id = room:askToChooseCard(player, {
-      target = to,
-      flag = "hej",
-      skill_name = hengzheng.name,
-    })
-
-    room:moveCardTo(id, Player.Hand, player, fk.ReasonPrey, hengzheng.name, nil, false, to.id)
+    for _, p in ipairs(room:getAlivePlayers()) do
+      if not p.dead then
+        local id
+        if p == player then
+          if #player:getCardIds("ej") > 0 then
+            id = room:askToChooseCard(player, {
+              target = p,
+              flag = "ej",
+              skill_name = hengzheng.name,
+            })
+          end
+        else
+          if not p:isAllNude() then
+            id = room:askToChooseCard(player, {
+              target = p,
+              flag = "hej",
+              skill_name = hengzheng.name,
+            })
+          end
+        end
+        if id then
+          room:obtainCard(player, id, false, fk.ReasonPrey, player, hengzheng.name)
+          if player.dead then return end
+        end
+      end
+    end
   end,
 })
 
