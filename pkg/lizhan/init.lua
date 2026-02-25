@@ -225,5 +225,265 @@ Fk:loadTranslationTable {
   ["~xh__pangtong"] = "落凤坡……",
 }
 
+--以下为群雄武将
+
+
+-- 刘表，男，群，3勾玉
+General:new(extension, "xh__liubiao", "qun", 3):addSkills { "xh__zishou", "xh__zongshi" }
+Fk:loadTranslationTable {
+  ["xh__liubiao"] = "刘表",
+  ["#xh__liubiao"] = "荆州牧",
+  ["illustrator:xh__liubiao"] = "KayaK",
+  ["~xh__liubiao"] = "荆州……",
+}
+
+-- 杨彪，男，群，3勾玉
+General:new(extension, "xh__yangbiao", "qun", 3):addSkills { "xh__zhaohan", "xh__rangjie", "xh__yizheng" }
+Fk:loadTranslationTable {
+  ["xh__yangbiao"] = "杨彪",
+  ["#xh__yangbiao"] = "汉室忠臣",
+  ["illustrator:xh__yangbiao"] = "KayaK",
+  ["~xh__yangbiao"] = "汉室……",
+}
+
+
+-- 刘繇，男，群，4勾玉
+General:new(extension, "xh__liuyao", "qun", 4):addSkills { "xh__kannan" }
+Fk:loadTranslationTable {
+  ["xh__liuyao"] = "刘繇",
+  ["#xh__liuyao"] = "扬州刺史",
+  ["illustrator:xh__liuyao"] = "KayaK",
+  ["~xh__liuyao"] = "扬州……",
+}
+
+
+-- 许贡，男，群，3勾玉
+General:new(extension, "xh__xugong", "qun", 3):addSkills { "xh__biaozhao" }
+Fk:loadTranslationTable {
+  ["xh__xugong"] = "许贡",
+  ["#xh__xugong"] = "吴郡太守",
+  ["illustrator:xh__xugong"] = "KayaK",
+  ["~xh__xugong"] = "吴郡……",
+}
+
+
+-- 高干，男，群，4勾玉
+General:new(extension, "xh__gaogan", "qun", 4):addSkills { "xh__juguan" }
+Fk:loadTranslationTable {
+  ["xh__gaogan"] = "高干",
+  ["#xh__gaogan"] = "并州刺史",
+  ["illustrator:xh__gaogan"] = "KayaK",
+  ["~xh__gaogan"] = "并州……",
+}
+
+-- 袁谭袁尚袁熙，男，群，4勾玉
+General:new(extension, "xh__yuantanyuanshangyuanxi", "qun", 4):addSkills { "xh__neifa" }
+Fk:loadTranslationTable {
+  ["xh__yuantanyuanshangyuanxi"] = "袁谭袁尚袁熙",
+  ["#xh__yuantanyuanshangyuanxi"] = "袁氏兄弟",
+  ["illustrator:xh__yuantanyuanshangyuanxi"] = "KayaK",
+  ["~xh__yuantanyuanshangyuanxi"] = "袁氏……",
+}
+
+-- 刘辟，男，群，4勾玉
+General:new(extension, "xh__liupi", "qun", 4):addSkills { "xh__yicheng" }
+Fk:loadTranslationTable {
+  ["xh__liupi"] = "刘辟",
+  ["#xh__liupi"] = "黄巾渠帅",
+  ["illustrator:xh__liupi"] = "KayaK",
+  ["~xh__liupi"] = "黄巾……",
+}
+
+-- 邹氏，女，群，3勾玉
+General:new(extension, "xh__zoushi", "qun", 3, 3, General.Female):addSkills { "xh__huoshui", "xh__qingcheng" }
+Fk:loadTranslationTable {
+  ["xh__zoushi"] = "邹氏",
+  ["#xh__zoushi"] = "祸水红颜",
+  ["illustrator:xh__zoushi"] = "KayaK",
+  ["~xh__zoushi"] = "祸水……",
+}
+
+
+-- 黄祖，男，群，4勾玉
+General:new(extension, "xh__huangzu", "qun", 4):addSkills { "xh__xishe" }
+Fk:loadTranslationTable {
+  ["xh__huangzu"] = "黄祖",
+  ["#xh__huangzu"] = "江夏太守",
+  ["illustrator:xh__huangzu"] = "KayaK",
+  ["~xh__huangzu"] = "江夏……",
+}
+
+-- 董卓(新)，男，群，4勾玉
+General:new(extension, "new__dongzhuo", "qun", 4):addSkills { "xh__xiongni", "xh__fengshang" }
+Fk:loadTranslationTable {
+  ["new__dongzhuo"] = "董卓",
+  ["#new__dongzhuo"] = "魔王",
+  ["illustrator:new__dongzhuo"] = "KayaK",
+  ["~new__dongzhuo"] = "汉室……亡了……",
+}
+
+
+-- 段煨，男，群，4勾玉
+General:new(extension, "xh__duanwei", "qun", 4):addSkills { "xh__langmie" }
+Fk:loadTranslationTable {
+  ["xh__duanwei"] = "段煨",
+  ["#xh__duanwei"] = "忠义之士",
+  ["illustrator:xh__duanwei"] = "KayaK",
+  ["~xh__duanwei"] = "忠义……",
+}
+
+
+-- 沮授，男，群，3勾玉
+General:new(extension, "xh__jushou", "qun", 3):addSkills { "xh__jianying", "xh__shibei" }
+Fk:loadTranslationTable {
+  ["xh__jushou"] = "沮授",
+  ["#xh__jushou"] = "河北谋士",
+  ["illustrator:xh__jushou"] = "KayaK",
+  ["~xh__jushou"] = "河北……",
+}
+
+
+-- 郭图，男，群，3勾玉
+General:new(extension, "xh__guotu", "qun", 3):addSkills { "xh__qushi", "xh__weijie" }
+Fk:loadTranslationTable {
+  ["xh__guotu"] = "郭图",
+  ["#xh__guotu"] = "河北谋士",
+  ["illustrator:xh__guotu"] = "KayaK",
+  ["~xh__guotu"] = "河北……",
+}
+
+-- 张辽(群)，男，群，4勾玉
+General:new(extension, "xh__zhangliao_qun", "qun", 4):addSkills { "xh__mubing", "xh__ziqu" }
+Fk:loadTranslationTable {
+  ["xh__zhangliao_qun"] = "张辽",
+  ["#xh__zhangliao_qun"] = "雁门张辽",
+  ["illustrator:xh__zhangliao_qun"] = "KayaK",
+  ["~xh__zhangliao_qun"] = "雁门……",
+}
+
+
+
+-- 张角，男，群，3勾玉
+General:new(extension, "xh__zhangjiao", "qun", 3):addSkills { "xh__leiji", "xh__guidao" }
+Fk:loadTranslationTable {
+  ["xh__zhangjiao"] = "张角",
+  ["#xh__zhangjiao"] = "天公将军",
+  ["illustrator:xh__zhangjiao"] = "KayaK",
+  ["~xh__zhangjiao"] = "黄天……",
+}
+
+
+-- 张郃，男，群，4勾玉
+General:new(extension, "xh__zhanghe_qun", "qun", 4):addSkills { "xh__zhouxuan" }
+Fk:loadTranslationTable {
+  ["xh__zhanghe_qun"] = "张郃",
+  ["#xh__zhanghe_qun"] = "巧变之士",
+  ["illustrator:xh__zhanghe_qun"] = "KayaK",
+  ["~xh__zhanghe_qun"] = "巧变……",
+}
+
+
+
+-- 于吉，男，群，3勾玉
+General:new(extension, "xh__yuji", "qun", 3):addSkills { "xh__guhuo" }
+Fk:loadTranslationTable {
+  ["xh__yuji"] = "于吉",
+  ["#xh__yuji"] = "太平道人",
+  ["illustrator:xh__yuji"] = "KayaK",
+  ["~xh__yuji"] = "蛊惑……",
+}
+
+
+-- 樊稠，男，群，4勾玉
+General:new(extension, "xh__fanchou", "qun", 4):addSkills { "xh__xingluan" }
+Fk:loadTranslationTable {
+  ["xh__fanchou"] = "樊稠",
+  ["#xh__fanchou"] = "西凉悍将",
+  ["illustrator:xh__fanchou"] = "KayaK",
+  ["~xh__fanchou"] = "西凉……",
+}
+
+-- 张绣，男，群，4勾玉
+General:new(extension, "xh__zhangxiu", "qun", 4):addSkills { "xh__fudi", "xh__congjian" }
+Fk:loadTranslationTable {
+  ["xh__zhangxiu"] = "张绣",
+  ["#xh__zhangxiu"] = "宛城侯",
+  ["illustrator:xh__zhangxiu"] = "KayaK",
+  ["~xh__zhangxiu"] = "宛城……",
+}
+
+-- 刘协，男，群，3勾玉
+General:new(extension, "xh__liuxie", "qun", 3):addSkills { "xh__tianming", "xh__mizhao" }
+Fk:loadTranslationTable {
+  ["xh__liuxie"] = "刘协",
+  ["#xh__liuxie"] = "汉献帝",
+  ["illustrator:xh__liuxie"] = "KayaK",
+  ["~xh__liuxie"] = "汉室……",
+}
+
+-- 许攸，男，群，3勾玉
+General:new(extension, "xh__xuyou", "qun", 3):addSkills { "xh__chenglue", "xh__shicai" }
+Fk:loadTranslationTable {
+  ["xh__xuyou"] = "许攸",
+  ["#xh__xuyou"] = "恃才傲物",
+  ["illustrator:xh__xuyou"] = "KayaK",
+  ["~xh__xuyou"] = "恃才……",
+}
+
+-- 士燮，男，群，3勾玉
+General:new(extension, "xh__shixie", "qun", 3):addSkills { "xh__biluan", "xh__lixia" }
+Fk:loadTranslationTable {
+  ["xh__shixie"] = "士燮",
+  ["#xh__shixie"] = "交州牧",
+  ["illustrator:xh__shixie"] = "KayaK",
+  ["~xh__shixie"] = "交州……",
+}
+
+
+-- 公孙度，男，群，4勾玉
+General:new(extension, "xh__gongsundu", "qun", 4):addSkills { "xh__zhenze", "xh__anliao" }
+Fk:loadTranslationTable {
+  ["xh__gongsundu"] = "公孙度",
+  ["#xh__gongsundu"] = "辽东太守",
+  ["illustrator:xh__gongsundu"] = "KayaK",
+  ["~xh__gongsundu"] = "辽东……",
+}
+
+
+-- 陶谦，男，群，3勾玉
+General:new(extension, "xh__taoqian", "qun", 3):addSkills { "xh__yixiang" }
+Fk:loadTranslationTable {
+  ["xh__taoqian"] = "陶谦",
+  ["#xh__taoqian"] = "徐州牧",
+  ["illustrator:xh__taoqian"] = "KayaK",
+  ["~xh__taoqian"] = "徐州……",
+}
+
+-- 张鲁，男，群，3勾玉
+General:new(extension, "xh__zhanglu", "qun", 3):addSkills { "xh__yishe", "xh__bushi", "xh__midao" }
+Fk:loadTranslationTable {
+  ["xh__zhanglu"] = "张鲁",
+  ["#xh__zhanglu"] = "汉中太守",
+  ["illustrator:xh__zhanglu"] = "KayaK",
+  ["~xh__zhanglu"] = "汉中……",
+}
+
+-- 陈宫，男，群，3勾玉
+General:new(extension, "xh__chengong", "qun", 3):addSkills { "xh__mingce", "xh__yinpan" }
+Fk:loadTranslationTable {
+  ["xh__chengong"] = "陈宫",
+  ["#xh__chengong"] = "智计之士",
+  ["illustrator:xh__chengong"] = "KayaK",
+  ["~xh__chengong"] = "智计……",
+}
+
+-- 刘璋，男，群，3勾玉
+General:new(extension, "xh__liuzhang", "qun", 3):addSkills { "xh__jutu", "xh__yaohu" }
+Fk:loadTranslationTable {
+  ["xh__liuzhang"] = "刘璋",
+  ["#xh__liuzhang"] = "益州牧",
+  ["illustrator:xh__liuzhang"] = "KayaK",
+  ["~xh__liuzhang"] = "益州……",
+}
 
 return extension
