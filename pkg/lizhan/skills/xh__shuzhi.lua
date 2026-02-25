@@ -11,8 +11,14 @@ Fk:loadTranslationTable {
   [":xh__shuzhi"] = "游戏开始时，你选择获得\"奸雄\"或\"清正\"。",
 
   ["#xh__shuzhi-choice"] = "述志：选择获得一个技能",
-  ["shuzhi_jianxiong"] = "奸雄：受到伤害后，获得造成伤害的牌并摸一张牌",
-  ["shuzhi_qingzheng"] = "清正：出牌阶段开始时，弃置一种花色的牌，令其他角色弃置同花色牌",
+
+  -- 选项按钮显示短文本
+  ["shuzhi_jianxiong"] = "奸雄",
+  ["shuzhi_qingzheng"] = "清正",
+
+  -- 选项详情区显示详细说明（配合 detailed = true）
+  [":shuzhi_jianxiong"] = "受到伤害后，获得造成伤害的牌并摸一张牌",
+  [":shuzhi_qingzheng"] = "出牌阶段开始时，弃置一种花色的牌，令其他角色弃置同花色牌",
 
   ["$xh__shuzhi1"] = "志在天下，何惧之有！",
   ["$xh__shuzhi2"] = "大业未成，不敢懈怠！",
