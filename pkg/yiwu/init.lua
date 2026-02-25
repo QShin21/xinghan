@@ -10,6 +10,9 @@ Fk:loadTranslationTable {
   ["xinhan_yiwu"] = "星汉灿烂·义武",
 }
 
+
+-- 以下为魏国武将
+
 -- 曹洪，男，魏，4勾玉
 General:new(extension, "xh__caohong", "wei", 4):addSkills { "xh__yuanhu" }
 Fk:loadTranslationTable {
@@ -101,5 +104,44 @@ Fk:loadTranslationTable {
   ["~xh__lidian"] = "报国无门……",
 }
 
+-- 以下为吴国武将
+
+
+
+-- 孙坚，男，吴，4/5勾玉
+General:new(extension, "xh__sunjian", "wu", 4, 5):addSkills { "xh__yinghun" }
+Fk:loadTranslationTable {
+  ["xh__sunjian"] = "孙坚",
+  ["#xh__sunjian"] = "江东猛虎",
+  ["illustrator:xh__sunjian"] = "KayaK",
+  ["~xh__sunjian"] = "有埋伏……呃……",
+}
+
+-- 黄盖，男，吴，4勾玉
+General:new(extension, "xh__huanggai", "wu", 4):addSkills { "xh__kurou", "xh__zhaxiang" }
+Fk:loadTranslationTable {
+  ["xh__huanggai"] = "黄盖",
+  ["#xh__huanggai"] = "轻身为国",
+  ["illustrator:xh__huanggai"] = "KayaK",
+  ["~xh__huanggai"] = "再无……苦肉计了……",
+}
+
+-- 韩当，男，吴，4勾玉
+General:new(extension, "xh__handang", "wu", 4):addSkills { "xh__gongqi", "xh__jiefan" }
+Fk:loadTranslationTable {
+  ["xh__handang"] = "韩当",
+  ["#xh__handang"] = "石城侯",
+  ["illustrator:xh__handang"] = "KayaK",
+  ["~xh__handang"] = "江东……",
+}
+
+-- 孙权，男，吴，4勾玉
+General:new(extension, "xh__sunquan", "wu", 4):addSkills { "xh__zhiheng" }
+Fk:loadTranslationTable {
+  ["xh__sunquan"] = "孙权",
+  ["#xh__sunquan"] = "年轻的贤君",
+  ["illustrator:xh__sunquan"] = "KayaK",
+  ["~xh__sunquan"] = "父亲，大哥，仲谋愧矣……",
+}
 
 return extension

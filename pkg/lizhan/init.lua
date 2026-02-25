@@ -84,4 +84,46 @@ Fk:loadTranslationTable {
   ["~xh__dianwei"] = "主公……快走……",
 }
 
+
+
+-- 以下为吴国武将
+
+
+-- 孙坚sp，男，吴，4/5勾玉
+General:new(extension, "xhsp__sunjian", "wu", 4, 5):addSkills { "xh__hulie" }
+Fk:loadTranslationTable {
+  ["xhsp__sunjian"] = "孙坚",
+  ["#xhsp__sunjian"] = "江东猛虎",
+  ["illustrator:xhsp__sunjian"] = "KayaK",
+  ["~xhsp__sunjian"] = "有埋伏……呃……",
+}
+
+-- 孙策(吴)，男，吴，4勾玉
+General:new(extension, "xh__sunce", "wu", 4):addSkills { "xh__jiang", "xh__hunzi" }
+Fk:loadTranslationTable {
+  ["xh__sunce"] = "孙策",
+  ["#xh__sunce"] = "江东小霸王",
+  ["illustrator:xh__sunce"] = "KayaK",
+  ["~xh__sunce"] = "内事不决问张昭，外事不决问周瑜……",
+}
+
+-- 周瑜，男，吴，3勾玉
+General:new(extension, "xh__zhouyu", "wu", 3):addSkills { "xh__yingzi", "xh__fanjian" }
+Fk:loadTranslationTable {
+  ["xh__zhouyu"] = "周瑜",
+  ["#xh__zhouyu"] = "大都督",
+  ["illustrator:xh__zhouyu"] = "KayaK",
+  ["~xh__zhouyu"] = "既生瑜，何生亮……",
+}
+
+-- 庞统，男，吴，3勾玉
+General:new(extension, "xh__pangtong", "wu", 3):addSkills { "xh__guolun", "xh__zhanji" }
+Fk:loadTranslationTable {
+  ["xh__pangtong"] = "庞统",
+  ["#xh__pangtong"] = "凤雏",
+  ["illustrator:xh__pangtong"] = "KayaK",
+  ["~xh__pangtong"] = "落凤坡……",
+}
+
+
 return extension
