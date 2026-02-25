@@ -4,18 +4,14 @@
 local prefix = "packages.xinhanwujiang.pkg."
 
 -- 加载子扩展包
-local wei = require(prefix .. "wei")
-local shu = require(prefix .. "shu")
-local wu = require(prefix .. "wu")
-local qun = require(prefix .. "qun")
+local yiwu = require(prefix .. "yiwu")
+local lizhan = require(prefix .. "lizhan")
 
 Fk:loadTranslationTable {
   ["xinhanwujiang"] = "星汉武将",
 }
 
 return {
-  wei,
-  shu,
-  wu,
-  qun,
+  yiwu,
+  lizhan
 }
