@@ -170,7 +170,7 @@ Fk:loadTranslationTable {
 
 
 -- 贾诩，男，群，3勾玉
-General:new(extension, "xh__jiaxu", "qun", 3):addSkills { "xh__wansha", "xh__luanwu", "xh__weimu" }
+General:new(extension, "xh__jiaxu", "qun", 3):addSkills { "wzzz__wansha", "ol_ex__luanwu", "xh__weimu" }
 Fk:loadTranslationTable {
   ["xh__jiaxu"] = "贾诩",
   ["#xh__jiaxu"] = "冷酷的毒士",
