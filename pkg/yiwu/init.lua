@@ -425,7 +425,7 @@ Fk:loadTranslationTable {
 }
 
 -- 李儒，男，群，3勾玉
-General:new(extension, "xh__liru", "qun", 3):addSkills { "mieji", "juece", "fengcheng" }
+General:new(extension, "xh__liru", "qun", 3):addSkills { "mieji", "juece", "fencheng" }
 Fk:loadTranslationTable {
   ["xh__liru"] = "李儒",
   ["#xh__liru"] = "魔士",
