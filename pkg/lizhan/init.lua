@@ -67,7 +67,7 @@ Fk:loadTranslationTable {
 }
 
 -- 荀攸，男，魏，3勾玉
-General:new(extension, "xh__xunyou", "wei", 3):addSkills { "qice", "zhiyu" }
+General:new(extension, "xh__xunyou", "wei", 3):addSkills { "qice", "ty_ex__zhiyu" }
 Fk:loadTranslationTable {
   ["xh__xunyou"] = "荀攸",
   ["#xh__xunyou"] = "谋主",
