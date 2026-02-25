@@ -21,22 +21,15 @@ Fk:loadTranslationTable {
 zhiheng:addEffect("active", {
   anim_type = "drawcard",
   prompt = "#xh__zhiheng-use",
+
   max_phase_use_time = 1,
   target_num = 0,
-
-  -- 关键：主动技选牌用 min_card_num + effect.cards
   min_card_num = 1,
 
   card_filter = function(self, player, to_select)
-    -- 与标准包一致，避免选择被禁止弃置的牌
     return not player:prohibitDiscard(to_select)
   end,
-
   target_filter = Util.FalseFunc,
-
-  can_use = function(self, player)
-    return player.phase == Player.Play and not player:isNude()
-  end,
 
   on_use = function(self, room, effect)
     local player = effect.from
@@ -46,8 +39,7 @@ zhiheng:addEffect("active", {
       return
     end
 
-    -- 记录发动前的手牌，用于判断是否“弃置了所有手牌”
-    local hand_before = player:getCardIds(Player.Hand)
+    local hand_before = player:getCardIds("h")
 
     local discarded_all_hand = (#hand_before > 0)
     if discarded_all_hand then
@@ -59,7 +51,6 @@ zhiheng:addEffect("active", {
       end
     end
 
-    -- 先弃牌
     room:throwCard(discard_ids, zhiheng.name, player, player)
 
     if player.dead then
@@ -68,7 +59,6 @@ zhiheng:addEffect("active", {
 
     local draw_num = #discard_ids
 
-    -- “上阵武将数”按阵营存活角色的主将+副将计数
     if discarded_all_hand then
       local function countOnboardGenerals(ps)
         local n = 0
