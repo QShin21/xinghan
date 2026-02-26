@@ -17,7 +17,7 @@ Fk:loadTranslationTable{
 -- 存储明策技能的摸牌次数
 local last_mingce_draw_count = {}
 
--- 当"明策"技能触发时，记录对手摸牌的次数
+-- 监听"明策"技能，记录对手摸牌的次数
 mingce:addEffect(fk.CardUseFinished, {
   anim_type = "control",
   can_trigger = function(self, event, target, player, data)
