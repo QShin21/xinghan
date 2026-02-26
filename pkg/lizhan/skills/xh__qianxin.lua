@@ -23,7 +23,7 @@ qianxin:addEffect(fk.Damage, {
     local room = player.room
     room:changeMaxHp(player, -1)
     if not player.dead then
-      room:handleAddLoseSkills(player, "xh_jianyan")
+      room:handleAddLoseSkills(player, "xh__jianyan")
     end
   end,
 })
