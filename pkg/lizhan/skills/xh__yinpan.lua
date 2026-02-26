@@ -1,20 +1,19 @@
-local yinpan = fk.CreateSkill {
+local yinpan = fk.CreateSkill{
   name = "xh__yinpan",
-  frequency = Skill.Limited,
+  tags = { Skill.Limited },
 }
 
 Fk:loadTranslationTable{
   ["xh__yinpan"] = "引叛",
-  [":xh__yinpan"] = "限定技，出牌阶段，你可以对对手造成X点伤害（X为对手因"明策"摸牌的次数）。",
+  [":xh__yinpan"] = "限定技，出牌阶段，你可以对一名因“明策”摸过牌的其他角色造成X点伤害（X为其因“明策”摸牌的次数）。",
 
-  ["#xh__yinpan-invoke"] = "引叛：是否对对手造成伤害？",
+  ["#xh__yinpan"] = "引叛：对一名因“明策”摸过牌的角色造成X点伤害",
   ["@@xh__yinpan_count"] = "引叛计数",
 
   ["$xh__yinpan1"] = "引叛之计，借刀杀人！",
   ["$xh__yinpan2"] = "陈宫引叛，天下大乱！",
 }
 
--- 获取目标因明策摸牌的次数
 local function getMingceDrawCount(player)
   local mark = player:getTableMark("@@xh__yinpan_count")
   if type(mark) == "table" then
@@ -25,14 +24,30 @@ local function getMingceDrawCount(player)
   return 0
 end
 
-yinpan:addEffect(fk.EventPhaseStart, {
+local function clearMingceDrawCount(room, player)
+  local mark = player:getTableMark("@@xh__yinpan_count")
+  if type(mark) == "table" then
+    while #mark > 0 do
+      room:removeTableMark(player, "@@xh__yinpan_count", mark[1])
+      mark = player:getTableMark("@@xh__yinpan_count")
+      if type(mark) ~= "table" then
+        break
+      end
+    end
+  end
+end
+
+yinpan:addEffect("active", {
   anim_type = "offensive",
-  can_trigger = function(self, event, target, player, data)
-    if target ~= player or not player:hasSkill(yinpan.name) then return false end
+  prompt = "#xh__yinpan",
+  card_num = 0,
+  target_num = 1,
+  card_filter = Util.FalseFunc,
+
+  can_use = function(self, player)
     if player.phase ~= Player.Play then return false end
     if player:usedSkillTimes(yinpan.name, Player.HistoryGame) > 0 then return false end
 
-    -- 检查是否有对手因明策摸过牌
     local room = player.room
     for _, p in ipairs(room:getOtherPlayers(player, false)) do
       if getMingceDrawCount(p) > 0 then
@@ -41,38 +56,28 @@ yinpan:addEffect(fk.EventPhaseStart, {
     end
     return false
   end,
-  on_cost = function(self, event, target, player, data)
-    return player.room:askToSkillInvoke(player, {
-      skill_name = yinpan.name,
-      prompt = "#xh__yinpan-invoke",
-    })
+
+  target_filter = function(self, player, to_select, selected)
+    return #selected == 0 and to_select ~= player and getMingceDrawCount(to_select) > 0
   end,
-  on_use = function(self, event, target, player, data)
-    local room = player.room
 
-    -- 找出因明策摸过牌的对手
-    local targets = {}
-    for _, p in ipairs(room:getOtherPlayers(player, false)) do
-      local count = getMingceDrawCount(p)
-      if count > 0 then
-        table.insert(targets, {player = p, count = count})
-      end
-    end
+  on_use = function(self, room, effect)
+    local player = effect.from
+    local target = effect.tos[1]
+    if not player or player.dead or not target or target.dead then return end
 
-    if #targets == 0 then return end
+    local x = getMingceDrawCount(target)
+    if x <= 0 then return end
 
-    -- 对每个因明策摸过牌的对手造成伤害
-    for _, t in ipairs(targets) do
-      if not t.player.dead then
-        room:damage{
-          from = player,
-          to = t.player,
-          damage = t.count,
-          skillName = yinpan.name,
-        }
-      end
-      -- 清空该玩家的明策摸牌计数
-      room:setPlayerMark(t.player, "@@xh__yinpan_count", 0)
+    room:damage{
+      from = player,
+      to = target,
+      damage = x,
+      skillName = yinpan.name,
+    }
+
+    if not target.dead then
+      clearMingceDrawCount(room, target)
     end
   end,
 })
