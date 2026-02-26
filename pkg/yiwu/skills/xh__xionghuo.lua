@@ -20,6 +20,16 @@ local function changeDamage(data, n)
   end
 end
 
+-- 每次进入出牌阶段时，清理“出牌阶段限一次”的标记
+xionghuo:addEffect(fk.EventPhaseStart, {
+  can_refresh = function(self, event, target, player, data)
+    return target == player and player:hasSkill(xionghuo.name) and player.phase == Player.Play
+  end,
+  on_refresh = function(self, event, target, player, data)
+    player.room:setPlayerMark(player, "xh__xionghuo_used_in_play", 0)
+  end,
+})
+
 xionghuo:addEffect("active", {
   anim_type = "offensive",
   prompt = "#xh__xionghuo",
@@ -30,19 +40,24 @@ xionghuo:addEffect("active", {
   target_filter = function(self, player, to_select, selected)
     return #selected == 0 and to_select ~= player
   end,
+
   can_use = function(self, player)
-    return player.phase == Player.Play and
-      player:usedSkillTimes(xionghuo.name, Player.HistoryPhase) == 0 and
-      player:usedSkillTimes(xionghuo.name, Player.HistoryGame) < 3
+    return player.phase == Player.Play
+      and player:getMark("xh__xionghuo_used_in_play") == 0
+      and player:getMark("xh__xionghuo_used_game") < 3
   end,
+
   on_use = function(self, room, effect)
     local player = effect.from
     local target = effect.tos[1]
     if not target or target.dead or player.dead then return end
 
+    -- 计入次数：本局 +1，本出牌阶段 +1
+    room:addPlayerMark(player, "xh__xionghuo_used_game", 1)
+    room:setPlayerMark(player, "xh__xionghuo_used_in_play", 1)
+
     room:setPlayerMark(target, "xh__xionghuo_src", player.id)
     room:addPlayerMark(target, "xh__xionghuo_pending", 1)
-
     room:setPlayerMark(target, "xh__xionghuo_nextdamage-turn", 1)
   end,
 })

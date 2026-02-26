@@ -23,9 +23,19 @@ mutao:addEffect("active", {
     return #selected == 0 and to_select ~= player
   end,
   can_use = function(self, player)
-    return player.phase == Player.Play and
-      player:usedSkillTimes(mutao.name, Player.HistoryPhase) == 0 and
-      not player:isKongcheng()
+    if player.phase ~= Player.Play then return false end
+    if player:usedSkillTimes(mutao.name, Player.HistoryPhase) ~= 0 then return false end
+    if player:isKongcheng() then return false end
+
+    -- 手里至少有一张【杀】才允许发动
+    local hand = player:getCardIds("h")
+    for _, id in ipairs(hand) do
+      local c = Fk:getCardById(id)
+      if c and c.trueName == "slash" then
+        return true
+      end
+    end
+    return false
   end,
   on_use = function(self, room, effect)
     local player = effect.from
@@ -45,9 +55,12 @@ mutao:addEffect("active", {
       end
     end
 
-    if #slash_ids > 0 and not player.dead and not target.dead then
-      room:moveCardTo(slash_ids, Card.PlayerHand, target, fk.ReasonGive, mutao.name, nil, false, player)
+    -- 双保险：没有交出【杀】就不造成伤害
+    if #slash_ids == 0 or player.dead or target.dead then
+      return
     end
+
+    room:moveCardTo(slash_ids, Card.PlayerHand, target, fk.ReasonGive, mutao.name, nil, false, player)
 
     if player.dead or target.dead then return end
     room:damage{

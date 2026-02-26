@@ -14,14 +14,6 @@ Fk:loadTranslationTable{
   ["$xh__lulve2"] = "天下大乱，掳掠以自保。",
 }
 
-local function endCurrentPhase(room)
-  if room.logic and room.logic.breakCurrentPhase then
-    room.logic:breakCurrentPhase()
-  elseif room.logic and room.logic.breakCurrentEvent then
-    room.logic:breakCurrentEvent()
-  end
-end
-
 lulve:addEffect(fk.EventPhaseStart, {
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(lulve.name) and player.phase == Player.Play and
@@ -65,7 +57,8 @@ lulve:addEffect(fk.EventPhaseStart, {
         room:moveCardTo(ids, Player.Hand, player, fk.ReasonGive, lulve.name, nil, false, to)
       end
       if not player.dead then
-        endCurrentPhase(room)
+        -- 修复点：结束本阶段用阶段数据标记
+        data.phase_end = true
       end
     else
       if player.dead or to.dead then return end
