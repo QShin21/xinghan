@@ -1,19 +1,19 @@
 local neifa = fk.CreateSkill{
-  name = "neifa",
+  name = "xh__neifa",
 }
 
 Fk:loadTranslationTable{
-  ["neifa"] = "内伐",
-  [":neifa"] = "出牌阶段开始时，你可以摸一张牌，然后弃置一张牌并选择一项：1.此阶段你不能使用锦囊牌且【杀】的使用次数+1；2.此阶段你不能使用基本牌，使用普通锦囊牌指定目标后你可以摸一张牌；3.此阶段你使用装备牌后，可以弃置对手一张牌。",
+  ["xh__neifa"] = "内伐",
+  [":xh__neifa"] = "出牌阶段开始时，你可以摸一张牌，然后弃置一张牌并选择一项：1.此阶段你不能使用锦囊牌且【杀】的使用次数+1；2.此阶段你不能使用基本牌，使用普通锦囊牌指定目标后你可以摸一张牌；3.此阶段你使用装备牌后，可以弃置对手一张牌。",
   
-  ["@neifa-turn"] = "内伐",
-  ["neifa_choice1"] = "不能使用锦囊牌，且【杀】的使用次数+1",
-  ["neifa_choice2"] = "不能使用基本牌，使用普通锦囊牌后可以摸一张牌",
-  ["neifa_choice3"] = "使用装备牌后，可以弃置对手一张牌",
-  ["#neifa-choose"] = "内伐：请选择一个选项",
+  ["@xh__neifa-turn"] = "内伐",
+  ["xh__neifa_choice1"] = "不能使用锦囊牌，且【杀】的使用次数+1",
+  ["xh__neifa_choice2"] = "不能使用基本牌，使用普通锦囊牌后可以摸一张牌",
+  ["xh__neifa_choice3"] = "使用装备牌后，可以弃置对手一张牌",
+  ["#xh__neifa-choose"] = "内伐：请选择一个选项",
 
-  ["$neifa1"] = "自相恩残，相煎何急。",
-  ["$neifa2"] = "同室内伐，贻笑外人。",
+  ["$xh__neifa1"] = "自相恩残，相煎何急。",
+  ["$xh__neifa2"] = "同室内伐，贻笑外人。",
 }
 
 neifa:addEffect(fk.EventPhaseStart, {
@@ -23,7 +23,7 @@ neifa:addEffect(fk.EventPhaseStart, {
   on_use = function(self, event, target, player, data)
     local room = player.room
     -- 选择项
-    local choices = {"neifa_choice1", "neifa_choice2", "neifa_choice3"}
+    local choices = {"xh__neifa_choice1", "xh__neifa_choice2", "xh__neifa_choice3"}
     local choice = room:askToChoice(player, {
       choices = choices,
       skill_name = neifa.name,
@@ -35,23 +35,23 @@ neifa:addEffect(fk.EventPhaseStart, {
       max_num = 1,
       include_equip = true,
       skill_name = neifa.name,
-      prompt = "#neifa-discard",
+      prompt = "#xh__neifa-discard",
       cancelable = false,
       skip = true,
     })
     room:throwCard(card, neifa.name, player, player)
 
     -- 处理玩家选择的效果
-    if choice == "neifa_choice1" then
+    if choice == "xh__neifa_choice1" then
       -- 不能使用锦囊牌且【杀】的使用次数+1
       room:addPlayerMark(player, MarkEnum.SlashResidue.."-phase", 1)
-      player:getTableMark("@neifa-turn") -- 标记玩家选择的效果
-    elseif choice == "neifa_choice2" then
+      player:getTableMark("@xh__neifa-turn") -- 标记玩家选择的效果
+    elseif choice == "xh__neifa_choice2" then
       -- 不能使用基本牌，使用普通锦囊牌后可以摸一张牌
-      room:setPlayerMark(player, "@neifa-turn", "non_basic_char")
-    elseif choice == "neifa_choice3" then
+      room:setPlayerMark(player, "@xh__neifa-turn", "non_basic_char")
+    elseif choice == "xh__neifa_choice3" then
       -- 使用装备牌后，可以弃置对手一张牌
-      room:setPlayerMark(player, "@neifa-turn", "equip_char")
+      room:setPlayerMark(player, "@xh__neifa-turn", "equip_char")
     end
   end,
 })
@@ -74,7 +74,7 @@ neifa:addEffect(fk.CardUsing, {
       max_num = 1,
       targets = room:getOtherPlayers(player),
       skill_name = neifa.name,
-      prompt = "#neifa-choose",
+      prompt = "#xh__neifa-choose",
       cancelable = false,
     })[1]
     local card = room:askToChooseCard(player, {
@@ -89,7 +89,7 @@ neifa:addEffect(fk.CardUsing, {
 -- 更新【杀】的使用次数
 neifa:addEffect("prohibit", {
   prohibit_use = function(self, player, card)
-    local mark = player:getTableMark("@neifa-turn")
+    local mark = player:getTableMark("@xh__neifa-turn")
     if card:isCommonTrick() then
       return table.contains(mark, "non_basic_char")
     end
