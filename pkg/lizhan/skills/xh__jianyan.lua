@@ -1,36 +1,36 @@
 Fk:loadTranslationTable{
-  ["xh_jianyan"] = "荐言",
-  [":xh_jianyan"] = "出牌阶段各限一次，你可以声明一种牌的类别或颜色，然后连续亮出牌堆顶的牌，直到亮出符合你声明的牌为止，你将此牌交给一名男性角色。",
+  ["xh__jianyan"] = "荐言",
+  [":xh__jianyan"] = "出牌阶段各限一次，你可以声明一种牌的类别或颜色，然后连续亮出牌堆顶的牌，直到亮出符合你声明的牌为止，你将此牌交给一名男性角色。",
 
-  ["#xh_jianyan"] = "荐言：声明牌的类别或颜色，亮出牌堆顶牌直到出现符合声明的牌，并交给一名男性角色",
-  ["#xh_jianyan-give"] = "荐言：将%arg交给一名角色",
+  ["#xh__jianyan"] = "荐言：声明牌的类别或颜色，亮出牌堆顶牌直到出现符合声明的牌，并交给一名男性角色",
+  ["#xh__jianyan-give"] = "荐言：将%arg交给一名角色",
 
-  ["$xh_jianyan1"] = "开言纳谏，社稷之福。",
-  ["$xh_jianyan2"] = "如此如此，敌军自破！",
+  ["$xh__jianyan1"] = "开言纳谏，社稷之福。",
+  ["$xh__jianyan2"] = "如此如此，敌军自破！",
 }
 
 local jianyan = fk.CreateSkill{
-  name = "xh_jianyan",
+  name = "xh__jianyan",
 }
 
 jianyan:addEffect("active", {
   anim_type = "support",
-  prompt = "#xh_jianyan",
+  prompt = "#xh__jianyan",
   card_num = 0,
   target_num = 0,
   card_filter = Util.FalseFunc,
 
   can_use = function(self, player)
     return player.phase == Player.Play and
-      (player:getMark("xh_jianyan_color-phase") == 0 or player:getMark("xh_jianyan_type-phase") == 0)
+      (player:getMark("xh__jianyan_color-phase") == 0 or player:getMark("xh_jianyan_type-phase") == 0)
   end,
 
   interaction = function(self, player)
     local choices = {}
-    if player:getMark("xh_jianyan_type-phase") == 0 then
+    if player:getMark("xh__jianyan_type-phase") == 0 then
       table.insertTable(choices, {"basic", "trick", "equip"})
     end
-    if player:getMark("xh_jianyan_color-phase") == 0 then
+    if player:getMark("xh__jianyan_color-phase") == 0 then
       table.insertTable(choices, {"black", "red"})
     end
     return UI.ComboBox { choices = choices }
@@ -40,7 +40,7 @@ jianyan:addEffect("active", {
     local player = effect.from
     local choice = self.interaction.data
     if not choice then
-      if player:getMark("xh_jianyan_type-phase") == 0 then
+      if player:getMark("xh__jianyan_type-phase") == 0 then
         choice = "basic"
       else
         choice = "red"
@@ -68,9 +68,9 @@ jianyan:addEffect("active", {
     end
 
     if choice == "red" or choice == "black" then
-      room:setPlayerMark(player, "xh_jianyan_color-phase", 1)
+      room:setPlayerMark(player, "xh__jianyan_color-phase", 1)
     else
-      room:setPlayerMark(player, "xh_jianyan_type-phase", 1)
+      room:setPlayerMark(player, "xh__jianyan_type-phase", 1)
     end
 
     local revealed = {}
@@ -111,7 +111,7 @@ jianyan:addEffect("active", {
       targets = targets,
       min_num = 1,
       max_num = 1,
-      prompt = "#xh_jianyan-give:::" .. Fk:getCardById(hit_id):toLogString(),
+      prompt = "#xh__jianyan-give:::" .. Fk:getCardById(hit_id):toLogString(),
       skill_name = jianyan.name,
       cancelable = false,
     })[1]
@@ -126,8 +126,8 @@ jianyan:addEffect("active", {
 
 jianyan:addLoseEffect(function(self, player, is_death)
   local room = player.room
-  room:setPlayerMark(player, "xh_jianyan_color-phase", 0)
-  room:setPlayerMark(player, "xh_jianyan_type-phase", 0)
+  room:setPlayerMark(player, "xh__jianyan_color-phase", 0)
+  room:setPlayerMark(player, "xh__jianyan_type-phase", 0)
 end)
 
 return jianyan

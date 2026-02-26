@@ -1,5 +1,5 @@
 local hulie = fk.CreateSkill{
-  name = "hulie",
+  name = "xh__hulie",
   max_branches_use_time = {
     ["slash"] = {
       [Player.HistoryTurn] = 1
@@ -11,10 +11,10 @@ local hulie = fk.CreateSkill{
 }
 
 Fk:loadTranslationTable{
-  ["hulie"] = "虎烈",
-  [":hulie"] = "每回合各限一次，你使用【杀】或【决斗】仅指定一名角色为目标后，你可令此牌伤害+1。此牌结算后，若其体力值小于你，其视为对你使用一张【杀】。",
+  ["xh__hulie"] = "虎烈",
+  [":xh__hulie"] = "每回合各限一次，你使用【杀】或【决斗】仅指定一名角色为目标后，你可令此牌伤害+1。此牌结算后，若其体力值小于你，其视为对你使用一张【杀】。",
 
-  ["#hulie-invoke"] = "虎烈：是否令此%arg伤害+1？",
+  ["#xh__hulie-invoke"] = "虎烈：是否令此%arg伤害+1？",
 
   ["$hulie1"] = "匹夫犯我，吾必斩之。",
   ["$hulie2"] = "鼠辈，这一刀下去定让你看不到明天的太阳。",
@@ -30,7 +30,7 @@ hulie:addEffect(fk.TargetSpecified, {
   on_cost = function(self, event, target, player, data)
     if player.room:askToSkillInvoke(player, {
       skill_name = hulie.name,
-      prompt = "#hulie-invoke:::" .. data.card:toLogString(),
+      prompt = "#xh__hulie-invoke:::" .. data.card:toLogString(),
     }) then
       event:setCostData(self, { history_branch = data.card.trueName })
       return true

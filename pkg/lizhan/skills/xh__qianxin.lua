@@ -1,13 +1,13 @@
 Fk:loadTranslationTable{
-  ["qianxin"] = "潜心",
-  [":qianxin"] = "觉醒技，当你造成伤害后，若你已受伤，你减1点体力上限，并获得〖荐言〗。",
+  ["xh__qianxin"] = "潜心",
+  [":xh__qianxin"] = "觉醒技，当你造成伤害后，若你已受伤，你减1点体力上限，并获得〖荐言〗。",
 
-  ["$qianxin1"] = "既遇明主，天下可图！",
-  ["$qianxin2"] = "弃武从文，安邦卫国！",
+  ["$xh__qianxin1"] = "既遇明主，天下可图！",
+  ["$xh__qianxin2"] = "弃武从文，安邦卫国！",
 }
 
 local qianxin = fk.CreateSkill{
-  name = "qianxin",
+  name = "xh__qianxin",
   tags = { Skill.Wake },
 }
 

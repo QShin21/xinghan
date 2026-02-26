@@ -1,16 +1,16 @@
 Fk:loadTranslationTable {
-  ["ex__jizhi"] = "集智",
-  [":ex__jizhi"] = "当你使用锦囊牌时，你可以摸一张牌。若此牌为基本牌且此时是你的回合内，则你可以弃置之，然后令本回合手牌上限+1。",
+  ["xh__jizhi"] = "集智",
+  [":xh__jizhi"] = "当你使用普通锦囊牌时，你可以摸一张牌。若此牌为基本牌且此时是你的回合内，则你可以弃置之，然后令本回合手牌上限+1。",
 
-  ["@jizhi-turn"] = "集智",
-  ["#jizhi-invoke"] = "集智：是否弃置%arg，令你本回合的手牌上限+1？",
+  ["@xh__jizhi-turn"] = "集智",
+  ["#xh__jizhi-invoke"] = "集智：是否弃置%arg，令你本回合的手牌上限+1？",
 
-  ["$ex__jizhi1"] = "得上通，智集心。",
-  ["$ex__jizhi2"] = "集万千才智，致巧趣鲜用。",
+  ["$xh__jizhi1"] = "得上通，智集心。",
+  ["$xh__jizhi2"] = "集万千才智，致巧趣鲜用。",
 }
 
 local jizhi = fk.CreateSkill {
-  name = "ex__jizhi",
+  name = "xh__jizhi",
 }
 
 jizhi:addEffect(fk.CardUsing, {
@@ -42,7 +42,7 @@ jizhi:addEffect(fk.CardUsing, {
         table.contains(player:getCardIds("h"), card.id) and not player:prohibitDiscard(card) and
         room:askToSkillInvoke(player, {
           skill_name = jizhi.name,
-          prompt = "#jizhi-invoke:::" .. card:toLogString(),
+          prompt = "#xh__jizhi-invoke:::" .. card:toLogString(),
         }) then
       room:addPlayerMark(player, MarkEnum.AddMaxCardsInTurn, 1)
       room:throwCard(card, jizhi.name, player, player)
@@ -53,10 +53,10 @@ jizhi:addEffect(fk.CardUsing, {
 jizhi:addTest(function(room, me)
   local comp2 = room.players[2]
   FkTest.runInRoom(function()
-    room:handleAddLoseSkills(me, "ex__jizhi")
+    room:handleAddLoseSkills(me, "xh__jizhi")
   end)
 
-  local ex_nihilo = room:printCard("ex_nihilo")
+  local ex_nihilo = room:printCard("xh_nihilo")
 
   -- test1 一般的集智判定
   FkTest.setNextReplies(me, {
