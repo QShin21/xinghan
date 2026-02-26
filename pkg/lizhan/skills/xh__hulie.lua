@@ -16,8 +16,8 @@ Fk:loadTranslationTable{
 
   ["#xh__hulie-invoke"] = "虎烈：是否令此%arg伤害+1？",
 
-  ["$hulie1"] = "匹夫犯我，吾必斩之。",
-  ["$hulie2"] = "鼠辈，这一刀下去定让你看不到明天的太阳。",
+  ["$xh__hulie1"] = "匹夫犯我，吾必斩之。",
+  ["$xh__hulie2"] = "鼠辈，这一刀下去定让你看不到明天的太阳。",
 }
 
 hulie:addEffect(fk.TargetSpecified, {
