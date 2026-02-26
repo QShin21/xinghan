@@ -3,9 +3,9 @@ local yinpan = fk.CreateSkill {
   frequency = Skill.Limited,
 }
 
-Fk:loadTranslationTable {
+Fk:loadTranslationTable{
   ["xh__yinpan"] = "引叛",
-  [":xh__yinpan"] = "限定技，出牌阶段开始时，你可以对对手造成X点伤害（X为对手因\"明策\"摸牌的次数）。",
+  [":xh__yinpan"] = "限定技，出牌阶段，你可以对对手造成X点伤害（X为对手因“明策”摸牌的次数）。",
 
   ["#xh__yinpan-invoke"] = "引叛：是否对对手造成伤害？",
   ["@@xh__yinpan_count"] = "引叛计数",
@@ -14,7 +14,7 @@ Fk:loadTranslationTable {
   ["$xh__yinpan2"] = "陈宫引叛，天下大乱！",
 }
 
--- 监听"明策"技能，记录对手因明策技能摸牌的次数
+-- 存储明策技能的摸牌次数
 local last_mingce_draw_count = {}
 
 -- 当"明策"技能触发时，记录对手摸牌的次数
