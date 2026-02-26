@@ -5,10 +5,12 @@ local liyong = fk.CreateSkill{
 
 Fk:loadTranslationTable{
   ["xh__liyong"] = "历勇",
-  [":xh__liyong"] = "转换技，出牌阶段每项限一次，阳：你可以将一张本回合你未使用过的花色的牌当【决斗】使用；阴：你可以从弃牌堆中获得一张你本回合使用过的花色的牌，令一名角色视为对你使用一张【决斗】。",
+  [":xh__liyong"] = "转换技，出牌阶段每项限一次，阳：你可以将一张本回合你未使用过的花色的牌当【决斗】使用；阴：你可以从牌堆中获得一张你本回合使用过的花色的牌，" ..
+  "令一名角色视为对你使用一张【决斗】。",
 
-  ["#xh__liyong-yang"] = "历勇：将一张本回合未使用过花色的牌当【决斗】使用",
-  ["#xh__liyong-yin"] = "历勇：从弃牌堆获得一张本回合用过花色的牌，令一名角色视为对你使用【决斗】",
+  ["#xh__liyong-yang"] = "历勇：将一张本回合未使用花色的牌当【决斗】使用",
+  ["#xh__liyong-yin"] = "历勇：获得牌堆中一张本回合已使用花色的牌，选择一名角色视为对你使用【决斗】",
+  ["@xh__liyong-turn"] = "历勇",
 
   ["$xh__liyong1"] = "今日，我虽死，却未辱武安之名！",
   ["$xh__liyong2"] = "我受文举恩义，今当以死报之！",
@@ -22,9 +24,7 @@ local function suitStr(card)
 end
 
 local function usedSuits(player)
-  local t = player:getTableMark("@xh__liyong-turn")
-  if type(t) ~= "table" then return {} end
-  return t
+  return player:getTableMark("@xh__liyong-turn") or {}
 end
 
 local function addUsedSuit(room, player, s)
