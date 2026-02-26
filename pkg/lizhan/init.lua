@@ -169,7 +169,7 @@ Fk:loadTranslationTable {
 }
 
 -- 徐庶，男，蜀，4勾玉
-General:new(extension, "xh__xushu", "shu", 4):addSkills { "ty_ex__zhuhai", "xh_qianxin" }
+General:new(extension, "xh__xushu", "shu", 4):addSkills { "ty_ex__zhuhai", "xh__qianxin" }
 Fk:loadTranslationTable {
   ["xh__xushu"] = "徐庶",
   ["#xh__xushu"] = "忠孝",
