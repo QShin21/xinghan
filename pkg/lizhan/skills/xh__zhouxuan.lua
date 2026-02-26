@@ -63,14 +63,7 @@ zhouxuan:addEffect(fk.CardUsing, {
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
-    local n = 1
-    -- 如果不是唯一手牌数最大的角色，则摸X张牌
-    if table.find(room:getOtherPlayers(player, false), function(p)
-      return p:getHandcardNum() >= player:getHandcardNum()
-    end) then
-      n = #player:getPile("$xh__zhanghe_xuan")
-    end
-    player:drawCards(n, zhouxuan.name)
+    player:drawCards(1, zhouxuan.name)
     if not player.dead and #player:getPile("$xh__zhanghe_xuan") > 0 then
       -- 随机移去一张“旋”
       room:moveCardTo(table.random(player:getPile("$xh__zhanghe_xuan")), Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile,
