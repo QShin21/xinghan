@@ -22,16 +22,18 @@ local function suitStr(card)
 end
 
 local function usedSuits(player)
-  return player:getTableMark("xh__liyong_suits-turn") or {}
+  local t = player:getTableMark("@xh__liyong-turn")
+  if type(t) ~= "table" then return {} end
+  return t
 end
 
 local function addUsedSuit(room, player, s)
   if s then
-    room:addTableMarkIfNeed(player, "xh__liyong_suits-turn", s)
+    room:addTableMarkIfNeed(player, "@xh__liyong-turn", s)
   end
 end
 
-local function getSubcardIds(card)
+local function getSubcards(card)
   if not card then return {} end
   if type(card.subcards) == "table" then return card.subcards end
   if card.getSubcards then
@@ -41,16 +43,14 @@ local function getSubcardIds(card)
   return {}
 end
 
-local function recordUsedSuitsFromCard(room, player, card)
+local function recordUsedSuits(room, player, card)
   if not room or not player or not card then return end
-
   local s = suitStr(card)
   if s then
     addUsedSuit(room, player, s)
     return
   end
-
-  for _, id in ipairs(getSubcardIds(card)) do
+  for _, id in ipairs(getSubcards(card)) do
     local c = Fk:getCardById(id)
     local ss = suitStr(c)
     if ss then
@@ -59,65 +59,54 @@ local function recordUsedSuitsFromCard(room, player, card)
   end
 end
 
-local function recordUsedSuitsFromIds(room, player, ids)
-  if not ids then return end
-  for _, id in ipairs(ids) do
-    local c = Fk:getCardById(id)
-    local s = suitStr(c)
-    if s then
-      addUsedSuit(room, player, s)
-    end
-  end
-end
-
-local function hasAnyYangOption(player)
-  local room = player.room
+local function hasUnusedSuitHandCard(player)
   local used = usedSuits(player)
-  local others = room:getOtherPlayers(player, false)
-  if #others == 0 then return false end
-
   for _, id in ipairs(player:getCardIds("h")) do
     local c = Fk:getCardById(id)
     local s = suitStr(c)
     if s and not table.contains(used, s) then
-      local duel = Fk:cloneCard("duel")
-      duel.skillName = "xh__liyong"
-      duel:addSubcard(id)
-      if player:canUse(duel) then
-        for _, p in ipairs(others) do
-          if not p.dead and player:canUseTo(duel, p) then
-            return true
-          end
-        end
-      end
-    end
-  end
-  return false
-end
-
-local function hasAnyYinOption(player)
-  local room = player.room
-  local used = usedSuits(player)
-  if #used == 0 then return false end
-
-  local eligible = {}
-  for _, id in ipairs(room.discard_pile) do
-    local c = Fk:getCardById(id)
-    local s = suitStr(c)
-    if s and table.contains(used, s) then
-      table.insert(eligible, id)
-    end
-  end
-  if #eligible == 0 then return false end
-
-  local duel = Fk:cloneCard("duel")
-  for _, p in ipairs(room:getOtherPlayers(player, false)) do
-    if not p.dead and p:canUseTo(duel, player, { bypass_distances = true, bypass_times = true }) then
       return true
     end
   end
   return false
 end
+
+local function hasEligibleDiscard(player)
+  local room = player.room
+  local used = usedSuits(player)
+  if #used == 0 then return false end
+  for _, id in ipairs(room.discard_pile) do
+    local c = Fk:getCardById(id)
+    local s = suitStr(c)
+    if s and table.contains(used, s) then
+      return true
+    end
+  end
+  return false
+end
+
+local function hasYinTarget(player)
+  local room = player.room
+  local duel = Fk:cloneCard("duel")
+  for _, p in ipairs(room:getOtherPlayers(player, false)) do
+    if not p.dead and p:canUseTo(duel, player) then
+      return true
+    end
+  end
+  return false
+end
+
+-- 出牌阶段开始时，清理“每项限一次”的阶段标记
+liyong:addEffect(fk.EventPhaseStart, {
+  can_refresh = function(self, event, target, player, data)
+    return target == player and player:hasSkill(liyong.name, true) and player.phase == Player.Play
+  end,
+  on_refresh = function(self, event, target, player, data)
+    local room = player.room
+    room:setPlayerMark(player, "xh__liyong_yang-phase", 0)
+    room:setPlayerMark(player, "xh__liyong_yin-phase", 0)
+  end,
+})
 
 liyong:addEffect("active", {
   anim_type = "switch",
@@ -133,10 +122,13 @@ liyong:addEffect("active", {
   can_use = function(self, player)
     if player.phase ~= Player.Play then return false end
     local state = player:getSwitchSkillState(liyong.name, false)
+
     if state == fk.SwitchYang then
-      return player:getMark("xh__liyong_yang-phase") == 0 and hasAnyYangOption(player)
+      if player:getMark("xh__liyong_yang-phase") ~= 0 then return false end
+      return hasUnusedSuitHandCard(player)
     else
-      return player:getMark("xh__liyong_yin-phase") == 0 and hasAnyYinOption(player)
+      if player:getMark("xh__liyong_yin-phase") ~= 0 then return false end
+      return #usedSuits(player) > 0 and hasEligibleDiscard(player) and hasYinTarget(player)
     end
   end,
 
@@ -153,33 +145,34 @@ liyong:addEffect("active", {
     local duel = Fk:cloneCard("duel")
     duel.skillName = liyong.name
     duel:addSubcard(to_select)
-    return player:canUse(duel) and player:getMark("xh__liyong_yang-phase") == 0
+    return player:canUse(duel)
   end,
 
   target_filter = function(self, player, to_select, selected, selected_cards)
     local state = player:getSwitchSkillState(liyong.name, false)
+
     if state == fk.SwitchYang then
       if #selected_cards ~= 1 then return false end
-      local duel = Fk:cloneCard("duel")
-      duel.skillName = liyong.name
-      duel:addSubcards(selected_cards)
-      return duel.skill:targetFilter(player, to_select, selected, {}, duel)
+      local card = Fk:cloneCard("duel")
+      card.skillName = liyong.name
+      card:addSubcards(selected_cards)
+      return card.skill:targetFilter(player, to_select, selected, {}, card)
     else
       if #selected ~= 0 then return false end
       if to_select == player then return false end
-      local duel = Fk:cloneCard("duel")
-      return to_select:canUseTo(duel, player, { bypass_distances = true, bypass_times = true })
+      return to_select:canUseTo(Fk:cloneCard("duel"), player)
     end
   end,
 
   feasible = function(self, player, selected, selected_cards)
     local state = player:getSwitchSkillState(liyong.name, false)
+
     if state == fk.SwitchYang then
       if #selected_cards ~= 1 then return false end
-      local duel = Fk:cloneCard("duel")
-      duel.skillName = liyong.name
-      duel:addSubcards(selected_cards)
-      return duel.skill:feasible(player, selected, {}, duel)
+      local card = Fk:cloneCard("duel")
+      card.skillName = liyong.name
+      card:addSubcards(selected_cards)
+      return card.skill:feasible(player, selected, {}, card)
     else
       return #selected_cards == 0 and #selected == 1
     end
@@ -192,8 +185,10 @@ liyong:addEffect("active", {
     if state == fk.SwitchYang then
       room:setPlayerMark(player, "xh__liyong_yang-phase", 1)
 
-      -- 修复点：阳面用子卡当【决斗】时，把该子卡花色计入“本回合已用花色”
-      recordUsedSuitsFromIds(room, player, effect.cards)
+      if effect.cards and #effect.cards > 0 then
+        local c = Fk:getCardById(effect.cards[1])
+        addUsedSuit(room, player, suitStr(c))
+      end
 
       room:sortByAction(effect.tos)
       room:useVirtualCard("duel", effect.cards, player, effect.tos, liyong.name)
@@ -206,7 +201,6 @@ liyong:addEffect("active", {
         local s = suitStr(c)
         return s and table.contains(used, s)
       end)
-
       if #eligible > 0 then
         local getId = table.random(eligible)
         room:obtainCard(player, getId, true, fk.ReasonJustMove, player, liyong.name)
@@ -214,47 +208,45 @@ liyong:addEffect("active", {
 
       local src = effect.tos[1]
       if not player.dead and src and not src.dead then
-        room:useVirtualCard("duel", nil, src, player, liyong.name, true)
+        room:useVirtualCard("duel", nil, src, player, liyong.name)
       end
     end
   end,
 })
 
--- 修复点：记录“本回合使用过的花色”时，虚拟牌也要从子卡提取花色
 liyong:addEffect(fk.AfterCardUseDeclared, {
   can_refresh = function(self, event, target, player, data)
     return target == player and player:hasSkill(liyong.name, true) and
       player.room.current == player and data.card ~= nil
   end,
   on_refresh = function(self, event, target, player, data)
-    recordUsedSuitsFromCard(player.room, player, data.card)
+    recordUsedSuits(player.room, player, data.card)
   end,
 })
-
--- 修复点：中途获得技能时回溯本回合已用花色，也要兼容虚拟牌的子卡
-local function collectSuitsFromCard(card, out)
-  if not card then return end
-  local s = suitStr(card)
-  if s then table.insertIfNeed(out, s) end
-  for _, id in ipairs(getSubcardIds(card)) do
-    local c = Fk:getCardById(id)
-    local ss = suitStr(c)
-    if ss then table.insertIfNeed(out, ss) end
-  end
-end
 
 liyong:addAcquireEffect(function(self, player, is_start)
   if player.room.current == player then
     local room = player.room
     local mark = {}
+
     room.logic:getEventsOfScope(GameEvent.UseCard, 1, function(e)
       local use = e.data
       if use.from == player and use.card then
-        collectSuitsFromCard(use.card, mark)
+        local s = suitStr(use.card)
+        if s then
+          table.insertIfNeed(mark, s)
+        else
+          for _, id in ipairs(getSubcards(use.card)) do
+            local c = Fk:getCardById(id)
+            local ss = suitStr(c)
+            if ss then table.insertIfNeed(mark, ss) end
+          end
+        end
       end
     end, Player.HistoryTurn)
+
     if #mark > 0 then
-      room:setPlayerMark(player, "xh__liyong_suits-turn", mark)
+      room:setPlayerMark(player, "@xh__liyong-turn", mark)
     end
   end
 end)
