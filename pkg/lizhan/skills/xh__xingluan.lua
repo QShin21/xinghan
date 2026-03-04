@@ -1,56 +1,126 @@
-local xingluan = fk.CreateSkill {
+local xingluan = fk.CreateSkill{
   name = "xh__xingluan",
 }
 
 Fk:loadTranslationTable{
   ["xh__xingluan"] = "兴乱",
   [":xh__xingluan"] = "出牌阶段限一次，当你使用仅指定一个目标的牌结算完毕后，你可以将牌堆顶六张牌置入弃牌堆，然后从弃牌堆中选择一张点数为6且上个回合未选择的牌名的牌获得。",
-  
+  ["#xh__xingluan-invoke"] = "兴乱：你可以将牌堆顶六张牌置入弃牌堆，然后从弃牌堆获得一张点数为6且上回合未选牌名的牌",
+  ["#xh__xingluan-pick"] = "兴乱：请选择要获得的牌",
+
   ["$xh__xingluan1"] = "大兴兵争，长安当乱。",
   ["$xh__xingluan2"] = "勇猛兴军，乱世当立。",
 }
 
--- 存储上个回合已选择的牌名
-local last_round_selected = {}
+local LAST_MARK = "xh__xingluan_last"
+local THIS_MARK = "xh__xingluan_this"
 
-xingluan:addEffect(fk.CardUseFinished, {
-  anim_type = "control",
+-- 回合开始时做“上回合牌名”滚动：last <- this，this 清空
+xingluan:addEffect(fk.TurnStart, {
   can_trigger = function(self, event, target, player, data)
-    return target == player and player:hasSkill(xingluan.name) and player.phase == Player.Play and
-      #data.tos == 1 and player:usedSkillTimes(xingluan.name, Player.HistoryPhase) == 0
+    return target == player and player:hasSkill(xingluan.name)
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
-    
-    -- 将牌堆顶六张牌置入弃牌堆
-    local cards = room:getNCards(6, "top")
-    room:moveCardsTo(cards, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, xingluan.name, nil, true, player)
-    
-    -- 从弃牌堆中选择点数为6且上个回合未选择的牌名的牌
-    local available_cards = table.filter(cards, function(card_id)
-      local card = Fk:getCardById(card_id)
-      return card.number == 6 and not table.contains(last_round_selected, card.name)
-    end)
-    
-    -- 如果有符合条件的牌，可以让玩家选择
-    if #available_cards > 0 then
-      local selected_card = room:askToChooseCard(player, {
-        min_num = 1,
-        max_num = 1,
-        skill_name = xingluan.name,
-        prompt = "请选择一张点数为6且上个回合未选择的牌",
-        cards = available_cards,
-      })
-      if selected_card then
-        -- 玩家选择的牌移至手牌
-        room:moveCardTo(selected_card, Card.PlayerHand, player, fk.ReasonGetFromDiscard, xingluan.name, nil, false, player)
-        
-        -- 记录本次选择的牌名，用于下回合的过滤
-        table.insert(last_round_selected, Fk:getCardById(selected_card).name)
-      end
+    local t = player:getTableMark(THIS_MARK)
+    if t and #t > 0 then
+      room:setPlayerMark(player, LAST_MARK, t)
     else
-      -- 如果没有符合条件的牌，摸6张牌
-      player:drawCards(6, xingluan.name)
+      room:setPlayerMark(player, LAST_MARK, 0)
+    end
+    room:setPlayerMark(player, THIS_MARK, 0)
+  end,
+})
+
+xingluan:addEffect(fk.CardUseFinished, {
+  anim_type = "control",
+
+  can_trigger = function(self, event, target, player, data)
+    if target ~= player then return false end
+    if not player:hasSkill(xingluan.name) then return false end
+    if player.phase ~= Player.Play then return false end
+    if player:usedEffectTimes(xingluan.name, Player.HistoryPhase) > 0 then return false end
+    if not data or not data.tos then return false end
+    return #data.tos == 1
+  end,
+
+  on_cost = function(self, event, target, player, data)
+    return player.room:askToSkillInvoke(player, {
+      skill_name = xingluan.name,
+      prompt = "#xh__xingluan-invoke",
+    })
+  end,
+
+  on_use = function(self, event, target, player, data)
+    local room = player.room
+    local skillName = xingluan.name
+
+    -- 1) 牌堆顶六张置入弃牌堆
+    local top6 = room:getNCards(6, "top")
+    if top6 and #top6 > 0 then
+      room:moveCardTo(top6, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, skillName, nil, true, player)
+    end
+
+    -- 2) 读取“上回合选过的牌名”
+    local last_tbl = player:getTableMark(LAST_MARK)
+    local last_name = nil
+    if last_tbl and #last_tbl > 0 then
+      last_name = last_tbl[1]
+    end
+
+    -- 3) 从整个弃牌堆筛点数为6且牌名不等于 last_name 的牌
+    local candidates = {}
+    for _, id in ipairs(room.discard_pile) do
+      local c = Fk:getCardById(id)
+      if c and c.number == 6 then
+        local tn = c.trueName or c.name
+        if not last_name or tn ~= last_name then
+          table.insert(candidates, id)
+        end
+      end
+    end
+
+    if #candidates == 0 then
+      return
+    end
+
+    -- 可选：展示候选牌给所有人看
+    room:showCards(candidates, player)
+
+    -- 4) 选择并获得其中一张
+    local chosen_id
+    if #candidates == 1 then
+      chosen_id = candidates[1]
+    else
+      local map = {}
+      local choices = {}
+      for _, id in ipairs(candidates) do
+        local c = Fk:getCardById(id)
+        local key = tostring(id) .. ":" .. c:toLogString()
+        map[key] = id
+        table.insert(choices, key)
+      end
+      local pick = room:askToChoice(player, {
+        choices = choices,
+        skill_name = skillName,
+        prompt = "#xh__xingluan-pick",
+        cancelable = false,
+      })
+      chosen_id = map[pick]
+    end
+
+    if not chosen_id then return end
+    if player.dead then return end
+
+    room:obtainCard(player, chosen_id, true, fk.ReasonGetFromDiscard, player, skillName)
+
+    -- 5) 记录“本回合选过的牌名”，供下回合限制
+    local cc = Fk:getCardById(chosen_id)
+    local tn = (cc and (cc.trueName or cc.name)) or nil
+    if tn then
+      room:setPlayerMark(player, THIS_MARK, { tn })
+    else
+      room:setPlayerMark(player, THIS_MARK, 0)
     end
   end,
 })
