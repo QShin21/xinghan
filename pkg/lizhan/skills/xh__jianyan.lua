@@ -13,6 +13,9 @@ local jianyan = fk.CreateSkill{
   name = "xh__jianyan",
 }
 
+local MARK_COLOR = "xh__jianyan_color-phase"
+local MARK_TYPE  = "xh__jianyan_type-phase"
+
 jianyan:addEffect("active", {
   anim_type = "support",
   prompt = "#xh__jianyan",
@@ -22,15 +25,15 @@ jianyan:addEffect("active", {
 
   can_use = function(self, player)
     return player.phase == Player.Play and
-      (player:getMark("xh__jianyan_color-phase") == 0 or player:getMark("xh_jianyan_type-phase") == 0)
+      (player:getMark(MARK_COLOR) == 0 or player:getMark(MARK_TYPE) == 0)
   end,
 
   interaction = function(self, player)
     local choices = {}
-    if player:getMark("xh__jianyan_type-phase") == 0 then
+    if player:getMark(MARK_TYPE) == 0 then
       table.insertTable(choices, {"basic", "trick", "equip"})
     end
-    if player:getMark("xh__jianyan_color-phase") == 0 then
+    if player:getMark(MARK_COLOR) == 0 then
       table.insertTable(choices, {"black", "red"})
     end
     return UI.ComboBox { choices = choices }
@@ -40,7 +43,7 @@ jianyan:addEffect("active", {
     local player = effect.from
     local choice = self.interaction.data
     if not choice then
-      if player:getMark("xh__jianyan_type-phase") == 0 then
+      if player:getMark(MARK_TYPE) == 0 then
         choice = "basic"
       else
         choice = "red"
@@ -68,9 +71,9 @@ jianyan:addEffect("active", {
     end
 
     if choice == "red" or choice == "black" then
-      room:setPlayerMark(player, "xh__jianyan_color-phase", 1)
+      room:setPlayerMark(player, MARK_COLOR, 1)
     else
-      room:setPlayerMark(player, "xh__jianyan_type-phase", 1)
+      room:setPlayerMark(player, MARK_TYPE, 1)
     end
 
     local revealed = {}
@@ -126,8 +129,8 @@ jianyan:addEffect("active", {
 
 jianyan:addLoseEffect(function(self, player, is_death)
   local room = player.room
-  room:setPlayerMark(player, "xh__jianyan_color-phase", 0)
-  room:setPlayerMark(player, "xh__jianyan_type-phase", 0)
+  room:setPlayerMark(player, MARK_COLOR, 0)
+  room:setPlayerMark(player, MARK_TYPE, 0)
 end)
 
 return jianyan

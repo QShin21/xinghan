@@ -4,80 +4,110 @@ local juguan = fk.CreateSkill{
 
 Fk:loadTranslationTable{
   ["xh__juguan"] = "拒关",
-  [":xh__juguan"] = "出牌阶段限一次，你可以将一张手牌当【杀】或【决斗】使用。若受到此牌伤害的角色未在你的下回合开始前对你造成过伤害，"..
-  "你的下个摸牌阶段摸牌数+2。",
-
-  ["#xh__juguan"] = "拒关：将一张手牌当【杀】或【决斗】使用",
+  [":xh__juguan"] = "出牌阶段限一次，你可以将一张手牌当不计入使用次数的【杀】或【决斗】使用。若受到此牌伤害的角色未在你的下回合开始前对你造成过伤害，你的下个摸牌阶段摸牌数+2。",
+  ["#xh__juguan"] = "拒关：将一张手牌当【杀】或【决斗】使用（不计入次数）",
   ["@@xh__juguan"] = "拒关",
-
   ["$xh__juguan1"] = "吾欲自立，举兵拒关。",
   ["$xh__juguan2"] = "自立门户，拒关不开。",
 }
 
--- 视为使用【杀】或【决斗】不计入次数
-juguan:addEffect("viewas", {
+-- 主动技：选择一张手牌与一个目标，视为使用【杀】或【决斗】，并设置为不计入次数
+juguan:addEffect("active", {
   anim_type = "offensive",
   prompt = "#xh__juguan",
-  interaction = UI.CardNameBox {choices = {"slash", "duel"}},
-  handly_pile = true,
-  filter_pattern = {
-    min_num = 1,
-    max_num = 1,
-    pattern = ".|.|.|^equip",
-  },
-  view_as = function(self, player, cards)
-    if #cards ~= 1 or not self.interaction.data then return end
-    local c = Fk:cloneCard(self.interaction.data)
-    c.skillName = juguan.name
-    c:addSubcard(cards[1])
-    return c
+  card_num = 1,
+  target_num = 1,
+  interaction = UI.CardNameBox { choices = {"slash", "duel"} },
+
+  can_use = function(self, player)
+    return player.phase == Player.Play and player:usedSkillTimes(juguan.name, Player.HistoryPhase) == 0
   end,
-  after_use = function(self, player, use)
-    if player.dead or not use.damageDealt then return end
-    local room = player.room
-    local mark = {}
-    for _, p in ipairs(room.players) do
-      if use.damageDealt[p] then
-        table.insertIfNeed(mark, p.id)
-      end
+
+  card_filter = function(self, player, to_select, selected)
+    if #selected > 0 then return false end
+    local c = Fk:getCardById(to_select)
+    return c and c:getTypeString() ~= "equip"
+  end,
+
+  target_filter = function(self, player, to_select, selected)
+    return #selected == 0 and to_select ~= player
+  end,
+
+  on_use = function(self, room, effect)
+    local player = effect.from
+    local to = effect.tos[1]
+    local cid = effect.cards[1]
+
+    local choice = self.interaction.data or "slash"
+
+    -- 开始记录本次由【拒关】转化牌造成的伤害目标
+    room:setPlayerMark(player, "xh__juguan_rec", 1)
+    room:setPlayerMark(player, "xh__juguan_tmp", 0)
+
+    -- extra=true：不计入使用次数限制
+    local use = room:useVirtualCard(choice, {cid}, player, to, juguan.name, true)
+
+    -- 结束记录
+    room:setPlayerMark(player, "xh__juguan_rec", 0)
+
+    -- 若本次造成过伤害，写入@@xh__juguan，供后续判断
+    local tmp = player:getTableMark("xh__juguan_tmp")
+    if tmp and #tmp > 0 then
+      room:setPlayerMark(player, "@@xh__juguan", tmp)
     end
-    room:setPlayerMark(player, "@@xh__juguan", mark)  -- 标记谁被该牌伤害
-  end,
-  enabled_at_play = function(self, player)
-    return player:usedSkillTimes(juguan.name, Player.HistoryPhase) == 0
+
+    -- 清理临时表
+    room:setPlayerMark(player, "xh__juguan_tmp", 0)
+
+    return use ~= nil
   end,
 })
 
--- 伤害判定，处理标记，记录伤害来源
+-- 记录“本次由拒关转化牌造成伤害”的目标
 juguan:addEffect(fk.Damaged, {
-  can_refresh = function (self, event, target, player, data)
-    return target == player and player:getMark("@@xh__juguan") ~= 0 and
-      data.from and table.contains(player:getMark("@@xh__juguan"), data.from.id)
+  can_refresh = function(self, event, target, player, data)
+    if player:getMark("xh__juguan_rec") == 0 then return false end
+    return data and data.from == player and data.card and data.card.skillName == juguan.name
   end,
-  on_refresh = function (self, event, target, player, data)
-    player.room:removeTableMark(player, "@@xh__juguan", data.from.id)  -- 清除标记
+  on_refresh = function(self, event, target, player, data)
+    player.room:addTableMark(player, "xh__juguan_tmp", target.id)
   end,
 })
 
--- 触发条件：当受到伤害的角色没有对你造成过伤害时，下个摸牌阶段摸牌数+2
-juguan:addEffect(fk.TurnStart, {
-  can_refresh = function (self, event, target, player, data)
-    return target == player and player:getMark("@@xh__juguan") ~= 0
+-- 若被@@xh__juguan标记的角色在你下回合开始前对你造成伤害，则移除其标记
+juguan:addEffect(fk.Damaged, {
+  can_refresh = function(self, event, target, player, data)
+    if target ~= player then return false end
+    if not data or not data.from then return false end
+    local mark = player:getTableMark("@@xh__juguan")
+    return mark and #mark > 0 and table.contains(mark, data.from.id)
   end,
-  on_refresh = function (self, event, target, player, data)
-    player.room:setPlayerMark(player, "@@xh__juguan", 0)  -- 重置标记
-    player.room:addPlayerMark(player, "xh__juguan_draw", 1)  -- 准备增加摸牌数
+  on_refresh = function(self, event, target, player, data)
+    player.room:removeTableMark(player, "@@xh__juguan", data.from.id)
+  end,
+})
+
+-- 到你的下回合开始时，若仍有人在@@xh__juguan里，则准备让下个摸牌阶段摸牌数+2
+juguan:addEffect(fk.TurnStart, {
+  can_refresh = function(self, event, target, player, data)
+    if target ~= player then return false end
+    local mark = player:getTableMark("@@xh__juguan")
+    return mark and #mark > 0
+  end,
+  on_refresh = function(self, event, target, player, data)
+    player.room:setPlayerMark(player, "@@xh__juguan", 0)
+    player.room:addPlayerMark(player, "xh__juguan_draw", 1)
   end,
 })
 
 -- 增加摸牌数
 juguan:addEffect(fk.DrawNCards, {
-  can_refresh = function (self, event, target, player, data)
+  can_refresh = function(self, event, target, player, data)
     return target == player and player:getMark("xh__juguan_draw") ~= 0
   end,
-  on_refresh = function (self, event, target, player, data)
-    data.n = data.n + 2 * player:getMark("xh__juguan_draw")  -- 摸牌数 +2
-    player.room:setPlayerMark(player, "xh__juguan_draw", 0)  -- 清除标记
+  on_refresh = function(self, event, target, player, data)
+    data.n = data.n + 2 * player:getMark("xh__juguan_draw")
+    player.room:setPlayerMark(player, "xh__juguan_draw", 0)
   end,
 })
 

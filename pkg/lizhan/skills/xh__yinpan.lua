@@ -1,84 +1,83 @@
 local yinpan = fk.CreateSkill{
   name = "xh__yinpan",
-  tags = { Skill.Limited },
+  frequency = Skill.Limited,
+  limit_mark = "@@xh__yinpan",
 }
 
 Fk:loadTranslationTable{
   ["xh__yinpan"] = "引叛",
-  [":xh__yinpan"] = "限定技，出牌阶段，你可以对一名因“明策”摸过牌的其他角色造成X点伤害（X为其因“明策”摸牌的次数）。",
+  [":xh__yinpan"] = "限定技，出牌阶段开始时，你可以对一名其他角色造成X点伤害（X为其因“明策”摸牌的次数）。",
+  ["#xh__yinpan-choose"] = "引叛：对一名角色造成其因“明策”摸牌次数的伤害",
+  ["@@xh__yinpan"] = "引叛",
 
-  ["#xh__yinpan"] = "引叛：对一名因“明策”摸过牌的角色造成X点伤害",
-  ["@@xh__yinpan_count"] = "引叛计数",
-
-  ["$xh__yinpan1"] = "引叛之计，借刀杀人！",
-  ["$xh__yinpan2"] = "陈宫引叛，天下大乱！",
+  ["$xh__yinpan1"] = "计成势起，反者自溃。",
+  ["$xh__yinpan2"] = "引其离心，叛意自生。",
 }
 
-local function getMingceDrawCount(player)
-  local mark = player:getTableMark("@@xh__yinpan_count")
-  if type(mark) == "table" then
-    return #mark
-  elseif type(mark) == "number" then
-    return mark
-  end
-  return 0
-end
-
-local function clearMingceDrawCount(room, player)
-  local mark = player:getTableMark("@@xh__yinpan_count")
-  if type(mark) == "table" then
-    while #mark > 0 do
-      room:removeTableMark(player, "@@xh__yinpan_count", mark[1])
-      mark = player:getTableMark("@@xh__yinpan_count")
-      if type(mark) ~= "table" then
-        break
-      end
-    end
-  end
-end
-
-yinpan:addEffect("active", {
-  anim_type = "offensive",
-  prompt = "#xh__yinpan",
-  card_num = 0,
-  target_num = 1,
-  card_filter = Util.FalseFunc,
-
-  can_use = function(self, player)
+yinpan:addEffect(fk.EventPhaseStart, {
+  can_trigger = function(self, event, target, player, data)
+    if target ~= player then return false end
+    if not player:hasSkill(yinpan.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:usedSkillTimes(yinpan.name, Player.HistoryGame) > 0 then return false end
+    if player:getMark("@@xh__yinpan") == 0 then return false end
 
     local room = player.room
     for _, p in ipairs(room:getOtherPlayers(player, false)) do
-      if getMingceDrawCount(p) > 0 then
+      if p:getMark("xh__mingce_draw") > 0 then
         return true
       end
     end
     return false
   end,
 
-  target_filter = function(self, player, to_select, selected)
-    return #selected == 0 and to_select ~= player and getMingceDrawCount(to_select) > 0
+  on_cost = function(self, event, target, player, data)
+    local room = player.room
+    local candidates = table.filter(room:getOtherPlayers(player, false), function(p)
+      return p:getMark("xh__mingce_draw") > 0
+    end)
+
+    if #candidates == 0 then return false end
+
+    local tos = room:askToChoosePlayers(player, {
+      targets = candidates,
+      min_num = 1,
+      max_num = 1,
+      prompt = "#xh__yinpan-choose",
+      skill_name = yinpan.name,
+      cancelable = true,
+    })
+
+    if #tos > 0 then
+      event:setCostData(self, tos[1])
+      return true
+    end
+    return false
   end,
 
-  on_use = function(self, room, effect)
-    local player = effect.from
-    local target = effect.tos[1]
-    if not player or player.dead or not target or target.dead then return end
+  on_use = function(self, event, target, player, data)
+    local room = player.room
+    local to = event:getCostData(self)
+    if not to or to.dead or player.dead then return end
 
-    local x = getMingceDrawCount(target)
-    if x <= 0 then return end
+    local x = to:getMark("xh__mingce_draw")
+    if x <= 0 then
+      room:setPlayerMark(player, "@@xh__yinpan", 0)
+      room:updateAllLimitSkillUI(player)
+      return
+    end
 
+    player:broadcastSkillInvoke(yinpan.name)
     room:damage{
       from = player,
-      to = target,
+      to = to,
       damage = x,
       skillName = yinpan.name,
     }
 
-    if not target.dead then
-      clearMingceDrawCount(room, target)
-    end
+    room:setPlayerMark(player, "@@xh__yinpan", 0)
+    room:updateAllLimitSkillUI(player)
+
+    room:setPlayerMark(to, "xh__mingce_draw", 0)
   end,
 })
 
