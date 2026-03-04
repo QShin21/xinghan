@@ -339,12 +339,12 @@ Fk:loadTranslationTable {
 
 
 -- 孙策(群)，男，群，4勾玉
-General:new(extension, "xh__sunce_qun", "qun", 4):addSkills { "liantao" }
+General:new(extension, "xhsp__sunce", "qun", 4):addSkills { "liantao" }
 Fk:loadTranslationTable {
-  ["xh__sunce_qun"] = "孙策",
-  ["#xh__sunce_qun"] = "江东小霸王",
-  ["illustrator:xh__sunce_qun"] = "KayaK",
-  ["~xh__sunce_qun"] = "大业未成……",
+  ["xhsp__sunce"] = "孙策",
+  ["#xhsp__sunce"] = "江东小霸王",
+  ["illustrator:xhsp__sunce"] = "KayaK",
+  ["~xhsp__sunce"] = "大业未成……",
 }
 
 
