@@ -14,6 +14,21 @@ Fk:loadTranslationTable{
   ["$xh__yinpan2"] = "引其离心，叛意自生。",
 }
 
+-- 补齐限定技初始标记为1，只在整局未发动过时生效
+yinpan:addEffect(fk.TurnStart, {
+  can_trigger = function(self, event, target, player, data)
+    return target == player
+      and player:hasSkill(yinpan.name)
+      and player:usedSkillTimes(yinpan.name, Player.HistoryGame) == 0
+      and player:getMark("@@xh__yinpan") == 0
+  end,
+  on_use = function(self, event, target, player, data)
+    local room = player.room
+    room:setPlayerMark(player, "@@xh__yinpan", 1)
+    room:updateAllLimitSkillUI(player)
+  end,
+})
+
 yinpan:addEffect(fk.EventPhaseStart, {
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
