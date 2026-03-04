@@ -1,44 +1,29 @@
 local yinpan = fk.CreateSkill{
   name = "xh__yinpan",
-  frequency = Skill.Limited,
-  limit_mark = "@@xh__yinpan",
+  tags = { Skill.Limited },
 }
 
 Fk:loadTranslationTable{
   ["xh__yinpan"] = "引叛",
   [":xh__yinpan"] = "限定技，出牌阶段开始时，你可以对一名其他角色造成X点伤害（X为其因“明策”摸牌的次数）。",
-  ["#xh__yinpan-choose"] = "引叛：对一名角色造成其因“明策”摸牌次数的伤害",
-  ["@@xh__yinpan"] = "引叛",
+  ["#xh__yinpan-choose"] = "引叛：选择一名角色，对其造成其因“明策”摸牌次数的伤害",
 
   ["$xh__yinpan1"] = "计成势起，反者自溃。",
   ["$xh__yinpan2"] = "引其离心，叛意自生。",
 }
 
--- 补齐限定技初始标记为1，只在整局未发动过时生效
-yinpan:addEffect(fk.TurnStart, {
-  can_trigger = function(self, event, target, player, data)
-    return target == player
-      and player:hasSkill(yinpan.name)
-      and player:usedSkillTimes(yinpan.name, Player.HistoryGame) == 0
-      and player:getMark("@@xh__yinpan") == 0
-  end,
-  on_use = function(self, event, target, player, data)
-    local room = player.room
-    room:setPlayerMark(player, "@@xh__yinpan", 1)
-    room:updateAllLimitSkillUI(player)
-  end,
-})
+local DRAW_MARK = "xh__mingce_draw"
 
 yinpan:addEffect(fk.EventPhaseStart, {
   can_trigger = function(self, event, target, player, data)
     if target ~= player then return false end
     if not player:hasSkill(yinpan.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:getMark("@@xh__yinpan") == 0 then return false end
+    if player:usedSkillTimes(yinpan.name, Player.HistoryGame) > 0 then return false end
 
     local room = player.room
     for _, p in ipairs(room:getOtherPlayers(player, false)) do
-      if p:getMark("xh__mingce_draw") > 0 then
+      if p:getMark(DRAW_MARK) > 0 then
         return true
       end
     end
@@ -48,9 +33,8 @@ yinpan:addEffect(fk.EventPhaseStart, {
   on_cost = function(self, event, target, player, data)
     local room = player.room
     local candidates = table.filter(room:getOtherPlayers(player, false), function(p)
-      return p:getMark("xh__mingce_draw") > 0
+      return p:getMark(DRAW_MARK) > 0
     end)
-
     if #candidates == 0 then return false end
 
     local tos = room:askToChoosePlayers(player, {
@@ -74,12 +58,8 @@ yinpan:addEffect(fk.EventPhaseStart, {
     local to = event:getCostData(self)
     if not to or to.dead or player.dead then return end
 
-    local x = to:getMark("xh__mingce_draw")
-    if x <= 0 then
-      room:setPlayerMark(player, "@@xh__yinpan", 0)
-      room:updateAllLimitSkillUI(player)
-      return
-    end
+    local x = to:getMark(DRAW_MARK)
+    if x <= 0 then return end
 
     player:broadcastSkillInvoke(yinpan.name)
     room:damage{
@@ -89,10 +69,7 @@ yinpan:addEffect(fk.EventPhaseStart, {
       skillName = yinpan.name,
     }
 
-    room:setPlayerMark(player, "@@xh__yinpan", 0)
-    room:updateAllLimitSkillUI(player)
-
-    room:setPlayerMark(to, "xh__mingce_draw", 0)
+    room:setPlayerMark(to, DRAW_MARK, 0)
   end,
 })
 

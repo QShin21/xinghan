@@ -5,13 +5,13 @@ local juguan = fk.CreateSkill{
 Fk:loadTranslationTable{
   ["xh__juguan"] = "拒关",
   [":xh__juguan"] = "出牌阶段限一次，你可以将一张手牌当不计入使用次数的【杀】或【决斗】使用。若受到此牌伤害的角色未在你的下回合开始前对你造成过伤害，你的下个摸牌阶段摸牌数+2。",
-  ["#xh__juguan"] = "拒关：将一张手牌当【杀】或【决斗】使用（不计入次数）",
+  ["#xh__juguan"] = "拒关：将一张手牌当【杀】或【决斗】使用（不计入使用次数）",
   ["@@xh__juguan"] = "拒关",
   ["$xh__juguan1"] = "吾欲自立，举兵拒关。",
   ["$xh__juguan2"] = "自立门户，拒关不开。",
 }
 
--- 主动技：选择一张手牌与一个目标，视为使用【杀】或【决斗】，并设置为不计入次数
+-- 主动技：选择一张手牌与一个目标，视为使用【杀】或【决斗】，并设置为不计入使用次数
 juguan:addEffect("active", {
   anim_type = "offensive",
   prompt = "#xh__juguan",
@@ -23,10 +23,10 @@ juguan:addEffect("active", {
     return player.phase == Player.Play and player:usedSkillTimes(juguan.name, Player.HistoryPhase) == 0
   end,
 
+  -- 修复点：按区域判断，手牌区里的装备牌同样属于手牌
   card_filter = function(self, player, to_select, selected)
     if #selected > 0 then return false end
-    local c = Fk:getCardById(to_select)
-    return c and c:getTypeString() ~= "equip"
+    return table.contains(player:getCardIds(Player.Hand), to_select)
   end,
 
   target_filter = function(self, player, to_select, selected)
