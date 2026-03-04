@@ -15,20 +15,31 @@ Fk:loadTranslationTable{
 local LAST_MARK = "xh__xingluan_last"
 local THIS_MARK = "xh__xingluan_this"
 
--- 回合开始时做“上回合牌名”滚动：last <- this，this 清空
+local function getCardTrueName(id)
+  local c = Fk:getCardById(id)
+  if not c then return nil end
+  return c.trueName or c.name
+end
+
+-- 关键修复：用 table mark 的正确用法记录“上回合选择的牌名”
+-- 上回合选择的牌名 = 你上一次回合内用兴乱选到的牌名
+-- 若上回合没有选到，则本回合不限制牌名
 xingluan:addEffect(fk.TurnStart, {
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(xingluan.name)
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
+
     local t = player:getTableMark(THIS_MARK)
+    room:setPlayerMark(player, THIS_MARK, 0)
+
     if t and #t > 0 then
-      room:setPlayerMark(player, LAST_MARK, t)
+      room:setPlayerMark(player, LAST_MARK, 0)
+      room:addTableMark(player, LAST_MARK, t[1])
     else
       room:setPlayerMark(player, LAST_MARK, 0)
     end
-    room:setPlayerMark(player, THIS_MARK, 0)
   end,
 })
 
@@ -39,7 +50,7 @@ xingluan:addEffect(fk.CardUseFinished, {
     if target ~= player then return false end
     if not player:hasSkill(xingluan.name) then return false end
     if player.phase ~= Player.Play then return false end
-    if player:usedEffectTimes(xingluan.name, Player.HistoryPhase) > 0 then return false end
+    if player:usedSkillTimes(xingluan.name, Player.HistoryPhase) > 0 then return false end
     if not data or not data.tos then return false end
     return #data.tos == 1
   end,
@@ -55,20 +66,17 @@ xingluan:addEffect(fk.CardUseFinished, {
     local room = player.room
     local skillName = xingluan.name
 
-    -- 1) 牌堆顶六张置入弃牌堆
     local top6 = room:getNCards(6, "top")
     if top6 and #top6 > 0 then
       room:moveCardTo(top6, Card.DiscardPile, nil, fk.ReasonPutIntoDiscardPile, skillName, nil, true, player)
     end
 
-    -- 2) 读取“上回合选过的牌名”
     local last_tbl = player:getTableMark(LAST_MARK)
     local last_name = nil
     if last_tbl and #last_tbl > 0 then
       last_name = last_tbl[1]
     end
 
-    -- 3) 从整个弃牌堆筛点数为6且牌名不等于 last_name 的牌
     local candidates = {}
     for _, id in ipairs(room.discard_pile) do
       local c = Fk:getCardById(id)
@@ -80,14 +88,10 @@ xingluan:addEffect(fk.CardUseFinished, {
       end
     end
 
-    if #candidates == 0 then
+    if #candidates == 0 or player.dead then
       return
     end
 
-    -- 可选：展示候选牌给所有人看
-    room:showCards(candidates, player)
-
-    -- 4) 选择并获得其中一张
     local chosen_id
     if #candidates == 1 then
       chosen_id = candidates[1]
@@ -109,18 +113,13 @@ xingluan:addEffect(fk.CardUseFinished, {
       chosen_id = map[pick]
     end
 
-    if not chosen_id then return end
-    if player.dead then return end
-
+    if not chosen_id or player.dead then return end
     room:obtainCard(player, chosen_id, true, fk.ReasonGetFromDiscard, player, skillName)
 
-    -- 5) 记录“本回合选过的牌名”，供下回合限制
-    local cc = Fk:getCardById(chosen_id)
-    local tn = (cc and (cc.trueName or cc.name)) or nil
+    local tn = getCardTrueName(chosen_id)
+    room:setPlayerMark(player, THIS_MARK, 0)
     if tn then
-      room:setPlayerMark(player, THIS_MARK, { tn })
-    else
-      room:setPlayerMark(player, THIS_MARK, 0)
+      room:addTableMark(player, THIS_MARK, tn)
     end
   end,
 })

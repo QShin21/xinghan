@@ -20,6 +20,21 @@ Fk:loadTranslationTable{
   ["$xh__ziqu2"] = "留财不留命，留命不留财。",
 }
 
+-- 修复点1：补齐限定技初始标记为1，避免无法触发
+ziqu:addEffect(fk.TurnStart, {
+  can_trigger = function(self, event, target, player, data)
+    return target == player
+      and player:hasSkill(ziqu.name)
+      and player:usedSkillTimes(ziqu.name, Player.HistoryGame) == 0
+      and player:getMark("@@xh__ziqu") == 0
+  end,
+  on_use = function(self, event, target, player, data)
+    local room = player.room
+    room:setPlayerMark(player, "@@xh__ziqu", 1)
+    room:updateAllLimitSkillUI(player)
+  end,
+})
+
 ziqu:addEffect(fk.DetermineDamageCaused, {
   anim_type = "control",
 
@@ -34,13 +49,10 @@ ziqu:addEffect(fk.DetermineDamageCaused, {
 
   on_cost = function(self, event, target, player, data)
     local room = player.room
-    if room:askToSkillInvoke(player, {
+    return room:askToSkillInvoke(player, {
       skill_name = ziqu.name,
       prompt = "#xh__ziqu-invoke:::" .. data.to.id,
-    }) then
-      return true
-    end
-    return false
+    })
   end,
 
   on_use = function(self, event, target, player, data)
@@ -48,16 +60,19 @@ ziqu:addEffect(fk.DetermineDamageCaused, {
     local to = data.to
     local skillName = ziqu.name
 
+    -- 防止伤害
     data:preventDamage()
 
+    -- 消耗限定技
     room:setPlayerMark(player, "@@xh__ziqu", 0)
     room:updateAllLimitSkillUI(player)
 
     if to.dead then return end
 
+    -- 修复点2：正确使用 showCards 的参数形式
     local handcards = to:getCardIds("h")
     if handcards and #handcards > 0 then
-      room:showCards(to, handcards, player)
+      room:showCards(handcards, to)
 
       local max_num = -1
       for _, id in ipairs(handcards) do
@@ -94,7 +109,7 @@ ziqu:addEffect(fk.DetermineDamageCaused, {
         room:obtainCard(player, give_ids, true, fk.ReasonGive, to, skillName)
       end
     else
-      room:showCards(to, {}, player)
+      -- 没有手牌也视为展示为空即可，不强制调用 showCards
     end
 
     if player.dead then return end
