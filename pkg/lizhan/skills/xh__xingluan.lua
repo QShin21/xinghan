@@ -21,10 +21,16 @@ local function getCardTrueName(id)
   return c.trueName or c.name
 end
 
+-- 回合开始：静默搬运标记，不弹提示
 xingluan:addEffect(fk.TurnStart, {
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(xingluan.name)
   end,
+
+  on_cost = function(self, event, target, player, data)
+    return true
+  end,
+
   on_use = function(self, event, target, player, data)
     local room = player.room
 
@@ -89,28 +95,17 @@ xingluan:addEffect(fk.CardUseFinished, {
       return
     end
 
-    -- 优化：先把所有可选牌展示出来，再让玩家选择
-    room:showCards(candidates, player)
-
     local chosen_id
     if #candidates == 1 then
       chosen_id = candidates[1]
     else
-      local map = {}
-      local choices = {}
-      for _, id in ipairs(candidates) do
-        local c = Fk:getCardById(id)
-        local key = tostring(id) .. ":" .. c:toLogString()
-        map[key] = id
-        table.insert(choices, key)
-      end
-      local pick = room:askToChoice(player, {
-        choices = choices,
+      room:fillAG(player, candidates)
+      chosen_id = room:askToAG(player, {
         skill_name = skillName,
         prompt = "#xh__xingluan-pick",
         cancelable = false,
       })
-      chosen_id = map[pick]
+      room:closeAG(player)
     end
 
     if not chosen_id or player.dead then return end
