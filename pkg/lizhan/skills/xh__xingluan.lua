@@ -21,9 +21,6 @@ local function getCardTrueName(id)
   return c.trueName or c.name
 end
 
--- 关键修复：用 table mark 的正确用法记录“上回合选择的牌名”
--- 上回合选择的牌名 = 你上一次回合内用兴乱选到的牌名
--- 若上回合没有选到，则本回合不限制牌名
 xingluan:addEffect(fk.TurnStart, {
   can_trigger = function(self, event, target, player, data)
     return target == player and player:hasSkill(xingluan.name)
@@ -91,6 +88,9 @@ xingluan:addEffect(fk.CardUseFinished, {
     if #candidates == 0 or player.dead then
       return
     end
+
+    -- 优化：先把所有可选牌展示出来，再让玩家选择
+    room:showCards(candidates, player)
 
     local chosen_id
     if #candidates == 1 then
