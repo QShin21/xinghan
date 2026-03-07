@@ -13,7 +13,9 @@ Fk:loadTranslationTable {
 
 
 -- 曹操，男，魏，4勾玉
-General:new(extension, "xh__caocao", "wei", 4):addSkills { "xh__shuzhi" }
+local caocao=General:new(extension, "xh__caocao", "wei", 4)
+caocao:addSkills { "xh__shuzhi" }
+caocao:addRelatedSkills { "ex__jianxiong", "ofl__qingzheng" }
 Fk:loadTranslationTable {
   ["xh__caocao"] = "曹操",
   ["#xh__caocao"] = "魏武帝",
@@ -199,7 +201,9 @@ Fk:loadTranslationTable {
 }
 
 -- 孙策(吴)，男，吴，4勾玉
-General:new(extension, "xh__sunce", "wu", 4):addSkills { "jiang", "m_ex__hunzi" }
+local sunce=General:new(extension, "xh__sunce", "wu", 4)
+sunce:addSkills { "jiang", "m_ex__hunzi" }
+sunce:addRelatedSkills { "ex__yingzi", "yinghun" }
 Fk:loadTranslationTable {
   ["xh__sunce"] = "孙策",
   ["#xh__sunce"] = "江东小霸王",
