@@ -22,25 +22,18 @@ jutu:addEffect(fk.EventPhaseStart, {
   end,
   on_use = function(self, event, target, player, data)
     local room = player.room
-    -- 获得武将牌上的所有“生”
     if #player:getPile("liuzhang_sheng") > 0 then
       room:obtainCard(player, player:getPile("liuzhang_sheng"), false, fk.ReasonJustMove, player, jutu.name)
     end
-    
-    -- 摸一张牌
+
     if player.dead then return end
     player:drawCards(1, jutu.name)
 
-    -- 计算“邀虎”选择的势力角色数
     local n = #table.filter(room.alive_players, function(p)
-      return p.kingdom == player:getMark("@yaohu")
+      return p.kingdom == player:getMark("@xh__yaohu")
     end)
 
-    -- 摸牌数量为势力角色数量+1
-    player:drawCards(n, jutu.name)
-
-    -- 将X张牌置于武将牌上，称之为“生”
-    if not player.dead and not player:isNude() then
+    if n > 0 and not player.dead and not player:isNude() then
       local cards = player:getCardIds("he")
       if #cards > n then
         cards = room:askToCards(player, {

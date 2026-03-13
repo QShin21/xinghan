@@ -1,7 +1,3 @@
--- SPDX-License-Identifier: GPL-3.0-or-later
--- 曹仁 - 肃军技能
--- 出牌阶段限一次，当你使用一张牌时，若你手牌中基本牌与非基本牌数量相等，你可以摸两张牌。
-
 local sujun = fk.CreateSkill {
   name = "xh__sujun",
 }
@@ -9,6 +5,7 @@ local sujun = fk.CreateSkill {
 Fk:loadTranslationTable{
   ["xh__sujun"] = "肃军",
   [":xh__sujun"] = "出牌阶段限一次，当你使用一张牌时，若你手牌中基本牌与非基本牌数量相等，你可以摸两张牌。",
+  ["#xh__sujun-invoke"] = "肃军：你可以摸两张牌",
 
   ["$xh__sujun1"] = "将为军魂，需以身作则。",
   ["$xh__sujun2"] = "整肃三军，可育虎贲。",
@@ -23,6 +20,12 @@ sujun:addEffect(fk.CardUsing, {
       2 * #table.filter(player:getCardIds("h"), function(id)
         return Fk:getCardById(id).type == Card.TypeBasic
       end) == player:getHandcardNum()
+  end,
+  on_cost = function(self, event, target, player, data)
+    return player.room:askToSkillInvoke(player, {
+      skill_name = sujun.name,
+      prompt = "#xh__sujun-invoke",
+    })
   end,
   on_use = function(self, event, target, player, data)
     player:drawCards(2, sujun.name)

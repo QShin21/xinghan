@@ -1,30 +1,49 @@
-local liyong = fk.CreateSkill{ 
+local liyong = fk.CreateSkill{
   name = "xh__liyong",
   tags = { Skill.Switch },
 }
 
+local YANG_USED_MARK = "xh__liyong_yang-phase"
+local YIN_USED_MARK = "xh__liyong_yin-phase"
+
+local function getLiyongDiscardCandidates(room, player)
+  local suits = player:getTableMark("@xh__liyong-turn")
+  return table.filter(room.discard_pile, function(id)
+    return table.contains(suits, Fk:getCardById(id):getSuitString(true))
+  end)
+end
+
 Fk:loadTranslationTable{
   ["xh__liyong"] = "历勇",
   [":xh__liyong"] = "转换技，出牌阶段每项限一次，阳：你可以将一张本回合你未使用过的花色的牌当【决斗】使用；阴：你可以从弃牌堆中获得一张你本回合使用过的花色的牌，令一名角色视为对你使用一张【决斗】。",
-  
+
   ["#xh__liyong-yang"] = "历勇：将一张本回合未使用花色的牌当【决斗】使用",
-  ["#xh__liyong-yin"] = "历勇：获得牌堆中一张本回合已使用花色的牌，选择一名角色视为对你使用【决斗】",
+  ["#xh__liyong-yin"] = "历勇：获得弃牌堆中一张本回合已使用花色的牌，选择一名角色视为对你使用【决斗】",
+  ["#xh__liyong-get"] = "历勇：请选择要获得的牌",
   ["@xh__liyong-turn"] = "历勇",
-  
+
   ["$xh__liyong1"] = "今日，我虽死，却未辱武安之名！",
   ["$xh__liyong2"] = "我受文举恩义，今当以死报之！",
 }
 
--- 控制阳阴效果的状态切换
 liyong:addEffect("active", {
   anim_type = "switch",
   min_card_num = 0,
   max_card_num = 1,
   min_target_num = 1,
   prompt = function(self, player)
-    return "#xh__liyong-"..player:getSwitchSkillState(liyong.name, false, true)
+    return "#xh__liyong-" .. player:getSwitchSkillState(liyong.name, false, true)
   end,
-  can_use = Util.TrueFunc,
+  can_use = function(self, player)
+    if player.phase ~= Player.Play then return false end
+    local state = player:getSwitchSkillState(liyong.name, false)
+    if state == fk.SwitchYang then
+      return player:getMark(YANG_USED_MARK) == 0
+    elseif state == fk.SwitchYin then
+      return player:getMark(YIN_USED_MARK) == 0 and #getLiyongDiscardCandidates(player.room, player) > 0
+    end
+    return false
+  end,
   card_filter = function(self, player, to_select, selected)
     if player:getSwitchSkillState(liyong.name, false) == fk.SwitchYang and #selected == 0 then
       local suit = Fk:getCardById(to_select):getSuitString(true)
@@ -57,19 +76,31 @@ liyong:addEffect("active", {
   end,
   on_use = function(self, room, effect)
     local player = effect.from
-    -- 阳：使用未使用过花色的牌当【决斗】使用
-    if player:getSwitchSkillState(liyong.name, true) == fk.SwitchYang then
+    if #effect.cards > 0 then
+      room:setPlayerMark(player, YANG_USED_MARK, 1)
       room:sortByAction(effect.tos)
       room:useVirtualCard("duel", effect.cards, player, effect.tos, liyong.name)
     else
-      -- 阴：从弃牌堆中获得一张已使用过花色的牌
-      local cards = table.filter(room.draw_pile, function(id)
-        return table.contains(player:getTableMark("@xh__liyong-turn"), Fk:getCardById(id):getSuitString(true))
-      end)
-      if #cards > 0 then
-        room:moveCardTo(table.random(cards), Card.PlayerHand, player, fk.ReasonJustMove, liyong.name, nil, true, player)
+      room:setPlayerMark(player, YIN_USED_MARK, 1)
+
+      local cards = getLiyongDiscardCandidates(room, player)
+      if #cards == 0 then return end
+
+      local card_id = cards[1]
+      if #cards > 1 then
+        room:fillAG(player, cards)
+        card_id = room:askToAG(player, {
+          skill_name = liyong.name,
+          prompt = "#xh__liyong-get",
+          cancelable = false,
+        })
+        room:closeAG(player)
       end
-      -- 选择目标并使用【决斗】
+
+      if card_id then
+        room:obtainCard(player, card_id, true, fk.ReasonGetFromDiscard, player, liyong.name)
+      end
+
       local target = effect.tos[1]
       if not player.dead and not target.dead then
         room:useVirtualCard("duel", nil, target, player, liyong.name)

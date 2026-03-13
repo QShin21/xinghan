@@ -6,7 +6,7 @@ local shicai = fk.CreateSkill{
 Fk:loadTranslationTable {
   ["xh__shicai"] = "恃才",
   [":xh__shicai"] = "锁定技，当你受到伤害后，若此伤害值为1，则你摸两张牌；大于1，则你弃置所有的手牌。",
-  
+
   ["$xh__shicai1"] = "吾才满腹，袁本初竟不从之。",
   ["$xh__shicai2"] = "阿瞒有我良计，取冀州便是易如反掌。",
 }
@@ -19,15 +19,12 @@ shicai:addEffect(fk.Damaged, {
   on_use = function(self, event, target, player, data)
     local room = player.room
     player:broadcastSkillInvoke(shicai.name)
-    -- 根据伤害值决定处理
     if data.damage == 1 then
-      -- 伤害值为1，摸两张牌
       room:notifySkillInvoked(player, shicai.name, "masochism")
       player:drawCards(2, shicai.name)
     else
-      -- 伤害值大于1，弃置所有手牌
       room:notifySkillInvoked(player, shicai.name, "negative")
-      player:throwAllCards("he", shicai.name)
+      player:throwAllCards("h", shicai.name)
     end
   end,
 })

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo Skill"
+  short_description: "Help with Demo Skill tasks"
+  default_prompt: "Create a demo skill"
